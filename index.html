@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="zh" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>贪吃蛇</title>
+    <style media="screen">
+      *{margin:0; padding:0;}
+      #cvs{border:2px solid black;}
+      .button{width: 325px; height: 340px; background-color: rgba(255,247,62,0.5); border-radius: 100px;}
+      .left{position: relative;top:20px; left:0px;}
+      .down{position: relative;top:240px;left:-90px;}
+      .right{position: relative;top:120px;left:120px;}
+      .up{position: relative;top:0px;left:120px;}
+
+      .dis{float: left;position: absolute;z-index: 1000;top:200px;left:300px; font-size: 200%; font-family: sans-serif;}
+      .score,.highest{color: rgba(189,58,240,0.4);}
+      .button{position: absolute;top:0px;left:800px;}
+    </style>
+  </head>
+  <body>
+    <canvas id="cvs"></canvas>
+    <div class="dis">
+      <div class="score">
+        <p>分数:</p>
+        <p id="scores">0</p>
+      </div>
+
+      <div class="highest">
+        <p>最高分:</p>
+        <p id="highest scores">0</p>
+      </div>
+    </div>
+
+    <div class="button">
+      <img class="up" src="图片\按下前上.png" alt="图片\按下后上.png" onmousedown="setDirection(1);changePicFirst(this);" onmouseup="changePicBack(this)">
+      <img class="right" src="图片\按下前右.png" alt="图片\按下后右.png" onmousedown="setDirection(-2);changePicFirst(this);" onmouseup="changePicBack(this)">
+      <img class="down" src="图片\按下前下.png" alt="图片\按下后下.png" onmousedown="setDirection(-1);changePicFirst(this);" onmouseup="changePicBack(this)">
+      <img class="left" src="图片\按下前左.png" alt="图片\按下后左.png" onmousedown="setDirection(2);changePicFirst(this);" onmouseup="changePicBack(this)">
+    </div>
+    <script src="贪吃蛇.js"></script>
+  </body>
+</html>
