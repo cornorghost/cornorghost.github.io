@@ -12,8 +12,6 @@
     
 
     
-    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
-    
 
     
 <link rel="stylesheet" href="/dist/build.css?v=1.5.0.css">
@@ -21,17 +19,6 @@
 
     <script>
         window.aomori = {
-            
-            gitalk: {
-                enable: true,
-                clientID: "f481f237218c36c2740b",
-                clientSecret: "6d0738e25fd81401b6505e7a1364859ab523a716",
-                repo: "liangyue blog",
-                owner: "cornorghost",
-                admin: ["cornorghost",],
-                distractionFreeMode: true // Facebook-like distraction free mode,  // Facebook-like distraction free mode
-                id: location.pathname,      // Ensure uniqueness and length less than 50
-            },
             
         }
     </script>
@@ -96,7 +83,7 @@
       <section class="inner">
         <section class="inner-main">
           <div class="post">
-    <article id="post-ckcehhmxq0000ysveevj0hr5x" class="article article-type-post" itemscope
+    <article id="post-ckcej3dti00002ovee5x64pe4" class="article article-type-post" itemscope
     itemprop="blogPost">
 
     <div class="article-inner">
@@ -125,10 +112,6 @@
 
             
 
-            
-            <div class="article-busuanzi">
-                有 <span id="busuanzi_value_page_pv">N</span> 人看过
-            </div>
             
         </div>
 
@@ -180,13 +163,7 @@
 
 
 
-<section class="comments">
-    <div id="gitalk-container"></div>
-</section>
 
-
-
-<script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
 </div>
         </section>
@@ -252,8 +229,6 @@
 </footer>
 
 
-<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
-
 
 
 <script src="/dist/build.js?1.5.0.js"></script>
@@ -266,6 +241,17 @@
 
 
 
+
+<!-- Baidu Analytics-->
+<script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function () {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?{{ config.aomori_baidu_analytics }}";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
 
 
 </body>
