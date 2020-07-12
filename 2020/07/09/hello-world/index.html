@@ -4,13 +4,15 @@
 <head>
     <meta charset="utf-8">
     
-    <title>Hello World | LIANGYUE的BLOG</title>
+    <title>关于博客和我 | LIANGYUE&#39;BLOG</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
     
 
     
 
+    
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
     
 
     
@@ -19,6 +21,17 @@
 
     <script>
         window.aomori = {
+            
+            gitalk: {
+                enable: true,
+                clientID: "f481f237218c36c2740b",
+                clientSecret: "6d0738e25fd81401b6505e7a1364859ab523a716",
+                repo: "blogcomments",
+                owner: "cornorghost",
+                admin: ["cornorghost",],
+                distractionFreeMode: true,  // Facebook-like distraction free mode
+                id: location.pathname,      // Ensure uniqueness and length less than 50
+            },
             
         }
     </script>
@@ -32,10 +45,10 @@
         <div class="header-type">
             
             <div class="avatar avatar-sm">
-                <img src="/images/avatar.jpg" alt="梁越">
+                <img src="/images/avatar.png" alt="梁越">
             </div>
             
-            <a href="/">LIANGYUE的BLOG</a>
+            <a href="/">LIANGYUE&#39;BLOG</a>
             
         </div>
         <div class="header-menu">
@@ -45,11 +58,13 @@
                 
                 <a href="/archives">Archives</a>
                 
-                <a href="/about">About</a>
-                
             </div>
             <div class="header-menu-social">
                 
+    <a class="social" target="_blank" href="https://github.com/cornorghost">
+        <box-icon type='logo' name='github'></box-icon>
+    </a>
+
             </div>
         </div>
 
@@ -73,8 +88,6 @@
                     
                     <a href="/archives">Archives</a>
                     
-                    <a href="/about">About</a>
-                    
                 </div>
             </div>
         </div>
@@ -87,7 +100,7 @@
       <section class="inner">
         <section class="inner-main">
           <div class="post">
-    <article id="post-ckceziae60000mcvegpxmera9" class="article article-type-post" itemscope
+    <article id="post-ckcjc15jc0000vcve8e9k7czi" class="article article-type-post" itemscope
     itemprop="blogPost">
 
     <div class="article-inner">
@@ -99,7 +112,7 @@
             
   
     <h1 class="article-title" itemprop="name">
-      Hello World
+      关于博客和我
     </h1>
   
 
@@ -115,6 +128,10 @@
             
 
             
+            <div class="article-tag">
+                <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E4%BB%8B%E7%BB%8D/" rel="tag">介绍</a></li></ul>
+            </div>
+            
 
             
             <div class="article-busuanzi">
@@ -124,17 +141,13 @@
         </div>
 
         <div class="article-entry post-inner-html hairline" itemprop="articleBody">
-            <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><pre><code class="bash">$ hexo new &quot;My New Post&quot;</code></pre>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
+            <p>—-内含白嫖阿里云服务器的方法</p>
 <a id="more"></a>
 
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><pre><code class="bash">$ hexo server</code></pre>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><pre><code class="bash">$ hexo generate</code></pre>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><pre><code class="bash">$ hexo deploy</code></pre>
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+<h3 id="关于博客"><a href="#关于博客" class="headerlink" title="关于博客"></a>关于博客</h3><p>这是我最近新搭的博客，用于记录学习，积累经验和分享看法。博客用的是hexo搭建的，还是比较简单，后面会记录一下搭建过程，本来我是拒绝搭博客的，可是白嫖了阿里爸爸6个月的服务器，总想着不能空着（2核4G），所以就先搭个博客吧，也许找工作简历上还能写写（虽然也没啥厉害）。</p>
+<h3 id="关于我"><a href="#关于我" class="headerlink" title="关于我"></a>关于我</h3><p>某校研一在校生，搞搞所谓的人工智能（自然语言处理），正在学习，擅长c++和python，欢迎交流</p>
+<h3 id="如何白嫖6个月阿里服务器"><a href="#如何白嫖6个月阿里服务器" class="headerlink" title="如何白嫖6个月阿里服务器"></a>如何白嫖6个月阿里服务器</h3><p>如果你也想白嫖服务器，如果你是学生，可以申请，免费6个月，这是阿里的高校活动，下面是链接</p>
+<p><a href="https://developer.aliyun.com/adc/student/?accounttraceid=a5c8d7922a874e329b91809a4b335edadzfi" target="_blank" rel="noopener">https://developer.aliyun.com/adc/student/?accounttraceid=a5c8d7922a874e329b91809a4b335edadzfi</a></p>
 
         </div>
 
@@ -151,19 +164,33 @@
     
 
     
+<nav class="article-nav">
+  
+    <a href="/2020/07/13/%E9%9D%A2%E8%AF%95%E9%97%AE%E9%A2%98-c-%E5%9F%BA%E7%A1%80/" id="article-nav-newer" class="article-nav-link-wrap">
+      <div class="article-nav-caption">下一篇</div>
+      <div class="article-nav-title">
+        
+          面试问题-c++基础
+        
+      </div>
+    </a>
+  
+  
+</nav>
+
 
     <section class="share">
         <div class="share-title">分享</div>
         <a class="share-item" target="_blank"
-            href="https://twitter.com/share?text=Hello World - LIANGYUE的BLOG&url=http://www.openrad.ink/2020/07/09/hello-world/">
+            href="https://twitter.com/share?text=关于博客和我 - LIANGYUE'BLOG&url=http://www.openrad.ink/2020/07/09/hello-world/">
             <box-icon type='logo' name='twitter'></box-icon>
         </a>
         <a class="share-item" target="_blank"
-            href="https://www.facebook.com/sharer.php?title=Hello World - LIANGYUE的BLOG&u=http://www.openrad.ink/2020/07/09/hello-world/">
+            href="https://www.facebook.com/sharer.php?title=关于博客和我 - LIANGYUE'BLOG&u=http://www.openrad.ink/2020/07/09/hello-world/">
             <box-icon name='facebook-square' type='logo' ></box-icon>
         </a>
         <!-- <a class="share-item" target="_blank"
-            href="https://service.weibo.com/share/share.php?title=Hello World - LIANGYUE的BLOG&url=http://www.openrad.ink/2020/07/09/hello-world/&pic=">
+            href="https://service.weibo.com/share/share.php?title=关于博客和我 - LIANGYUE'BLOG&url=http://www.openrad.ink/2020/07/09/hello-world/&pic=">
             <div class="n-icon n-icon-weibo"></div>
         </a> -->
     </section>
@@ -172,6 +199,10 @@
 
 
 
+
+<section class="comments">
+    <div id="gitalk-container"></div>
+</section>
 
 
 
@@ -193,19 +224,37 @@
 
 
   
+  <div class="widget-wrap widget-cate">
+    <div class="widget-title"><span>分类</span></div>
+    <div class="widget-inner">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/c-%E5%9F%BA%E7%A1%80/">c++基础</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/">面试</a></li></ul>
+    </div>
+  </div>
+
 
 
   
+  <div class="widget-wrap widget-tags">
+    <div class="widget-title"><span>标签</span></div>
+    <div class="widget-inner">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/c/" rel="tag">c++</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BB%8B%E7%BB%8D/" rel="tag">介绍</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%9F%BA%E7%A1%80/" rel="tag">基础</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9D%A2%E8%AF%95/" rel="tag">面试</a></li></ul>
+    </div>
+  </div>
+
 
 
   
   <div class="widget-wrap widget-recent-posts">
-    <div class="widget-title"><span>Recent Posts</span></div>
+    <div class="widget-title"><span>最近文章</span></div>
     <div class="widget-inner">
       <ul>
         
           <li>
-            <a href="/2020/07/09/hello-world/">Hello World</a>
+            <a href="/2020/07/13/%E9%9D%A2%E8%AF%95%E9%97%AE%E9%A2%98-c-%E5%9F%BA%E7%A1%80/">面试问题-c++基础</a>
+          </li>
+        
+          <li>
+            <a href="/2020/07/09/hello-world/">关于博客和我</a>
           </li>
         
       </ul>
@@ -215,7 +264,7 @@
 
   
   <div class="widget-wrap widget-archive">
-    <div class="widget-title"><span>Archive</span></div>
+    <div class="widget-title"><span>记录</span></div>
     <div class="widget-inner">
       <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">2020</a></li></ul>
     </div>
@@ -235,12 +284,14 @@
             <span>&copy; 2020 - 2020 WORK HARD· LIVE HARD</span>
         </div>
         <div class="footer-powered">
-			<img src="https://github.githubassets.com/favicons/favicon.png" alt="github" width="15" />
+			<img src="https://github.githubassets.com/favicons/favicon.png" alt="github" />
             <a href="https://github.com/cornorghost" target="_blank">Github</a>
         </div>
     </div>
 </footer>
 
+
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
 
 
 

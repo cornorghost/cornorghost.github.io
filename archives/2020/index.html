@@ -4,13 +4,15 @@
 <head>
     <meta charset="utf-8">
     
-    <title>Archive | 2020 | LIANGYUE的BLOG</title>
+    <title>Archive | 2020 | LIANGYUE&#39;BLOG</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
     
 
     
 
+    
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
     
 
     
@@ -19,6 +21,17 @@
 
     <script>
         window.aomori = {
+            
+            gitalk: {
+                enable: true,
+                clientID: "f481f237218c36c2740b",
+                clientSecret: "6d0738e25fd81401b6505e7a1364859ab523a716",
+                repo: "blogcomments",
+                owner: "cornorghost",
+                admin: ["cornorghost",],
+                distractionFreeMode: true,  // Facebook-like distraction free mode
+                id: location.pathname,      // Ensure uniqueness and length less than 50
+            },
             
         }
     </script>
@@ -32,10 +45,10 @@
         <div class="header-type">
             
             <div class="avatar avatar-sm">
-                <img src="/images/avatar.jpg" alt="梁越">
+                <img src="/images/avatar.png" alt="梁越">
             </div>
             
-            <a href="/">LIANGYUE的BLOG</a>
+            <a href="/">LIANGYUE&#39;BLOG</a>
             
         </div>
         <div class="header-menu">
@@ -45,11 +58,13 @@
                 
                 <a href="/archives">Archives</a>
                 
-                <a href="/about">About</a>
-                
             </div>
             <div class="header-menu-social">
                 
+    <a class="social" target="_blank" href="https://github.com/cornorghost">
+        <box-icon type='logo' name='github'></box-icon>
+    </a>
+
             </div>
         </div>
 
@@ -72,8 +87,6 @@
                     <a href="/">Home</a>
                     
                     <a href="/archives">Archives</a>
-                    
-                    <a href="/about">About</a>
                     
                 </div>
             </div>
@@ -103,7 +116,19 @@
   
   
     <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/07/09/hello-world/">Hello World</a>
+      <a class="archive-article-title" href="/2020/07/13/%E9%9D%A2%E8%AF%95%E9%97%AE%E9%A2%98-c-%E5%9F%BA%E7%A1%80/">面试问题-c++基础</a>
+    </h1>
+  
+
+</article>
+  
+    
+    
+    <article class="archive-article archive-type-post">
+  
+  
+    <h1 itemprop="name">
+      <a class="archive-article-title" href="/2020/07/09/hello-world/">关于博客和我</a>
     </h1>
   
 
@@ -125,19 +150,37 @@
   
 
   
+  <div class="widget-wrap widget-cate">
+    <div class="widget-title"><span>分类</span></div>
+    <div class="widget-inner">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/c-%E5%9F%BA%E7%A1%80/">c++基础</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/">面试</a></li></ul>
+    </div>
+  </div>
+
 
 
   
+  <div class="widget-wrap widget-tags">
+    <div class="widget-title"><span>标签</span></div>
+    <div class="widget-inner">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/c/" rel="tag">c++</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BB%8B%E7%BB%8D/" rel="tag">介绍</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%9F%BA%E7%A1%80/" rel="tag">基础</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9D%A2%E8%AF%95/" rel="tag">面试</a></li></ul>
+    </div>
+  </div>
+
 
 
   
   <div class="widget-wrap widget-recent-posts">
-    <div class="widget-title"><span>Recent Posts</span></div>
+    <div class="widget-title"><span>最近文章</span></div>
     <div class="widget-inner">
       <ul>
         
           <li>
-            <a href="/2020/07/09/hello-world/">Hello World</a>
+            <a href="/2020/07/13/%E9%9D%A2%E8%AF%95%E9%97%AE%E9%A2%98-c-%E5%9F%BA%E7%A1%80/">面试问题-c++基础</a>
+          </li>
+        
+          <li>
+            <a href="/2020/07/09/hello-world/">关于博客和我</a>
           </li>
         
       </ul>
@@ -147,7 +190,7 @@
 
   
   <div class="widget-wrap widget-archive">
-    <div class="widget-title"><span>Archive</span></div>
+    <div class="widget-title"><span>记录</span></div>
     <div class="widget-inner">
       <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">2020</a></li></ul>
     </div>
@@ -167,12 +210,14 @@
             <span>&copy; 2020 - 2020 WORK HARD· LIVE HARD</span>
         </div>
         <div class="footer-powered">
-			<img src="https://github.githubassets.com/favicons/favicon.png" alt="github" width="15" />
+			<img src="https://github.githubassets.com/favicons/favicon.png" alt="github" />
             <a href="https://github.com/cornorghost" target="_blank">Github</a>
         </div>
     </div>
 </footer>
 
+
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
 
 
 

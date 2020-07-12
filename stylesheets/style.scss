@@ -228,7 +228,7 @@ a:hover {
 
 /* 主体框架 */
 .main {
-    min-height: 500px;
+    min-height: 800px;
     position: relative;
 
     .inner {
@@ -805,6 +805,11 @@ a:hover {
             color: $color-white;
             line-height: 4rem;
             user-select: none;
+        }
+
+        img {
+            margin-right: 7px;
+            width: 14px;
         }
 
         a {

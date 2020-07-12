@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    
+    <title>面试问题-c++基础 | LIANGYUE&#39;BLOG</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    
+
+    
+
+    
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+    
+
+    
+<link rel="stylesheet" href="/dist/build.css?v=1.5.0.css">
+
+
+    <script>
+        window.aomori = {
+            
+            gitalk: {
+                enable: true,
+                clientID: "f481f237218c36c2740b",
+                clientSecret: "6d0738e25fd81401b6505e7a1364859ab523a716",
+                repo: "blogcomments",
+                owner: "cornorghost",
+                admin: ["cornorghost",],
+                distractionFreeMode: true,  // Facebook-like distraction free mode
+                id: location.pathname,      // Ensure uniqueness and length less than 50
+            },
+            
+        }
+    </script>
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+
+  <div class="container">
+    <header class="header">
+        <div class="header-type">
+            
+            <div class="avatar avatar-sm">
+                <img src="/images/avatar.png" alt="梁越">
+            </div>
+            
+            <a href="/">LIANGYUE&#39;BLOG</a>
+            
+        </div>
+        <div class="header-menu">
+            <div class="header-menu-inner">
+                
+                <a href="/">Home</a>
+                
+                <a href="/archives">Archives</a>
+                
+            </div>
+            <div class="header-menu-social">
+                
+    <a class="social" target="_blank" href="https://github.com/cornorghost">
+        <box-icon type='logo' name='github'></box-icon>
+    </a>
+
+            </div>
+        </div>
+
+        <div class="header-menu-mobile">
+            <div class="header-menu-mobile-inner" id="mobile-menu-open">
+                <i class="icon icon-menu"></i>
+            </div>
+        </div>
+    </header>
+
+    <div class="header-menu-mobile-menu">
+        <div class="header-menu-mobile-menu-bg"></div>
+        <div class="header-menu-mobile-menu-wrap">
+            <div class="header-menu-mobile-menu-inner">
+                <div class="header-menu-mobile-menu-close" id="mobile-menu-close">
+                    <i class="icon icon-cross"></i>
+                </div>
+                <div class="header-menu-mobile-menu-list">
+                    
+                    <a href="/">Home</a>
+                    
+                    <a href="/archives">Archives</a>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+  <div class="container">
+    <div class="main">
+      <section class="inner">
+        <section class="inner-main">
+          <div class="post">
+    <article id="post-ckcjc15jn0001vcveeay2c746" class="article article-type-post" itemscope
+    itemprop="blogPost">
+
+    <div class="article-inner">
+
+        
+
+        
+        <header class="article-header">
+            
+  
+    <h1 class="article-title" itemprop="name">
+      面试问题-c++基础
+    </h1>
+  
+
+        </header>
+        
+
+        <div class="article-more-info article-more-info-post hairline">
+
+            <div class="article-date">
+  <time datetime="2020-07-12T16:14:37.000Z" itemprop="datePublished">2020-07-13</time>
+</div>
+
+            
+            <div class="article-category">
+                <a class="article-category-link" href="/categories/c-%E5%9F%BA%E7%A1%80/">c++基础</a>,<a class="article-category-link" href="/categories/%E9%9D%A2%E8%AF%95/">面试</a>
+            </div>
+            
+
+            
+            <div class="article-tag">
+                <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/c/" rel="tag">c++</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%9F%BA%E7%A1%80/" rel="tag">基础</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%9D%A2%E8%AF%95/" rel="tag">面试</a></li></ul>
+            </div>
+            
+
+            
+            <div class="article-busuanzi">
+                有 <span id="busuanzi_value_page_pv">N</span> 人看过
+            </div>
+            
+        </div>
+
+        <div class="article-entry post-inner-html hairline" itemprop="articleBody">
+            <p>—-一些c++基础问题</p>
+<a id="more"></a>
+
+<h1 id="static关键字的作用"><a href="#static关键字的作用" class="headerlink" title="static关键字的作用"></a><a href="https://zhuanlan.zhihu.com/p/37439983" target="_blank" rel="noopener">static关键字的作用</a></h1><p>如果static修饰的是一个全局变量，那么该变量转化为全局静态变量，只有包含它的文件可见，可以实现隐藏</p>
+<p>如果static修饰的是一个成员变量，那么该变量堆此类的所有对象共有，而且只分配了一次内存，每个对象初始化时不会再次对该静态变量重新初始化</p>
+<p>如果static修饰的时一个成员函数，和静态成员变量一样，所有类对象共享，但是静态成员函数不依赖类对象，不需要实际初始化一个对象来调用静态成员函数，而且静态成员函数只能访问静态成员变量或者函数，如下面是一个例子：</p>
+<pre><code class="c++">#include &lt;iostream&gt;
+using namespace std;
+
+class Student{
+private:
+   char *name;
+   int age;
+   float score;
+   static int num;      //学生人数
+   static float total;  //总分
+public:
+   Student(char *, int, float);
+   void say();
+   static float getAverage();  //静态成员函数，用来获得平均成绩
+};
+
+int Student::num = 0;
+float Student::total = 0;
+
+Student::Student(char *name, int age, float score)
+{
+   this-&gt;name = name;
+   this-&gt;age = age;
+   this-&gt;score = score;
+   num++;
+   total += score;
+}
+
+void Student::say()
+{
+   cout&lt;&lt;name&lt;&lt;&quot;的年龄是 &quot;&lt;&lt;age&lt;&lt;&quot;，成绩是 &quot;&lt;&lt;score&lt;&lt;&quot;（当前共&quot;&lt;&lt;num&lt;&lt;&quot;名学生）&quot;&lt;&lt;endl;
+}
+
+float Student::getAverage()
+{
+   return total / num;
+}
+
+int main()
+{
+   (new Student(&quot;小明&quot;, 15, 90))-&gt;say();
+   (new Student(&quot;李磊&quot;, 16, 80))-&gt;say();
+   (new Student(&quot;张华&quot;, 16, 99))-&gt;say();
+   (new Student(&quot;王康&quot;, 14, 60))-&gt;say();
+   cout&lt;&lt;&quot;平均成绩为 &quot;&lt;&lt;Student::getAverage()&lt;&lt;endl;
+   return 0;
+}
+
+运行结果：
+小明的年龄是 15，成绩是 90（当前共1名学生）
+李磊的年龄是 16，成绩是 80（当前共2名学生）
+张华的年龄是 16，成绩是 99（当前共3名学生）
+王康的年龄是 14，成绩是 60（当前共4名学生）
+平均成绩为 82.25</code></pre>
+<h1 id="virtual关键字的作用"><a href="#virtual关键字的作用" class="headerlink" title="virtual关键字的作用"></a>virtual关键字的作用</h1><p>多态的实现，加了virtual的函数为虚拟函数，会根据多态性决定调用基类还是派生类函数，没有virtual会调用基类的方法</p>
+<hr>
+<p><a href="https://blog.csdn.net/zgaoq/article/details/54964695?utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-2.nonecase&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-2.nonecase" target="_blank" rel="noopener">虚继承可以可以防止重复引用</a></p>
+<hr>
+<h1 id="const关键字"><a href="#const关键字" class="headerlink" title="const关键字"></a>const关键字</h1><p>限定一个变量为只读</p>
+<p>当修饰常量，常量值不可修改</p>
+<pre><code class="c++">const int i=4;
+i=5; //无效</code></pre>
+<p>当修饰指针</p>
+<pre><code class="c++">int a = 9;
+int b = 10;
+const int* p = &amp;a;//p是一个指向int类型的const值,与int const *p等价
+*p = 11;    //编译错误，指向的对象是只读的，不可通过p进行改变
+p = &amp;b;     //合法，改变了p的指向</code></pre>
+<p>当修饰引用</p>
+<pre><code class="c++">int a = 9;
+int b = 10;
+int* const p = &amp;a;//p既是一个const指针，同时也指向了int类型的const值
+*p = 11;    //编译正确，p不可以修改，但是可以通过*p修改
+p = &amp;b;     //编译错误，p是一个const指针，只读，不可变</code></pre>
+<p>其实主要是看const后面的变量是什么，只有const后面的变量无法修改</p>
+<hr>
+<h1 id="explicit关键字"><a href="#explicit关键字" class="headerlink" title="explicit关键字"></a><a href="https://blog.csdn.net/yanghaitao_1990/article/details/51689696" target="_blank" rel="noopener">explicit关键字</a></h1><p>修饰类的构造函数<br>防止隐形转化的发生，如下面三种类的声明和初始化发生隐式转换</p>
+<pre><code class="c++">class Circle
+{
+public:
+    Circle(double r) : R(r) {}
+    Circle(int x, int y = 0) : X(x), Y(y) {}
+    Circle(const Circle&amp; c) : R(c.R), X(c.X), Y(c.Y) {}
+private:
+    double R;
+    int    X;
+    int    Y;
+};
+
+int _tmain(int argc, _TCHAR* argv[])
+{
+    //发生隐式类型转换
+    //编译器会将它变成如下代码
+    //tmp = Circle(1.23)
+    //Circle A(tmp);
+    //tmp.~Circle();
+    Circle A = 1.23;
+
+    //注意是int型的，调用的是Circle(int x, int y = 0)
+    //它虽然有2个参数，但后一个有默认值，任然能发生隐式转换
+    Circle B = 123;
+
+    //这个算隐式调用了拷贝构造函数
+    Circle C = A;
+
+    return 0;
+}
+
+//添加explicit
+class Circle
+{
+public:
+    explicit Circle(double r) : R(r) {}
+    explicit Circle(int x, int y = 0) : X(x), Y(y) {}
+    explicit Circle(const Circle&amp; c) : R(c.R), X(c.X), Y(c.Y) {}
+private:
+    double R;
+    int    X;
+    int    Y;
+};
+
+int _tmain(int argc, _TCHAR* argv[])
+{
+    Circle A = 1.23; //编译错误
+
+    Circle B = 123;//编译错误
+
+    Circle C = A;//编译错误
+
+    return 0;
+}</code></pre>
+<h1 id="智能指针"><a href="#智能指针" class="headerlink" title="智能指针"></a><a href="https://juejin.im/post/5dcaa857e51d457f7675360b" target="_blank" rel="noopener">智能指针</a></h1><p>在堆上分配的内存</p>
+<p>STL中一般有四种智能指针：</p>
+<ol>
+<li>unique_ptr（独享指针），一个独享指针只能占领并管理一个对象；</li>
+<li>shared_ptr（共享指针），多个共享指针可以指向一个对象；</li>
+<li>weak_ptr（弱指针），这是用来辅助shared_ptr的指针，当shared_ptr管理的对象形成环时，这时候其中一个对象使用weak_ptr可以打破环；</li>
+<li>auto_ptr被c++11弃用；</li>
+</ol>
+<hr>
+<h1 id="指针和引用的区别"><a href="#指针和引用的区别" class="headerlink" title="指针和引用的区别"></a>指针和引用的区别</h1><p>指针有着自己分配的空间，引用只是对象的别名，大小为被引用对象的大小</p>
+<hr>
+<h1 id="指针和引用做参数的区别"><a href="#指针和引用做参数的区别" class="headerlink" title="指针和引用做参数的区别"></a><a href="https://www.cnblogs.com/dolphin0520/archive/2011/04/03/2004869.html" target="_blank" rel="noopener">指针和引用做参数的区别</a></h1><ol>
+<li>两者虽然都可在函数内改变实参值，但是引用毕竟是实参的别名，不占用内存，指针传入的是实参的地址</li>
+<li>并且改变指针不能改变实参地址，改变引用可以改变实参的地址，因为指针做形参传递的是一个拷贝，而形参传递的是一个实参的地址</li>
+</ol>
+<hr>
+<h1 id="虚函数表"><a href="#虚函数表" class="headerlink" title="虚函数表"></a>虚函数表</h1><p>C++实现虚函数的方法是：为每个类对象添加一个隐藏成员，隐藏成员保存了一个指针，这个指针叫虚表指针（vptr），它指向一个虚函数表（virtual function table, vtbl）</p>
+<p>虚函数表就像一个数组，表中有许多的槽（slot），每个槽中存放的是一个虚函数的地址（可以理解为数组里存放着指向每个虚函数的指针）<br><img src="https://img2018.cnblogs.com/blog/1536438/201909/1536438-20190926190448985-466463034.png" alt=""></p>
+<p>子类重写父类函数时，实际改变了虚函数表里对应地址</p>
+<hr>
+<h1 id="map和set的区别"><a href="#map和set的区别" class="headerlink" title="map和set的区别"></a>map和set的区别</h1><p>map是key-value的形式，set只有value，key就是value，所有set不允许有重复值，而map允许有重复值</p>
+<hr>
+<h1 id="map与unordered-map和hash-map和multimap的区别"><a href="#map与unordered-map和hash-map和multimap的区别" class="headerlink" title="map与unordered_map和hash_map和multimap的区别"></a>map与unordered_map和hash_map和multimap的区别</h1><p>map和multimap底层是红黑数，而unordered_map和hash_map底层是哈希表，红黑书是有序的，哈希表是无序的，而multimap可以具有相同的键值，map键值唯一，一般推荐unordered代替hash_map</p>
+<hr>
+<h1 id="strucu和class的区别"><a href="#strucu和class的区别" class="headerlink" title="strucu和class的区别"></a>strucu和class的区别</h1><p>在C++中，可以用struct和class定义类，都可以继承。区别在于：struct的默认继承权限和默认访问权限是public，而class的默认继承权限和默认访问权限是private。</p>
+<hr>
+<h1 id="const和-define有什么区别"><a href="#const和-define有什么区别" class="headerlink" title="const和#define有什么区别"></a>const和#define有什么区别</h1><p>const有类型，define没有类型</p>
+<hr>
+<h1 id="数组与指针的区别"><a href="#数组与指针的区别" class="headerlink" title="数组与指针的区别"></a><a href="https://blog.csdn.net/cherrydreamsover/article/details/81741459?utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-1.nonecase&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-1.nonecase" target="_blank" rel="noopener">数组与指针的区别</a></h1><ol>
+<li>同类型指针可以相互赋值，数组不行，需要使用下标</li>
+<li>数组开辟连续的内存，大小由元素个数决定，指针的大小64位为8个字节，32位为4个字节</li>
+<li>指针可以寻址，++，–，数组名不行</li>
+</ol>
+<hr>
+<h1 id="空类默认有哪些成员函数"><a href="#空类默认有哪些成员函数" class="headerlink" title="空类默认有哪些成员函数"></a>空类默认有哪些成员函数</h1><p>构造函数、析构函数、拷贝构造、赋值运算符、取址运算符和一个this指针</p>
+<p>空类只占一个字节</p>
+<hr>
+<h1 id="子类继承父类，子类的构造和析构顺序，为什么父类的析构函数需要virtual关键字"><a href="#子类继承父类，子类的构造和析构顺序，为什么父类的析构函数需要virtual关键字" class="headerlink" title="子类继承父类，子类的构造和析构顺序，为什么父类的析构函数需要virtual关键字"></a><a href="https://blog.csdn.net/wangkai_123456/article/details/75210389" target="_blank" rel="noopener">子类继承父类，子类的构造和析构顺序，为什么父类的析构函数需要virtual关键字</a></h1><p>子类实例化时先调用父类的构造函数，接下来才是子类的构造函数，析构相反，先是子类，再是父类；如果父类析构不是虚函数，当我们删除父类的指针时，只会调用父类的析构函数，不会调用子类的析构函数，导致父类被删除，子类还存在的现象。</p>
+<hr>
+<h1 id="说说公有继承、受保护继承、私有继承和共有成员、受保护成员、私有成员"><a href="#说说公有继承、受保护继承、私有继承和共有成员、受保护成员、私有成员" class="headerlink" title="说说公有继承、受保护继承、私有继承和共有成员、受保护成员、私有成员"></a><a href="https://blog.csdn.net/luoweifu/article/details/46953343" target="_blank" rel="noopener">说说公有继承、受保护继承、私有继承和共有成员、受保护成员、私有成员</a></h1><ol>
+<li><p>公有继承时，派生类对象可以访问基类中的公有成员，派生类的成员函数可以访问基类中的公有和受保护成员，基类的公用成员和保护成员在派生类中保持原有的访问属性；</p>
+</li>
+<li><p>私有继承时，基类的公有成员和保护成员都作为派生类的私有成员，并且不能被这个派生类的子类所访问员；</p>
+</li>
+<li><p>受保护继承时，基类的公有成员和保护成员都作为派生类的受保护成员，并且不能被这个派生类的子类所访问，所有基类成员均变成派生类的私有成员。</p>
+</li>
+<li><p>一个类的公有成员在任何地方都可以被访问</p>
+</li>
+<li><p>一个类的私有成员，不论是成员变量还是成员函数，都只能在该类的成员函数内部才能被访问</p>
+</li>
+<li><p><a href="https://blog.csdn.net/feiyinzilgd/article/details/6226348" target="_blank" rel="noopener">在没有继承的情况下，protected跟private相同；基类对象不能在外部访问基类的protected成员，派生类中可以访问基类的protected成员；派生类对象如果要访问基类protected成员只有通过派生类对象，派生类不能再外部访问基类对象的protected成员</a></p>
+</li>
+</ol>
+<hr>
+<h1 id="C-如何阻止一个类被实例化"><a href="#C-如何阻止一个类被实例化" class="headerlink" title="C++如何阻止一个类被实例化"></a>C++如何阻止一个类被实例化</h1><p>将构造函数设为private</p>
+<hr>
+<h1 id="c-main函数执行前后"><a href="#c-main函数执行前后" class="headerlink" title="c++ main函数执行前后"></a>c++ main函数执行前后</h1><p>main函数执行前，全局变量和对象的构建，初始化，不接受赋值操作；main函数执行；main函数执行完毕后，回收全局变量和对象，调用析构函数</p>
+<hr>
+<h1 id="请描述进程和线程的区别"><a href="#请描述进程和线程的区别" class="headerlink" title="请描述进程和线程的区别"></a>请描述进程和线程的区别</h1><ol>
+<li>进程是系统资源调度分配的一个独立单位；线程是CPU调度和分配的基本单位</li>
+<li>线程运行在线程内，进程是线程的容器，一个进程可以有很多的线程</li>
+<li>进程有独立的内存，同一进程的线程间共享内存，所以进程的切换开销大，线程切换的开销小</li>
+</ol>
+<hr>
+<h1 id="new-delete与malloc-free的区别是什么"><a href="#new-delete与malloc-free的区别是什么" class="headerlink" title="new/delete与malloc/free的区别是什么"></a><a href="https://blog.csdn.net/nie19940803/article/details/76358673?utm_medium=distribute.pc_relevant_t0.none-task-blog-BlogCommendFromMachineLearnPai2-1.nonecase&depth_1-utm_source=distribute.pc_relevant_t0.none-task-blog-BlogCommendFromMachineLearnPai2-1.nonecase" target="_blank" rel="noopener">new/delete与malloc/free的区别是什么</a></h1><p>1、属性：new/delete是C++关键字，需要编译器支持。malloc/free是库函数，需要头文件支持</p>
+<p>2、返回：new返回的是指定对象的指针，而malloc返回的是void*</p>
+<p>3、参数/内存：使用new操作符申请内存分配时无须指定内存块的大小，编译器会根据类型信息自行计算。而malloc则需要显式地指出所需内存的尺寸</p>
+<p>4、分配失败：new内存分配失败时，会抛出bac_alloc异常。malloc分配内存失败时返回NULL</p>
+<p>5、内存区域：new分配内存不一定在堆区；malloc分配内存在堆区</p>
+<p>6、new会调用构造函数</p>
+<hr>
+<h1 id="请说说c-的内存分配"><a href="#请说说c-的内存分配" class="headerlink" title="请说说c++的内存分配"></a>请说说c++的内存分配</h1><ol>
+<li>栈区（局部变量区）：编译器自动编译释放，存放函数参数，局部变量等</li>
+<li>堆区（动态存储区）：一般由程序员分配释放，存放的是new/malloc分配的内存块，delete/free释放不过new操作索然一般在堆上分配，但也有在栈上分配的，new的内存分配区抽象来说应该是自由存储区</li>
+<li>全局/静态区：存放全局和静态变量</li>
+<li>文字常量区：存放字符常量等只读数据</li>
+<li>程序代码区：存放函数体的二进制代码</li>
+</ol>
+<hr>
+<h1 id="静态内存分配和动态内存分配"><a href="#静态内存分配和动态内存分配" class="headerlink" title="静态内存分配和动态内存分配"></a>静态内存分配和动态内存分配</h1><p>静态内存分配发生在栈区，由系统实现，自动释放，比如一个数组</p>
+<pre><code class="c++">int p[100];</code></pre>
+<p>动态内存分配则是在堆上实现，编译器会自动计算，需要手动释放，一般是new关键字和malloc库函数，一样是定义一个一维数组，<a href="https://blog.csdn.net/Errors_In_Life/article/details/78889951" target="_blank" rel="noopener">分别使用malloc和free</a></p>
+<pre><code class="c++">#include &lt;iostream&gt;
+#include&lt;stdlib.h&gt; //该头文件为malloc必须
+using namespace std;
+
+//使用malloc/free动态分配一维数组
+int main()
+{
+    int len;
+    int *p;
+    cout&lt;&lt;&quot;请输入开辟动态数组的长度：&quot;&lt;&lt;endl;
+    cin&gt;&gt;len;
+    //长度乘以int的正常大小，才是动态开辟的大小
+    p = (int*)malloc(len*sizeof(int));
+    cout&lt;&lt;&quot;请逐个输入动态数组成员：&quot;&lt;&lt;endl;
+    for(int i=0; i&lt;len; ++i)
+    {
+        //此处不可以写成：cin&gt;&gt;*p[i]
+        cin&gt;&gt;p[i];
+    }
+    cout&lt;&lt;&quot;您输入的动态数组为：&quot;&lt;&lt;endl;
+        for(int i=0; i&lt;len; ++i)
+    {
+        cout&lt;&lt;p[i]&lt;&lt;&quot; &quot;;
+    }
+    //时刻记住：有malloc就要有free
+    free(p);
+ }
+
+//使用new/delete
+int main()
+{
+    int len;
+    cout&lt;&lt;&quot;请输入开辟动态数组的长度：&quot;&lt;&lt;endl;
+    cin&gt;&gt;len;
+    //长度乘以int的正常大小，才是动态开辟的大小
+    int* p=new int[len];
+
+    //数据输入
+    cout&lt;&lt;&quot;请逐个输入数据：&quot;&lt;&lt;endl;
+    for(int i=0; i&lt;len; ++i)
+    {
+        cin&gt;&gt;p[i];
+     }
+
+    //数据反馈
+    cout&lt;&lt;&quot;您分配的动态数组为：&quot;&lt;&lt;endl;
+    for(int i=0; i&lt;len; ++i)
+    {
+        cout&lt;&lt;p[i]&lt;&lt;&quot; &quot;;
+     }
+
+    //释放内存：
+    delete []p;
+}</code></pre>
+<hr>
+<h1 id="堆和栈的区别"><a href="#堆和栈的区别" class="headerlink" title="堆和栈的区别"></a>堆和栈的区别</h1><ol>
+<li>堆存放的是动态分配的内存，栈一般存放一些静态分配的内存，如局部变量和参数等</li>
+<li>堆的地址是从低到高，栈的地址从高到低，所以栈相对有限制，堆更灵活</li>
+<li>栈由系统自动分配和释放，所以速度快；堆需要手动回收，速度较慢，且容易产生碎片</li>
+</ol>
+<hr>
+<h1 id="内存泄露"><a href="#内存泄露" class="headerlink" title="内存泄露"></a><a href="https://www.jianshu.com/p/5770c067a552" target="_blank" rel="noopener">内存泄露</a></h1><p>内存泄漏是指分配了内存却没有回收导致的错误，常见的原因有以下几点：</p>
+<ol>
+<li>new或者malloc没有及时delete或free</li>
+<li>new []和delete []没有匹配</li>
+<li>delete void*指针</li>
+<li>基类的析构函数没有vurtual，当基类的指针指向子类时，delete该对象时，不会调用子类的析构函数</li>
+</ol>
+<hr>
+<h1 id="内存溢出"><a href="#内存溢出" class="headerlink" title="内存溢出"></a>内存溢出</h1><p>程序在申请内存时，没有足够的内存空间供其使用，内存泄漏最终会导致内存溢出</p>
+<hr>
+<h1 id="段错误"><a href="#段错误" class="headerlink" title="段错误"></a>段错误</h1><p>访问了受保护或者不存在的内存，具体原因有如下：</p>
+<ol>
+<li>数组越界，数据类型不一致</li>
+<li>有些内存是内核占用的或者是其他程序正在使用，比如操作一个文件时，另外一个程序也想要操作这个文件</li>
+<li>野指针或者是指针没有初始化，默认为NULL</li>
+</ol>
+<hr>
+<h1 id="野指针"><a href="#野指针" class="headerlink" title="野指针"></a>野指针</h1><ol>
+<li>没有初始化的指针，默认为NULL</li>
+<li>指针被free或者delete之后，没有置为NULL</li>
+</ol>
+<hr>
+<h1 id="浅copy和深copy和赋值"><a href="#浅copy和深copy和赋值" class="headerlink" title="浅copy和深copy和赋值"></a><a href="https://zhuanlan.zhihu.com/p/64476550" target="_blank" rel="noopener">浅copy和深copy和赋值</a></h1><p>浅copy只是复制了对象的地址，即指针，和原对象共享同一地址，改变其中一个的值，另一个也会跟着改变；<br>深copy是将整个对象复制，有独立的地址，两个对象相互独立</p>
+<p>赋值和浅copy的区别：赋值是复制了栈中的地址，不论赋值的是基本数据类型还是地址，新旧对象具有关联；浅copy如果复制的是基本的数据类型，那么改变其中一个，另一个不会改变，如果复制的是地址，如数组等，改变其中一个，另一个会发生变化<br><img src="https://user-gold-cdn.xitu.io/2018/12/23/167da74d45d3103b?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt=""></p>
+<hr>
+<h1 id="显式类型转换"><a href="#显式类型转换" class="headerlink" title="显式类型转换"></a>显式类型转换</h1><ol>
+<li>const_cast</li>
+</ol>
+<p>一般用来区常量化，去const</p>
+<pre><code class="c++">const int* p;
+int *q=const_cast&lt;int*&gt; (p);</code></pre>
+<ol start="2">
+<li>static_cast</li>
+</ol>
+<p>一个是用在基本数据之间的转换，一个是用在子类转父类，虽然也可以父类转子类，但是不安全，不会检测类型，主要是虚函数的检测</p>
+<ol start="3">
+<li>dynamic_cast</li>
+</ol>
+<p>子类转父类安全，父类转子类也是安全的，如果虚函数里的数据类型检测一致，将成功转化，不一致将返回nullptr</p>
+<ol start="4">
+<li>reinterpret_cast</li>
+</ol>
+<p>强制类型转换符用来处理无关类型转换的</p>
+<pre><code class="c++"> int *ptr = new int(233);
+ uint32_t ptr_addr = reinterpret_cast&lt;uint32_t&gt;(ptr);</code></pre>
+<h1 id="一个C-源文件从文本到可执行文件经历的过程"><a href="#一个C-源文件从文本到可执行文件经历的过程" class="headerlink" title="一个C++源文件从文本到可执行文件经历的过程"></a>一个C++源文件从文本到可执行文件经历的过程</h1><p>1）预编译，预编译的时候做一些简单的文本替换，比如宏替换，而不进行语法的检查；</p>
+<p>2）编译，在编译阶段，编译器将检查一些语法错误，但是，如果使用的函数事先没有定义这种情况，不再这一阶段检查，编译后C/C++代码变为汇编代码，得到.s文件</p>
+<p>3）汇编，汇编代码变为机器码，得到.o或者.obj文件</p>
+<p>4）链接，将所用到的外部文件链接在一起，在这一阶段，就会检查使用的函数有没有定义，链接过后，形成可执行文件.exe</p>
+
+        </div>
+
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+<nav class="article-nav">
+  
+  
+    <a href="/2020/07/09/hello-world/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-caption">上一篇</div>
+      <div class="article-nav-title">关于博客和我</div>
+    </a>
+  
+</nav>
+
+
+    <section class="share">
+        <div class="share-title">分享</div>
+        <a class="share-item" target="_blank"
+            href="https://twitter.com/share?text=面试问题-c++基础 - LIANGYUE'BLOG&url=http://www.openrad.ink/2020/07/13/%E9%9D%A2%E8%AF%95%E9%97%AE%E9%A2%98-c-%E5%9F%BA%E7%A1%80/">
+            <box-icon type='logo' name='twitter'></box-icon>
+        </a>
+        <a class="share-item" target="_blank"
+            href="https://www.facebook.com/sharer.php?title=面试问题-c++基础 - LIANGYUE'BLOG&u=http://www.openrad.ink/2020/07/13/%E9%9D%A2%E8%AF%95%E9%97%AE%E9%A2%98-c-%E5%9F%BA%E7%A1%80/">
+            <box-icon name='facebook-square' type='logo' ></box-icon>
+        </a>
+        <!-- <a class="share-item" target="_blank"
+            href="https://service.weibo.com/share/share.php?title=面试问题-c++基础 - LIANGYUE'BLOG&url=http://www.openrad.ink/2020/07/13/%E9%9D%A2%E8%AF%95%E9%97%AE%E9%A2%98-c-%E5%9F%BA%E7%A1%80/&pic=">
+            <div class="n-icon n-icon-weibo"></div>
+        </a> -->
+    </section>
+
+</article>
+
+
+
+
+<section class="comments">
+    <div id="gitalk-container"></div>
+</section>
+
+
+
+<script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+</div>
+        </section>
+      </section>
+      <aside class="sidebar">
+        <div class="widget">
+          
+
+  
+  <div class="widget-wrap">
+    <div class="widget-inner">
+      <div class="toc post-toc-html"></div>
+    </div>
+  </div>
+
+
+  
+  <div class="widget-wrap widget-cate">
+    <div class="widget-title"><span>分类</span></div>
+    <div class="widget-inner">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/c-%E5%9F%BA%E7%A1%80/">c++基础</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/">面试</a></li></ul>
+    </div>
+  </div>
+
+
+
+  
+  <div class="widget-wrap widget-tags">
+    <div class="widget-title"><span>标签</span></div>
+    <div class="widget-inner">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/c/" rel="tag">c++</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BB%8B%E7%BB%8D/" rel="tag">介绍</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%9F%BA%E7%A1%80/" rel="tag">基础</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9D%A2%E8%AF%95/" rel="tag">面试</a></li></ul>
+    </div>
+  </div>
+
+
+
+  
+  <div class="widget-wrap widget-recent-posts">
+    <div class="widget-title"><span>最近文章</span></div>
+    <div class="widget-inner">
+      <ul>
+        
+          <li>
+            <a href="/2020/07/13/%E9%9D%A2%E8%AF%95%E9%97%AE%E9%A2%98-c-%E5%9F%BA%E7%A1%80/">面试问题-c++基础</a>
+          </li>
+        
+          <li>
+            <a href="/2020/07/09/hello-world/">关于博客和我</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+  
+  <div class="widget-wrap widget-archive">
+    <div class="widget-title"><span>记录</span></div>
+    <div class="widget-inner">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">2020</a></li></ul>
+    </div>
+  </div>
+
+
+
+        </div>
+        <div id="backtop"><i class="icon icon-arrow-up"></i></div>
+      </aside>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-inner">
+        <div class="footer-info">
+            <span>&copy; 2020 - 2020 WORK HARD· LIVE HARD</span>
+        </div>
+        <div class="footer-powered">
+			<img src="https://github.githubassets.com/favicons/favicon.png" alt="github" />
+            <a href="https://github.com/cornorghost" target="_blank">Github</a>
+        </div>
+    </div>
+</footer>
+
+
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+
+
+<script src="/dist/build.js?1.5.0.js"></script>
+
+
+<script src="/dist/custom.js?1.5.0.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>
