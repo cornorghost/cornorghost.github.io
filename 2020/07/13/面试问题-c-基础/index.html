@@ -100,7 +100,7 @@
       <section class="inner">
         <section class="inner-main">
           <div class="post">
-    <article id="post-ckcjc15jn0001vcveeay2c746" class="article article-type-post" itemscope
+    <article id="post-ckcm8k63v00012ove0xcgarne" class="article article-type-post" itemscope
     itemprop="blogPost">
 
     <div class="article-inner">
@@ -148,7 +148,7 @@
             <p>—-一些c++基础问题</p>
 <a id="more"></a>
 
-<h1 id="static关键字的作用"><a href="#static关键字的作用" class="headerlink" title="static关键字的作用"></a><a href="https://zhuanlan.zhihu.com/p/37439983" target="_blank" rel="noopener">static关键字的作用</a></h1><p>如果static修饰的是一个全局变量，那么该变量转化为全局静态变量，只有包含它的文件可见，可以实现隐藏</p>
+<h1 id="关键字"><a href="#关键字" class="headerlink" title="关键字"></a>关键字</h1><h2 id="static关键字的作用"><a href="#static关键字的作用" class="headerlink" title="static关键字的作用"></a><a href="https://zhuanlan.zhihu.com/p/37439983" target="_blank" rel="noopener">static关键字的作用</a></h2><p>如果static修饰的是一个全局变量，那么该变量转化为全局静态变量，只有包含它的文件可见，可以实现隐藏</p>
 <p>如果static修饰的是一个成员变量，那么该变量堆此类的所有对象共有，而且只分配了一次内存，每个对象初始化时不会再次对该静态变量重新初始化</p>
 <p>如果static修饰的时一个成员函数，和静态成员变量一样，所有类对象共享，但是静态成员函数不依赖类对象，不需要实际初始化一个对象来调用静态成员函数，而且静态成员函数只能访问静态成员变量或者函数，如下面是一个例子：</p>
 <pre><code class="c++">#include &lt;iostream&gt;
@@ -205,11 +205,10 @@ int main()
 张华的年龄是 16，成绩是 99（当前共3名学生）
 王康的年龄是 14，成绩是 60（当前共4名学生）
 平均成绩为 82.25</code></pre>
-<h1 id="virtual关键字的作用"><a href="#virtual关键字的作用" class="headerlink" title="virtual关键字的作用"></a>virtual关键字的作用</h1><p>多态的实现，加了virtual的函数为虚拟函数，会根据多态性决定调用基类还是派生类函数，没有virtual会调用基类的方法</p>
+<h2 id="virtual关键字的作用"><a href="#virtual关键字的作用" class="headerlink" title="virtual关键字的作用"></a>virtual关键字的作用</h2><p>多态的实现，加了virtual的函数为虚拟函数，会根据多态性决定调用基类还是派生类函数，没有virtual会调用基类的方法</p>
 <hr>
 <p><a href="https://blog.csdn.net/zgaoq/article/details/54964695?utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-2.nonecase&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-2.nonecase" target="_blank" rel="noopener">虚继承可以可以防止重复引用</a></p>
-<hr>
-<h1 id="const关键字"><a href="#const关键字" class="headerlink" title="const关键字"></a>const关键字</h1><p>限定一个变量为只读</p>
+<h2 id="const关键字"><a href="#const关键字" class="headerlink" title="const关键字"></a>const关键字</h2><p>限定一个变量为只读</p>
 <p>当修饰常量，常量值不可修改</p>
 <pre><code class="c++">const int i=4;
 i=5; //无效</code></pre>
@@ -227,7 +226,9 @@ int* const p = &amp;a;//p既是一个const指针，同时也指向了int类型�
 p = &amp;b;     //编译错误，p是一个const指针，只读，不可变</code></pre>
 <p>其实主要是看const后面的变量是什么，只有const后面的变量无法修改</p>
 <hr>
-<h1 id="explicit关键字"><a href="#explicit关键字" class="headerlink" title="explicit关键字"></a><a href="https://blog.csdn.net/yanghaitao_1990/article/details/51689696" target="_blank" rel="noopener">explicit关键字</a></h1><p>修饰类的构造函数<br>防止隐形转化的发生，如下面三种类的声明和初始化发生隐式转换</p>
+<h2 id="extern关键字"><a href="#extern关键字" class="headerlink" title="extern关键字"></a>extern关键字</h2><p>在本文件使用extern声明，可以使用在其他文件定义的变量或者函数</p>
+<hr>
+<h2 id="explicit关键字"><a href="#explicit关键字" class="headerlink" title="explicit关键字"></a><a href="https://blog.csdn.net/yanghaitao_1990/article/details/51689696" target="_blank" rel="noopener">explicit关键字</a></h2><p>修饰类的构造函数<br>防止隐形转化的发生，如下面三种类的声明和初始化发生隐式转换</p>
 <pre><code class="c++">class Circle
 {
 public:
@@ -282,6 +283,33 @@ int _tmain(int argc, _TCHAR* argv[])
 
     return 0;
 }</code></pre>
+<hr>
+<h2 id="override关键字"><a href="#override关键字" class="headerlink" title="override关键字"></a>override关键字</h2><p>override作为成员函数的修饰关键字，主要作用是避免一些继承的错误，比如，我们看下面这个例子</p>
+<pre><code class="c++">class A
+{
+public:
+    virtual void func1() const {};
+    virtual void func2(int = 0) {};
+    virtual    void func3() {};
+};
+
+class B :public A
+{
+public:
+    virtual void func1() {}; //编译不会出错，会把当前函数作为一个新的成员函数，而不是继承，继承失败
+    virtual void func2(double = 0.0) {}; //编译不会出错，但是参数不同，会作为新的成员函数
+    virtual void func4() {}; //编译不会出错，根本就是个新的成员函数，可能是你手抖写错函数名
+};
+
+//但是如果你把class B写成下面的形式，就不能通过编译，可以及时发现问题
+class B :public A
+{
+public:
+    virtual void func1()  override { cout &lt;&lt; &quot;B::func1&quot; &lt;&lt;endl; }; //编译不会出错，会把当前函数作为一个新的成员函数，而不是重写
+    virtual void func2(double = 0.0) override { cout &lt;&lt; &quot;B::func2&quot; &lt;&lt;endl; }; //编译不会出错，但是参数不同，会作为新的成员函数
+    virtual void func4() overide { cout &lt;&lt; &quot;B::func3&quot; &lt;&lt;endl; }; //编译不会出错，根本就是个新的成员函数，可能是你手抖写错函数名
+};</code></pre>
+<hr>
 <h1 id="智能指针"><a href="#智能指针" class="headerlink" title="智能指针"></a><a href="https://juejin.im/post/5dcaa857e51d457f7675360b" target="_blank" rel="noopener">智能指针</a></h1><p>在堆上分配的内存</p>
 <p>STL中一般有四种智能指针：</p>
 <ol>
@@ -316,8 +344,29 @@ int _tmain(int argc, _TCHAR* argv[])
 <li>指针可以寻址，++，–，数组名不行</li>
 </ol>
 <hr>
-<h1 id="空类默认有哪些成员函数"><a href="#空类默认有哪些成员函数" class="headerlink" title="空类默认有哪些成员函数"></a>空类默认有哪些成员函数</h1><p>构造函数、析构函数、拷贝构造、赋值运算符、取址运算符和一个this指针</p>
-<p>空类只占一个字节</p>
+<h1 id="空类默认有哪些成员函数，类的大小"><a href="#空类默认有哪些成员函数，类的大小" class="headerlink" title="空类默认有哪些成员函数，类的大小"></a>空类默认有哪些成员函数，类的大小</h1><p>构造函数、析构函数、拷贝构造、赋值运算符、取址运算符和一个this指针</p>
+<p>空类只占一个字节，虚指针4个字节，函数不占字节，继承会继承基类的大小，int占4个字节</p>
+<pre><code class="c++">class A {}; //一个字节
+class B 
+{  //一个字节
+    void fun(){};
+}
+class C
+{ //4个字节
+    virtual void fun(){}; 
+}
+class D
+{ //8个字节
+    virtual void fun(){}; 
+    int i=0;
+}
+class E:public D //8个字节
+{
+}
+class E:public D //12个字节
+{
+    virtual void fun(){};
+}</code></pre>
 <hr>
 <h1 id="子类继承父类，子类的构造和析构顺序，为什么父类的析构函数需要virtual关键字"><a href="#子类继承父类，子类的构造和析构顺序，为什么父类的析构函数需要virtual关键字" class="headerlink" title="子类继承父类，子类的构造和析构顺序，为什么父类的析构函数需要virtual关键字"></a><a href="https://blog.csdn.net/wangkai_123456/article/details/75210389" target="_blank" rel="noopener">子类继承父类，子类的构造和析构顺序，为什么父类的析构函数需要virtual关键字</a></h1><p>子类实例化时先调用父类的构造函数，接下来才是子类的构造函数，析构相反，先是子类，再是父类；如果父类析构不是虚函数，当我们删除父类的指针时，只会调用父类的析构函数，不会调用子类的析构函数，导致父类被删除，子类还存在的现象。</p>
 <hr>
@@ -353,7 +402,7 @@ int _tmain(int argc, _TCHAR* argv[])
 <p>5、内存区域：new分配内存不一定在堆区；malloc分配内存在堆区</p>
 <p>6、new会调用构造函数</p>
 <hr>
-<h1 id="请说说c-的内存分配"><a href="#请说说c-的内存分配" class="headerlink" title="请说说c++的内存分配"></a>请说说c++的内存分配</h1><ol>
+<h1 id="内存"><a href="#内存" class="headerlink" title="内存"></a>内存</h1><h2 id="请说说c-的内存分配"><a href="#请说说c-的内存分配" class="headerlink" title="请说说c++的内存分配"></a>请说说c++的内存分配</h2><ol>
 <li>栈区（局部变量区）：编译器自动编译释放，存放函数参数，局部变量等</li>
 <li>堆区（动态存储区）：一般由程序员分配释放，存放的是new/malloc分配的内存块，delete/free释放不过new操作索然一般在堆上分配，但也有在栈上分配的，new的内存分配区抽象来说应该是自由存储区</li>
 <li>全局/静态区：存放全局和静态变量</li>
@@ -361,7 +410,7 @@ int _tmain(int argc, _TCHAR* argv[])
 <li>程序代码区：存放函数体的二进制代码</li>
 </ol>
 <hr>
-<h1 id="静态内存分配和动态内存分配"><a href="#静态内存分配和动态内存分配" class="headerlink" title="静态内存分配和动态内存分配"></a>静态内存分配和动态内存分配</h1><p>静态内存分配发生在栈区，由系统实现，自动释放，比如一个数组</p>
+<h2 id="静态内存分配和动态内存分配"><a href="#静态内存分配和动态内存分配" class="headerlink" title="静态内存分配和动态内存分配"></a>静态内存分配和动态内存分配</h2><p>静态内存分配发生在栈区，由系统实现，自动释放，比如一个数组</p>
 <pre><code class="c++">int p[100];</code></pre>
 <p>动态内存分配则是在堆上实现，编译器会自动计算，需要手动释放，一般是new关键字和malloc库函数，一样是定义一个一维数组，<a href="https://blog.csdn.net/Errors_In_Life/article/details/78889951" target="_blank" rel="noopener">分别使用malloc和free</a></p>
 <pre><code class="c++">#include &lt;iostream&gt;
@@ -419,13 +468,13 @@ int main()
     delete []p;
 }</code></pre>
 <hr>
-<h1 id="堆和栈的区别"><a href="#堆和栈的区别" class="headerlink" title="堆和栈的区别"></a>堆和栈的区别</h1><ol>
+<h2 id="堆和栈的区别"><a href="#堆和栈的区别" class="headerlink" title="堆和栈的区别"></a>堆和栈的区别</h2><ol>
 <li>堆存放的是动态分配的内存，栈一般存放一些静态分配的内存，如局部变量和参数等</li>
 <li>堆的地址是从低到高，栈的地址从高到低，所以栈相对有限制，堆更灵活</li>
 <li>栈由系统自动分配和释放，所以速度快；堆需要手动回收，速度较慢，且容易产生碎片</li>
 </ol>
 <hr>
-<h1 id="内存泄露"><a href="#内存泄露" class="headerlink" title="内存泄露"></a><a href="https://www.jianshu.com/p/5770c067a552" target="_blank" rel="noopener">内存泄露</a></h1><p>内存泄漏是指分配了内存却没有回收导致的错误，常见的原因有以下几点：</p>
+<h2 id="内存泄露"><a href="#内存泄露" class="headerlink" title="内存泄露"></a><a href="https://www.jianshu.com/p/5770c067a552" target="_blank" rel="noopener">内存泄露</a></h2><p>内存泄漏是指分配了内存却没有回收导致的错误，常见的原因有以下几点：</p>
 <ol>
 <li>new或者malloc没有及时delete或free</li>
 <li>new []和delete []没有匹配</li>
@@ -433,9 +482,9 @@ int main()
 <li>基类的析构函数没有vurtual，当基类的指针指向子类时，delete该对象时，不会调用子类的析构函数</li>
 </ol>
 <hr>
-<h1 id="内存溢出"><a href="#内存溢出" class="headerlink" title="内存溢出"></a>内存溢出</h1><p>程序在申请内存时，没有足够的内存空间供其使用，内存泄漏最终会导致内存溢出</p>
+<h2 id="内存溢出"><a href="#内存溢出" class="headerlink" title="内存溢出"></a>内存溢出</h2><p>程序在申请内存时，没有足够的内存空间供其使用，内存泄漏最终会导致内存溢出</p>
 <hr>
-<h1 id="段错误"><a href="#段错误" class="headerlink" title="段错误"></a>段错误</h1><p>访问了受保护或者不存在的内存，具体原因有如下：</p>
+<h2 id="段错误"><a href="#段错误" class="headerlink" title="段错误"></a>段错误</h2><p>访问了受保护或者不存在的内存，具体原因有如下：</p>
 <ol>
 <li>数组越界，数据类型不一致</li>
 <li>有些内存是内核占用的或者是其他程序正在使用，比如操作一个文件时，另外一个程序也想要操作这个文件</li>
@@ -459,21 +508,138 @@ int *q=const_cast&lt;int*&gt; (p);</code></pre>
 <ol start="2">
 <li>static_cast</li>
 </ol>
-<p>一个是用在基本数据之间的转换，一个是用在子类转父类，虽然也可以父类转子类，但是不安全，不会检测类型，主要是虚函数的检测</p>
+<p>一个是基本的数据类型之间的转换如int和char<br>一个是非多态下，子类转基类，基类转子类，多态下的基类转自类不安全，会退出</p>
+<pre><code class="c++">class A
+{
+public:
+    void fun() {};
+};
+class B : public A
+{
+
+};
+class C : public A
+{
+public:
+    virtual void fun() {};
+    void fun2() {};
+};
+
+
+int main()
+{
+    int n = 9;
+    char s = static_cast&lt;char&gt;(n); //基本的数据类型转换
+
+    A *a = new A;
+    B *b = new B;
+    //C *c = new C;
+    //D *d = new D;
+    a = static_cast&lt;A*&gt;(b); //上行，子类转基类安全
+    b = static_cast&lt;B*&gt;(a); //下行，非多态下基类转子类安全
+    C *c = static_cast&lt;C*&gt;(a); //下行，多态下，不安全，但是没出错
+}</code></pre>
 <ol start="3">
 <li>dynamic_cast</li>
 </ol>
-<p>子类转父类安全，父类转子类也是安全的，如果虚函数里的数据类型检测一致，将成功转化，不一致将返回nullptr</p>
+<p>和static_cast类似，不过上行下行都是安全的，下行失败返回null，而不是退出</p>
 <ol start="4">
 <li>reinterpret_cast</li>
 </ol>
 <p>强制类型转换符用来处理无关类型转换的</p>
 <pre><code class="c++"> int *ptr = new int(233);
  uint32_t ptr_addr = reinterpret_cast&lt;uint32_t&gt;(ptr);</code></pre>
+<hr>
 <h1 id="一个C-源文件从文本到可执行文件经历的过程"><a href="#一个C-源文件从文本到可执行文件经历的过程" class="headerlink" title="一个C++源文件从文本到可执行文件经历的过程"></a>一个C++源文件从文本到可执行文件经历的过程</h1><p>1）预编译，预编译的时候做一些简单的文本替换，比如宏替换，而不进行语法的检查；</p>
 <p>2）编译，在编译阶段，编译器将检查一些语法错误，但是，如果使用的函数事先没有定义这种情况，不再这一阶段检查，编译后C/C++代码变为汇编代码，得到.s文件</p>
 <p>3）汇编，汇编代码变为机器码，得到.o或者.obj文件</p>
 <p>4）链接，将所用到的外部文件链接在一起，在这一阶段，就会检查使用的函数有没有定义，链接过后，形成可执行文件.exe</p>
+<hr>
+<h1 id="移动拷贝函数、移动赋值函数和拷贝构造函数，拷贝赋值函数"><a href="#移动拷贝函数、移动赋值函数和拷贝构造函数，拷贝赋值函数" class="headerlink" title="移动拷贝函数、移动赋值函数和拷贝构造函数，拷贝赋值函数"></a>移动拷贝函数、移动赋值函数和拷贝构造函数，拷贝赋值函数</h1><pre><code class="c++">#include &lt;iostream&gt;
+
+using namespace std;
+
+class A
+{
+public:
+    A() { cout &lt;&lt; &quot;A构造&quot; &lt;&lt; endl; };
+    A(char* p) :name(p){ cout &lt;&lt; &quot;A带参构造&quot; &lt;&lt; endl; };
+    ~A() { cout &lt;&lt; &quot;A析构&quot; &lt;&lt; endl; };
+
+    A(A&amp; t)//拷贝构造函数
+    {
+        cout &lt;&lt; &quot;拷贝构造函数&quot; &lt;&lt; endl;
+        if (t.name) this-&gt;name = t.name;
+        //或者深拷贝
+        if (t.name)
+        {
+            int lenth = strlen(t.name);
+            this-&gt;name = new char[lenth + 1];
+            strcpy(this-&gt;name, t.name);
+        }
+    }
+    A&amp; operator=(A&amp; t) //拷贝赋值函数
+    {
+        cout &lt;&lt; &quot;拷贝赋值函数&quot; &lt;&lt; endl;
+        if (this != &amp;t)
+        {
+            delete name;//删除原有内存
+            if (t.name)
+            {
+                int lenth = strlen(t.name);
+                this-&gt;name = new char[lenth + 1];
+                strcpy(this-&gt;name, t.name);
+            }
+        }
+        return *this;
+    }
+
+    A(A &amp;&amp;t) //移动构造函数
+    {
+        cout &lt;&lt; &quot;移动构造函数&quot; &lt;&lt; endl;
+        if (t.name)
+        {
+            this-&gt;name = t.name;
+            t.name = nullptr; //t析构更安全
+        }
+    }
+    A* operator=(A &amp;&amp;t) //移动赋值函数
+    {
+
+        cout &lt;&lt; &quot;移动赋值函数&quot; &lt;&lt; endl;
+        if (t.name)
+        {
+            delete name;
+            this-&gt;name = t.name;
+            t.name = nullptr; //t析构更安全
+        }
+        return this;
+    }
+private:
+    char *name;
+};
+
+int main() {
+    char *p=&quot;ok&quot;;
+    A a=A(p); //1
+    A b; //2
+    b = a; //3
+    A c = A(a); //4
+    A d = move(c); //5
+    d = move(b); /6
+}
+
+1.带参构造
+2.A构造
+3.拷贝赋值函数
+4.拷贝构造函数
+5.移动构造函数
+6.移动赋值函数
+A析构
+A析构
+A析构
+A析构</code></pre>
+<hr>
 
         </div>
 
