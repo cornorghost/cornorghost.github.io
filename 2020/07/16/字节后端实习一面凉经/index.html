@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     
-    <title>Tag | 面试 | LIANGYUE&#39;BLOG</title>
+    <title>字节后端实习一面凉经 | LIANGYUE&#39;BLOG</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
     
@@ -99,48 +99,197 @@
     <div class="main">
       <section class="inner">
         <section class="inner-main">
-          
+          <div class="post">
+    <article id="post-ckcuao6gg0001ewvebgep54xw" class="article article-type-post" itemscope
+    itemprop="blogPost">
+
+    <div class="article-inner">
+
+        
+
+        
+        <header class="article-header">
+            
   
+    <h1 class="article-title" itemprop="name">
+      字节后端实习一面凉经
+    </h1>
   
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2020" class="archive-year">2020</a>
+
+        </header>
+        
+
+        <div class="article-more-info article-more-info-post hairline">
+
+            <div class="article-date">
+  <time datetime="2020-07-16T07:37:00.000Z" itemprop="datePublished">2020-07-16</time>
+</div>
+
+            
+            <div class="article-category">
+                <a class="article-category-link" href="/categories/c/">c++</a>,<a class="article-category-link" href="/categories/%E9%9D%A2%E8%AF%95/">面试</a>
+            </div>
+            
+
+            
+            <div class="article-tag">
+                <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/c/" rel="tag">c++</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8/" rel="tag">字节跳动</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%9D%A2%E7%BB%8F/" rel="tag">面经</a></li></ul>
+            </div>
+            
+
+            
+            <div class="article-busuanzi">
+                有 <span id="busuanzi_value_page_pv">N</span> 人看过
+            </div>
+            
         </div>
-        <div class="archives">
+
+        <div class="article-entry post-inner-html hairline" itemprop="articleBody">
+            <blockquote>
+<p>凉经</p>
+</blockquote>
+<a id="more"></a>
+
+<p>真的问的很简单，不过我太弱了，最后的反转链表出错了，找不到bug，吸取教训吧，多刷题</p>
+<ol>
+<li>自我介绍</li>
+<li>虚函数</li>
+<li>cast（显式转换，三种）</li>
+<li>说说socket的基本步骤</li>
+<li>进程间通信方式</li>
+<li>TCP和UDP区别</li>
+<li>TCP属于哪一层</li>
+<li>网络层有什么协议</li>
+<li>http请求头有什么关键字段</li>
+<li>https了解吗，说说</li>
+<li>https怎么加密的，对称和非对称加密说一下（不知道）</li>
+<li>反转链表（这个我真的服了，很简单，就是有bug，面试官说这个解不出来你肯定过不了），下面是我当时写的，多写了一行p2</li>
+</ol>
+<pre><code class="c++">#include &lt;iostream&gt;
+using namespace std;
+
+struct ListNode
+{
+public:
+    int val;
+    struct ListNode *next;
+};
+
+class Solution {
+public:
+    ListNode *ReverseList(ListNode *pHead)
+    {
+        ListNode *p0 = nullptr;
+        ListNode *p1 = pHead;
+        ListNode *p2 = pHead-&gt;next;
+        while (p1)
+        {
+            p1-&gt;next = p0;
+            //p2-&gt;next=p1;            //万恶的一行，因为加了这一个，我的返回一直是空，服了，也怪我吧，原理没弄好
+
+            p0 = p1;
+            p1 = p2;
+            if (p2) p2 = p2-&gt;next;
+        }
+
+        return p0;
+    }
+};
+
+int main()
+{
+    ListNode list[5];
+    list[0].val = 1;
+    list[0].next = &amp;list[1];
+    list[1].val = 2;
+    list[1].next = &amp;list[2];
+    list[2].val = 3;
+    list[2].next = &amp;list[3];
+    list[3].val = 4;
+    list[3].next = &amp;list[4];
+    list[4].val = 5;
+    list[4].next = NULL;
+
+    ListNode *node = list;
+    cout &lt;&lt; endl;
+    Solution solu;
+    node = solu.ReverseList(list);
+    while (node != NULL)
+    {
+        cout &lt;&lt; node-&gt;val;
+        node = node-&gt;next;
+    }
+    cout &lt;&lt; endl;
+    return 0;
+}</code></pre>
+<p><img src="https://uploadfiles.nowcoder.com/images/20200716/522119087_1594885089882_EBABC9AEDB9312464E2CCD714FCF80FF" alt="image-20200716151735129"></p>
+<p>不过面试官人还挺好的，就是说的声音太小，他说cast我还以为const，后面我以为还有别的编程题，结果直接凉了，太弱了，明天开始我要刷爆题库</p>
+
+        </div>
+
+    </div>
+
     
-    <article class="archive-article archive-type-post">
+
+    
+
+    
+
+    
+
+    
+
+    
+<nav class="article-nav">
+  
+    <a href="/2020/07/16/%E9%80%86%E8%BD%AC%E9%93%BE%E8%A1%A8/" id="article-nav-newer" class="article-nav-link-wrap">
+      <div class="article-nav-caption">下一篇</div>
+      <div class="article-nav-title">
+        
+          基本算法：逆转链表
+        
+      </div>
+    </a>
   
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/07/16/%E5%AD%97%E8%8A%82%E5%90%8E%E7%AB%AF%E5%AE%9E%E4%B9%A0%E4%B8%80%E9%9D%A2%E5%87%89%E7%BB%8F/">字节后端实习一面凉经</a>
-    </h1>
+    <a href="/2020/07/13/%E9%9D%A2%E8%AF%95%E9%97%AE%E9%A2%98-c-%E5%9F%BA%E7%A1%80/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-caption">上一篇</div>
+      <div class="article-nav-title">面试问题-c++基础</div>
+    </a>
   
+</nav>
+
+
+    <section class="share">
+        <div class="share-title">分享</div>
+        <a class="share-item" target="_blank"
+            href="https://twitter.com/share?text=字节后端实习一面凉经 - LIANGYUE'BLOG&url=http://www.openrad.ink/2020/07/16/%E5%AD%97%E8%8A%82%E5%90%8E%E7%AB%AF%E5%AE%9E%E4%B9%A0%E4%B8%80%E9%9D%A2%E5%87%89%E7%BB%8F/">
+            <box-icon type='logo' name='twitter'></box-icon>
+        </a>
+        <a class="share-item" target="_blank"
+            href="https://www.facebook.com/sharer.php?title=字节后端实习一面凉经 - LIANGYUE'BLOG&u=http://www.openrad.ink/2020/07/16/%E5%AD%97%E8%8A%82%E5%90%8E%E7%AB%AF%E5%AE%9E%E4%B9%A0%E4%B8%80%E9%9D%A2%E5%87%89%E7%BB%8F/">
+            <box-icon name='facebook-square' type='logo' ></box-icon>
+        </a>
+        <!-- <a class="share-item" target="_blank"
+            href="https://service.weibo.com/share/share.php?title=字节后端实习一面凉经 - LIANGYUE'BLOG&url=http://www.openrad.ink/2020/07/16/%E5%AD%97%E8%8A%82%E5%90%8E%E7%AB%AF%E5%AE%9E%E4%B9%A0%E4%B8%80%E9%9D%A2%E5%87%89%E7%BB%8F/&pic=">
+            <div class="n-icon n-icon-weibo"></div>
+        </a> -->
+    </section>
 
 </article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/07/13/%E9%9D%A2%E8%AF%95%E9%97%AE%E9%A2%98-c-%E5%9F%BA%E7%A1%80/">面试问题-c++基础</a>
-    </h1>
-  
-
-</article>
-  
-  
-    </div></section>
-  
 
 
 
 
+<section class="comments">
+    <div id="gitalk-container"></div>
+</section>
+
+
+
+<script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+</div>
         </section>
       </section>
       <aside class="sidebar">
@@ -148,6 +297,12 @@
           
 
   
+  <div class="widget-wrap">
+    <div class="widget-inner">
+      <div class="toc post-toc-html"></div>
+    </div>
+  </div>
+
 
   
   <div class="widget-wrap widget-cate">
