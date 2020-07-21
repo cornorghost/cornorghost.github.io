@@ -100,7 +100,7 @@
       <section class="inner">
         <section class="inner-main">
           <div class="post">
-    <article id="post-ckcvdvdn3000674ve6k7sf27i" class="article article-type-post" itemscope
+    <article id="post-ckcveea3w0005asve8y4bfc5i" class="article article-type-post" itemscope
     itemprop="blogPost">
 
     <div class="article-inner">
@@ -155,7 +155,7 @@
 <h1 id="主机端安装hexo出现问题，可忽略"><a href="#主机端安装hexo出现问题，可忽略" class="headerlink" title="主机端安装hexo出现问题，可忽略"></a>主机端安装hexo出现问题，可忽略</h1><p>optional install error: Package require os(darwin) not compatible with your platform(win3）</p>
 <h1 id="没有可用软件包nginx"><a href="#没有可用软件包nginx" class="headerlink" title="没有可用软件包nginx"></a>没有可用软件包nginx</h1><pre><code>sudo yum install epel-release
 yum update</code></pre><h1 id="图片不显示"><a href="#图片不显示" class="headerlink" title="图片不显示"></a>图片不显示</h1><p>官方文档插入图片时用这种方式：</p>
-<h1 id="git上传文件没有同步到自定义的网页文件夹"><a href="#git上传文件没有同步到自定义的网页文件夹" class="headerlink" title="git上传文件没有同步到自定义的网页文件夹"></a>git上传文件没有同步到自定义的网页文件夹</h1><ol>
+<pre><code>{% asset_img test.jpg This is an test image %}</code></pre><h1 id="git上传文件没有同步到自定义的网页文件夹"><a href="#git上传文件没有同步到自定义的网页文件夹" class="headerlink" title="git上传文件没有同步到自定义的网页文件夹"></a>git上传文件没有同步到自定义的网页文件夹</h1><ol>
 <li>可能是没有git钩子执行成功，尝试直接输入运行，看看文件夹里有没有文件，就是git-dir对应的地址<pre><code>git --work-tree=/home/www/website --git-dir=/home/git/blog.git checkout -f
 </code></pre></li>
 </ol>
