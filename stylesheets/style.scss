@@ -795,10 +795,16 @@ a:hover {
             display: flex;
 
             span {
-                line-height: 20px;
+                line-height: 4rem;
                 margin-right: 5px;
                 user-select: none;
             }
+        }
+		
+        .footer-icp {
+            color: $color-white;
+            display: flex;
+            line-height: 4rem;
         }
 
         .footer-powered {
@@ -808,13 +814,13 @@ a:hover {
         }
 
         img {
-            margin-right: 7px;
+            margin-right: 5px;
             width: 14px;
         }
 
         a {
             color: $color-white;
-            text-decoration: underline;
+            text-decoration: none;
         }
     }
 }
