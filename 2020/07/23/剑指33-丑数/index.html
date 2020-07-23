@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     
-    <title>Tag | 算法 | LIANGYUE&#39;BLOG</title>
+    <title>剑指33-丑数 | LIANGYUE&#39;BLOG</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
     
@@ -98,48 +98,163 @@
     <div class="main">
       <section class="inner">
         <section class="inner-main">
-          
+          <div class="post">
+    <article id="post-ckcyzmdau0005ioveff8a6z5o" class="article article-type-post" itemscope
+    itemprop="blogPost">
+
+    <div class="article-inner">
+
+        
+
+        
+        <header class="article-header">
+            
   
+    <h1 class="article-title" itemprop="name">
+      剑指33-丑数
+    </h1>
   
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2020" class="archive-year">2020</a>
+
+        </header>
+        
+
+        <div class="article-more-info article-more-info-post hairline">
+
+            <div class="article-date">
+  <time datetime="2020-07-23T15:48:53.000Z" itemprop="datePublished">2020-07-23</time>
+</div>
+
+            
+            <div class="article-category">
+                <a class="article-category-link" href="/categories/%E7%AE%97%E6%B3%95%EF%BC%8C%E5%89%91%E6%8C%87offer/">算法，剑指offer</a>
+            </div>
+            
+
+            
+            <div class="article-tag">
+                <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/leetcode/" rel="tag">leetcode</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%89%91%E6%8C%87offer/" rel="tag">剑指offer</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li></ul>
+            </div>
+            
+
+            
+            <div class="article-busuanzi">
+                有 <span id="busuanzi_value_page_pv">N</span> 人看过
+            </div>
+            
         </div>
-        <div class="archives">
+
+        <div class="article-entry post-inner-html hairline" itemprop="articleBody">
+            <blockquote>
+<p>穷举，多解法</p>
+</blockquote>
+<a id="more"></a>
+
+<p>这个拿到我只能想到暴力遍历，遍历每个数，看是不是丑数，那怎么判断丑数呢：</p>
+<pre><code>一个数只要能被2或3或5整除，就一直除以这三个数，最后结果为1，则为丑数，不为1，则不为丑数</code></pre><h1 id="解法1："><a href="#解法1：" class="headerlink" title="解法1："></a>解法1：</h1><pre><code class="c++">class Solution { //效率太低不通过
+public:
+    int GetUglyNumber_Solution(int index) {
+        int res = 0;
+        int i = 0;
+        while (index)
+        {
+            if (isUglyNumber(i)) {
+                index--;
+                res = i;
+            }
+            i++;
+        }
+        return res;
+    }
+
+    bool isUglyNumber(int num)
+    {
+        if (num &lt;= 0) return false;
+        while (num % 2 == 0) num /= 2;
+        while (num % 3 == 0) num /= 3;
+        while (num % 5 == 0) num /= 5;
+        return (num == 1) ? true : false;
+    }
+};</code></pre>
+<p>但是这个做法在剑指或是力扣上都是超时的，不得不放弃这个方法，看了题解，豁然开朗</p>
+<h1 id="解法2："><a href="#解法2：" class="headerlink" title="解法2："></a>解法2：</h1><pre><code>丑数都是又丑数*2或*3或*5得来的，只要我们用丑数一直乘这三个数，并更新底数，就能得到所有的丑数，但是这样得到的丑数无序而且还有重复的
+可以用一个数组来存储下一个应该存放的值，定义三个指针p2, p3, p5，记录的是当前的位置，初始化为0
+然后每次p2的值*2，p3的值*3，p5的值*5，选取这三个中最小的那个放在数组后面
+添加后，对应指针向前++
+这样可以保证每次添加的丑数都在正确位置</code></pre><pre><code class="c++">class Solution {
+public:
+    int GetUglyNumber_Solution(int index) {
+        if (index &lt;= 0) return 0;
+        vector&lt;int&gt; res(index, 0);
+        res[0] = 1;
+        int p2 = 0, p3 = 0, p5 = 0;
+        for (int i = 1; i &lt; index; i++)
+        {
+            res[i] = min(res[p2] * 2, min(res[p3] * 3, res[p5] * 5)); //关键点，选取最小的
+            if (res[i] == res[p2] * 2) p2++;
+            if (res[i] == res[p3] * 3) p3++;
+            if (res[i] == res[p5] * 5) p5++;
+        }
+
+        return res[index - 1];
+    }
+};</code></pre>
+
+        </div>
+
+    </div>
+
     
-    <article class="archive-article archive-type-post">
+
+    
+
+    
+
+    
+
+    
+
+    
+<nav class="article-nav">
   
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/07/23/%E5%89%91%E6%8C%8733-%E4%B8%91%E6%95%B0/">剑指33-丑数</a>
-    </h1>
+    <a href="/2020/07/22/hexo%E6%9C%AC%E5%9C%B0%E5%92%8C%E8%BF%9C%E7%A8%8B%E9%A2%84%E8%A7%88%E4%B8%8D%E4%B8%80%E8%87%B4/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-caption">上一篇</div>
+      <div class="article-nav-title">hexo本地和远程预览不一致</div>
+    </a>
   
+</nav>
+
+
+    <section class="share">
+        <div class="share-title">分享</div>
+        <a class="share-item" target="_blank"
+            href="https://twitter.com/share?text=剑指33-丑数 - LIANGYUE'BLOG&url=http://www.openrad.ink/2020/07/23/%E5%89%91%E6%8C%8733-%E4%B8%91%E6%95%B0/">
+            <box-icon type='logo' name='twitter'></box-icon>
+        </a>
+        <a class="share-item" target="_blank"
+            href="https://www.facebook.com/sharer.php?title=剑指33-丑数 - LIANGYUE'BLOG&u=http://www.openrad.ink/2020/07/23/%E5%89%91%E6%8C%8733-%E4%B8%91%E6%95%B0/">
+            <box-icon name='facebook-square' type='logo' ></box-icon>
+        </a>
+        <!-- <a class="share-item" target="_blank"
+            href="https://service.weibo.com/share/share.php?title=剑指33-丑数 - LIANGYUE'BLOG&url=http://www.openrad.ink/2020/07/23/%E5%89%91%E6%8C%8733-%E4%B8%91%E6%95%B0/&pic=">
+            <div class="n-icon n-icon-weibo"></div>
+        </a> -->
+    </section>
 
 </article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/07/16/%E9%80%86%E8%BD%AC%E9%93%BE%E8%A1%A8/">基本算法：逆转链表</a>
-    </h1>
-  
-
-</article>
-  
-  
-    </div></section>
-  
 
 
 
 
+<section class="comments">
+    <div id="gitalk-container"></div>
+</section>
+
+
+
+<script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+</div>
         </section>
       </section>
       <aside class="sidebar">
@@ -147,6 +262,12 @@
           
 
   
+  <div class="widget-wrap">
+    <div class="widget-inner">
+      <div class="toc post-toc-html"></div>
+    </div>
+  </div>
+
 
   
   <div class="widget-wrap widget-cate">
