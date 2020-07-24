@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     
-    <title>Category | c++基础 | LIANGYUE&#39;BLOG</title>
+    <title>剑指34-第一个只出现一次的字符 | LIANGYUE&#39;BLOG</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
     
@@ -98,36 +98,133 @@
     <div class="main">
       <section class="inner">
         <section class="inner-main">
-          
+          <div class="post">
+    <article id="post-ckczl2kk0000f04vegjkxg5vp" class="article article-type-post" itemscope
+    itemprop="blogPost">
+
+    <div class="article-inner">
+
+        
+
+        
+        <header class="article-header">
+            
   
-  
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2020" class="archive-year">2020</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/07/13/%E9%9D%A2%E8%AF%95%E9%97%AE%E9%A2%98-c-%E5%9F%BA%E7%A1%80/">面试问题-c++基础</a>
+    <h1 class="article-title" itemprop="name">
+      剑指34-第一个只出现一次的字符
     </h1>
   
 
+        </header>
+        
+
+        <div class="article-more-info article-more-info-post hairline">
+
+            <div class="article-date">
+  <time datetime="2020-07-24T01:47:22.000Z" itemprop="datePublished">2020-07-24</time>
+</div>
+
+            
+            <div class="article-category">
+                <a class="article-category-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+            </div>
+            
+
+            
+            <div class="article-tag">
+                <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/leetcode/" rel="tag">leetcode</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%89%91%E6%8C%87offer/" rel="tag">剑指offer</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%93%88%E5%B8%8C%E8%A1%A8/" rel="tag">哈希表</a></li></ul>
+            </div>
+            
+
+            
+            <div class="article-busuanzi">
+                有 <span id="busuanzi_value_page_pv">N</span> 人看过
+            </div>
+            
+        </div>
+
+        <div class="article-entry post-inner-html hairline" itemprop="articleBody">
+            <blockquote>
+<p>哈希表</p>
+</blockquote>
+<a id="more"></a>
+
+<pre><code>在一个字符串(0&lt;=字符串长度&lt;=10000，全部由字母组成)中找到第一个只出现一次的字符,并返回它的位置, 如果没有则返回 -1（需要区分大小写）.（从0开始计数）</code></pre><pre><code>这是很简单的哈希表的题目，遍历一次，出现的元素++，然后在遍历一次，找到次数只有1的第一个字符，返回索引</code></pre><h1 id="解法"><a href="#解法" class="headerlink" title="解法"></a>解法</h1><pre><code class="c++">class Solution {
+public:
+    int FirstNotRepeatingChar(string str) {
+        if (str.empty()) return -1;
+        map&lt;char, int&gt;res;
+        for (int i = 0; i &lt; str.size();i++)
+        {
+            res[str[i]]++;
+
+        }
+        for (int i = 0; i &lt; str.size(); i++)
+        {
+            if (res[str[i]] == 1)
+            {
+                return i;
+            }
+        }
+};</code></pre>
+<p>顺便想吐槽一下最近，老师的破事太多，做题积极性不是特别高涨，有些很简单的弱智错误我也经常犯，代码总是出bug找不到，必须拿到本地调试才看得到，很受打击，而且还接了个家教的活，教初中生c++，只能靠教教初中生维持生活</p>
+
+        </div>
+
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+<nav class="article-nav">
+  
+  
+    <a href="/2020/07/23/%E5%89%91%E6%8C%8733-%E4%B8%91%E6%95%B0/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-caption">上一篇</div>
+      <div class="article-nav-title">剑指33-丑数</div>
+    </a>
+  
+</nav>
+
+
+    <section class="share">
+        <div class="share-title">分享</div>
+        <a class="share-item" target="_blank"
+            href="https://twitter.com/share?text=剑指34-第一个只出现一次的字符 - LIANGYUE'BLOG&url=http://www.openrad.ink/2020/07/24/%E5%89%91%E6%8C%8734-%E7%AC%AC%E4%B8%80%E4%B8%AA%E5%8F%AA%E5%87%BA%E7%8E%B0%E4%B8%80%E6%AC%A1%E7%9A%84%E5%AD%97%E7%AC%A6/">
+            <box-icon type='logo' name='twitter'></box-icon>
+        </a>
+        <a class="share-item" target="_blank"
+            href="https://www.facebook.com/sharer.php?title=剑指34-第一个只出现一次的字符 - LIANGYUE'BLOG&u=http://www.openrad.ink/2020/07/24/%E5%89%91%E6%8C%8734-%E7%AC%AC%E4%B8%80%E4%B8%AA%E5%8F%AA%E5%87%BA%E7%8E%B0%E4%B8%80%E6%AC%A1%E7%9A%84%E5%AD%97%E7%AC%A6/">
+            <box-icon name='facebook-square' type='logo' ></box-icon>
+        </a>
+        <!-- <a class="share-item" target="_blank"
+            href="https://service.weibo.com/share/share.php?title=剑指34-第一个只出现一次的字符 - LIANGYUE'BLOG&url=http://www.openrad.ink/2020/07/24/%E5%89%91%E6%8C%8734-%E7%AC%AC%E4%B8%80%E4%B8%AA%E5%8F%AA%E5%87%BA%E7%8E%B0%E4%B8%80%E6%AC%A1%E7%9A%84%E5%AD%97%E7%AC%A6/&pic=">
+            <div class="n-icon n-icon-weibo"></div>
+        </a> -->
+    </section>
+
 </article>
-  
-  
-    </div></section>
-  
 
 
 
 
+<section class="comments">
+    <div id="gitalk-container"></div>
+</section>
+
+
+
+<script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+</div>
         </section>
       </section>
       <aside class="sidebar">
@@ -135,6 +232,12 @@
           
 
   
+  <div class="widget-wrap">
+    <div class="widget-inner">
+      <div class="toc post-toc-html"></div>
+    </div>
+  </div>
+
 
   
   <div class="widget-wrap widget-cate">
