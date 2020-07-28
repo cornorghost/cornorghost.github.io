@@ -267,7 +267,7 @@ a:hover {
             }
 
             .widget-title {
-                color: $color-white;
+                color: $color-light;
                 font-family: 'oswald', sans-serif;
                 font-size: 16px;
                 font-weight: 300;
@@ -322,7 +322,7 @@ a:hover {
                     transition: all 0.2s;
 
                     a {
-                        color: $color-light;
+                        color: $color-type;
                     }
                 }
 
