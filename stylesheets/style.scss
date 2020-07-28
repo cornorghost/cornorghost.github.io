@@ -793,9 +793,9 @@ a:hover {
             align-items: center;
             color: $color-white;
             display: flex;
+            line-height: 4rem;
 
             span {
-                line-height: 4rem;
                 margin-right: 5px;
                 user-select: none;
             }
