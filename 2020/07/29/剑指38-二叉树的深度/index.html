@@ -99,7 +99,7 @@
       <section class="inner">
         <section class="inner-main">
           <div class="post">
-    <article id="post-ckd734akw000mm4ve6z1w69ks" class="article article-type-post" itemscope
+    <article id="post-ckd73g9n2000pdove7l8z4gq4" class="article article-type-post" itemscope
     itemprop="blogPost">
 
     <div class="article-inner">
@@ -150,7 +150,7 @@
 <a id="more"></a>
 
 <h1 id="题目表述"><a href="#题目表述" class="headerlink" title="题目表述"></a>题目表述</h1><p>输入一棵二叉树，求该树的深度。从根结点到叶结点依次经过的结点（含根、叶结点）形成树的一条路径，最长路径的长度为树的深度。</p>
-<h1 id="解法"><a href="#解法" class="headerlink" title="解法"></a>解法</h1><p>一直递归+1就好了，空就返回0，写下来就两行搞定</p>
+<h1 id="解法1"><a href="#解法1" class="headerlink" title="解法1"></a>解法1</h1><p>一直递归+1就好了，空就返回0，写下来就两行搞定</p>
 <pre><code class="c++">#include&lt;algorithm&gt;
 
 using namespace std;
@@ -171,6 +171,28 @@ public:
         return max(TreeDepth(pRoot-&gt;left) + 1, TreeDepth(pRoot-&gt;right) + 1);
     }
 };</code></pre>
+<h1 id="解法2"><a href="#解法2" class="headerlink" title="解法2"></a>解法2</h1><p>参考了一下题解的非递归算法，使用层次遍历，记住每层个数就行</p>
+<pre><code class="c++">链接：https://www.nowcoder.com/questionTerminal/435fb86331474282a3499955f0a41e8b?f=discussion
+来源：牛客网
+
+int TreeDepth(TreeNode* pRoot)
+    {
+     queue&lt;TreeNode*&gt; q;
+        if(!pRoot) return 0;
+        q.push(pRoot);
+        int level=0;
+        while(!q.empty()){
+            int len=q.size();
+            level++;
+            while(len--){
+                TreeNode* tem=q.front(); //记住该层个数
+                q.pop();
+                if(tem-&gt;left) q.push(tem-&gt;left);
+                if(tem-&gt;right) q.push(tem-&gt;right);
+            }
+        }
+        return level;
+    }</code></pre>
 
         </div>
 
