@@ -99,7 +99,7 @@
       <section class="inner">
         <section class="inner-main">
           <div class="post">
-    <article id="post-ckd744xd7000tr8ve5yygbh1g" class="article article-type-post" itemscope
+    <article id="post-ckd747r56000yqcve1jntcymk" class="article article-type-post" itemscope
     itemprop="blogPost">
 
     <div class="article-inner">
@@ -161,7 +161,7 @@
 </li>
 </ul>
 <p><img src="https://img-blog.csdn.net/20180909164251348?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2NTIwMjM1/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="1"></p>
-
+<img src="/2020/07/29/%E5%BD%93%E4%BD%A0%E8%AF%B7%E6%B1%82%E6%B5%8F%E8%A7%88%E5%99%A8%E6%97%B6%E5%8F%91%E7%94%9F%E4%BA%86%E4%BB%80%E4%B9%88/1.png" class="" width="1">
 
 <h2 id="应用层客户端发送http请求"><a href="#应用层客户端发送http请求" class="headerlink" title="应用层客户端发送http请求"></a>应用层客户端发送http请求</h2><p>http报文包括</p>
 <ol>
@@ -188,15 +188,14 @@ user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML,
 </li>
 </ol>
 <h2 id="传输层（建立通讯）"><a href="#传输层（建立通讯）" class="headerlink" title="传输层（建立通讯）"></a>传输层（建立通讯）</h2><p>服务器与客户端建立可靠的TCP连接<br><img src="https://img-blog.csdn.net/20180909171503878?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2NTIwMjM1/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt=""></p>
-
+<img src="/2020/07/29/%E5%BD%93%E4%BD%A0%E8%AF%B7%E6%B1%82%E6%B5%8F%E8%A7%88%E5%99%A8%E6%97%B6%E5%8F%91%E7%94%9F%E4%BA%86%E4%BB%80%E4%B9%88/2.png" class="" width="2">
 
 <h2 id="网络层（解析地址）"><a href="#网络层（解析地址）" class="headerlink" title="网络层（解析地址）"></a>网络层（解析地址）</h2><p>IP协议的作用是把TCP分割好的各种数据包传送给接收方。而要保证确实能传到接收方还需要接收方的MAC地址，也就是物理地址。IP地址和MAC地址是一一对应的关系，一个网络设备的IP地址可以更换，但是MAC地址一般是固定不变的。ARP协议可以将IP地址解析成对应的MAC地址。当通信的双方不在同一个局域网时，需要多次中转才能到达最终的目标，在中转的过程中需要通过下一个中转站的MAC地址来搜索下一个中转目标<br><img src="https://img-blog.csdn.net/20180909171557218?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2NTIwMjM1/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt=""></p>
-
-
+<img src="/2020/07/29/%E5%BD%93%E4%BD%A0%E8%AF%B7%E6%B1%82%E6%B5%8F%E8%A7%88%E5%99%A8%E6%97%B6%E5%8F%91%E7%94%9F%E4%BA%86%E4%BB%80%E4%B9%88/3.png" class="" width="3">
 <h2 id="链路层"><a href="#链路层" class="headerlink" title="链路层"></a>链路层</h2><p>在网络层找到对方的MAC地址后，就将数据发送到数据链路层传输。至此请求报文已发出，客户端发送请求的阶段结束</p>
 <h2 id="服务器接收报文"><a href="#服务器接收报文" class="headerlink" title="服务器接收报文"></a>服务器接收报文</h2><p>接收端服务器在链路层接收到数据后，删除该层的首部信息并向网络层传递，网络层将接收的数据向传输层传递，在传输层会将传输的数据按序号从组请求报文并传送给应用层。当数据传输到应用层才能算真正接收到由客户端发送过来的HTTP请求</p>
 <p><img src="https://img-blog.csdn.net/2018090917165258?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2NTIwMjM1/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt=""></p>
-
+<img src="/2020/07/29/%E5%BD%93%E4%BD%A0%E8%AF%B7%E6%B1%82%E6%B5%8F%E8%A7%88%E5%99%A8%E6%97%B6%E5%8F%91%E7%94%9F%E4%BA%86%E4%BB%80%E4%B9%88/4.png" class="" width="4">
 
 <h2 id="服务器发送响应报文"><a href="#服务器发送响应报文" class="headerlink" title="服务器发送响应报文"></a>服务器发送响应报文</h2><p>响应报文和请求报文的形式差不多，不过返回了资源，response返回了网页源码</p>
 <pre><code>cache-control: no-cache, must-revalidate, max-age=0, no-store
