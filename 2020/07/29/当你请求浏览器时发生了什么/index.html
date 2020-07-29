@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     
-    <title>hexo本地和远程预览不一致 | LIANGYUE&#39;BLOG</title>
+    <title>当你请求浏览器时发生了什么 | LIANGYUE&#39;BLOG</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
     
@@ -99,7 +99,7 @@
       <section class="inner">
         <section class="inner-main">
           <div class="post">
-    <article id="post-ckd73m8ej00031cve9tzl8st6" class="article article-type-post" itemscope
+    <article id="post-ckd73m8fi000w1cveenxtdy8f" class="article article-type-post" itemscope
     itemprop="blogPost">
 
     <div class="article-inner">
@@ -111,7 +111,7 @@
             
   
     <h1 class="article-title" itemprop="name">
-      hexo本地和远程预览不一致
+      当你请求浏览器时发生了什么
     </h1>
   
 
@@ -121,18 +121,18 @@
         <div class="article-more-info article-more-info-post hairline">
 
             <div class="article-date">
-  <time datetime="2020-07-22T05:37:17.000Z" itemprop="datePublished">2020-07-22</time>
+  <time datetime="2020-07-29T08:18:13.000Z" itemprop="datePublished">2020-07-29</time>
 </div>
 
             
             <div class="article-category">
-                <a class="article-category-link" href="/categories/%E5%8D%9A%E5%AE%A2/">博客</a>
+                <a class="article-category-link" href="/categories/c/">c++</a>
             </div>
             
 
             
             <div class="article-tag">
-                <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8D%9A%E5%AE%A2/" rel="tag">博客</a></li></ul>
+                <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%90%8E%E7%AB%AF/" rel="tag">后端</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C/" rel="tag">网络</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%9D%A2%E8%AF%95/" rel="tag">面试</a></li></ul>
             </div>
             
 
@@ -145,11 +145,66 @@
 
         <div class="article-entry post-inner-html hairline" itemprop="articleBody">
             <blockquote>
-<p>解决hexo本地和服务器预览不一样的问题，强制刷新ctrl+f5</p>
+<p>网络基础</p>
 </blockquote>
 <a id="more"></a>
 
-<p>我一开始以为是hexo d没有成功上传，可是我查看远程文件是成功上传了的，后来我在浏览器强制ctrl+f5，结果样式加载出来了，原来是本地浏览器有缓存</p>
+
+<p>首先你在浏览器输入一个链接，这个链接里包含着域名，请求资源的目录，参数</p>
+<p>假如请求的就是<a href="https://www.bilibili.com/video/BV1Ai4y147MS" target="_blank" rel="noopener">https://www.bilibili.com/video/BV1Ai4y147MS</a></p>
+<h2 id="DNS域名解析"><a href="#DNS域名解析" class="headerlink" title="DNS域名解析"></a>DNS域名解析</h2><ul>
+<li><p>首先查看本地缓存，是否有保存该记录，如果有，直接返回解析的IP</p>
+</li>
+<li><p>若没有，则请求根服务器，也就是root服务器，服务器也会有缓存，如果缓存没有，然后会返回com服务器所在地址，让我们去请求这个服务器</p>
+</li>
+<li><p>请求com服务器，一样有缓存机制，没找到则返回bilibili.com服务器的地址，这个得到的才是最终的服务器地址，返回的服务器IP，这个请求得到服务器IP的过程叫做DNS解析</p>
+</li>
+</ul>
+<p><img src="https://img-blog.csdn.net/20180909164251348?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2NTIwMjM1/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt=""></p>
+<h2 id="应用层客户端发送http请求"><a href="#应用层客户端发送http请求" class="headerlink" title="应用层客户端发送http请求"></a>应用层客户端发送http请求</h2><p>http报文包括</p>
+<ol>
+<li><p>报文首部（请求行+首部字段+其他）</p>
+<pre><code>//发送https://www.bilibili.com/video/BV1Ai4y147MS请求的报文
+:authority: www.bilibili.com
+:method: GET
+:path: /video/BV1Ai4y147MS
+:scheme: https
+accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+accept-encoding: gzip, deflate, br
+accept-language: en-US,en;q=0.9,zh-CN;q=0.8,zh;q=0.7,zh-TW;q=0.6
+cache-control: max-age=0
+cookie: CURRENT_FNVAL=16; _uuid=75CB3AB2-324E-9A06-18FD-1FC54F97B50421709infoc; buvid3=5461C39D-DED5-46B2-B14F-B0A8B23D7D7D155812infoc; rpdid=|(J|lmR|)lum0J&#39;ul)||kmmJk; LIVE_BUVID=AUTO4215800299352148; sid=crvzlqgp; LIVE_PLAYER_TYPE=2; DedeUserID=23774625; DedeUserID__ckMd5=1108b837b6c041d8; SESSDATA=4bcb5668%2C1600843350%2Cb09e1*31; bili_jct=9002ce28a9808c7a03dd3d9433cc5237; CURRENT_QUALITY=80; PVID=1
+sec-fetch-dest: document
+sec-fetch-mode: navigate
+sec-fetch-site: none
+sec-fetch-user: ?1
+upgrade-insecure-requests: 1
+user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.138 Safari/537.36</code></pre></li>
+<li><p>空行</p>
+</li>
+<li><p>报文主体（发送的数据，不一定有）</p>
+</li>
+</ol>
+<h2 id="传输层（建立通讯）"><a href="#传输层（建立通讯）" class="headerlink" title="传输层（建立通讯）"></a>传输层（建立通讯）</h2><p>服务器与客户端建立可靠的TCP连接<br><img src="https://img-blog.csdn.net/20180909171503878?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2NTIwMjM1/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt=""></p>
+<h2 id="网络层（解析地址）"><a href="#网络层（解析地址）" class="headerlink" title="网络层（解析地址）"></a>网络层（解析地址）</h2><p>IP协议的作用是把TCP分割好的各种数据包传送给接收方。而要保证确实能传到接收方还需要接收方的MAC地址，也就是物理地址。IP地址和MAC地址是一一对应的关系，一个网络设备的IP地址可以更换，但是MAC地址一般是固定不变的。ARP协议可以将IP地址解析成对应的MAC地址。当通信的双方不在同一个局域网时，需要多次中转才能到达最终的目标，在中转的过程中需要通过下一个中转站的MAC地址来搜索下一个中转目标<br><img src="https://img-blog.csdn.net/20180909171557218?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2NTIwMjM1/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt=""></p>
+<h2 id="链路层"><a href="#链路层" class="headerlink" title="链路层"></a>链路层</h2><p>在网络层找到对方的MAC地址后，就将数据发送到数据链路层传输。至此请求报文已发出，客户端发送请求的阶段结束</p>
+<h2 id="服务器接收报文"><a href="#服务器接收报文" class="headerlink" title="服务器接收报文"></a>服务器接收报文</h2><p>接收端服务器在链路层接收到数据后，删除该层的首部信息并向网络层传递，网络层将接收的数据向传输层传递，在传输层会将传输的数据按序号从组请求报文并传送给应用层。当数据传输到应用层才能算真正接收到由客户端发送过来的HTTP请求</p>
+<p><img src="https://img-blog.csdn.net/2018090917165258?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2NTIwMjM1/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt=""></p>
+<h2 id="服务器发送响应报文"><a href="#服务器发送响应报文" class="headerlink" title="服务器发送响应报文"></a>服务器发送响应报文</h2><p>响应报文和请求报文的形式差不多，不过返回了资源，response返回了网页源码</p>
+<pre><code>cache-control: no-cache, must-revalidate, max-age=0, no-store
+content-encoding: gzip
+content-type: text/html; charset=utf-8
+date: Sun, 24 May 2020 05:19:17 GMT
+gear: 1
+idc: shjd
+status: 200
+vary: Origin,Accept-Encoding
+vikingrmccache: 141696bv-productionvideoplay-index-av540627671-bv-productionvideoplay-page-av540627671
+x-cache-webcdn: BYPASS from ks-gz-bgp-w-02</code></pre><p><strong>参考地址</strong></p>
+<p><a href="https://www.bilibili.com/video/BV1Ai4y147MS" target="_blank" rel="noopener">https://www.bilibili.com/video/BV1Ai4y147MS</a></p>
+<p><a href="https://www.cnblogs.com/wxgblogs/p/5641643.html" target="_blank" rel="noopener">https://www.cnblogs.com/wxgblogs/p/5641643.html</a></p>
+<p><a href="https://www.cnblogs.com/jesse131/p/6215961.html" target="_blank" rel="noopener">https://www.cnblogs.com/jesse131/p/6215961.html</a></p>
+<p><a href="https://blog.csdn.net/qq_36520235/article/details/82559847" target="_blank" rel="noopener">https://blog.csdn.net/qq_36520235/article/details/82559847</a></p>
 
         </div>
 
@@ -168,19 +223,10 @@
     
 <nav class="article-nav">
   
-    <a href="/2020/07/23/%E5%89%91%E6%8C%8733-%E4%B8%91%E6%95%B0/" id="article-nav-newer" class="article-nav-link-wrap">
-      <div class="article-nav-caption">下一篇</div>
-      <div class="article-nav-title">
-        
-          剑指33-丑数
-        
-      </div>
-    </a>
   
-  
-    <a href="/2020/07/21/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA-hexo-d%E6%9C%8D%E5%8A%A1%E5%99%A8/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2020/07/29/%E5%89%91%E6%8C%8738-%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E6%B7%B1%E5%BA%A6/" id="article-nav-older" class="article-nav-link-wrap">
       <div class="article-nav-caption">上一篇</div>
-      <div class="article-nav-title">博客搭建-hexo+d服务器</div>
+      <div class="article-nav-title">剑指38-二叉树的深度</div>
     </a>
   
 </nav>
@@ -189,15 +235,15 @@
     <section class="share">
         <div class="share-title">分享</div>
         <a class="share-item" target="_blank"
-            href="https://twitter.com/share?text=hexo本地和远程预览不一致 - LIANGYUE'BLOG&url=http://www.openrad.ink/2020/07/22/hexo%E6%9C%AC%E5%9C%B0%E5%92%8C%E8%BF%9C%E7%A8%8B%E9%A2%84%E8%A7%88%E4%B8%8D%E4%B8%80%E8%87%B4/">
+            href="https://twitter.com/share?text=当你请求浏览器时发生了什么 - LIANGYUE'BLOG&url=http://www.openrad.ink/2020/07/29/%E5%BD%93%E4%BD%A0%E8%AF%B7%E6%B1%82%E6%B5%8F%E8%A7%88%E5%99%A8%E6%97%B6%E5%8F%91%E7%94%9F%E4%BA%86%E4%BB%80%E4%B9%88/">
             <box-icon type='logo' name='twitter'></box-icon>
         </a>
         <a class="share-item" target="_blank"
-            href="https://www.facebook.com/sharer.php?title=hexo本地和远程预览不一致 - LIANGYUE'BLOG&u=http://www.openrad.ink/2020/07/22/hexo%E6%9C%AC%E5%9C%B0%E5%92%8C%E8%BF%9C%E7%A8%8B%E9%A2%84%E8%A7%88%E4%B8%8D%E4%B8%80%E8%87%B4/">
+            href="https://www.facebook.com/sharer.php?title=当你请求浏览器时发生了什么 - LIANGYUE'BLOG&u=http://www.openrad.ink/2020/07/29/%E5%BD%93%E4%BD%A0%E8%AF%B7%E6%B1%82%E6%B5%8F%E8%A7%88%E5%99%A8%E6%97%B6%E5%8F%91%E7%94%9F%E4%BA%86%E4%BB%80%E4%B9%88/">
             <box-icon name='facebook-square' type='logo' ></box-icon>
         </a>
         <!-- <a class="share-item" target="_blank"
-            href="https://service.weibo.com/share/share.php?title=hexo本地和远程预览不一致 - LIANGYUE'BLOG&url=http://www.openrad.ink/2020/07/22/hexo%E6%9C%AC%E5%9C%B0%E5%92%8C%E8%BF%9C%E7%A8%8B%E9%A2%84%E8%A7%88%E4%B8%8D%E4%B8%80%E8%87%B4/&pic=">
+            href="https://service.weibo.com/share/share.php?title=当你请求浏览器时发生了什么 - LIANGYUE'BLOG&url=http://www.openrad.ink/2020/07/29/%E5%BD%93%E4%BD%A0%E8%AF%B7%E6%B1%82%E6%B5%8F%E8%A7%88%E5%99%A8%E6%97%B6%E5%8F%91%E7%94%9F%E4%BA%86%E4%BB%80%E4%B9%88/&pic=">
             <div class="n-icon n-icon-weibo"></div>
         </a> -->
     </section>
