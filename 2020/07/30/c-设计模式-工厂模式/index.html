@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     
-    <title>Tag | hexo | LIANGYUE&#39;BLOG</title>
+    <title>c++设计模式-工厂模式 | LIANGYUE&#39;BLOG</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
     
@@ -98,48 +98,237 @@
     <div class="main">
       <section class="inner">
         <section class="inner-main">
-          
+          <div class="post">
+    <article id="post-ckd8qgp370005e4veh2tmhcpk" class="article article-type-post" itemscope
+    itemprop="blogPost">
+
+    <div class="article-inner">
+
+        
+
+        
+        <header class="article-header">
+            
   
+    <h1 class="article-title" itemprop="name">
+      c++设计模式-工厂模式
+    </h1>
   
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2020" class="archive-year">2020</a>
+
+        </header>
+        
+
+        <div class="article-more-info article-more-info-post hairline">
+
+            <div class="article-date">
+  <time datetime="2020-07-30T11:43:34.000Z" itemprop="datePublished">2020-07-30</time>
+</div>
+
+            
+            <div class="article-category">
+                <a class="article-category-link" href="/categories/c/">c++</a>
+            </div>
+            
+
+            
+            <div class="article-tag">
+                <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/c/" rel="tag">c++</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/" rel="tag">工厂模式</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a></li></ul>
+            </div>
+            
+
+            
+            <div class="article-busuanzi">
+                有 <span id="busuanzi_value_page_pv">N</span> 人看过
+            </div>
+            
         </div>
-        <div class="archives">
+
+        <div class="article-entry post-inner-html hairline" itemprop="articleBody">
+            <blockquote>
+<p>工厂模式</p>
+</blockquote>
+<h2 id="1-工厂模式"><a href="#1-工厂模式" class="headerlink" title="1.工厂模式"></a>1.工厂模式</h2><h3 id="1-1适用情况：例如需要读文件，文件类型都是txt，但是文件有3列的、6列的格式，以后还会有其他格式的；或者设计一个物流类，有水路的、陆路的、以后还会有空航；这些需要很多不同类的情况，以后可能还要添加新的类的情况，一般初期会考虑工厂模式"><a href="#1-1适用情况：例如需要读文件，文件类型都是txt，但是文件有3列的、6列的格式，以后还会有其他格式的；或者设计一个物流类，有水路的、陆路的、以后还会有空航；这些需要很多不同类的情况，以后可能还要添加新的类的情况，一般初期会考虑工厂模式" class="headerlink" title="1.1适用情况：例如需要读文件，文件类型都是txt，但是文件有3列的、6列的格式，以后还会有其他格式的；或者设计一个物流类，有水路的、陆路的、以后还会有空航；这些需要很多不同类的情况，以后可能还要添加新的类的情况，一般初期会考虑工厂模式"></a>1.1适用情况：例如需要读文件，文件类型都是txt，但是文件有3列的、6列的格式，以后还会有其他格式的；或者设计一个物流类，有水路的、陆路的、以后还会有空航；这些需要很多不同类的情况，以后可能还要添加新的类的情况，一般初期会考虑工厂模式</h3><h3 id="1-2-优缺点"><a href="#1-2-优缺点" class="headerlink" title="1.2 优缺点"></a>1.2 优缺点</h3><p>优点：符合开闭原则，无需知道设计细节，只需要知道对应的枚举即可获得对象<br>缺点：可能需要设计的类很多，往后拓展可能会有很多个工厂</p>
+<h3 id="1-3-与其他模式关系"><a href="#1-3-与其他模式关系" class="headerlink" title="1.3 与其他模式关系"></a>1.3 与其他模式关系</h3><ul>
+<li><p>在许多设计工作的初期都会使用工厂方法模式 （较为简单， 而且可以更方便地通过子类进行定制）， 随后演化为使用抽象工厂模式、 原型模式或生成器模式 （更灵活但更加复杂）。</p>
+</li>
+<li><p>抽象工厂模式通常基于一组工厂方法，也可以使用原型模式来生成这些类的方法</p>
+</li>
+<li><p>可以同时使用工厂方法和迭代器模式来让子类集合返回不同类型的迭代器， 并使得迭代器与集合相匹配</p>
+</li>
+<li><p>原型并不基于继承， 因此没有继承的缺点。 另一方面， 原型需要对被复制对象进行复杂的初始化。 工厂方法基于继承， 但是它不需要初始化步骤</p>
+</li>
+<li><p>工厂方法是模板方法模式的一种特殊形式。 同时， 工厂方法可以作为一个大型模板方法中的一个步骤</p>
+</li>
+</ul>
+<h3 id="1-3-代码实例"><a href="#1-3-代码实例" class="headerlink" title="1.3 代码实例"></a>1.3 代码实例</h3><pre><code class="c++">/**
+ * The Product interface declares the operations that all concrete products must
+ * implement.
+ */
+
+class Product {
+ public:
+  virtual ~Product() {}
+  virtual std::string Operation() const = 0;
+};
+
+/**
+ * Concrete Products provide various implementations of the Product interface.
+ */
+class ConcreteProduct1 : public Product {
+ public:
+  std::string Operation() const override {
+    return &quot;{Result of the ConcreteProduct1}&quot;;
+  }
+};
+class ConcreteProduct2 : public Product {
+ public:
+  std::string Operation() const override {
+    return &quot;{Result of the ConcreteProduct2}&quot;;
+  }
+};
+
+/**
+ * The Creator class declares the factory method that is supposed to return an
+ * object of a Product class. The Creator&#39;s subclasses usually provide the
+ * implementation of this method.
+ */
+
+class Creator {
+  /**
+   * Note that the Creator may also provide some default implementation of the
+   * factory method.
+   */
+ public:
+  virtual ~Creator(){};
+  virtual Product* FactoryMethod() const = 0;
+  /**
+   * Also note that, despite its name, the Creator&#39;s primary responsibility is
+   * not creating products. Usually, it contains some core business logic that
+   * relies on Product objects, returned by the factory method. Subclasses can
+   * indirectly change that business logic by overriding the factory method and
+   * returning a different type of product from it.
+   */
+
+  std::string SomeOperation() const {
+    // Call the factory method to create a Product object.
+    Product* product = this-&gt;FactoryMethod();
+    // Now, use the product.
+    std::string result = &quot;Creator: The same creator&#39;s code has just worked with &quot; + product-&gt;Operation();
+    delete product;
+    return result;
+  }
+};
+
+/**
+ * Concrete Creators override the factory method in order to change the
+ * resulting product&#39;s type.
+ */
+class ConcreteCreator1 : public Creator {
+  /**
+   * Note that the signature of the method still uses the abstract product type,
+   * even though the concrete product is actually returned from the method. This
+   * way the Creator can stay independent of concrete product classes.
+   */
+ public:
+  Product* FactoryMethod() const override {
+    return new ConcreteProduct1();
+  }
+};
+
+class ConcreteCreator2 : public Creator {
+ public:
+  Product* FactoryMethod() const override {
+    return new ConcreteProduct2();
+  }
+};
+
+/**
+ * The client code works with an instance of a concrete creator, albeit through
+ * its base interface. As long as the client keeps working with the creator via
+ * the base interface, you can pass it any creator&#39;s subclass.
+ */
+void ClientCode(const Creator&amp; creator) {
+  // ...
+  std::cout &lt;&lt; &quot;Client: I&#39;m not aware of the creator&#39;s class, but it still works.\n&quot;
+            &lt;&lt; creator.SomeOperation() &lt;&lt; std::endl;
+  // ...
+}
+
+/**
+ * The Application picks a creator&#39;s type depending on the configuration or
+ * environment.
+ */
+
+int main() {
+  std::cout &lt;&lt; &quot;App: Launched with the ConcreteCreator1.\n&quot;;
+  Creator* creator = new ConcreteCreator1();
+  ClientCode(*creator);
+  std::cout &lt;&lt; std::endl;
+  std::cout &lt;&lt; &quot;App: Launched with the ConcreteCreator2.\n&quot;;
+  Creator* creator2 = new ConcreteCreator2();
+  ClientCode(*creator2);
+
+  delete creator;
+  delete creator2;
+  return 0;
+}</code></pre>
+
+        </div>
+
+    </div>
+
     
-    <article class="archive-article archive-type-post">
+
+    
+
+    
+
+    
+
+    
+
+    
+<nav class="article-nav">
   
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/07/22/hexo%E6%9C%AC%E5%9C%B0%E5%92%8C%E8%BF%9C%E7%A8%8B%E9%A2%84%E8%A7%88%E4%B8%8D%E4%B8%80%E8%87%B4/">hexo本地和远程预览不一致</a>
-    </h1>
+    <a href="/2020/07/30/c-%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-caption">上一篇</div>
+      <div class="article-nav-title">c++设计模式</div>
+    </a>
   
+</nav>
+
+
+    <section class="share">
+        <div class="share-title">分享</div>
+        <a class="share-item" target="_blank"
+            href="https://twitter.com/share?text=c++设计模式-工厂模式 - LIANGYUE'BLOG&url=http://www.openrad.ink/2020/07/30/c-%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/">
+            <box-icon type='logo' name='twitter'></box-icon>
+        </a>
+        <a class="share-item" target="_blank"
+            href="https://www.facebook.com/sharer.php?title=c++设计模式-工厂模式 - LIANGYUE'BLOG&u=http://www.openrad.ink/2020/07/30/c-%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/">
+            <box-icon name='facebook-square' type='logo' ></box-icon>
+        </a>
+        <!-- <a class="share-item" target="_blank"
+            href="https://service.weibo.com/share/share.php?title=c++设计模式-工厂模式 - LIANGYUE'BLOG&url=http://www.openrad.ink/2020/07/30/c-%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/&pic=">
+            <div class="n-icon n-icon-weibo"></div>
+        </a> -->
+    </section>
 
 </article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/07/21/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA-hexo-d%E6%9C%8D%E5%8A%A1%E5%99%A8/">博客搭建-hexo+d服务器</a>
-    </h1>
-  
-
-</article>
-  
-  
-    </div></section>
-  
 
 
 
 
+<section class="comments">
+    <div id="gitalk-container"></div>
+</section>
+
+
+
+<script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+</div>
         </section>
       </section>
       <aside class="sidebar">
@@ -147,6 +336,12 @@
           
 
   
+  <div class="widget-wrap">
+    <div class="widget-inner">
+      <div class="toc post-toc-html"></div>
+    </div>
+  </div>
+
 
   
   <div class="widget-wrap widget-cate">

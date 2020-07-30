@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     
-    <title>Tag | hexo | LIANGYUE&#39;BLOG</title>
+    <title>c++设计模式 | LIANGYUE&#39;BLOG</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
     
@@ -98,48 +98,197 @@
     <div class="main">
       <section class="inner">
         <section class="inner-main">
-          
+          <div class="post">
+    <article id="post-ckd8qgp330003e4vedsy4f11i" class="article article-type-post" itemscope
+    itemprop="blogPost">
+
+    <div class="article-inner">
+
+        
+
+        
+        <header class="article-header">
+            
   
+    <h1 class="article-title" itemprop="name">
+      c++设计模式
+    </h1>
   
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2020" class="archive-year">2020</a>
+
+        </header>
+        
+
+        <div class="article-more-info article-more-info-post hairline">
+
+            <div class="article-date">
+  <time datetime="2020-07-30T11:43:24.000Z" itemprop="datePublished">2020-07-30</time>
+</div>
+
+            
+            <div class="article-category">
+                <a class="article-category-link" href="/categories/c/">c++</a>
+            </div>
+            
+
+            
+            <div class="article-tag">
+                <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/c/" rel="tag">c++</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%9D%A2%E8%AF%95/" rel="tag">面试</a></li></ul>
+            </div>
+            
+
+            
+            <div class="article-busuanzi">
+                有 <span id="busuanzi_value_page_pv">N</span> 人看过
+            </div>
+            
         </div>
-        <div class="archives">
+
+        <div class="article-entry post-inner-html hairline" itemprop="articleBody">
+            <blockquote>
+<p>简介</p>
+</blockquote>
+<h1 id="设计模式"><a href="#设计模式" class="headerlink" title="设计模式"></a>设计模式</h1><p>要深入了解设计模式，首先要知道设计模式都有哪些种类，才能根据你的需求合理设计，是要创建很多类呢，还是一个类有很多不同的类似行为，还是说要根据结构来设计，根据以上说的这三点，可以分为以下三类</p>
+<h2 id="创建型"><a href="#创建型" class="headerlink" title="创建型"></a>创建型</h2><ol>
+<li>工厂[]</li>
+<li>抽象工厂</li>
+<li>生成器</li>
+<li>原型</li>
+</ol>
+<h2 id="结构型"><a href="#结构型" class="headerlink" title="结构型"></a>结构型</h2><ol>
+<li>适配性</li>
+<li>桥接</li>
+<li>组合</li>
+<li>装饰</li>
+<li>外观</li>
+<li>享元</li>
+<li>代理模式</li>
+</ol>
+<h2 id="行为型"><a href="#行为型" class="headerlink" title="行为型"></a>行为型</h2><ol>
+<li>责任链</li>
+<li>命令</li>
+<li>迭代器</li>
+<li>中介者</li>
+<li>备忘录</li>
+<li>观察者</li>
+<li>状态</li>
+<li>策略</li>
+<li>模板</li>
+<li>访问者</li>
+</ol>
+<h1 id="设计模式规则"><a href="#设计模式规则" class="headerlink" title="设计模式规则"></a>设计模式规则</h1><ul>
+<li>依赖倒置原则(DIP)–实现隔离变化<ul>
+<li>高层模块(稳定)不应该依赖于底层模块(变化)，二者都应该依赖于抽象(稳定)。</li>
+<li>抽象(稳定)不应该依赖于实现细节(变化)，细节应该依赖于抽象(稳定)。</li>
+<li>解释，将需要变动的部分，作为稳定公共抽象基类的子类，将公共方法写在基类中，关键方法作为虚函数交给子类实现。调用公共函数时，只用管理基类指针，使用基类指针调用公共虚函数，就可以调用对应的子函数。实现稳定与不稳定的隔离。</li>
+</ul>
+</li>
+<li>开放封闭原则(OCP):<ul>
+<li>对扩展开放，对更改封闭</li>
+<li>类模块应该是可扩展的，但是不可修改。</li>
+<li>解释：增加中间抽象，避免过多的更改，保证可扩展性。</li>
+</ul>
+</li>
+<li>单一职责原则(SRP)<ul>
+<li>一个类应该仅有一个引起它变化的原因。</li>
+<li>变化的方向隐含着类的责任</li>
+</ul>
+</li>
+<li>Liskov替换原则(LSP)<ul>
+<li>子类必须能够替换他们的基类(IS-A)</li>
+<li>继承表达抽象。</li>
+</ul>
+</li>
+<li>接口隔离(ISP)<ul>
+<li>不应该强迫客户程序依赖它们不用的方法。</li>
+<li>接口应该小而完备。</li>
+</ul>
+</li>
+<li>优先使用对象组合，而不是类继承<ul>
+<li>继承类通常为”白箱复用”，对象组合通常为”黑箱复用”。</li>
+<li>继承在某种程度上破坏了封装性，子类父类耦合度高。</li>
+<li>对象组合则只被要求被组合的对象具有良好定义的接口，耦合度低。</li>
+</ul>
+</li>
+<li>封装变化点<ul>
+<li>使用封装来创建对象之间的分界层，让设计者可以在分界层中任意一侧进行修改，而不会对另外一侧产生不良的影响，从而实现层次间的松耦合。</li>
+</ul>
+</li>
+<li>针对接口编程，而不是针对实现编程<ul>
+<li>不将变量类型声明为某个具体的类，而是声明为某个接口。</li>
+<li>客户端程序无需获知对象的具体类型，只需要知道对象所具有的接口。</li>
+<li>减少系统中各个部分的依赖关系，从而实现“高内聚”、“松耦合”的类型设计方案。</li>
+</ul>
+</li>
+</ul>
+<p>参考链接1：<a href="https://blog.csdn.net/u010993820/article/details/80968933" target="_blank" rel="noopener">https://blog.csdn.net/u010993820/article/details/80968933</a></p>
+<p>参考链接2：<a href="https://blog.csdn.net/qq_33854260/article/details/77398781?utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-7.nonecase&amp;depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-7.nonecase" target="_blank" rel="noopener">https://blog.csdn.net/qq_33854260/article/details/77398781?utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-7.nonecase&amp;depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-7.nonecase</a></p>
+<p>参考链接3：<a href="https://refactoringguru.cn/design-patterns/behavioral-patterns" target="_blank" rel="noopener">https://refactoringguru.cn/design-patterns/behavioral-patterns</a></p>
+
+        </div>
+
+    </div>
+
     
-    <article class="archive-article archive-type-post">
+
+    
+
+    
+
+    
+
+    
+
+    
+<nav class="article-nav">
+  
+    <a href="/2020/07/30/c-%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/" id="article-nav-newer" class="article-nav-link-wrap">
+      <div class="article-nav-caption">下一篇</div>
+      <div class="article-nav-title">
+        
+          c++设计模式-工厂模式
+        
+      </div>
+    </a>
   
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/07/22/hexo%E6%9C%AC%E5%9C%B0%E5%92%8C%E8%BF%9C%E7%A8%8B%E9%A2%84%E8%A7%88%E4%B8%8D%E4%B8%80%E8%87%B4/">hexo本地和远程预览不一致</a>
-    </h1>
+    <a href="/2020/07/29/%E5%BD%93%E4%BD%A0%E8%AF%B7%E6%B1%82%E6%B5%8F%E8%A7%88%E5%99%A8%E6%97%B6%E5%8F%91%E7%94%9F%E4%BA%86%E4%BB%80%E4%B9%88/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-caption">上一篇</div>
+      <div class="article-nav-title">当你请求浏览器时发生了什么</div>
+    </a>
   
+</nav>
+
+
+    <section class="share">
+        <div class="share-title">分享</div>
+        <a class="share-item" target="_blank"
+            href="https://twitter.com/share?text=c++设计模式 - LIANGYUE'BLOG&url=http://www.openrad.ink/2020/07/30/c-%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">
+            <box-icon type='logo' name='twitter'></box-icon>
+        </a>
+        <a class="share-item" target="_blank"
+            href="https://www.facebook.com/sharer.php?title=c++设计模式 - LIANGYUE'BLOG&u=http://www.openrad.ink/2020/07/30/c-%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">
+            <box-icon name='facebook-square' type='logo' ></box-icon>
+        </a>
+        <!-- <a class="share-item" target="_blank"
+            href="https://service.weibo.com/share/share.php?title=c++设计模式 - LIANGYUE'BLOG&url=http://www.openrad.ink/2020/07/30/c-%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/&pic=">
+            <div class="n-icon n-icon-weibo"></div>
+        </a> -->
+    </section>
 
 </article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/07/21/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA-hexo-d%E6%9C%8D%E5%8A%A1%E5%99%A8/">博客搭建-hexo+d服务器</a>
-    </h1>
-  
-
-</article>
-  
-  
-    </div></section>
-  
 
 
 
 
+<section class="comments">
+    <div id="gitalk-container"></div>
+</section>
+
+
+
+<script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+</div>
         </section>
       </section>
       <aside class="sidebar">
@@ -147,6 +296,12 @@
           
 
   
+  <div class="widget-wrap">
+    <div class="widget-inner">
+      <div class="toc post-toc-html"></div>
+    </div>
+  </div>
+
 
   
   <div class="widget-wrap widget-cate">
