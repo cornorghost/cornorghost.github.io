@@ -99,7 +99,7 @@
       <section class="inner">
         <section class="inner-main">
           <div class="post">
-    <article id="post-ckd90kewx000auwve0lqw9qm4" class="article article-type-post" itemscope
+    <article id="post-ckd9q0xda000aosveb8i1c8pv" class="article article-type-post" itemscope
     itemprop="blogPost">
 
     <div class="article-inner">
@@ -196,9 +196,14 @@ baseurl=https://mirrors.tuna.tsinghua.edu.cn/centos/$releasever/centosplus/$base
 #mirrorlist=http://mirrorlist.centos.org/?release=$releasever&amp;arch=$basearch&amp;repo=centosplus
 gpgcheck=1
 enabled=0
-gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7</code></pre><p>你也可以使用wget获取文件，这是阿里云的，然后替换原来的CentOS-Base.repo文件</p>
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7</code></pre><p>更新yum</p>
+<pre><code># 建立缓存
+yum makecache
+
+# 重新安装EPEL仓库
+yum install epel-release</code></pre><p>你也可以使用wget获取CentOS-Base.repo文件，这是阿里云的，然后替换原来的CentOS-Base.repo文件</p>
 <pre><code>wget -O /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo</code></pre><p>不过这时候一般wget时失灵的，因为没网，可以手动下载再上传到该文件夹</p>
-<h1 id="修改DNS"><a href="#修改DNS" class="headerlink" title="修改DNS"></a>修改DNS</h1><p>首先查看网卡名字</p>
+<h1 id="修改DNS"><a href="#修改DNS" class="headerlink" title="修改DNS"></a>修改DNS</h1><p>这是不能ping baidu.com失败后推荐的尝试<br>首先查看网卡名字</p>
 <pre><code>ip add</code></pre><img src="/2020/07/31/centos7%E8%BF%9E%E4%B8%8D%E4%B8%8A%E7%BD%91%E8%A7%A3%E5%86%B3/image-20200708201246401.png" class="" title="image-20200708201246401.png">
 
 <p>然后去修改配置文件，输入：</p>
