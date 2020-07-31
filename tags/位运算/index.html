@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     
-    <title>c++实现常用排序算法(全) | LIANGYUE&#39;BLOG</title>
+    <title>Tag | 位运算 | LIANGYUE&#39;BLOG</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
     
@@ -98,323 +98,36 @@
     <div class="main">
       <section class="inner">
         <section class="inner-main">
-          <div class="post">
-    <article id="post-ckd9s2q5d000170vedzbqg0o7" class="article article-type-post" itemscope
-    itemprop="blogPost">
-
-    <div class="article-inner">
-
-        
-
-        
-        <header class="article-header">
-            
+          
   
-    <h1 class="article-title" itemprop="name">
-      c++实现常用排序算法(全)
+  
+    
+    
+      
+      
+      <section class="archives-wrap">
+        <div class="archive-year-wrap">
+          <a href="/archives/2020" class="archive-year">2020</a>
+        </div>
+        <div class="archives">
+    
+    <article class="archive-article archive-type-post">
+  
+  
+    <h1 itemprop="name">
+      <a class="archive-article-title" href="/2020/07/31/%E5%89%91%E6%8C%8740-%E6%95%B0%E7%BB%84%E4%B8%AD%E5%8F%AA%E5%87%BA%E7%8E%B0%E4%B8%80%E6%AC%A1%E7%9A%84%E6%95%B0%E5%AD%97/">剑指40-数组中只出现一次的数字</a>
     </h1>
   
 
-        </header>
-        
-
-        <div class="article-more-info article-more-info-post hairline">
-
-            <div class="article-date">
-  <time datetime="2020-07-28T04:13:44.000Z" itemprop="datePublished">2020-07-28</time>
-</div>
-
-            
-            <div class="article-category">
-                <a class="article-category-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
-            </div>
-            
-
-            
-            <div class="article-tag">
-                <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%8E%92%E5%BA%8F/" rel="tag">排序</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li></ul>
-            </div>
-            
-
-            
-            <div class="article-busuanzi">
-                有 <span id="busuanzi_value_page_pv">N</span> 人看过
-            </div>
-            
-        </div>
-
-        <div class="article-entry post-inner-html hairline" itemprop="articleBody">
-            <blockquote>
-<p>冒泡、插入、希尔、归并、快速、堆</p>
-</blockquote>
-<a id="more"></a>
-
-<pre><code class="c++">#include&lt;iostream&gt;
-#include&lt;vector&gt;
-
-using namespace std;
-
-class ALLSORT
-{
-public:
-    ALLSORT() {};
-
-    //冒泡
-    void bubble(vector&lt;int&gt;&amp; numList)
-    {
-        int n = numList.size();
-        for (int i = 0; i &lt; n; i++)
-        {
-            bool isSwap = false;
-            for (int j = i + 1; j &lt; n; j++)
-            {
-                if (numList[i] &gt; numList[j])
-                {
-                    swap(numList[i], numList[j]);
-                    isSwap = true;
-                }
-            }
-            if (!isSwap) return;
-        }
-    }
-
-    //插入排序(对已经比较有序的数组比较高效)
-    void insertSort(vector&lt;int&gt;&amp; numList)
-    {
-        int n = numList.size();
-        for (int i = 1; i &lt; n; i++) //当前处理的值
-        {
-            int dataTemp = numList[i];
-            int j=i;
-            for (j ; j &gt; 0 &amp;&amp; dataTemp &lt;= numList[j-1]; j--) //注意判断条件j-1
-            {
-                numList[j] = numList[j - 1]; //右移
-            }
-            //cout &lt;&lt; j &lt;&lt; dataTemp &lt;&lt; endl;
-            numList[j] = dataTemp; //最后一个合适位置放处理的值
-        }
-    }
-
-    //希尔排序(改进的插入排序)
-    void shellSort(vector&lt;int&gt;&amp; numList)
-    {
-        int n = numList.size();
-        for (int gap=n/2;gap &gt; 0;gap/=2)
-        {
-            for (int i = gap; i &lt; n; i++)
-            {
-                int dataTemp = numList[i];
-                int j=i;
-                for (j ; j - gap &gt;= 0 &amp;&amp; dataTemp &lt;= numList[j - gap]; j -= gap)
-                {
-                    numList[j] = numList[j - gap];
-                }
-                numList[j] = dataTemp;
-            }
-        }
-    }
-
-    //选择排序
-    void selectionSort(vector&lt;int&gt;&amp; numList)
-    {
-        int n = numList.size();
-        for (int i = 0; i &lt; n-1; i++) //只需要遍历n-1次
-        {
-            int index = i;
-            int j = i+1;
-            for (j; j &lt; n; j++) //找到最小元素所在下标
-            {
-                if (numList[j] &lt; numList[index]) index = j;
-            }
-            if (index != i)
-            {
-                swap(numList[i], numList[index]); //交换当前处理值和当前批次最小的下标值
-            }
-        }
-    }
-
-    //快速排序
-    void quickSort(vector&lt;int&gt;&amp; numList, int start, int end)
-    {
-        if (start &gt; end) return;
-        int l = start, r = end;
-        int dataTemp = numList[start];
-
-        while (l != r)
-        {
-
-            while (l &lt; r &amp;&amp; numList[r] &gt; dataTemp) //找第一个比基数小的
-            {
-                r--;
-            }
-
-            while (l &lt; r &amp;&amp; numList[l] &lt;= dataTemp) //找第一个比基数大的,因为选取的基数是最左边，必须要小于等于，注意
-            {
-                l++;
-            }
-            if (l &lt; r) swap(numList[l], numList[r]); //交换第一个比基数小和第一个比基数大的两个值
-        }
-
-        numList[start] = numList[l]; //交换基数和最后位置的值
-        numList[l] = dataTemp;
-
-        quickSort(numList, start, l - 1); //处理基数左边的
-        quickSort(numList, l+1, end); //处理基数右边的
-
-    }
-
-    //归并排序
-    void mergeSort(vector&lt;int&gt;&amp; numList, int start, int end)
-    {
-        if (start &gt;= end) return;
-        int n = end - start + 1;
-        int middle = start + (end - start) /2;
-
-        mergeSort(numList, start, middle); //递归
-        mergeSort(numList, middle + 1, end);
-
-        vector&lt;int&gt; newList(n); //开辟新空间
-        int pivot =0, l=start, r=middle+1;
-        while (l &lt;= middle &amp;&amp; r &lt;= end)
-        {
-            newList[pivot++] = numList[l] &lt; numList[r] ? numList[l++] : numList[r++];
-        }
-        while (l &lt;= middle) //加上剩余的值
-        {
-            newList[pivot++] = numList[l++];
-        }
-        while (r &lt;= end)
-        {
-            newList[pivot++] = numList[r++];
-        }
-        for (int i = 0; i &lt; n; i++)
-        {
-            numList[start++] = newList[i];
-        }
-
-    }
-
-    //堆排序
-    void heapSort(vector&lt;int&gt;&amp; numList)
-    {
-        int n = numList.size();
-
-        //初始化构建堆（从最后一个非叶子结点开始，向后调整）
-        for (int i = n/2-1; i &gt;=0 ; --i)
-        {
-            heapify(numList, i, n);
-        }
-
-        //调整堆（向前调整）
-        for (int i = n - 1; i &gt; 0; --i) //注意是大于0
-        {
-            swap(numList[0], numList[i]);  //交换第一和最后一个位置
-            heapify(numList, 0, i);
-        }
-    }
-
-    void heapify(vector&lt;int&gt;&amp; numList, int start, int end)
-    {
-        int father = start;
-        int son = father * 2 + 1;
-        while (son &lt; end)
-        {
-            //找到子树中最大的
-            if (son + 1 &lt; end &amp;&amp; numList[son] &lt; numList[son + 1]) ++son;
-
-            //比较父节点和最大子节点
-            if (numList[son] &lt; numList[father]) break;
-            else
-            {
-                swap(numList[son], numList[father]);//交换父子
-                father = son;
-                son = 2 * father + 1;
-
-            }
-        }
-    }
-
-};
-
-
-//void main()
-//{
-//    vector&lt;int&gt; numList = { 8,9,5,1,33,4,16,55,2,0,4,7,3,2,14,5,17,6,3 };
-//    ALLSORT sortHelper;
-//    //sortHelper.heapSort(numList);
-//    sortHelper.quickSort(numList, 0, numList.size()-1);
-//    for (auto i : numList)
-//    {
-//        cout &lt;&lt; i &lt;&lt; endl;
-//    }
-//
-//}</code></pre>
-
-        </div>
-
-    </div>
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-<nav class="article-nav">
-  
-    <a href="/2020/07/28/%E5%89%91%E6%8C%8736-%E4%B8%A4%E4%B8%AA%E9%93%BE%E8%A1%A8%E4%B8%AD%E7%AC%AC%E4%B8%80%E4%B8%AA%E5%85%B1%E5%90%8C%E7%9A%84%E8%8A%82%E7%82%B9/" id="article-nav-newer" class="article-nav-link-wrap">
-      <div class="article-nav-caption">下一篇</div>
-      <div class="article-nav-title">
-        
-          剑指36-两个链表中第一个共同的节点
-        
-      </div>
-    </a>
-  
-  
-    <a href="/2020/07/28/%E5%89%91%E6%8C%8735-%E6%95%B0%E7%BB%84%E4%B8%AD%E7%9A%84%E9%80%86%E5%BA%8F%E5%AF%B9/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-caption">上一篇</div>
-      <div class="article-nav-title">剑指35-数组中的逆序对</div>
-    </a>
-  
-</nav>
-
-
-    <section class="share">
-        <div class="share-title">分享</div>
-        <a class="share-item" target="_blank"
-            href="https://twitter.com/share?text=c++实现常用排序算法(全) - LIANGYUE'BLOG&url=http://www.openrad.ink/2020/07/28/c++%E5%AE%9E%E7%8E%B0%E5%B8%B8%E7%94%A8%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%EF%BC%88%E5%85%A8%EF%BC%89/">
-            <box-icon type='logo' name='twitter'></box-icon>
-        </a>
-        <a class="share-item" target="_blank"
-            href="https://www.facebook.com/sharer.php?title=c++实现常用排序算法(全) - LIANGYUE'BLOG&u=http://www.openrad.ink/2020/07/28/c++%E5%AE%9E%E7%8E%B0%E5%B8%B8%E7%94%A8%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%EF%BC%88%E5%85%A8%EF%BC%89/">
-            <box-icon name='facebook-square' type='logo' ></box-icon>
-        </a>
-        <!-- <a class="share-item" target="_blank"
-            href="https://service.weibo.com/share/share.php?title=c++实现常用排序算法(全) - LIANGYUE'BLOG&url=http://www.openrad.ink/2020/07/28/c++%E5%AE%9E%E7%8E%B0%E5%B8%B8%E7%94%A8%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%EF%BC%88%E5%85%A8%EF%BC%89/&pic=">
-            <div class="n-icon n-icon-weibo"></div>
-        </a> -->
-    </section>
-
 </article>
+  
+  
+    </div></section>
+  
 
 
 
 
-<section class="comments">
-    <div id="gitalk-container"></div>
-</section>
-
-
-
-<script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-
-</div>
         </section>
       </section>
       <aside class="sidebar">
@@ -422,12 +135,6 @@ public:
           
 
   
-  <div class="widget-wrap">
-    <div class="widget-inner">
-      <div class="toc post-toc-html"></div>
-    </div>
-  </div>
-
 
   
   <div class="widget-wrap widget-cate">
