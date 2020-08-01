@@ -99,7 +99,7 @@
       <section class="inner">
         <section class="inner-main">
           <div class="post">
-    <article id="post-ckdbm2rg600067ove2ho1aed6" class="article article-type-post" itemscope
+    <article id="post-ckdbmxu110006v8ve2aa60vcx" class="article article-type-post" itemscope
     itemprop="blogPost">
 
     <div class="article-inner">
@@ -145,14 +145,14 @@
 
         <div class="article-entry post-inner-html hairline" itemprop="articleBody">
             <blockquote>
-<p>工厂模式</p>
+<p>策略模式</p>
 </blockquote>
 <a id="more"></a>
 
-<h2 id="1-工厂模式"><a href="#1-工厂模式" class="headerlink" title="1.工厂模式"></a>1.工厂模式</h2><h3 id="1-1适用情况"><a href="#1-1适用情况" class="headerlink" title="1.1适用情况"></a>1.1适用情况</h3><p>假如你要开发一个地图导航应用，一开始你只能规划汽车线路，但是后面你要继续开发人行线路、飞机线路等，这些线路算法并不通用，需要重写某段算法，这时候你可以把重写放到一个新的类，并把这些类作为一个参数</p>
-<h3 id="1-2-优缺点"><a href="#1-2-优缺点" class="headerlink" title="1.2 优缺点"></a>1.2 优缺点</h3><p>优点：可以运行时切换、算法实现和算法使用隔离、使用组合来代替继承、 开闭原则<br>缺点：如果算法改动不大，新建类会显得复杂，而且使用多函数可能会更方便</p>
-<h3 id="1-3-与其他模式关系"><a href="#1-3-与其他模式关系" class="headerlink" title="1.3 与其他模式关系"></a>1.3 与其他模式关系</h3><p>这个等学完在对比</p>
-<h3 id="1-4-代码实例"><a href="#1-4-代码实例" class="headerlink" title="1.4 代码实例"></a>1.4 代码实例</h3><pre><code class="c++">**
+<h2 id="策略模式"><a href="#策略模式" class="headerlink" title="策略模式"></a>策略模式</h2><h3 id="适用情况"><a href="#适用情况" class="headerlink" title="适用情况"></a>适用情况</h3><p>假如你要开发一个地图导航应用，一开始你只能规划汽车线路，但是后面你要继续开发人行线路、飞机线路等，这些线路算法并不通用，需要重写某段算法，这时候你可以把重写放到一个新的类，并把这些类作为一个参数</p>
+<h3 id="优缺点"><a href="#优缺点" class="headerlink" title="优缺点"></a>优缺点</h3><p>优点：可以运行时切换、算法实现和算法使用隔离、使用组合来代替继承、 开闭原则<br>缺点：如果算法改动不大，新建类会显得复杂，而且使用多函数可能会更方便</p>
+<h3 id="与其他模式关系"><a href="#与其他模式关系" class="headerlink" title="与其他模式关系"></a>与其他模式关系</h3><p>这个等学完在对比</p>
+<h3 id="代码实例"><a href="#代码实例" class="headerlink" title="代码实例"></a>代码实例</h3><pre><code class="c++">**
  * The Strategy interface declares operations common to all supported versions
  * of some algorithm.
  *

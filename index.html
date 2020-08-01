@@ -115,34 +115,9 @@
       </header>
       <div class="article-entry post-inner-html">
         
-          <h2 id="1-工厂模式"><a href="#1-工厂模式" class="headerlink" title="1.工厂模式"></a>1.工厂模式</h2><h3 id="1-1适用情况"><a href="#1-1适用情况" class="headerlink" title="1.1适用情况"></a>1.1适用情况</h3><h3 id="1-2-优缺点"><a href="#1-2-优缺点" class="headerlink" title="1.2 优缺点"></a>1.2 优缺点</h3><h3 id="1-3-与其他模式关系"><a href="#1-3-与其他模式关系" class="headerlink" title="1.3 与其他模式关系"></a>1.3 与其他模式关系</h3><p>这个等学完在对比</p>
-<h4 id="实现2"><a href="#实现2" class="headerlink" title="实现2"></a>实现2</h4><pre><code class="c++">class Library
-{
-protected:
-    step1(){};
-    step2(){};
-    step3(){};
-    virtual step4()=0;
-    virtual step5()=0;
-public:
-    voud run()
-    {
-        step1();
-        step2();
-        step3();
-        step4(); //后绑定
-        step5();
-    }
-}
-
-class Application:public Library
-{
-protected:
-    step4() override {};
-    step5() override {};
-}
-</code></pre>
-
+          <blockquote>
+<p>模板模式</p>
+</blockquote>
         
       </div>
     </div>
@@ -188,7 +163,7 @@ protected:
       <div class="article-entry post-inner-html">
         
           <blockquote>
-<p>工厂模式</p>
+<p>策略模式</p>
 </blockquote>
         
       </div>

@@ -99,7 +99,7 @@
       <section class="inner">
         <section class="inner-main">
           <div class="post">
-    <article id="post-ckdbm2rg000037ove3xqehi7g" class="article article-type-post" itemscope
+    <article id="post-ckdbmxu0y0005v8ve03046lxu" class="article article-type-post" itemscope
     itemprop="blogPost">
 
     <div class="article-inner">
@@ -144,8 +144,13 @@
         </div>
 
         <div class="article-entry post-inner-html hairline" itemprop="articleBody">
-            <h2 id="1-工厂模式"><a href="#1-工厂模式" class="headerlink" title="1.工厂模式"></a>1.工厂模式</h2><h3 id="1-1适用情况"><a href="#1-1适用情况" class="headerlink" title="1.1适用情况"></a>1.1适用情况</h3><h3 id="1-2-优缺点"><a href="#1-2-优缺点" class="headerlink" title="1.2 优缺点"></a>1.2 优缺点</h3><h3 id="1-3-与其他模式关系"><a href="#1-3-与其他模式关系" class="headerlink" title="1.3 与其他模式关系"></a>1.3 与其他模式关系</h3><p>这个等学完在对比</p>
-<h4 id="实现2"><a href="#实现2" class="headerlink" title="实现2"></a>实现2</h4><pre><code class="c++">class Library
+            <blockquote>
+<p>模板模式</p>
+</blockquote>
+<a id="more"></a>
+
+<h2 id="模板模式"><a href="#模板模式" class="headerlink" title="模板模式"></a>模板模式</h2><h3 id="适用情况"><a href="#适用情况" class="headerlink" title="适用情况"></a>适用情况</h3><h3 id="1优缺点"><a href="#1优缺点" class="headerlink" title="1优缺点"></a>1优缺点</h3><h3 id="与其他模式关系"><a href="#与其他模式关系" class="headerlink" title="与其他模式关系"></a>与其他模式关系</h3><p>这个等学完在对比</p>
+<h3 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h3><pre><code class="c++">class Library
 {
 protected:
     step1(){};
@@ -154,6 +159,8 @@ protected:
     virtual step4()=0;
     virtual step5()=0;
 public:
+    ~Library();
+
     voud run()
     {
         step1();
