@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     
-    <title>Tag | 数组 | LIANGYUE&#39;BLOG</title>
+    <title>c++设计模式-策略模式 | LIANGYUE&#39;BLOG</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
     
@@ -98,36 +98,245 @@
     <div class="main">
       <section class="inner">
         <section class="inner-main">
-          
+          <div class="post">
+    <article id="post-ckdbm2rg600067ove2ho1aed6" class="article article-type-post" itemscope
+    itemprop="blogPost">
+
+    <div class="article-inner">
+
+        
+
+        
+        <header class="article-header">
+            
   
-  
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2020" class="archive-year">2020</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/07/28/%E5%89%91%E6%8C%8735-%E6%95%B0%E7%BB%84%E4%B8%AD%E7%9A%84%E9%80%86%E5%BA%8F%E5%AF%B9/">剑指35-数组中的逆序对</a>
+    <h1 class="article-title" itemprop="name">
+      c++设计模式-策略模式
     </h1>
   
 
+        </header>
+        
+
+        <div class="article-more-info article-more-info-post hairline">
+
+            <div class="article-date">
+  <time datetime="2020-08-01T10:42:47.000Z" itemprop="datePublished">2020-08-01</time>
+</div>
+
+            
+            <div class="article-category">
+                <a class="article-category-link" href="/categories/c/">c++</a>
+            </div>
+            
+
+            
+            <div class="article-tag">
+                <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/c/" rel="tag">c++</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8F/" rel="tag">策略模式</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a></li></ul>
+            </div>
+            
+
+            
+            <div class="article-busuanzi">
+                有 <span id="busuanzi_value_page_pv">N</span> 人看过
+            </div>
+            
+        </div>
+
+        <div class="article-entry post-inner-html hairline" itemprop="articleBody">
+            <blockquote>
+<p>工厂模式</p>
+</blockquote>
+<a id="more"></a>
+
+<h2 id="1-工厂模式"><a href="#1-工厂模式" class="headerlink" title="1.工厂模式"></a>1.工厂模式</h2><h3 id="1-1适用情况"><a href="#1-1适用情况" class="headerlink" title="1.1适用情况"></a>1.1适用情况</h3><p>假如你要开发一个地图导航应用，一开始你只能规划汽车线路，但是后面你要继续开发人行线路、飞机线路等，这些线路算法并不通用，需要重写某段算法，这时候你可以把重写放到一个新的类，并把这些类作为一个参数</p>
+<h3 id="1-2-优缺点"><a href="#1-2-优缺点" class="headerlink" title="1.2 优缺点"></a>1.2 优缺点</h3><p>优点：可以运行时切换、算法实现和算法使用隔离、使用组合来代替继承、 开闭原则<br>缺点：如果算法改动不大，新建类会显得复杂，而且使用多函数可能会更方便</p>
+<h3 id="1-3-与其他模式关系"><a href="#1-3-与其他模式关系" class="headerlink" title="1.3 与其他模式关系"></a>1.3 与其他模式关系</h3><p>这个等学完在对比</p>
+<h3 id="1-4-代码实例"><a href="#1-4-代码实例" class="headerlink" title="1.4 代码实例"></a>1.4 代码实例</h3><pre><code class="c++">**
+ * The Strategy interface declares operations common to all supported versions
+ * of some algorithm.
+ *
+ * The Context uses this interface to call the algorithm defined by Concrete
+ * Strategies.
+ */
+class Strategy
+{
+public:
+    virtual ~Strategy() {}
+    virtual std::string DoAlgorithm(const std::vector&lt;std::string&gt; &amp;data) const = 0;
+};
+
+/**
+ * The Context defines the interface of interest to clients.
+ */
+
+class Context
+{
+    /**
+     * @var Strategy The Context maintains a reference to one of the Strategy
+     * objects. The Context does not know the concrete class of a strategy. It
+     * should work with all strategies via the Strategy interface.
+     */
+private:
+    Strategy *strategy_;
+    /**
+     * Usually, the Context accepts a strategy through the constructor, but also
+     * provides a setter to change it at runtime.
+     */
+public:
+    Context(Strategy *strategy = nullptr) : strategy_(strategy)
+    {
+    }
+    ~Context()
+    {
+        delete this-&gt;strategy_;
+    }
+    /**
+     * Usually, the Context allows replacing a Strategy object at runtime.
+     */
+    void set_strategy(Strategy *strategy)
+    {
+        delete this-&gt;strategy_;
+        this-&gt;strategy_ = strategy;
+    }
+    /**
+     * The Context delegates some work to the Strategy object instead of
+     * implementing +multiple versions of the algorithm on its own.
+     */
+    void DoSomeBusinessLogic() const
+    {
+        // ...
+        std::cout &lt;&lt; &quot;Context: Sorting data using the strategy (not sure how it&#39;ll do it)\n&quot;;
+        std::string result = this-&gt;strategy_-&gt;DoAlgorithm(std::vector&lt;std::string&gt;{&quot;a&quot;, &quot;e&quot;, &quot;c&quot;, &quot;b&quot;, &quot;d&quot;});
+        std::cout &lt;&lt; result &lt;&lt; &quot;\n&quot;;
+        // ...
+    }
+};
+
+/**
+ * Concrete Strategies implement the algorithm while following the base Strategy
+ * interface. The interface makes them interchangeable in the Context.
+ */
+class ConcreteStrategyA : public Strategy
+{
+public:
+    std::string DoAlgorithm(const std::vector&lt;std::string&gt; &amp;data) const override
+    {
+        std::string result;
+        std::for_each(std::begin(data), std::end(data), [&amp;result](const std::string &amp;letter) {
+            result += letter;
+        });
+        std::sort(std::begin(result), std::end(result));
+
+        return result;
+    }
+};
+class ConcreteStrategyB : public Strategy
+{
+    std::string DoAlgorithm(const std::vector&lt;std::string&gt; &amp;data) const override
+    {
+        std::string result;
+        std::for_each(std::begin(data), std::end(data), [&amp;result](const std::string &amp;letter) {
+            result += letter;
+        });
+        std::sort(std::begin(result), std::end(result));
+        for (int i = 0; i &lt; result.size() / 2; i++)
+        {
+            std::swap(result[i], result[result.size() - i - 1]);
+        }
+
+        return result;
+    }
+};
+/**
+ * The client code picks a concrete strategy and passes it to the context. The
+ * client should be aware of the differences between strategies in order to make
+ * the right choice.
+ */
+
+void ClientCode()
+{
+    Context *context = new Context(new ConcreteStrategyA);
+    std::cout &lt;&lt; &quot;Client: Strategy is set to normal sorting.\n&quot;;
+    context-&gt;DoSomeBusinessLogic();
+    std::cout &lt;&lt; &quot;\n&quot;;
+    std::cout &lt;&lt; &quot;Client: Strategy is set to reverse sorting.\n&quot;;
+    context-&gt;set_strategy(new ConcreteStrategyB);
+    context-&gt;DoSomeBusinessLogic();
+    delete context;
+}
+
+int main()
+{
+    ClientCode();
+    return 0;
+}</code></pre>
+
+        </div>
+
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+<nav class="article-nav">
+  
+    <a href="/2020/08/01/c-%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E6%A8%A1%E6%9D%BF%E6%A8%A1%E5%BC%8F/" id="article-nav-newer" class="article-nav-link-wrap">
+      <div class="article-nav-caption">下一篇</div>
+      <div class="article-nav-title">
+        
+          c++设计模式-模板模式
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/08/01/%E5%89%91%E6%8C%8743-%E5%B7%A6%E6%97%8B%E8%BD%AC%E5%AD%97%E7%AC%A6%E4%B8%B2/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-caption">上一篇</div>
+      <div class="article-nav-title">剑指43-左旋转字符串</div>
+    </a>
+  
+</nav>
+
+
+    <section class="share">
+        <div class="share-title">分享</div>
+        <a class="share-item" target="_blank"
+            href="https://twitter.com/share?text=c++设计模式-策略模式 - LIANGYUE'BLOG&url=http://www.openrad.ink/2020/08/01/c-%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8F/">
+            <box-icon type='logo' name='twitter'></box-icon>
+        </a>
+        <a class="share-item" target="_blank"
+            href="https://www.facebook.com/sharer.php?title=c++设计模式-策略模式 - LIANGYUE'BLOG&u=http://www.openrad.ink/2020/08/01/c-%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8F/">
+            <box-icon name='facebook-square' type='logo' ></box-icon>
+        </a>
+        <!-- <a class="share-item" target="_blank"
+            href="https://service.weibo.com/share/share.php?title=c++设计模式-策略模式 - LIANGYUE'BLOG&url=http://www.openrad.ink/2020/08/01/c-%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8F/&pic=">
+            <div class="n-icon n-icon-weibo"></div>
+        </a> -->
+    </section>
+
 </article>
-  
-  
-    </div></section>
-  
 
 
 
 
+<section class="comments">
+    <div id="gitalk-container"></div>
+</section>
+
+
+
+<script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+</div>
         </section>
       </section>
       <aside class="sidebar">
@@ -135,6 +344,12 @@
           
 
   
+  <div class="widget-wrap">
+    <div class="widget-inner">
+      <div class="toc post-toc-html"></div>
+    </div>
+  </div>
+
 
   
   <div class="widget-wrap widget-cate">
