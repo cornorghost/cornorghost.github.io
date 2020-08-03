@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     
-    <title>Category | 排序 | LIANGYUE&#39;BLOG</title>
+    <title>网络编程学习笔记2-ttcp | LIANGYUE&#39;BLOG</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
     
@@ -98,36 +98,137 @@
     <div class="main">
       <section class="inner">
         <section class="inner-main">
-          
+          <div class="post">
+    <article id="post-ckderqz2f001pgsvedhiocav6" class="article article-type-post" itemscope
+    itemprop="blogPost">
+
+    <div class="article-inner">
+
+        
+
+        
+        <header class="article-header">
+            
   
-  
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2020" class="archive-year">2020</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/07/28/c++%E5%AE%9E%E7%8E%B0%E5%B8%B8%E7%94%A8%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%EF%BC%88%E5%85%A8%EF%BC%89/">c++实现常用排序算法(全)</a>
+    <h1 class="article-title" itemprop="name">
+      网络编程学习笔记2-ttcp
     </h1>
   
 
+        </header>
+        
+
+        <div class="article-more-info article-more-info-post hairline">
+
+            <div class="article-date">
+  <time datetime="2020-08-03T17:04:42.000Z" itemprop="datePublished">2020-08-04</time>
+</div>
+
+            
+            <div class="article-category">
+                <a class="article-category-link" href="/categories/c/">c++</a>
+            </div>
+            
+
+            
+            <div class="article-tag">
+                <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%90%8E%E7%AB%AF/" rel="tag">后端</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C/" rel="tag">网络</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/" rel="tag">网络编程</a></li></ul>
+            </div>
+            
+
+            
+            <div class="article-busuanzi">
+                有 <span id="busuanzi_value_page_pv">N</span> 人看过
+            </div>
+            
+        </div>
+
+        <div class="article-entry post-inner-html hairline" itemprop="articleBody">
+            <blockquote>
+<p>使用虚拟机编译muduo，并尝试使用两个虚拟机建立tcp</p>
+</blockquote>
+<a id="more"></a>
+
+<h1 id="1生成和编译"><a href="#1生成和编译" class="headerlink" title="1生成和编译"></a>1生成和编译</h1><h2 id="1-1下载源代码到你喜欢的文件夹"><a href="#1-1下载源代码到你喜欢的文件夹" class="headerlink" title="1.1下载源代码到你喜欢的文件夹"></a>1.1下载源代码到你喜欢的文件夹</h2><pre><code>git clone https://github.com/chenshuo/muduo.git</code></pre><h2 id="1-2编译"><a href="#1-2编译" class="headerlink" title="1.2编译"></a>1.2编译</h2><p>根据官方文档，运行</p>
+<pre><code> ./build.sh</code></pre><p>要是你的库完整，应该会顺利编译通过</p>
+<p>假如缺失一些库，你就先试试yum install 库名</p>
+<p>我这里提示安装的protobuf版本太新了，有些函数名找不到，毕竟这个muduo是2014年写的了，所以你极有可能也会遇到这个问题</p>
+<h2 id="1-3重新下载旧版本protobuf，生成并编译"><a href="#1-3重新下载旧版本protobuf，生成并编译" class="headerlink" title="1.3重新下载旧版本protobuf，生成并编译"></a>1.3重新下载旧版本protobuf，生成并编译</h2><p><a href="https://www.cnblogs.com/fnlingnzb-learner/p/10534038.html" target="_blank" rel="noopener">参考链接</a></p>
+<p>既然2014年，咱们就下一个2014年的protobuf，我下了2.6.0版本的，<a href="https://github-production-release-asset-2e65be.s3.amazonaws.com/23357588/b5f44eb6-353a-11e4-82a3-9b5cb09f936c?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIWNJYAX4CSVEH53A%2F20200803%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20200803T165306Z&X-Amz-Expires=300&X-Amz-Signature=a2652ea363374f5798130800cea15abd1091213b59bbc5d7e1e4e46d303e2def&X-Amz-SignedHeaders=host&actor_id=33841855&repo_id=23357588&response-content-disposition=attachment%3B%20filename%3Dprotobuf-2.6.0.tar.gz&response-content-type=application%2Foctet-stream" target="_blank" rel="noopener">链接</a>，<a href="https://github.com/protocolbuffers/protobuf/releases/tag/v2.6.0" target="_blank" rel="noopener">或者你自己选一个</a></p>
+<p>上传到服务器</p>
+<pre><code>tar zvxf protobuf-2.6.0.tar.gz
+cd protobuf-2.6.0.tar.gz
+
+./configure –prefix=/usr/local/ #注意一定要指定一个新文件夹，不然到时候卸载就很难受
+
+sudo make  #要编译很久
+sudo make check
+sudo make install</code></pre><h2 id="1-4运行"><a href="#1-4运行" class="headerlink" title="1.4运行"></a>1.4运行</h2><p>编译完成后或生成一个build文件夹，运行/build/bin里对应的文件就可以了</p>
+<pre><code>./ttcp_muduo -r #服务端</code></pre><h2 id="1-5总结"><a href="#1-5总结" class="headerlink" title="1.5总结"></a>1.5总结</h2><p>我算是个linux小白吧，生成、安装和编译这些操作不是很熟悉，感觉服务器最复杂的就是一开始的环境设置了，如果能用docker技术来解决一下就好了</p>
+<h1 id="2两个独立虚拟机使用ttcp建立连接"><a href="#2两个独立虚拟机使用ttcp建立连接" class="headerlink" title="2两个独立虚拟机使用ttcp建立连接"></a>2两个独立虚拟机使用ttcp建立连接</h1><h2 id="2-1克隆虚拟机"><a href="#2-1克隆虚拟机" class="headerlink" title="2.1克隆虚拟机"></a>2.1克隆虚拟机</h2><p>将服务端的虚拟机直接克隆，减少配置环境的时间</p>
+<h1 id="2-2启动服务端"><a href="#2-2启动服务端" class="headerlink" title="2.2启动服务端"></a>2.2启动服务端</h1><p>在bin目录下</p>
+<pre><code>while true;do ./ttcp_muduo -r -p 5000;done</code></pre><p>响应如图</p>
+<img src="/2020/08/04/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B02-ttcp/%E5%9B%BE1.png" class="" title="图1.png">
+
+<h2 id="2-3启动客户端"><a href="#2-3启动客户端" class="headerlink" title="2.3启动客户端"></a>2.3启动客户端</h2><pre><code>./ttcp_muduo -t 192.168.200.133</code></pre><p>这里响应失败，还没找到原因</p>
+<img src="/2020/08/04/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B02-ttcp/%E5%9B%BE2.png" class="" title="图2.png">
+
+        </div>
+
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+<nav class="article-nav">
+  
+  
+    <a href="/2020/08/03/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B01/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-caption">上一篇</div>
+      <div class="article-nav-title">网络编程学习笔记1</div>
+    </a>
+  
+</nav>
+
+
+    <section class="share">
+        <div class="share-title">分享</div>
+        <a class="share-item" target="_blank"
+            href="https://twitter.com/share?text=网络编程学习笔记2-ttcp - LIANGYUE'BLOG&url=http://www.openrad.ink/2020/08/04/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B02-ttcp/">
+            <box-icon type='logo' name='twitter'></box-icon>
+        </a>
+        <a class="share-item" target="_blank"
+            href="https://www.facebook.com/sharer.php?title=网络编程学习笔记2-ttcp - LIANGYUE'BLOG&u=http://www.openrad.ink/2020/08/04/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B02-ttcp/">
+            <box-icon name='facebook-square' type='logo' ></box-icon>
+        </a>
+        <!-- <a class="share-item" target="_blank"
+            href="https://service.weibo.com/share/share.php?title=网络编程学习笔记2-ttcp - LIANGYUE'BLOG&url=http://www.openrad.ink/2020/08/04/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B02-ttcp/&pic=">
+            <div class="n-icon n-icon-weibo"></div>
+        </a> -->
+    </section>
+
 </article>
-  
-  
-    </div></section>
-  
 
 
 
 
+<section class="comments">
+    <div id="gitalk-container"></div>
+</section>
+
+
+
+<script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+</div>
         </section>
       </section>
       <aside class="sidebar">
@@ -135,6 +236,12 @@
           
 
   
+  <div class="widget-wrap">
+    <div class="widget-inner">
+      <div class="toc post-toc-html"></div>
+    </div>
+  </div>
+
 
   
   <div class="widget-wrap widget-cate">
