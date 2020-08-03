@@ -115,11 +115,9 @@
       </header>
       <div class="article-entry post-inner-html">
         
-          <h1 id="nc命令测试带宽"><a href="#nc命令测试带宽" class="headerlink" title="nc命令测试带宽"></a>nc命令测试带宽</h1><p>nc命令会建立两个服务器的TCP连接，通过传输文件块来测试传输速度</p>
-<h2 id="在服务端运行"><a href="#在服务端运行" class="headerlink" title="在服务端运行"></a>在服务端运行</h2><pre><code>nc -l 1567 &gt; /dev/null</code></pre><h2 id="在客户端运行"><a href="#在客户端运行" class="headerlink" title="在客户端运行"></a>在客户端运行</h2><pre><code>dd if=/dev/zero bs=1MB count=1 |nc your server ip 1567</code></pre><p>这时会返回传输的信息</p>
-<pre><code>记录了1+0 的读入
-记录了1+0 的写出
-1000000字节(1.0 MB)已复制，1.43656 秒，696 kB/秒</code></pre>
+          <blockquote>
+<p>centos7下nc命令测试，远程服务器和本地虚拟机</p>
+</blockquote>
         
       </div>
     </div>
