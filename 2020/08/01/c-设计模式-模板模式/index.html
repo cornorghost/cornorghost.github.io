@@ -99,7 +99,7 @@
       <section class="inner">
         <section class="inner-main">
           <div class="post">
-    <article id="post-ckdcjylmg0003q8ve0rgj1bdq" class="article article-type-post" itemscope
+    <article id="post-ckddtmct40005p0ve2gvd2tww" class="article article-type-post" itemscope
     itemprop="blogPost">
 
     <div class="article-inner">
@@ -171,11 +171,26 @@ public:
     }
 }
 
-class Application:public Library
+class Application1:public Library
 {
 protected:
-    step4() override {};
-    step5() override {};
+    step4() override {cout&lt;&lt;&quot;Application1::step4&quot;};
+    step5() override {cout&lt;&lt;&quot;Application1::step5&quot;};
+}
+
+class Application2:public Library
+{
+protected:
+    step4() override {cout&lt;&lt;&quot;Application2::step4&quot;};
+    step5() override {cout&lt;&lt;&quot;Application2::step5&quot;};
+}
+
+int main()
+{
+    Library  *a=new Application1;
+    a-&gt;run();
+    Library  *b=new Application2;
+    b-&gt;run();
 }
 </code></pre>
 
@@ -195,6 +210,15 @@ protected:
 
     
 <nav class="article-nav">
+  
+    <a href="/2020/08/03/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B01/" id="article-nav-newer" class="article-nav-link-wrap">
+      <div class="article-nav-caption">下一篇</div>
+      <div class="article-nav-title">
+        
+          网络编程学习笔记1
+        
+      </div>
+    </a>
   
   
     <a href="/2020/08/01/c-%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8F/" id="article-nav-older" class="article-nav-link-wrap">
@@ -276,6 +300,10 @@ protected:
       <ul>
         
           <li>
+            <a href="/2020/08/03/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B01/">网络编程学习笔记1</a>
+          </li>
+        
+          <li>
             <a href="/2020/08/01/c-%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E6%A8%A1%E6%9D%BF%E6%A8%A1%E5%BC%8F/">c++设计模式-模板模式</a>
           </li>
         
@@ -289,10 +317,6 @@ protected:
         
           <li>
             <a href="/2020/08/01/%E5%89%91%E6%8C%8742-%E5%92%8C%E4%B8%BAS%E7%9A%84%E4%B8%A4%E4%B8%AA%E6%95%B0/">剑指42-和为S的两个数</a>
-          </li>
-        
-          <li>
-            <a href="/2020/08/01/%E5%89%91%E6%8C%8741-%E5%92%8C%E4%B8%BAS%E7%9A%84%E8%BF%9E%E7%BB%AD%E6%AD%A3%E6%95%B4%E6%95%B0%E5%BA%8F%E5%88%97/">剑指41-和为S的连续正整数序列</a>
           </li>
         
       </ul>

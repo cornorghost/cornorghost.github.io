@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     
-    <title>Category | 服务器 | LIANGYUE&#39;BLOG</title>
+    <title>网络编程学习笔记1 | LIANGYUE&#39;BLOG</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
     
@@ -98,72 +98,113 @@
     <div class="main">
       <section class="inner">
         <section class="inner-main">
-          
+          <div class="post">
+    <article id="post-ckddtmcuq001gp0ve9k0ic4pu" class="article article-type-post" itemscope
+    itemprop="blogPost">
+
+    <div class="article-inner">
+
+        
+
+        
+        <header class="article-header">
+            
   
+    <h1 class="article-title" itemprop="name">
+      网络编程学习笔记1
+    </h1>
   
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2020" class="archive-year">2020</a>
+
+        </header>
+        
+
+        <div class="article-more-info article-more-info-post hairline">
+
+            <div class="article-date">
+  <time datetime="2020-08-03T01:13:23.000Z" itemprop="datePublished">2020-08-03</time>
+</div>
+
+            
+            <div class="article-category">
+                <a class="article-category-link" href="/categories/c/">c++</a>
+            </div>
+            
+
+            
+            <div class="article-tag">
+                <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%90%8E%E7%AB%AF/" rel="tag">后端</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C/" rel="tag">网络</a></li></ul>
+            </div>
+            
+
+            
+            <div class="article-busuanzi">
+                有 <span id="busuanzi_value_page_pv">N</span> 人看过
+            </div>
+            
         </div>
-        <div class="archives">
+
+        <div class="article-entry post-inner-html hairline" itemprop="articleBody">
+            <h1 id="nc命令测试带宽"><a href="#nc命令测试带宽" class="headerlink" title="nc命令测试带宽"></a>nc命令测试带宽</h1><p>nc命令会建立两个服务器的TCP连接，通过传输文件块来测试传输速度</p>
+<h2 id="在服务端运行"><a href="#在服务端运行" class="headerlink" title="在服务端运行"></a>在服务端运行</h2><pre><code>nc -l 1567 &gt; /dev/null</code></pre><h2 id="在客户端运行"><a href="#在客户端运行" class="headerlink" title="在客户端运行"></a>在客户端运行</h2><pre><code>dd if=/dev/zero bs=1MB count=1 |nc your server ip 1567</code></pre><p>这时会返回传输的信息</p>
+<pre><code>记录了1+0 的读入
+记录了1+0 的写出
+1000000字节(1.0 MB)已复制，1.43656 秒，696 kB/秒</code></pre>
+        </div>
+
+    </div>
+
     
-    <article class="archive-article archive-type-post">
+
+    
+
+    
+
+    
+
+    
+
+    
+<nav class="article-nav">
   
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/07/31/centos7%E8%BF%9E%E4%B8%8D%E4%B8%8A%E7%BD%91%E8%A7%A3%E5%86%B3/">centos7连不上网解决</a>
-    </h1>
+    <a href="/2020/08/01/c-%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E6%A8%A1%E6%9D%BF%E6%A8%A1%E5%BC%8F/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-caption">上一篇</div>
+      <div class="article-nav-title">c++设计模式-模板模式</div>
+    </a>
   
+</nav>
+
+
+    <section class="share">
+        <div class="share-title">分享</div>
+        <a class="share-item" target="_blank"
+            href="https://twitter.com/share?text=网络编程学习笔记1 - LIANGYUE'BLOG&url=http://www.openrad.ink/2020/08/03/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B01/">
+            <box-icon type='logo' name='twitter'></box-icon>
+        </a>
+        <a class="share-item" target="_blank"
+            href="https://www.facebook.com/sharer.php?title=网络编程学习笔记1 - LIANGYUE'BLOG&u=http://www.openrad.ink/2020/08/03/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B01/">
+            <box-icon name='facebook-square' type='logo' ></box-icon>
+        </a>
+        <!-- <a class="share-item" target="_blank"
+            href="https://service.weibo.com/share/share.php?title=网络编程学习笔记1 - LIANGYUE'BLOG&url=http://www.openrad.ink/2020/08/03/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B01/&pic=">
+            <div class="n-icon n-icon-weibo"></div>
+        </a> -->
+    </section>
 
 </article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/07/21/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA-hexo-d%E6%9C%8D%E5%8A%A1%E5%99%A8/">博客搭建-hexo+d服务器</a>
-    </h1>
-  
-
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/07/21/xshell%E8%BF%9E%E6%8E%A5%E8%99%9A%E6%8B%9F%E6%9C%BACentos/">xshell连接虚拟机Centos</a>
-    </h1>
-  
-
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/07/21/vmvare%E5%AE%89%E8%A3%85Centos7/">vmvare安装Centos7</a>
-    </h1>
-  
-
-</article>
-  
-  
-    </div></section>
-  
 
 
 
 
+<section class="comments">
+    <div id="gitalk-container"></div>
+</section>
+
+
+
+<script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+</div>
         </section>
       </section>
       <aside class="sidebar">
@@ -171,6 +212,12 @@
           
 
   
+  <div class="widget-wrap">
+    <div class="widget-inner">
+      <div class="toc post-toc-html"></div>
+    </div>
+  </div>
+
 
   
   <div class="widget-wrap widget-cate">
