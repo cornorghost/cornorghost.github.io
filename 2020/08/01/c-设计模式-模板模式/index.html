@@ -99,7 +99,7 @@
       <section class="inner">
         <section class="inner-main">
           <div class="post">
-    <article id="post-ckdg5vjap0005povef3eqa0ia" class="article article-type-post" itemscope
+    <article id="post-ckdgrpki50003y0vegedm9ya7" class="article article-type-post" itemscope
     itemprop="blogPost">
 
     <div class="article-inner">
@@ -149,8 +149,13 @@
 </blockquote>
 <a id="more"></a>
 
-<h2 id="模板模式"><a href="#模板模式" class="headerlink" title="模板模式"></a>模板模式</h2><h3 id="适用情况"><a href="#适用情况" class="headerlink" title="适用情况"></a>适用情况</h3><h3 id="1优缺点"><a href="#1优缺点" class="headerlink" title="1优缺点"></a>1优缺点</h3><h3 id="与其他模式关系"><a href="#与其他模式关系" class="headerlink" title="与其他模式关系"></a>与其他模式关系</h3><p>这个等学完在对比</p>
-<h3 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h3><pre><code class="c++">class Library
+<h2 id="模板模式"><a href="#模板模式" class="headerlink" title="模板模式"></a><strong>模板模式</strong></h2><h3 id="适用情况"><a href="#适用情况" class="headerlink" title="适用情况"></a><strong>适用情况</strong></h3><p>假如你正在开发一款分析公司文档的数据挖掘程序。 用户需要向程序输入各种格式 （PDF、 DOC 或 CSV） 的文档， 程序则会试图从这些文件中抽取有意义的数据， 并以统一的格式将其返回给用户。</p>
+<p>该程序的首个版本仅支持 DOC 文件。 在接下来的一个版本中， 程序能够支持 CSV 文件。 一个月后， 你 “教会” 了程序从 PDF 文件中抽取数据。一段时间后， 你发现这三个类中包含许多相似代码。 </p>
+<p>尽管这些类处理不同数据格式的代码完全不同， 但数据处理和分析的代码却几乎完全一样，将相同部分代码提取成接口，使用多态性实现个性化，是模板模式的精髓</p>
+<h3 id="优缺点"><a href="#优缺点" class="headerlink" title="优缺点"></a><strong>优缺点</strong></h3><p>优点：可以重写某个算法的特定部分，分离相同部分<br>缺点：违反里氏替换原则，子类不能完全替换基类；当算法步骤需要修改时，需要修改所有的类</p>
+<h3 id="与其他模式关系"><a href="#与其他模式关系" class="headerlink" title="与其他模式关系"></a><strong>与其他模式关系</strong></h3><p>这个等学完在对比</p>
+<h3 id="实例代码"><a href="#实例代码" class="headerlink" title="实例代码"></a><strong>实例代码</strong></h3><p>实例1</p>
+<pre><code class="c++">class Library
 {
 protected:
     step1(){};
@@ -167,7 +172,7 @@ public:
         step2();
         step3();
         step4(); //后绑定
-        step5();
+        step5(); //后绑定
     }
 }
 
@@ -193,6 +198,121 @@ int main()
     b-&gt;run();
 }
 </code></pre>
+<p>实例2</p>
+<pre><code class="c++">/**
+ * The Abstract Class defines a template method that contains a skeleton of some
+ * algorithm, composed of calls to (usually) abstract primitive operations.
+ *
+ * Concrete subclasses should implement these operations, but leave the template
+ * method itself intact.
+ */
+class AbstractClass {
+  /**
+   * The template method defines the skeleton of an algorithm.
+   */
+ public:
+  void TemplateMethod() const {
+    this-&gt;BaseOperation1();
+    this-&gt;RequiredOperations1();
+    this-&gt;BaseOperation2();
+    this-&gt;Hook1();
+    this-&gt;RequiredOperation2();
+    this-&gt;BaseOperation3();
+    this-&gt;Hook2();
+  }
+  /**
+   * These operations already have implementations.
+   */
+ protected:
+  void BaseOperation1() const {
+    std::cout &lt;&lt; &quot;AbstractClass says: I am doing the bulk of the work\n&quot;;
+  }
+  void BaseOperation2() const {
+    std::cout &lt;&lt; &quot;AbstractClass says: But I let subclasses override some operations\n&quot;;
+  }
+  void BaseOperation3() const {
+    std::cout &lt;&lt; &quot;AbstractClass says: But I am doing the bulk of the work anyway\n&quot;;
+  }
+  /**
+   * These operations have to be implemented in subclasses.
+   */
+  virtual void RequiredOperations1() const = 0;
+  virtual void RequiredOperation2() const = 0;
+  /**
+   * These are &quot;hooks.&quot; Subclasses may override them, but it&#39;s not mandatory
+   * since the hooks already have default (but empty) implementation. Hooks
+   * provide additional extension points in some crucial places of the
+   * algorithm.
+   */
+  virtual void Hook1() const {}
+  virtual void Hook2() const {}
+};
+/**
+ * Concrete classes have to implement all abstract operations of the base class.
+ * They can also override some operations with a default implementation.
+ */
+class ConcreteClass1 : public AbstractClass {
+ protected:
+  void RequiredOperations1() const override {
+    std::cout &lt;&lt; &quot;ConcreteClass1 says: Implemented Operation1\n&quot;;
+  }
+  void RequiredOperation2() const override {
+    std::cout &lt;&lt; &quot;ConcreteClass1 says: Implemented Operation2\n&quot;;
+  }
+};
+/**
+ * Usually, concrete classes override only a fraction of base class&#39; operations.
+ */
+class ConcreteClass2 : public AbstractClass {
+ protected:
+  void RequiredOperations1() const override {
+    std::cout &lt;&lt; &quot;ConcreteClass2 says: Implemented Operation1\n&quot;;
+  }
+  void RequiredOperation2() const override {
+    std::cout &lt;&lt; &quot;ConcreteClass2 says: Implemented Operation2\n&quot;;
+  }
+  void Hook1() const override {
+    std::cout &lt;&lt; &quot;ConcreteClass2 says: Overridden Hook1\n&quot;;
+  }
+};
+/**
+ * The client code calls the template method to execute the algorithm. Client
+ * code does not have to know the concrete class of an object it works with, as
+ * long as it works with objects through the interface of their base class.
+ */
+void ClientCode(AbstractClass *class_) {
+  // ...
+  class_-&gt;TemplateMethod();
+  // ...
+}
+
+int main() {
+  std::cout &lt;&lt; &quot;Same client code can work with different subclasses:\n&quot;;
+  ConcreteClass1 *concreteClass1 = new ConcreteClass1;
+  ClientCode(concreteClass1);
+  std::cout &lt;&lt; &quot;\n&quot;;
+  std::cout &lt;&lt; &quot;Same client code can work with different subclasses:\n&quot;;
+  ConcreteClass2 *concreteClass2 = new ConcreteClass2;
+  ClientCode(concreteClass2);
+  delete concreteClass1;
+  delete concreteClass2;
+  return 0;
+}
+</code></pre>
+<p>输出结果：</p>
+<p>Same client code can work with different subclasses:</p>
+<p>AbstractClass says: I am doing the bulk of the work</p>
+<p>ConcreteClass1 says: Implemented Operation1</p>
+<p>AbstractClass says: But I let subclasses override some operations</p>
+<p>ConcreteClass1 says: Implemented Operation2</p>
+<p>AbstractClass says: But I am doing the bulk of the work anyway</p>
+<p>Same client code can work with different subclasses:</p>
+<p>AbstractClass says: I am doing the bulk of the work</p>
+<p>ConcreteClass2 says: Implemented Operation1</p>
+<p>AbstractClass says: But I let subclasses override some operations</p>
+<p>ConcreteClass2 says: Overridden Hook1</p>
+<p>ConcreteClass2 says: Implemented Operation2</p>
+<p>AbstractClass says: But I am doing the bulk of the work anyway</p>
 
         </div>
 

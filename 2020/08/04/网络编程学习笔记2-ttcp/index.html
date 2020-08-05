@@ -99,7 +99,7 @@
       <section class="inner">
         <section class="inner-main">
           <div class="post">
-    <article id="post-ckdg5vjnh001wpove2pe4hl5d" class="article article-type-post" itemscope
+    <article id="post-ckdgrpklf001ny0ve2cp008vo" class="article article-type-post" itemscope
     itemprop="blogPost">
 
     <div class="article-inner">
@@ -126,7 +126,7 @@
 
             
             <div class="article-category">
-                <a class="article-category-link" href="/categories/c/">c++</a>
+                <a class="article-category-link" href="/categories/c/">c++</a>,<a class="article-category-link" href="/categories/%E6%9C%8D%E5%8A%A1%E5%99%A8/">服务器</a>
             </div>
             
 
@@ -152,28 +152,28 @@
 <blockquote>
 <p>本笔记参考的视频链接:<a href="https://www.bilibili.com/video/BV1Ht411p7wx?p=6" target="_blank" rel="noopener">https://www.bilibili.com/video/BV1Ht411p7wx?p=6</a><br>库链接:<a href="https://github.com/chenshuo/muduo" target="_blank" rel="noopener">https://github.com/chenshuo/muduo</a></p>
 </blockquote>
-<h1 id="1生成和编译"><a href="#1生成和编译" class="headerlink" title="1生成和编译"></a>1生成和编译</h1><h2 id="1-1下载源代码到你喜欢的文件夹"><a href="#1-1下载源代码到你喜欢的文件夹" class="headerlink" title="1.1下载源代码到你喜欢的文件夹"></a>1.1下载源代码到你喜欢的文件夹</h2><pre><code>git clone https://github.com/chenshuo/muduo.git</code></pre><h2 id="1-2编译"><a href="#1-2编译" class="headerlink" title="1.2编译"></a>1.2编译</h2><p>根据官方文档，运行</p>
+<h1 id="1生成和编译"><a href="#1生成和编译" class="headerlink" title="1生成和编译"></a><strong>1生成和编译</strong></h1><h2 id="1-1下载源代码到你喜欢的文件夹"><a href="#1-1下载源代码到你喜欢的文件夹" class="headerlink" title="1.1下载源代码到你喜欢的文件夹"></a><strong>1.1下载源代码到你喜欢的文件夹</strong></h2><pre><code>git clone https://github.com/chenshuo/muduo.git</code></pre><h2 id="1-2编译"><a href="#1-2编译" class="headerlink" title="1.2编译"></a><strong>1.2编译</strong></h2><p>根据官方文档，运行</p>
 <pre><code> ./build.sh</code></pre><p>要是你的库完整，应该会顺利编译通过</p>
 <p>假如缺失一些库，你就先试试yum install 库名</p>
 <p>我这里提示安装的protobuf版本太新了，有些函数名找不到，毕竟这个muduo是2014年写的了，所以你极有可能也会遇到这个问题</p>
-<h2 id="1-3重新下载旧版本protobuf，生成并编译"><a href="#1-3重新下载旧版本protobuf，生成并编译" class="headerlink" title="1.3重新下载旧版本protobuf，生成并编译"></a>1.3重新下载旧版本protobuf，生成并编译</h2><p><a href="https://www.cnblogs.com/fnlingnzb-learner/p/10534038.html" target="_blank" rel="noopener">参考链接</a></p>
+<h2 id="1-3重新下载旧版本protobuf，生成并编译"><a href="#1-3重新下载旧版本protobuf，生成并编译" class="headerlink" title="1.3重新下载旧版本protobuf，生成并编译"></a><strong>1.3重新下载旧版本protobuf，生成并编译</strong></h2><p><a href="https://www.cnblogs.com/fnlingnzb-learner/p/10534038.html" target="_blank" rel="noopener">参考链接</a></p>
 <p>既然2014年，咱们就下一个2014年的protobuf，我下了2.6.0版本的，<a href="https://github-production-release-asset-2e65be.s3.amazonaws.com/23357588/b5f44eb6-353a-11e4-82a3-9b5cb09f936c?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIWNJYAX4CSVEH53A%2F20200803%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20200803T165306Z&X-Amz-Expires=300&X-Amz-Signature=a2652ea363374f5798130800cea15abd1091213b59bbc5d7e1e4e46d303e2def&X-Amz-SignedHeaders=host&actor_id=33841855&repo_id=23357588&response-content-disposition=attachment%3B%20filename%3Dprotobuf-2.6.0.tar.gz&response-content-type=application%2Foctet-stream" target="_blank" rel="noopener">链接</a>，<a href="https://github.com/protocolbuffers/protobuf/releases/tag/v2.6.0" target="_blank" rel="noopener">或者你自己选一个</a></p>
 <p>上传到服务器</p>
 <pre><code>tar zvxf protobuf-2.6.0.tar.gz
 cd protobuf-2.6.0.tar.gz
 
-./configure –prefix=/usr/local/ #注意一定要指定一个新文件夹，不然到时候卸载就很难受
+./configure –prefix=/usr/local/ #注意一定要指定一个新文件夹，不然到时候卸载就很难受，养成好习惯
 
 sudo make  #要编译很久
 sudo make check
-sudo make install</code></pre><h2 id="1-4运行"><a href="#1-4运行" class="headerlink" title="1.4运行"></a>1.4运行</h2><p>编译完成后或生成一个build文件夹，运行/build/bin里对应的文件就可以了</p>
-<pre><code>./ttcp_muduo -r #服务端</code></pre><h2 id="1-5总结"><a href="#1-5总结" class="headerlink" title="1.5总结"></a>1.5总结</h2><p>我算是个linux小白吧，生成、安装和编译这些操作不是很熟悉，感觉服务器最复杂的就是一开始的环境设置了，如果能用docker技术来解决一下就好了</p>
-<h1 id="2两个独立虚拟机使用ttcp建立连接"><a href="#2两个独立虚拟机使用ttcp建立连接" class="headerlink" title="2两个独立虚拟机使用ttcp建立连接"></a>2两个独立虚拟机使用ttcp建立连接</h1><h2 id="2-1克隆虚拟机"><a href="#2-1克隆虚拟机" class="headerlink" title="2.1克隆虚拟机"></a>2.1克隆虚拟机</h2><p>将服务端的虚拟机直接克隆，减少配置环境的时间</p>
-<h1 id="2-2启动服务端"><a href="#2-2启动服务端" class="headerlink" title="2.2启动服务端"></a>2.2启动服务端</h1><p>在bin目录下</p>
+sudo make install</code></pre><h2 id="1-4运行"><a href="#1-4运行" class="headerlink" title="1.4运行"></a><strong>1.4运行</strong></h2><p>编译完成后或生成一个build文件夹，运行/build/bin里对应的文件就可以了,例如：</p>
+<pre><code>./ttcp_muduo -r #服务端</code></pre><h2 id="1-5总结"><a href="#1-5总结" class="headerlink" title="1.5总结"></a><strong>1.5总结</strong></h2><p>我算是个linux小白吧，生成、安装和编译这些操作不是很熟悉，感觉服务器最复杂的就是一开始的环境设置了，如果能用docker技术来解决一下就好了</p>
+<h1 id="2两个独立虚拟机使用ttcp建立连接"><a href="#2两个独立虚拟机使用ttcp建立连接" class="headerlink" title="2两个独立虚拟机使用ttcp建立连接"></a><strong>2两个独立虚拟机使用ttcp建立连接</strong></h1><h2 id="2-1克隆虚拟机"><a href="#2-1克隆虚拟机" class="headerlink" title="2.1克隆虚拟机"></a><strong>2.1克隆虚拟机</strong></h2><p>将服务端的虚拟机直接克隆，减少配置环境的时间</p>
+<h2 id="2-2启动服务端"><a href="#2-2启动服务端" class="headerlink" title="2.2启动服务端"></a><strong>2.2启动服务端</strong></h2><p>在bin目录下</p>
 <pre><code>while true;do ./ttcp_muduo -r;done</code></pre><p>响应如图</p>
 <img src="/2020/08/04/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B02-ttcp/%E5%9B%BE1.png" class="" title="图1.png">
 
-<h2 id="2-3启动客户端"><a href="#2-3启动客户端" class="headerlink" title="2.3启动客户端"></a>2.3启动客户端</h2><pre><code>./ttcp_muduo -t 192.168.200.133</code></pre><p>这里响应失败，还没找到原因</p>
+<h2 id="2-3启动客户端"><a href="#2-3启动客户端" class="headerlink" title="2.3启动客户端"></a><strong>2.3启动客户端</strong></h2><pre><code>./ttcp_muduo -t 192.168.200.133</code></pre><p>这里响应失败，还没找到原因</p>
 {% asset_img 图2.png 图2.png %}
 
 <p>找到原因了，原来是因为服务端5001端口没开放，我直接关闭防火墙就可以了</p>

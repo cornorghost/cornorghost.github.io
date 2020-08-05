@@ -99,7 +99,7 @@
       <section class="inner">
         <section class="inner-main">
           <div class="post">
-    <article id="post-ckdg5vj9z0003povehfds7ezp" class="article article-type-post" itemscope
+    <article id="post-ckdgrpkhx0001y0ve58yn2cjd" class="article article-type-post" itemscope
     itemprop="blogPost">
 
     <div class="article-inner">
@@ -149,9 +149,9 @@
 </blockquote>
 <a id="more"></a>
 
-<h2 id="1-工厂模式"><a href="#1-工厂模式" class="headerlink" title="1.工厂模式"></a>1.工厂模式</h2><h3 id="1-1适用情况"><a href="#1-1适用情况" class="headerlink" title="1.1适用情况"></a>1.1适用情况</h3><p>例如需要读文件，文件类型都是txt，但是文件有3列的、6列的格式，以后还会有其他格式的；或者设计一个物流类，有水路的、陆路的、以后还会有空航；这些需要很多不同类的情况，以后可能还要添加新的类的情况，一般初期会考虑工厂模式</p>
-<h3 id="1-2-优缺点"><a href="#1-2-优缺点" class="headerlink" title="1.2 优缺点"></a>1.2 优缺点</h3><p>优点：符合开闭原则，无需知道设计细节，只需要知道对应的枚举即可获得对象<br>缺点：可能需要设计的类很多，往后拓展可能会有很多个工厂</p>
-<h3 id="1-3-与其他模式关系"><a href="#1-3-与其他模式关系" class="headerlink" title="1.3 与其他模式关系"></a>1.3 与其他模式关系</h3><ul>
+<h2 id="工厂模式"><a href="#工厂模式" class="headerlink" title="工厂模式"></a><strong>工厂模式</strong></h2><h3 id="适用情况"><a href="#适用情况" class="headerlink" title="适用情况"></a><strong>适用情况</strong></h3><p>例如需要读文件，文件类型都是txt，但是文件有3列的、6列的格式，以后还会有其他格式的；或者设计一个物流类，有水路的、陆路的、以后还会有空航；这些需要很多不同类的情况，以后可能还要添加新的类的情况，一般初期会考虑工厂模式</p>
+<h3 id="优缺点"><a href="#优缺点" class="headerlink" title="优缺点"></a><strong>优缺点</strong></h3><p>优点：符合开闭原则，无需知道设计细节，只需要知道对应的枚举即可获得对象<br>缺点：可能需要设计的类很多，往后拓展可能会有很多个工厂</p>
+<h3 id="与其他模式关系"><a href="#与其他模式关系" class="headerlink" title="与其他模式关系"></a><strong>与其他模式关系</strong></h3><ul>
 <li><p>在许多设计工作的初期都会使用工厂方法模式 （较为简单， 而且可以更方便地通过子类进行定制）， 随后演化为使用抽象工厂模式、 原型模式或生成器模式 （更灵活但更加复杂）。</p>
 </li>
 <li><p>抽象工厂模式通常基于一组工厂方法，也可以使用原型模式来生成这些类的方法</p>
@@ -163,7 +163,7 @@
 <li><p>工厂方法是模板方法模式的一种特殊形式。 同时， 工厂方法可以作为一个大型模板方法中的一个步骤</p>
 </li>
 </ul>
-<h3 id="1-4-代码实例"><a href="#1-4-代码实例" class="headerlink" title="1.4 代码实例"></a>1.4 代码实例</h3><pre><code class="c++">/**
+<h3 id="代码实例"><a href="#代码实例" class="headerlink" title="代码实例"></a><strong>代码实例</strong></h3><pre><code class="c++">/**
  * The Product interface declares the operations that all concrete products must
  * implement.
  */

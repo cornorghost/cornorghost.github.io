@@ -99,7 +99,7 @@
       <section class="inner">
         <section class="inner-main">
           <div class="post">
-    <article id="post-ckdg5vjdn000epove4u2of36o" class="article article-type-post" itemscope
+    <article id="post-ckdgrpkis000by0ve7740gp40" class="article article-type-post" itemscope
     itemprop="blogPost">
 
     <div class="article-inner">
@@ -149,8 +149,8 @@
 </blockquote>
 <a id="more"></a>
 
-<h1 id="ping-baidu-com"><a href="#ping-baidu-com" class="headerlink" title="ping baidu.com"></a>ping baidu.com</h1><p>确定能否ping baidu.com成功<br>如果成功了，更换源</p>
-<h1 id="更换源"><a href="#更换源" class="headerlink" title="更换源"></a>更换源</h1><p>在ping成功的情况下，更换源</p>
+<h1 id="ping-baidu-com"><a href="#ping-baidu-com" class="headerlink" title="ping baidu.com"></a><strong>ping baidu.com</strong></h1><p>确定能否ping baidu.com成功<br>如果成功了，更换源</p>
+<h1 id="更换源"><a href="#更换源" class="headerlink" title="更换源"></a><strong>更换源</strong></h1><p>在ping成功的情况下，更换源</p>
 <p>首先清空源</p>
 <pre><code>yum clean all</code></pre><p>修改源配置文件</p>
 <pre><code>vi /etc/yum.repos.d/CentOS-Base.repo</code></pre><p>复制以下文件替换</p>
@@ -203,7 +203,7 @@ yum makecache
 # 重新安装EPEL仓库
 yum install epel-release</code></pre><p>你也可以使用wget获取CentOS-Base.repo文件，这是阿里云的，然后替换原来的CentOS-Base.repo文件</p>
 <pre><code>wget -O /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo</code></pre><p>不过这时候一般wget时失灵的，因为没网，可以手动下载再上传到该文件夹</p>
-<h1 id="修改DNS"><a href="#修改DNS" class="headerlink" title="修改DNS"></a>修改DNS</h1><p>这是不能ping baidu.com失败后推荐的尝试<br>首先查看网卡名字</p>
+<h1 id="修改DNS"><a href="#修改DNS" class="headerlink" title="修改DNS"></a><strong>修改DNS</strong></h1><p>这是ping baidu.com失败后推荐的尝试<br>首先查看网卡名字</p>
 <pre><code>ip add</code></pre><img src="/2020/07/31/centos7%E8%BF%9E%E4%B8%8D%E4%B8%8A%E7%BD%91%E8%A7%A3%E5%86%B3/image-20200708201246401.png" class="" title="image-20200708201246401.png">
 
 <p>然后去修改配置文件，输入：</p>
