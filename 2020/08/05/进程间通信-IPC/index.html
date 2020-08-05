@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    
+    <title>进程间通信(IPC) | LIANGYUE&#39;BLOG</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    
+
+    
+
+    
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+    
+
+    
+<link rel="stylesheet" href="/dist/build.css?v=1.5.2.css">
+
+
+    <script>
+        window.aomori = {
+            
+            gitalk: {
+                enable: true,
+                clientID: "f481f237218c36c2740b",
+                clientSecret: "6d0738e25fd81401b6505e7a1364859ab523a716",
+                repo: "blogcomments",
+                owner: "cornorghost",
+                admin: ["cornorghost",],
+                distractionFreeMode: false  // Facebook-like distraction free mode
+            },
+            
+        }
+    </script>
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+
+  <div class="container">
+    <header class="header">
+        <div class="header-type">
+            
+            <div class="avatar avatar-sm">
+                <img src="/images/avatar.png" alt="梁越">
+            </div>
+            
+            <a href="/">LIANGYUE&#39;BLOG</a>
+            
+        </div>
+        <div class="header-menu">
+            <div class="header-menu-inner">
+                
+                <a href="/">Home</a>
+                
+                <a href="/archives">Archives</a>
+                
+            </div>
+            <div class="header-menu-social">
+                
+    <a class="social" target="_blank" href="https://github.com/cornorghost">
+        <box-icon type='logo' name='github'></box-icon>
+    </a>
+
+            </div>
+        </div>
+
+        <div class="header-menu-mobile">
+            <div class="header-menu-mobile-inner" id="mobile-menu-open">
+                <i class="icon icon-menu"></i>
+            </div>
+        </div>
+    </header>
+
+    <div class="header-menu-mobile-menu">
+        <div class="header-menu-mobile-menu-bg"></div>
+        <div class="header-menu-mobile-menu-wrap">
+            <div class="header-menu-mobile-menu-inner">
+                <div class="header-menu-mobile-menu-close" id="mobile-menu-close">
+                    <i class="icon icon-cross"></i>
+                </div>
+                <div class="header-menu-mobile-menu-list">
+                    
+                    <a href="/">Home</a>
+                    
+                    <a href="/archives">Archives</a>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+  <div class="container">
+    <div class="main">
+      <section class="inner">
+        <section class="inner-main">
+          <div class="post">
+    <article id="post-ckdhathhe0024wsve9o75dc64" class="article article-type-post" itemscope
+    itemprop="blogPost">
+
+    <div class="article-inner">
+
+        
+
+        
+        <header class="article-header">
+            
+  
+    <h1 class="article-title" itemprop="name">
+      进程间通信(IPC)
+    </h1>
+  
+
+        </header>
+        
+
+        <div class="article-more-info article-more-info-post hairline">
+
+            <div class="article-date">
+  <time datetime="2020-08-05T11:36:06.000Z" itemprop="datePublished">2020-08-05</time>
+</div>
+
+            
+            <div class="article-category">
+                <a class="article-category-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a>
+            </div>
+            
+
+            
+            <div class="article-tag">
+                <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%BF%9B%E7%A8%8B/" rel="tag">进程</a></li></ul>
+            </div>
+            
+
+            
+            <div class="article-busuanzi">
+                有 <span id="busuanzi_value_page_pv">N</span> 人看过
+            </div>
+            
+        </div>
+
+        <div class="article-entry post-inner-html hairline" itemprop="articleBody">
+            <blockquote>
+<p>信号，管道，信号量，共享内存，socket</p>
+</blockquote>
+<a id="more"></a>
+
+
+<p>进程是系统资源调度分配的一个独立单位；线程是CPU调度和分配的基本单位</p>
+<h1 id="进程间通信"><a href="#进程间通信" class="headerlink" title="进程间通信"></a><a href="https://blog.ailemon.me/2018/03/19/the-theory-and-implemention-on-five-ways-for-communication-between-processings/" target="_blank" rel="noopener">进程间通信</a></h1><h2 id="1-信号通信（signal）"><a href="#1-信号通信（signal）" class="headerlink" title="1.信号通信（signal）"></a>1.信号通信（signal）</h2><p>即父进程创建一个有名事件，子进程发送事件信号，然后父进程获取到事件信号后，执行相应的代码。信号通信是最古老的进程间通信的方法之一，系统内核中内置了一些常见的有名信号，不过不同的系统和硬件具体的内置信号不太一样。</p>
+<p><a href="https://www.twle.cn/l/yufei/cplusplus/cplusplus-basic-signal-handling.html" target="_blank" rel="noopener">代码实现</a></p>
+<pre><code class="c++">//捕获信号
+#include &lt;iostream&gt;
+#include &lt;csignal&gt;
+
+#include &lt;unistd.h&gt;
+
+using namespace std;
+
+void signalHandler( int signum )
+{
+    cout &lt;&lt; &quot;Interrupt signal (&quot; &lt;&lt; signum &lt;&lt; &quot;) received.\n&quot;;
+    exit(signum);
+
+}
+
+
+int main ()
+{
+    signal(SIGINT, signalHandler);  // 注册信号 SIGINT 和信号处理程序
+
+    while(1){
+       cout &lt;&lt; &quot;Going to sleep....&quot; &lt;&lt; endl;
+       sleep(1);
+    }
+
+    return 0;
+}</code></pre>
+<pre><code class="c++">//生成信号
+#include &lt;iostream&gt;
+#include &lt;csignal&gt;
+
+#include &lt;unistd.h&gt;
+
+using namespace std;
+
+void signalHandler( int signum )
+{
+   cout &lt;&lt; &quot;Interrupt signal (&quot; &lt;&lt; signum &lt;&lt; &quot;) received.\n&quot;;
+   exit(signum);
+
+}
+
+int main ()
+{
+    int i = 0;
+
+    signal(SIGINT, signalHandler);  // 注册信号 SIGINT 和信号处理程序
+
+    while(++i){
+       cout &lt;&lt; &quot;wait for 1s....&quot; &lt;&lt; endl;
+       if( i == 3 ){
+          raise( SIGINT);
+       }
+       sleep(1);
+    }
+
+    return 0;
+}</code></pre>
+<h2 id="2-管道通信"><a href="#2-管道通信" class="headerlink" title="2.管道通信"></a>2.管道通信</h2><p>管道通信在系统中，是以文件的方式进行读写的，匿名管道在物理上由文件系统的高速缓冲区构成，而命名管道则可在系统的临时文件中找到具体的文件，相当于通过外部文件来交流信息。父子进程间以比特流、字符流的方式传送信息。管道属于半双工通信，在父子进程中同时创建一对管道，然后利用其中一端（0端）来读数据，另一端（1端）来写数据。</p>
+<p><a href="https://blog.csdn.net/weixin_42581477/article/details/82792812?utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-1.nonecase&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-1.nonecase" target="_blank" rel="noopener">匿名代码实现</a></p>
+<pre><code class="c++">//匿名管道
+
+#include&lt;stdio.h&gt;
+#include&lt;unistd.h&gt;
+
+int main()
+{
+    int fd[2];
+    pipe(fd);
+    int pid=fork();
+    if(pid&gt;0)
+    {
+        close(fd[0]);
+        write(fd[1],&quot;hello world&quot;,20);
+        close(fd[1]);
+    }
+    if(pid==0)
+    {
+        close(fd[1]);
+        char ch;
+        while(read(fd[0],&amp;ch,1)&gt;0)
+            printf(&quot;%c&quot;,ch);
+        close(fd[0]);
+    }
+}</code></pre>
+<p><a href="https://www.twblogs.net/a/5d8ccbddbd9eee5327003437" target="_blank" rel="noopener">命名管道代码实现</a></p>
+<pre><code class="c++">//命名管道
+
+#include &lt;iostream&gt;
+#include &lt;Windows.h&gt;
+
+/*
+*
+*    進程間通信 命名管道 server
+*
+*
+*
+*/
+int main()
+{
+    char buff[256];
+
+    DWORD len = 0;
+    HANDLE h_Pipe = CreateNamedPipe(
+        TEXT(&quot;\\\\.\\Pipe\\mypipe&quot;),                        //管道名字
+        PIPE_ACCESS_DUPLEX,                                    //管道類型
+        PIPE_TYPE_MESSAGE | PIPE_READMODE_MESSAGE | PIPE_WAIT,    //管道參數
+        PIPE_UNLIMITED_INSTANCES,                            //管道能創建的最大實例數量
+        0,                                                    //輸出緩衝區的長度 0表示默認
+        0,                                                    //輸入緩衝區的長度 0表示默認
+        NMPWAIT_WAIT_FOREVER,                                //超時時間
+        NULL);
+
+    if (h_Pipe == INVALID_HANDLE_VALUE)
+    {
+        std::cout &lt;&lt; &quot;Failed to CreateNamedPipe!&quot;&lt;&lt;std::endl;
+        return -1;
+    }
+
+    std::cout &lt;&lt; &quot;CreateNamedPipe success!&quot;&lt;&lt;std::endl;
+    std::cout &lt;&lt; &quot;waiting client connect...&quot;&lt;&lt;std::endl;
+
+    if (ConnectNamedPipe(h_Pipe, NULL) == NULL)                //阻塞客戶端來連接
+    {
+        std::cout &lt;&lt; &quot;Failed to Connect!&quot; &lt;&lt; std::endl;
+    }
+    else
+    {
+        std::cout &lt;&lt; &quot;Connect success!&quot; &lt;&lt; std::endl;
+    }
+
+    while (true)
+    {
+        if (ReadFile(h_Pipe, buff, 256, &amp;len, NULL) == FALSE)    //接收客戶端發送的內容
+        {
+            std::cout &lt;&lt; &quot;Failed to read data!&quot; &lt;&lt; std::endl;
+            break;
+        }
+        else
+        {
+            std::cout &lt;&lt; &quot;read data:&quot; &lt;&lt; buff &lt;&lt; &quot;,data size:&quot; &lt;&lt; len &lt;&lt;std::endl;
+
+            char d[256] = &quot;i am server ,hello client&quot;;
+            DWORD len_ = 0;
+            WriteFile(h_Pipe, d, sizeof(d), &amp;len_, 0);            //向客戶端發送內容
+
+            std::cout &lt;&lt; &quot;send data:&quot; &lt;&lt; d &lt;&lt; &quot;,data size:&quot; &lt;&lt; len_ &lt;&lt; std::endl;
+
+            Sleep(1000);
+        }
+    }
+
+    CloseHandle(h_Pipe);                                        //關閉管道釋放資源
+
+
+    system(&quot;pause&quot;);
+}</code></pre>
+<pre><code class="c++">#include &lt;iostream&gt;
+#include &lt;Windows.h&gt;
+
+/*
+*
+*    進程間通信 命名管道 client
+*
+*
+*
+*/
+int main()
+{
+    DWORD len = 0;
+
+    bool bRet = WaitNamedPipe(TEXT(&quot;\\\\.\\Pipe\\mypipe&quot;), NMPWAIT_WAIT_FOREVER);
+
+    if (!bRet)
+    {
+        std::cout &lt;&lt; &quot;Failed to connect pipeline!&quot; &lt;&lt; std::endl;
+        return -1;
+    }
+
+    HANDLE h_Pipe = CreateFile(                        //管道屬於一種特殊的文件
+        TEXT(&quot;\\\\.\\Pipe\\mypipe&quot;),                //文件名字
+        GENERIC_READ | GENERIC_WRITE,                //文件模式
+        0,                                            //是否共享
+        NULL,
+        OPEN_EXISTING,
+        FILE_ATTRIBUTE_NORMAL,                        //文件屬性(只讀，默認...)NORMAL 爲默認屬性
+        NULL);
+
+    if (h_Pipe == INVALID_HANDLE_VALUE)
+    {
+        std::cout &lt;&lt; &quot;Failed to CreateFile pipeline file!&quot; &lt;&lt; std::endl;
+    }
+    else
+    {
+        while (true)
+        {
+            char buff[256] = &quot;i am client ,hello server!&quot;;
+            if (WriteFile(h_Pipe, buff, sizeof(buff), &amp;len, 0) == FALSE)    //向服務器發數據
+            {
+                std::cout &lt;&lt; &quot;write faile to server failed!&quot; &lt;&lt; std::endl;
+                break;
+            }
+            else
+            {
+                std::cout &lt;&lt; &quot;send data to server:&quot; &lt;&lt; buff &lt;&lt; &quot;,data size:&quot; &lt;&lt; len &lt;&lt; std::endl;
+
+                char recvData[256] = &quot;&quot;;
+                DWORD rlen = 0;
+                ReadFile(h_Pipe, recvData, sizeof(recvData), &amp;rlen, 0);        //接收服務器內容
+
+                std::cout &lt;&lt; &quot;receive data form server:&quot; &lt;&lt; recvData &lt;&lt; &quot;,data size:&quot; &lt;&lt; rlen &lt;&lt; std::endl;
+            }
+
+            Sleep(1000);
+        }
+    }
+
+    CloseHandle(h_Pipe);
+
+    system(&quot;pause&quot;);
+
+}
+</code></pre>
+<h2 id="3-共享内存"><a href="#3-共享内存" class="headerlink" title="3.共享内存"></a>3.共享内存</h2><p>基本原理：以页面为单位，将一个普通文件映射到内存中，达到共享内存和节约内存的目的，通常在需要对文件进行频繁读写时使用，这样用内存读写取代I/O读写,以获得较高的性能;</p>
+<p>windows下，进程间的内存地址，逻辑上是互相隔离的，物理上却是相互重叠的，所谓重叠，就是一块内存可以被多个进程使用；当调用<strong>createFileMapping</strong>函数时，创建了一个文件映射对象，返回文件映射对象句柄hMap，winddows即申请一块指定大小的内存空间；为了能够访问这个文件映射对象，需要调用<strong>MapViewOfFile</strong>函数，windows将该内存空间映射到进程的地址空间中；当其他进程访问这块内存时，需要调用<strong>OpenFileMapping **函数获取句柄hMap，并调用</strong>MapViewOfFile<strong>函数得到此内存空间的一个映射；当需要将内容保存到文件时，使用</strong>FlushViewOfFile<strong>函数进行写入；当需要解除文件映射时，使用</strong>UnmapViewOfFile<strong>函数；当需要关闭文件俺映射对象句柄时，使用</strong>CloseHandle**</p>
+<p><a href="https://tojohnonly.github.io/35-Windows%E4%B8%8AC++%E4%BD%BF%E7%94%A8%E5%85%B1%E4%BA%AB%E5%86%85%E5%AD%98%E8%BF%9B%E8%A1%8C%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E8%AE%AF.html" target="_blank" rel="noopener">代码实现如下：</a></p>
+<pre><code class="c++">//进程 A 将数据写入到共享内存 :
+
+#include &lt;windows.h&gt;
+using namespace std;
+
+#define BUF_SIZE 4096
+
+int _tmain(int argc, TCHAR* argv[], TCHAR* envp[])
+{
+    // 定义共享数据
+    char szBuffer[] = &quot;Hello Shared Memory&quot;;
+
+    // 创建共享文件句柄
+    HANDLE hMapFile = CreateFileMapping(
+        INVALID_HANDLE_VALUE,   // 物理文件句柄
+        NULL,   // 默认安全级别
+        PAGE_READWRITE,   // 可读可写
+        0,   // 高位文件大小
+        BUF_SIZE,   // 地位文件大小
+        L&quot;ShareMemory&quot;   // 共享内存名称
+        );
+
+    // 映射缓存区视图 , 得到指向共享内存的指针
+    LPVOID lpBase = MapViewOfFile(
+        hMapFile,            // 共享内存的句柄
+        FILE_MAP_ALL_ACCESS, // 可读写许可
+        0,
+        0,
+        BUF_SIZE
+        );
+
+    // 将数据拷贝到共享内存
+    strcpy((char*)lpBase,szBuffer);
+
+    // 线程挂起等其他线程读取数据
+    Sleep(20000);
+
+    // 解除文件映射
+    UnmapViewOfFile(lpBase);
+    // 关闭内存映射文件对象句柄
+    CloseHandle(hMapFile);
+    return 0;
+}</code></pre>
+<pre><code class="c++">//进程 B 获取共享内存中的数据 :
+
+#include &lt;iostream&gt;
+#include &lt;windows.h&gt;
+using namespace std;
+
+#define BUF_SIZE 4096
+
+int main()
+{
+    // 打开共享的文件对象
+    HANDLE hMapFile = OpenFileMapping(FILE_MAP_ALL_ACCESS,NULL,L&quot;ShareMemory&quot;);
+    if (hMapFile)
+    {
+        LPVOID lpBase = MapViewOfFile(hMapFile,FILE_MAP_ALL_ACCESS,0,0,0);
+        // 将共享内存数据拷贝出来
+        char szBuffer[BUF_SIZE] = {0};
+        strcpy(szBuffer,(char*)lpBase);
+        printf(&quot;%s&quot;,szBuffer);
+
+        // 解除文件映射
+        UnmapViewOfFile(lpBase);
+        // 关闭内存映射文件对象句柄
+        CloseHandle(hMapFile);
+    }
+    else
+    {
+        // 打开共享内存句柄失败
+        printf(&quot;OpenMapping Error&quot;);
+    }
+    return 0;
+}</code></pre>
+<p>linux下是使用mmap，具体实现<a href="https://blog.csdn.net/u012234115/article/details/82114631" target="_blank" rel="noopener">在这里</a></p>
+<h2 id="4-信号量"><a href="#4-信号量" class="headerlink" title="4.信号量"></a>4.信号量</h2><p>以下是两个进程使用同一个信号量的通信</p>
+<pre><code class="c++">#include &lt;stdio.h&gt;
+#include &lt;windows.h&gt;
+
+int main(void)
+{
+    HANDLE hMutex = CreateSemaphore(NULL, 1, 5, TEXT(&quot;125096&quot;));
+    if (hMutex)
+    {
+        if (GetLastError() == ERROR_ALREADY_EXISTS)
+        {
+            printf(&quot;有一个实例存在&quot;);
+            HANDLE hOpen = OpenSemaphore(SEMAPHORE_MODIFY_STATE, FALSE, TEXT(&quot;125096&quot;));  //SEMAPHORE_ALL_ACCESS   SEMAPHORE_MODIFY_STATE
+            if (hOpen)
+            {
+                if (ReleaseSemaphore(hOpen, 1, NULL))
+                {
+                    printf(&quot;OK\n&quot;);
+                }
+                else
+                {
+                    int a = GetLastError();
+                    //a=288
+                    //企图释放并非呼叫方所拥有的多用户终端运行程序。
+                    printf(&quot;NO\n&quot;);
+                }
+            }
+        }
+
+    }
+    else
+    {
+        printf(&quot;创建失败\n&quot;);
+    }
+    getchar();
+    CloseHandle(hMutex);
+
+    return 0;
+}</code></pre>
+<h2 id="socket套接字"><a href="#socket套接字" class="headerlink" title="socket套接字"></a>socket套接字</h2><h2 id="消息队列"><a href="#消息队列" class="headerlink" title="消息队列"></a>消息队列</h2><hr>
+<h1 id="并发和并行"><a href="#并发和并行" class="headerlink" title="并发和并行"></a>并发和并行</h1><p>用进程并发和并行来举例，并发是在单核的处理器中，同时存在几个程序同时运行，但是这个“同时”指的是快速切换，也就是说，在同一个时间点里，只能存在一个程序；但是并行不一样，实现真正的同时，多个程序在不同的cpu里运行，那么这些程序互不干扰和等待，他们是并行</p>
+<hr>
+
+        </div>
+
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+<nav class="article-nav">
+  
+  
+    <a href="/2020/08/05/c++%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-caption">上一篇</div>
+      <div class="article-nav-title">c++设计模式-观察者模式</div>
+    </a>
+  
+</nav>
+
+
+    <section class="share">
+        <div class="share-title">分享</div>
+        <a class="share-item" target="_blank"
+            href="https://twitter.com/share?text=进程间通信(IPC) - LIANGYUE'BLOG&url=http://www.openrad.ink/2020/08/05/%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1-IPC/">
+            <box-icon type='logo' name='twitter'></box-icon>
+        </a>
+        <a class="share-item" target="_blank"
+            href="https://www.facebook.com/sharer.php?title=进程间通信(IPC) - LIANGYUE'BLOG&u=http://www.openrad.ink/2020/08/05/%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1-IPC/">
+            <box-icon name='facebook-square' type='logo' ></box-icon>
+        </a>
+        <!-- <a class="share-item" target="_blank"
+            href="https://service.weibo.com/share/share.php?title=进程间通信(IPC) - LIANGYUE'BLOG&url=http://www.openrad.ink/2020/08/05/%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1-IPC/&pic=">
+            <div class="n-icon n-icon-weibo"></div>
+        </a> -->
+    </section>
+
+</article>
+
+
+
+
+<section class="comments">
+    <div id="gitalk-container"></div>
+</section>
+
+
+
+<script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+</div>
+        </section>
+      </section>
+      <aside class="sidebar">
+        <div class="widget">
+          
+
+  
+  <div class="widget-wrap">
+    <div class="widget-inner">
+      <div class="toc post-toc-html"></div>
+    </div>
+  </div>
+
+
+  
+  <div class="widget-wrap widget-cate">
+    <div class="widget-title"><span>分类</span></div>
+    <div class="widget-inner">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/c/">c++</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/c/c-%E5%9F%BA%E7%A1%80/">c++基础</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/c/%E5%90%8E%E7%AB%AF/">后端</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/c/%E5%90%8E%E7%AB%AF/%E7%BD%91%E7%BB%9C/">网络</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/c/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%85%B3%E4%BA%8E/">关于</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%8D%9A%E5%AE%A2/">博客</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%90%90%E6%A7%BD/">吐槽</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E8%BF%9B%E7%A8%8B/">进程</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9C%8D%E5%8A%A1%E5%99%A8/">服务器</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/%E5%89%91%E6%8C%87offer/">剑指offer</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/%E5%9F%BA%E6%9C%AC/">基本</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/%E5%9F%BA%E6%9C%AC/%E6%8E%92%E5%BA%8F/">排序</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/%E5%9F%BA%E6%9C%AC/%E9%93%BE%E8%A1%A8/">链表</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/">面试</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/%E5%AD%97%E8%8A%82%E5%90%8E%E7%AB%AF%E5%AE%9E%E4%B9%A0/">字节后端实习</a></li></ul></li></ul>
+    </div>
+  </div>
+
+
+
+  
+  <div class="widget-wrap widget-tags">
+    <div class="widget-title"><span>标签</span></div>
+    <div class="widget-inner">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/c/" rel="tag">c++</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/centos7/" rel="tag">centos7</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/leetcode/" rel="tag">leetcode</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BA%8C%E5%88%86%E6%B3%95/" rel="tag">二分法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BB%8B%E7%BB%8D/" rel="tag">介绍</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BD%8D%E8%BF%90%E7%AE%97/" rel="tag">位运算</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%89%8D%E7%BC%80%E5%92%8C/" rel="tag">前缀和</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%89%91%E6%8C%87offer/" rel="tag">剑指offer</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8D%9A%E5%AE%A2/" rel="tag">博客</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%90%8E%E7%AB%AF/" rel="tag">后端</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%90%90%E6%A7%BD/" rel="tag">吐槽</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%93%88%E5%B8%8C%E8%A1%A8/" rel="tag">哈希表</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%9F%BA%E7%A1%80/" rel="tag">基础</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AD%97%E7%AC%A6%E4%B8%B2/" rel="tag">字符串</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8/" rel="tag">字节跳动</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/" rel="tag">工厂模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8E%92%E5%BA%8F/" rel="tag">排序</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E7%BB%84/" rel="tag">数组</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A8%A1%E6%9D%BF%E6%A8%A1%E5%BC%8F/" rel="tag">模板模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%BB%91%E7%AA%97/" rel="tag">滑窗</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8F/" rel="tag">策略模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C/" rel="tag">网络</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/" rel="tag">网络编程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F/" rel="tag">观察者模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BF%9B%E7%A8%8B/" rel="tag">进程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%80%92%E5%BD%92/" rel="tag">递归</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%93%BE%E8%A1%A8/" rel="tag">链表</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9D%A2%E7%BB%8F/" rel="tag">面经</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9D%A2%E8%AF%95/" rel="tag">面试</a></li></ul>
+    </div>
+  </div>
+
+
+
+  
+  <div class="widget-wrap widget-recent-posts">
+    <div class="widget-title"><span>最近文章</span></div>
+    <div class="widget-inner">
+      <ul>
+        
+          <li>
+            <a href="/2020/08/05/%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1-IPC/">进程间通信(IPC)</a>
+          </li>
+        
+          <li>
+            <a href="/2020/08/05/c++%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F/">c++设计模式-观察者模式</a>
+          </li>
+        
+          <li>
+            <a href="/2020/08/04/%E5%89%91%E6%8C%8746-%E5%AD%A9%E5%AD%90%E4%BB%AC%E7%9A%84%E6%B8%B8%E6%88%8F/">剑指46-孩子们的游戏</a>
+          </li>
+        
+          <li>
+            <a href="/2020/08/04/%E5%89%91%E6%8C%8745-%E6%89%91%E5%85%8B%E7%89%8C%E9%A1%BA%E5%AD%90/">剑指45-扑克牌顺子</a>
+          </li>
+        
+          <li>
+            <a href="/2020/08/04/%E5%89%91%E6%8C%8744-%E7%BF%BB%E8%BD%AC%E5%8D%95%E8%AF%8D%E9%A1%BA%E5%BA%8F%E5%BA%8F%E5%88%97/">剑指44-翻转单词顺序序列</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+  
+  <div class="widget-wrap widget-archive">
+    <div class="widget-title"><span>记录</span></div>
+    <div class="widget-inner">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">2020</a></li></ul>
+    </div>
+  </div>
+
+
+
+        </div>
+        <div id="backtop"><i class="icon icon-arrow-up"></i></div>
+      </aside>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-inner">
+        <div class="footer-info">
+            <span>&copy; 2020 - 2020 WORK HARD· LIVE HARD</span>
+        </div>
+		<div class="footer-icp">
+            <a href="www.beian.miit.gov.cn">京ICP备19029619号</a>
+        </div>
+        <div class="footer-powered">
+			<img src="https://github.githubassets.com/favicons/favicon.png" alt="github" />
+            <a href="https://github.com/cornorghost" target="_blank" rel="noopener">Github</a>
+        </div>
+    </div>
+</footer>
+
+
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+
+
+<script src="/dist/build.js?1.5.2.js"></script>
+
+
+<script src="/dist/custom.js?1.5.2.js"></script>
+
+
+
+
+
+
+
+<!-- Baidu Analytics-->
+<script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function () {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?67c7ffd2441ef8d628200e4577231387";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+</body>
+</html>
