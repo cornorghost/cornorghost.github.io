@@ -156,7 +156,10 @@
 <p>3.把音频文件放到同名文件夹里，然后在文章插入以下语句</p>
 <pre><code>{% aplayer "No_Time_for_Caution" "Hans_Zimmer" "No_Time_for_Caution-Hans_Zimmer-24026258.mp3" "https://img4.kuwo.cn/star/albumcover/300/50/69/4184500136.jpg" %}</code></pre><p>第三个引号是文件名，可以是本地的，往下读，而且图片也可以是本地的</p>
 <p>其他详细参数参考<a href="https://github.com/grzhan/hexo-tag-aplayer#usage" target="_blank" rel="noopener">https://github.com/grzhan/hexo-tag-aplayer#usage</a></p>
-<h1 id="aplayer网络音频"><a href="#aplayer网络音频" class="headerlink" title="aplayer网络音频"></a>aplayer网络音频</h1><p>这里aplayer不能一个网页放两个，所以我直接上代码了</p>
+<h1 id="aplayer网络音频"><a href="#aplayer网络音频" class="headerlink" title="aplayer网络音频"></a>aplayer网络音频</h1>{% aplayer "Reality" "Lost Frequencies
+" "http://m7.music.126.net/20200807033637/3d75fc2be914b30d46e5767de4453a8b/ymusic/e5ef/f804/98e9/6c2d0f7bc466ecf3a0798786be6b2eb9.mp3" "http://p2.music.126.net/LKFWPd5m8ZStX8gm_536Ag==/109951163131792528.jpg?param=300y300" %}
+
+<p>这里aplayer不能一个网页放两个，所以我直接上代码了</p>
 <pre><code>{% aplayer "Reality" "Lost Frequencies
 " "http://m7.music.126.net/20200807033637/3d75fc2be914b30d46e5767de4453a8b/ymusic/e5ef/f804/98e9/6c2d0f7bc466ecf3a0798786be6b2eb9.mp3" "http://p2.music.126.net/LKFWPd5m8ZStX8gm_536Ag==/109951163131792528.jpg?param=300y300" %}</code></pre><p>根据上面的，其实本地文件地址也可以换成url，这样就是网络音频了，但是要注意网址有一定要求，就是打开该网址能直接下载mp3文件的，而且你要有权限访问该文件，这种链接才有效</p>
 <h1 id="网易云音频"><a href="#网易云音频" class="headerlink" title="网易云音频"></a>网易云音频</h1><iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=430 height=86 src="//music.163.com/outchain/player?type=2&id=2919622&auto=0&height=66"></iframe>
