@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     
-    <title>剑指49-把字符串转换为整数 | LIANGYUE&#39; BLOG</title>
+    <title>美团内推码 | LIANGYUE&#39; BLOG</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
     
@@ -99,7 +99,7 @@
       <section class="inner">
         <section class="inner-main">
           <div class="post">
-    <article id="post-ckdj6wx8t001vy8ve2y0q6qpf" class="article article-type-post" itemscope
+    <article id="post-ckdj90anq0005f8vehp8t35ye" class="article article-type-post" itemscope
     itemprop="blogPost">
 
     <div class="article-inner">
@@ -111,7 +111,7 @@
             
   
     <h1 class="article-title" itemprop="name">
-      剑指49-把字符串转换为整数
+      美团内推码
     </h1>
   
 
@@ -121,18 +121,18 @@
         <div class="article-more-info article-more-info-post hairline">
 
             <div class="article-date">
-  <time datetime="2020-08-06T02:38:36.000Z" itemprop="datePublished">2020-08-06</time>
+  <time datetime="2020-08-05T11:49:07.000Z" itemprop="datePublished">2020-08-05</time>
 </div>
 
             
             <div class="article-category">
-                <a class="article-category-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+                <a class="article-category-link" href="/categories/%E9%9D%A2%E8%AF%95/">面试</a>
             </div>
             
 
             
             <div class="article-tag">
-                <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%89%91%E6%8C%87offer/" rel="tag">剑指offer</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%AD%97%E7%AC%A6%E4%B8%B2/" rel="tag">字符串</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li></ul>
+                <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%86%85%E6%8E%A8%E7%A0%81/" rel="tag">内推码</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%BE%8E%E5%9B%A2/" rel="tag">美团</a></li></ul>
             </div>
             
 
@@ -145,62 +145,11 @@
 
         <div class="article-entry post-inner-html hairline" itemprop="articleBody">
             <blockquote>
-<p>位运算</p>
+<p>只有两面，直推HR</p>
 </blockquote>
 <a id="more"></a>
 
-<h1 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h1><p>将一个字符串转换成一个整数，要求不能使用字符串转换整数的库函数。 数值为0或者字符串不是一个合法的数值则返回0</p>
-<h1 id="输入描述"><a href="#输入描述" class="headerlink" title="输入描述:"></a>输入描述:</h1><p>输入一个字符串,包括数字字母符号,可以为空</p>
-<h1 id="输出描述"><a href="#输出描述" class="headerlink" title="输出描述:"></a>输出描述:</h1><p>如果是合法的数值表达则返回该数字，否则返回0</p>
-<h1 id="示例1"><a href="#示例1" class="headerlink" title="示例1"></a>示例1</h1><p>输入</p>
-<p>+2147483647</p>
-<p>1a33</p>
-<p>输出</p>
-<p>2147483647</p>
-<p>0</p>
-<h1 id="解法"><a href="#解法" class="headerlink" title="解法"></a>解法</h1><p>先判断正负号，对数字求和的时候判断是否合法，若不合法，退出，否则返回结果</p>
-<p>其中还有一些特殊条件要处理，比如开头空格、数字夹杂非数字、没有数字的情况</p>
-<p>这里还要说一下，大于INT_MAX的数位INT_MIN，就是说不管INT_MAX加多少，都等于INT_MIN，例如：</p>
-<p>INT_MAX+1=INT_MIN</p>
-<pre><code class="c++">class Solution {
-public:
-    int StrToInt(string str) {
-        if(str.empty()) return 0;
-        //去除空格
-        int i=0;
-        while(i&lt;str.size() &amp;&amp; str[i]==&#39; &#39;) i++;
-        //判断正负
-        bool neg;
-        if(str[i]==&#39;+&#39;) neg=true;
-        if(str[i]==&#39;-&#39;) neg=false;
-        //找到数字开始的下标
-        while(!isdigit(str[i])) i++;
-        if(i==str.size()) return 0;
-
-        //计算总和
-        long long sum=0;
-        while(i&lt;str.size() &amp;&amp; isdigit(str[i])) 
-        {
-            sum=sum*10+(str[i]-&#39;0&#39;);
-            i++;
-            //大于INT_MAX退出
-            if(neg &amp;&amp; sum&gt;INT_MAX)
-            {
-                sum=INT_MAX;
-                break;
-            }
-            //小于INT_MIN退出
-            if(!neg &amp;&amp; -sum&lt;INT_MIN)
-            {
-                sum=INT_MIN;
-                break;
-            }
-        }
-
-        if(i!=str.size()) return 0; //中间夹杂非数字情况
-        return neg?(int)sum:(int)(-sum);
-    }
-};</code></pre>
+<p>师兄今年入职美团了，然后帮推一下内推码</p>
 
         </div>
 
@@ -219,19 +168,19 @@ public:
     
 <nav class="article-nav">
   
-    <a href="/2020/08/06/8%E6%9C%8826%E5%AE%B6%E6%95%99%E5%90%90%E6%A7%BD/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2020/08/05/%E7%BE%8E%E5%9B%A2%E5%86%85%E6%8E%A8%E7%A0%81/" id="article-nav-newer" class="article-nav-link-wrap">
       <div class="article-nav-caption">下一篇</div>
       <div class="article-nav-title">
         
-          8月26周四家教吐槽
+          美团内推码
         
       </div>
     </a>
   
   
-    <a href="/2020/08/06/%E5%89%91%E6%8C%8748-%E4%B8%8D%E7%94%A8%E5%8A%A0%E5%87%8F%E4%B9%98%E9%99%A4%E5%81%9A%E5%8A%A0%E6%B3%95/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2020/08/05/%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1-IPC/" id="article-nav-older" class="article-nav-link-wrap">
       <div class="article-nav-caption">上一篇</div>
-      <div class="article-nav-title">剑指48-不用加减乘除做加法</div>
+      <div class="article-nav-title">进程间通信(IPC)</div>
     </a>
   
 </nav>
@@ -240,15 +189,15 @@ public:
     <section class="share">
         <div class="share-title">分享</div>
         <a class="share-item" target="_blank"
-            href="https://twitter.com/share?text=剑指49-把字符串转换为整数 - LIANGYUE' BLOG&url=http://www.openrad.ink/2020/08/06/%E5%89%91%E6%8C%8749-%E6%8A%8A%E5%AD%97%E7%AC%A6%E4%B8%B2%E8%BD%AC%E6%8D%A2%E4%B8%BA%E6%95%B4%E6%95%B0/">
+            href="https://twitter.com/share?text=美团内推码 - LIANGYUE' BLOG&url=http://www.openrad.ink/2020/08/05/%E7%88%B1%E6%83%85/2/">
             <box-icon type='logo' name='twitter'></box-icon>
         </a>
         <a class="share-item" target="_blank"
-            href="https://www.facebook.com/sharer.php?title=剑指49-把字符串转换为整数 - LIANGYUE' BLOG&u=http://www.openrad.ink/2020/08/06/%E5%89%91%E6%8C%8749-%E6%8A%8A%E5%AD%97%E7%AC%A6%E4%B8%B2%E8%BD%AC%E6%8D%A2%E4%B8%BA%E6%95%B4%E6%95%B0/">
+            href="https://www.facebook.com/sharer.php?title=美团内推码 - LIANGYUE' BLOG&u=http://www.openrad.ink/2020/08/05/%E7%88%B1%E6%83%85/2/">
             <box-icon name='facebook-square' type='logo' ></box-icon>
         </a>
         <!-- <a class="share-item" target="_blank"
-            href="https://service.weibo.com/share/share.php?title=剑指49-把字符串转换为整数 - LIANGYUE' BLOG&url=http://www.openrad.ink/2020/08/06/%E5%89%91%E6%8C%8749-%E6%8A%8A%E5%AD%97%E7%AC%A6%E4%B8%B2%E8%BD%AC%E6%8D%A2%E4%B8%BA%E6%95%B4%E6%95%B0/&pic=">
+            href="https://service.weibo.com/share/share.php?title=美团内推码 - LIANGYUE' BLOG&url=http://www.openrad.ink/2020/08/05/%E7%88%B1%E6%83%85/2/&pic=">
             <div class="n-icon n-icon-weibo"></div>
         </a> -->
     </section>
