@@ -35,9 +35,7 @@
         }
     </script>
 
-<meta name="generator" content="Hexo 4.2.1"><link rel="stylesheet" href="\assets\css\APlayer.min.css" class="aplayer-style-marker">
-<script src="\assets\js\APlayer.min.js" class="aplayer-script-marker"></script>
-<script src="/assets/js/DPlayer.min.js"></script></head>
+<meta name="generator" content="Hexo 4.2.1"><script src="/assets/js/DPlayer.min.js"></script></head>
 
 <body>
 
@@ -151,29 +149,7 @@
 </blockquote>
 <a id="more"></a>
 
-<h1 id="aplayer本地音频"><a href="#aplayer本地音频" class="headerlink" title="aplayer本地音频"></a>aplayer本地音频</h1>
-        <div id="aplayer-brIzeNBT" class="aplayer aplayer-tag-marker" style="margin-bottom: 20px;">
-            <pre class="aplayer-lrc-content"></pre>
-        </div>
-        <script>
-          var ap = new APlayer({
-            element: document.getElementById("aplayer-brIzeNBT"),
-            narrow: false,
-            autoplay: false,
-            showlrc: false,
-            music: {
-              title: "No_Time_for_Caution",
-              author: "Hans_Zimmer",
-              url: "No_Time_for_Caution-Hans_Zimmer-24026258.mp3",
-              pic: "https://img4.kuwo.cn/star/albumcover/300/50/69/4184500136.jpg",
-              lrc: ""
-            }
-          });
-          window.aplayers || (window.aplayers = []);
-          window.aplayers.push(ap);
-        </script>
-
-<p>1.博客中如果要插入本地音频，需要先安装hexo-tag-aplayer，在你的cmd输入</p>
+<h1 id="aplayer本地音频"><a href="#aplayer本地音频" class="headerlink" title="aplayer本地音频"></a>aplayer本地音频</h1><p>1.博客中如果要插入本地音频，需要先安装hexo-tag-aplayer，在你的cmd输入</p>
 <pre><code>npm install --save hexo-tag-aplayer</code></pre><p>2.然后确保你的hexo的配置文件_config.yml里</p>
 <pre><code>post_asset_folder: true</code></pre><p>打开这个可以让你new新的文章时生成同名文件夹</p>
 <p>当然如果你要使用别的路径，可以忽略这步</p>
