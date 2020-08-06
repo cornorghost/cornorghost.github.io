@@ -152,12 +152,12 @@
 <a id="more"></a>
 
 <h1 id="aplayer本地音频"><a href="#aplayer本地音频" class="headerlink" title="aplayer本地音频"></a>aplayer本地音频</h1>
-        <div id="aplayer-sehbElfU" class="aplayer aplayer-tag-marker" style="margin-bottom: 20px;">
+        <div id="aplayer-JDhEYBUw" class="aplayer aplayer-tag-marker" style="margin-bottom: 20px;">
             <pre class="aplayer-lrc-content"></pre>
         </div>
         <script>
           var ap = new APlayer({
-            element: document.getElementById("aplayer-sehbElfU"),
+            element: document.getElementById("aplayer-JDhEYBUw"),
             narrow: false,
             autoplay: false,
             showlrc: false,
@@ -182,7 +182,8 @@
 <p>其他详细参数参考<a href="https://github.com/grzhan/hexo-tag-aplayer#usage" target="_blank" rel="noopener">https://github.com/grzhan/hexo-tag-aplayer#usage</a></p>
 <h1 id="aplayer网络音频"><a href="#aplayer网络音频" class="headerlink" title="aplayer网络音频"></a>aplayer网络音频</h1>{% aplayer "她的睫毛" "周杰伦" "http://home.ustc.edu.cn/~mmmwhy/%d6%dc%bd%dc%c2%d7%20-%20%cb%fd%b5%c4%bd%de%c3%ab.mp3"  "http://home.ustc.edu.cn/~mmmwhy/jay.jpg" "autoplay=false" %}
 
-<p>根据上面的，其实本地文件地址也可以换成url，这样就是网络音频了，但是要注意网址最后一定要指向某个mp3，这种链接才有效</p>
+
+<p>根据上面的，其实本地文件地址也可以换成url，这样就是网络音频了，但是要注意网址一定要指向某个mp3，就是链接里出现mp3，这种链接才有效</p>
 <pre><code>{% aplayer "她的睫毛" "周杰伦" "http://home.ustc.edu.cn/~mmmwhy/%d6%dc%bd%dc%c2%d7%20-%20%cb%fd%b5%c4%bd%de%c3%ab.mp3"  "http://home.ustc.edu.cn/~mmmwhy/jay.jpg" "autoplay=false" %}</code></pre><h1 id="网易云音频"><a href="#网易云音频" class="headerlink" title="网易云音频"></a>网易云音频</h1><iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=430 height=86 src="//music.163.com/outchain/player?type=2&id=2919622&auto=0&height=66"></iframe>
 
 <pre><code>&lt;iframe frameborder=&quot;no&quot; border=&quot;0&quot; marginwidth=&quot;0&quot; marginheight=&quot;0&quot; width=430 height=86 src=&quot;//music.163.com/outchain/player?type=2&amp;id=2919622&amp;auto=0&amp;height=66&quot;&gt;&lt;/iframe&gt;</code></pre><p>把上面的id号改成你要添加的</p>
@@ -201,7 +202,7 @@
 <p>3.把视频文件放到同名文件夹里，然后在文章插入以下语句</p>
 <pre><code>{% dplayer "url=1.mp4"  "pic=1.png" "loop=yes" "theme=#FADFA3" "autoplay=false" "token=tokendemo" %}</code></pre><p>第一个引号是文件名</p>
 <p>其他详细参数参考<a href="https://github.com/NextMoe/hexo-tag-dplayer#usage" target="_blank" rel="noopener">https://github.com/NextMoe/hexo-tag-dplayer#usage</a></p>
-<h1 id="dplayer网络视频"><a href="#dplayer网络视频" class="headerlink" title="dplayer网络视频"></a>dplayer网络视频</h1><div id="dplayer1" class="dplayer hexo-tag-dplayer-mark" style="margin-bottom: 20px;"></div><script>(function(){var player = new DPlayer({"container":document.getElementById("dplayer1"),"theme":"#FADFA3","loop":true,"video":{"url":"https://youtu.be/JBjjnqG0BP8","pic":"1.jpg"}});window.dplayers||(window.dplayers=[]);window.dplayers.push(player);})()</script>
+<h1 id="dplayer网络视频"><a href="#dplayer网络视频" class="headerlink" title="dplayer网络视频"></a>dplayer网络视频</h1><div id="dplayer1" class="dplayer hexo-tag-dplayer-mark" style="margin-bottom: 20px;"></div><script>(function(){var player = new DPlayer({"container":document.getElementById("dplayer1"),"theme":"#FADFA3","loop":true,"video":{"url":"http://vwecam.tc.qq.com/1006_3106d9d892dd45b1b14d98ffca3b40df.f20.mp4?ptype=http&vkey=8D7922440EB58BA1D0FC7BD496BB732D50FD36041C28EE08F5B32CA50AD35E9CDF991946309DC7E81E5DA6ADEA247D2575E9AF027476B4F8&sdtfrom=v6000&owner=0&chgtype=712&vuin=125299794","pic":"1.png"}});window.dplayers||(window.dplayers=[]);window.dplayers.push(player);})()</script>
 
 
         </div>
