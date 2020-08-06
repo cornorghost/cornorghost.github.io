@@ -99,7 +99,7 @@
       <section class="inner">
         <section class="inner-main">
           <div class="post">
-    <article id="post-ckdinnynn002cm0vefj4j67qi" class="article article-type-post" itemscope
+    <article id="post-ckdj0rsw3002bngvea5x4h0c2" class="article article-type-post" itemscope
     itemprop="blogPost">
 
     <div class="article-inner">
@@ -152,6 +152,24 @@
 <blockquote>
 <p>本笔记参考的视频链接:<a href="https://www.bilibili.com/video/BV1Ht411p7wx?p=7" target="_blank" rel="noopener">https://www.bilibili.com/video/BV1Ht411p7wx?p=7</a><br>库链接:<a href="https://github.com/chenshuo/muduo" target="_blank" rel="noopener">https://github.com/chenshuo/muduo</a></p>
 </blockquote>
+<p>本节视频里做的阻塞IO下的ttcp实验的代码没有找到在哪，所以实验就暂时忽略</p>
+<p>这节讲的是ttcp大文件传输下的阻塞，虽然没有源代码，但是讲的是客户端发送数据大小超过服务端缓冲区大小的情况</p>
+<p>服务端伪代码</p>
+<pre><code>TcpStreamPtr stream; //tcp流读写器 
+while(stream-&gt;receiveSome(buf, sizeof(buf))) 接收数据，直到超过buf缓冲大下
+{
+    stream-&gt;sendAll(buf); //缓冲区满后，给客户端发送缓存的数据
+}</code></pre><p>客户端伪代码</p>
+<pre><code>TcpStreamPtr stream; //tcp流读写器 
+
+string message(len, &#39;s&#39;);  //待发送的消息，放len个&#39;s&#39;
+stream-&gt;sendAll(message, message.size()); 发送消息，该消息大小应大于服务器缓冲区
+
+vector&lt;char&gt; receive(len); //接受服务器返回的数据
+stream-&gt;receiveAll(receive.data(), receive.sie()); //发送消息完毕后，开始接收数据</code></pre><img src="/2020/08/05/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B03-%E9%98%BB%E5%A1%9EIO%E4%B8%8B%E7%9A%84ttcp/%E5%9B%BE1.png" class="" title="图1.png">
+
+<p>如上图，当客户端发送的数据大于服务器缓冲时，客户端的发送还在进行，而服务端已经开始发送数据给客户端，客户端没进入接收消息的状态，所以服务器等待，停止接收信息，客户端还在一直发送</p>
+<p>所以我感觉客户端收发都做线程就可以解决这个问题</p>
 
         </div>
 
