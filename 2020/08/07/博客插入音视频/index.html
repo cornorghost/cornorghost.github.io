@@ -35,9 +35,9 @@
         }
     </script>
 
-<meta name="generator" content="Hexo 4.2.1"><link rel="stylesheet" href="\assets\css\APlayer.min.css" class="aplayer-style-marker">
+<meta name="generator" content="Hexo 4.2.1"><script src="/assets/js/DPlayer.min.js"></script><link rel="stylesheet" href="\assets\css\APlayer.min.css" class="aplayer-style-marker">
 <script src="\assets\js\APlayer.min.js" class="aplayer-script-marker"></script>
-<script src="/assets/js/DPlayer.min.js"></script></head>
+</head>
 
 <body>
 
@@ -152,34 +152,17 @@
 <a id="more"></a>
 
 <h1 id="aplayer本地音频"><a href="#aplayer本地音频" class="headerlink" title="aplayer本地音频"></a>aplayer本地音频</h1>
-        <div id="aplayer-nNKlbhuC" class="aplayer aplayer-tag-marker" style="margin-bottom: 20px;">
+			<script>
+				console.error("Error: [hexo-tag-aplayer] Unrecognized tag argument(2): autoplay=false");
+			</script>
+
+
+        <div id="aplayer-xUuLiQAQ" class="aplayer aplayer-tag-marker" style="margin-bottom: 20px;">
             <pre class="aplayer-lrc-content"></pre>
         </div>
         <script>
           var ap = new APlayer({
-            element: document.getElementById("aplayer-nNKlbhuC"),
-            narrow: false,
-            autoplay: false,
-            showlrc: false,
-            music: {
-              title: "No_Time_for_Caution",
-              author: "Hans_Zimmer",
-              url: "http://m7.music.126.net/20200807033637/3d75fc2be914b30d46e5767de4453a8b/ymusic/e5ef/f804/98e9/6c2d0f7bc466ecf3a0798786be6b2eb9.mp3",
-              pic: "https://img4.kuwo.cn/star/albumcover/300/50/69/4184500136.jpg",
-              lrc: ""
-            }
-          });
-          window.aplayers || (window.aplayers = []);
-          window.aplayers.push(ap);
-        </script>
-
-
-        <div id="aplayer-ThrnuuWo" class="aplayer aplayer-tag-marker" style="margin-bottom: 20px;">
-            <pre class="aplayer-lrc-content"></pre>
-        </div>
-        <script>
-          var ap = new APlayer({
-            element: document.getElementById("aplayer-ThrnuuWo"),
+            element: document.getElementById("aplayer-xUuLiQAQ"),
             narrow: false,
             autoplay: false,
             showlrc: false,
@@ -199,6 +182,12 @@
 <pre><code>npm install --save hexo-tag-aplayer</code></pre><p>2.然后确保你的hexo的配置文件_config.yml里</p>
 <pre><code>post_asset_folder: true</code></pre><p>打开这个可以让你new新的文章时生成同名文件夹</p>
 <p>当然如果你要使用别的路径，可以忽略这步</p>
+
+			<script>
+				console.error("Error: [hexo-tag-aplayer] Unrecognized tag argument(2): autoplay=false");
+			</script>
+
+
 <p>3.把音频文件放到同名文件夹里，然后在文章插入以下语句</p>
 <pre><code>{% aplayer "No_Time_for_Caution" "Hans_Zimmer" "No_Time_for_Caution-Hans_Zimmer-24026258.mp3" "https://img4.kuwo.cn/star/albumcover/300/50/69/4184500136.jpg" %}</code></pre><p>第三个引号是文件名，可以是本地的，往下读，而且图片也可以是本地的</p>
 <p>其他详细参数参考<a href="https://github.com/grzhan/hexo-tag-aplayer#usage" target="_blank" rel="noopener">https://github.com/grzhan/hexo-tag-aplayer#usage</a></p>
