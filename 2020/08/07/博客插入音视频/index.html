@@ -35,9 +35,9 @@
         }
     </script>
 
-<meta name="generator" content="Hexo 4.2.1"><link rel="stylesheet" href="\assets\css\APlayer.min.css" class="aplayer-style-marker">
+<meta name="generator" content="Hexo 4.2.1"><script src="/assets/js/DPlayer.min.js"></script><link rel="stylesheet" href="\assets\css\APlayer.min.css" class="aplayer-style-marker">
 <script src="\assets\js\APlayer.min.js" class="aplayer-script-marker"></script>
-<script src="/assets/js/DPlayer.min.js"></script></head>
+</head>
 
 <body>
 
@@ -152,12 +152,12 @@
 <a id="more"></a>
 
 <h1 id="aplayer本地音频"><a href="#aplayer本地音频" class="headerlink" title="aplayer本地音频"></a>aplayer本地音频</h1>
-        <div id="aplayer-kMICHTZB" class="aplayer aplayer-tag-marker" style="margin-bottom: 20px;">
+        <div id="aplayer-brwbpVBl" class="aplayer aplayer-tag-marker" style="margin-bottom: 20px;">
             <pre class="aplayer-lrc-content"></pre>
         </div>
         <script>
           var ap = new APlayer({
-            element: document.getElementById("aplayer-kMICHTZB"),
+            element: document.getElementById("aplayer-brwbpVBl"),
             narrow: false,
             autoplay: false,
             showlrc: false,
@@ -185,24 +185,16 @@
 
 
 
-
-
-
-
-
-
-
-<p>根据上面的，其实本地文件地址也可以换成url，这样就是网络音频了，但是要注意网址有一定要求，就是打开该网址能直接下载mp3文件的，而且你要有权限访问该文件，这种链接才有效</p>
-<pre><code>{% aplayer "No_Time_for_Caution" "Hans_Zimmer" "http://m7.music.126.net/20200807033637/3d75fc2be914b30d46e5767de4453a8b/ymusic/e5ef/f804/98e9/6c2d0f7bc466ecf3a0798786be6b2eb9.mp3" "https://img4.kuwo.cn/star/albumcover/300/50/69/4184500136.jpg" %}</code></pre><h1 id="网易云音频"><a href="#网易云音频" class="headerlink" title="网易云音频"></a>网易云音频</h1><iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=430 height=86 src="//music.163.com/outchain/player?type=2&id=2919622&auto=0&height=66"></iframe>
+<h1 id="网易云音频"><a href="#网易云音频" class="headerlink" title="网易云音频"></a>网易云音频</h1><iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=430 height=86 src="//music.163.com/outchain/player?type=2&id=2919622&auto=0&height=66"></iframe>
 
 <pre><code>&lt;iframe frameborder=&quot;no&quot; border=&quot;0&quot; marginwidth=&quot;0&quot; marginheight=&quot;0&quot; width=430 height=86 src=&quot;//music.163.com/outchain/player?type=2&amp;id=2919622&amp;auto=0&amp;height=66&quot;&gt;&lt;/iframe&gt;</code></pre><p>把上面的id号改成你要添加的</p>
 <h1 id="iframe网络视频"><a href="#iframe网络视频" class="headerlink" title="iframe网络视频"></a>iframe网络视频</h1><p>复制嵌入代码</p>
-{% asset_img https://chant01.github.io/media/3.png https://chant01.github.io/media/3.png %}
+
 
 <iframe width="951" height="535" src="https://www.youtube.com/embed/m4iRwp_FWxI" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 <pre><code>&lt;iframe width=&quot;951&quot; height=&quot;535&quot; src=&quot;https://www.youtube.com/embed/m4iRwp_FWxI&quot; frameborder=&quot;0&quot; allow=&quot;accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture&quot; allowfullscreen&gt;&lt;/iframe&gt;</code></pre><h1 id="dplayer本地视频"><a href="#dplayer本地视频" class="headerlink" title="dplayer本地视频"></a>dplayer本地视频</h1><p>和applayer一样</p>
-<div id="dplayer0" class="dplayer hexo-tag-dplayer-mark" style="margin-bottom: 20px;"></div><script>(function(){var player = new DPlayer({"container":document.getElementById("dplayer0"),"theme":"#FADFA3","loop":true,"video":{"url":"/2020/08/07/博客插入音视频/1.mp4","pic":"1.png"}});window.dplayers||(window.dplayers=[]);window.dplayers.push(player);})()</script>
+{% dplayer "url=1.mp4"  "pic=1.png" "loop=yes" "theme=#FADFA3" "autoplay=false" "token=tokendemo" %}
 
 <p>1.博客中如果要插入本地视频，需要先安装hexo-tag-dplayer，在你的cmd输入</p>
 <pre><code>npm install hexo-tag-dplayer --save</code></pre><p>2.然后确保你的hexo的配置文件_config.yml里</p>
@@ -211,7 +203,7 @@
 <p>3.把视频文件放到同名文件夹里，然后在文章插入以下语句</p>
 <pre><code>{% dplayer "url=1.mp4"  "pic=1.png" "loop=yes" "theme=#FADFA3" "autoplay=false" "token=tokendemo" %}</code></pre><p>第一个引号是文件名</p>
 <p>其他详细参数参考<a href="https://github.com/NextMoe/hexo-tag-dplayer#usage" target="_blank" rel="noopener">https://github.com/NextMoe/hexo-tag-dplayer#usage</a></p>
-<h1 id="dplayer网络视频"><a href="#dplayer网络视频" class="headerlink" title="dplayer网络视频"></a>dplayer网络视频</h1><div id="dplayer1" class="dplayer hexo-tag-dplayer-mark" style="margin-bottom: 20px;"></div><script>(function(){var player = new DPlayer({"container":document.getElementById("dplayer1"),"theme":"#FADFA3","loop":true,"video":{"url":"http://vwecam.tc.qq.com/1006_3106d9d892dd45b1b14d98ffca3b40df.f20.mp4?ptype=http&vkey=8D7922440EB58BA1D0FC7BD496BB732D50FD36041C28EE08F5B32CA50AD35E9CDF991946309DC7E81E5DA6ADEA247D2575E9AF027476B4F8&sdtfrom=v6000&owner=0&chgtype=712&vuin=125299794","pic":"1.png"}});window.dplayers||(window.dplayers=[]);window.dplayers.push(player);})()</script>
+<h1 id="dplayer网络视频"><a href="#dplayer网络视频" class="headerlink" title="dplayer网络视频"></a>dplayer网络视频</h1><div id="dplayer0" class="dplayer hexo-tag-dplayer-mark" style="margin-bottom: 20px;"></div><script>(function(){var player = new DPlayer({"container":document.getElementById("dplayer0"),"theme":"#FADFA3","loop":true,"video":{"url":"http://vwecam.tc.qq.com/1006_3106d9d892dd45b1b14d98ffca3b40df.f20.mp4?ptype=http&vkey=8D7922440EB58BA1D0FC7BD496BB732D50FD36041C28EE08F5B32CA50AD35E9CDF991946309DC7E81E5DA6ADEA247D2575E9AF027476B4F8&sdtfrom=v6000&owner=0&chgtype=712&vuin=125299794","pic":"1.png"}});window.dplayers||(window.dplayers=[]);window.dplayers.push(player);})()</script>
 
 
         </div>
