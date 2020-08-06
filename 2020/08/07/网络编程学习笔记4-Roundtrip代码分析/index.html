@@ -35,9 +35,7 @@
         }
     </script>
 
-<meta name="generator" content="Hexo 4.2.1"><link rel="stylesheet" href="\assets\css\APlayer.min.css" class="aplayer-style-marker">
-<script src="\assets\js\APlayer.min.js" class="aplayer-script-marker"></script>
-</head>
+<meta name="generator" content="Hexo 4.2.1"></head>
 
 <body>
 
@@ -101,7 +99,7 @@
       <section class="inner">
         <section class="inner-main">
           <div class="post">
-    <article id="post-ckdj3l8oh002hx0ve8daq4fd7" class="article article-type-post" itemscope
+    <article id="post-ckdj4rvjg002hn4ve6xth9xjm" class="article article-type-post" itemscope
     itemprop="blogPost">
 
     <div class="article-inner">
@@ -158,33 +156,159 @@
 </blockquote>
 <p>前面说的是一些网络时间同步的历史原理，我觉得没必要深入这个，所以我跳过了</p>
 <p>接下来看一下代码，由于现在github上的代码和视频里解释的代码有差别，所以解释起来会有不一样的地方，但是本质还是一样的</p>
-<pre><code></code></pre>
-        <div id="aplayer-JVkRoQKN" class="aplayer aplayer-tag-marker" style="margin-bottom: 20px;">
-            <pre class="aplayer-lrc-content"></pre>
-        </div>
-        <script>
-          var ap = new APlayer({
-            element: document.getElementById("aplayer-JVkRoQKN"),
-            narrow: false,
-            autoplay: false,
-            showlrc: false,
-            music: {
-              title: "No_Time_for_Caution",
-              author: "Hans_Zimmer",
-              url: "https://music.163.com/#/song?id=461347998",
-              pic: "https://img4.kuwo.cn/star/albumcover/300/50/69/4184500136.jpg",
-              lrc: ""
-            }
-          });
-          window.aplayers || (window.aplayers = []);
-          window.aplayers.push(ap);
-        </script>
+<pre><code>#include &lt;muduo/base/Logging.h&gt;
+#include &lt;muduo/net/Channel.h&gt;
+#include &lt;muduo/net/EventLoop.h&gt;
+#include &lt;muduo/net/Socket.h&gt;
+#include &lt;muduo/net/SocketsOps.h&gt;
+#include &lt;muduo/net/TcpClient.h&gt;
+#include &lt;muduo/net/TcpServer.h&gt;
 
-<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=430 height=86 src="//music.163.com/outchain/player?type=2&id=461347998&auto=0&height=66"></iframe>
+#include &lt;stdio.h&gt;
+
+using namespace muduo;
+using namespace muduo::net;
+
+const size_t frameLen = 2*sizeof(int64_t);
+
+int createNonblockingUDP()
+{
+  int sockfd = ::socket(AF_INET, SOCK_DGRAM | SOCK_NONBLOCK | SOCK_CLOEXEC, IPPROTO_UDP);
+  if (sockfd &lt; 0)
+  {
+    LOG_SYSFATAL &lt;&lt; &quot;::socket&quot;;
+  }
+  return sockfd;
+}
+
+/////////////////////////////// Server ///////////////////////////////
+
+void serverReadCallback(int sockfd, muduo::Timestamp receiveTime)
+{
+  int64_t message[2];
+  struct sockaddr peerAddr;
+  memZero(&amp;peerAddr, sizeof peerAddr);
+  socklen_t addrLen = sizeof peerAddr;
+  ssize_t nr = ::recvfrom(sockfd, message, sizeof message, 0, &amp;peerAddr, &amp;addrLen);
+
+  char addrStr[64];
+  sockets::toIpPort(addrStr, sizeof addrStr, &amp;peerAddr);
+  LOG_DEBUG &lt;&lt; &quot;received &quot; &lt;&lt; nr &lt;&lt; &quot; bytes from &quot; &lt;&lt; addrStr;
+
+  if (nr &lt; 0)
+  {
+    LOG_SYSERR &lt;&lt; &quot;::recvfrom&quot;;
+  }
+  else if (implicit_cast&lt;size_t&gt;(nr) == frameLen)
+  {
+    message[1] = receiveTime.microSecondsSinceEpoch();
+    ssize_t nw = ::sendto(sockfd, message, sizeof message, 0, &amp;peerAddr, addrLen);
+    if (nw &lt; 0)
+    {
+      LOG_SYSERR &lt;&lt; &quot;::sendto&quot;;
+    }
+    else if (implicit_cast&lt;size_t&gt;(nw) != frameLen)
+    {
+      LOG_ERROR &lt;&lt; &quot;Expect &quot; &lt;&lt; frameLen &lt;&lt; &quot; bytes, wrote &quot; &lt;&lt; nw &lt;&lt; &quot; bytes.&quot;;
+    }
+  }
+  else
+  {
+    LOG_ERROR &lt;&lt; &quot;Expect &quot; &lt;&lt; frameLen &lt;&lt; &quot; bytes, received &quot; &lt;&lt; nr &lt;&lt; &quot; bytes.&quot;;
+  }
+}
+
+void runServer(uint16_t port)
+{
+  Socket sock(createNonblockingUDP());
+  sock.bindAddress(InetAddress(port));
+  EventLoop loop;
+  Channel channel(&amp;loop, sock.fd());
+  channel.setReadCallback(std::bind(&amp;serverReadCallback, sock.fd(), _1));
+  channel.enableReading();
+  loop.loop();
+}
+
+/////////////////////////////// Client ///////////////////////////////
+
+void clientReadCallback(int sockfd, muduo::Timestamp receiveTime)
+{
+  int64_t message[2];
+  ssize_t nr = sockets::read(sockfd, message, sizeof message);
+
+  if (nr &lt; 0)
+  {
+    LOG_SYSERR &lt;&lt; &quot;::read&quot;;
+  }
+  else if (implicit_cast&lt;size_t&gt;(nr) == frameLen)
+  {
+    int64_t send = message[0];
+    int64_t their = message[1];
+    int64_t back = receiveTime.microSecondsSinceEpoch();
+    int64_t mine = (back+send)/2;
+    LOG_INFO &lt;&lt; &quot;round trip &quot; &lt;&lt; back - send
+             &lt;&lt; &quot; clock error &quot; &lt;&lt; their - mine;
+  }
+  else
+  {
+    LOG_ERROR &lt;&lt; &quot;Expect &quot; &lt;&lt; frameLen &lt;&lt; &quot; bytes, received &quot; &lt;&lt; nr &lt;&lt; &quot; bytes.&quot;;
+  }
+}
+
+void sendMyTime(int sockfd)
+{
+  int64_t message[2] = { 0, 0 };
+  message[0] = Timestamp::now().microSecondsSinceEpoch();
+  ssize_t nw = sockets::write(sockfd, message, sizeof message);
+  if (nw &lt; 0)
+  {
+    LOG_SYSERR &lt;&lt; &quot;::write&quot;;
+  }
+  else if (implicit_cast&lt;size_t&gt;(nw) != frameLen)
+  {
+    LOG_ERROR &lt;&lt; &quot;Expect &quot; &lt;&lt; frameLen &lt;&lt; &quot; bytes, wrote &quot; &lt;&lt; nw &lt;&lt; &quot; bytes.&quot;;
+  }
+}
+
+void runClient(const char* ip, uint16_t port)
+{
+  Socket sock(createNonblockingUDP());
+  InetAddress serverAddr(ip, port);
+  int ret = sockets::connect(sock.fd(), serverAddr.getSockAddr());
+  if (ret &lt; 0)
+  {
+    LOG_SYSFATAL &lt;&lt; &quot;::connect&quot;;
+  }
+  EventLoop loop;
+  Channel channel(&amp;loop, sock.fd());
+  channel.setReadCallback(std::bind(&amp;clientReadCallback, sock.fd(), _1));
+  channel.enableReading();
+  loop.runEvery(0.2, std::bind(sendMyTime, sock.fd()));
+  loop.loop();
+}
+
+int main(int argc, char* argv[])
+{
+  if (argc &gt; 2)
+  {
+    uint16_t port = static_cast&lt;uint16_t&gt;(atoi(argv[2]));
+    if (strcmp(argv[1], &quot;-s&quot;) == 0)
+    {
+      runServer(port);
+    }
+    else
+    {
+      runClient(argv[1], port);
+    }
+  }
+  else
+  {
+    printf(&quot;Usage:\n%s -s port\n%s ip port\n&quot;, argv[0], argv[0]);
+  }
+}
 
 
-<p><a href="https://www.ximalaya.com/thirdparty/player/sound/player.html?id=68379493&amp;type=red" target="_blank" rel="noopener">https://www.ximalaya.com/thirdparty/player/sound/player.html?id=68379493&amp;type=red</a></p>
-
+</code></pre>
         </div>
 
     </div>
@@ -201,6 +325,15 @@
 
     
 <nav class="article-nav">
+  
+    <a href="/2020/08/07/%E5%8D%9A%E5%AE%A2%E6%8F%92%E5%85%A5%E9%9F%B3%E8%A7%86%E9%A2%91/" id="article-nav-newer" class="article-nav-link-wrap">
+      <div class="article-nav-caption">下一篇</div>
+      <div class="article-nav-title">
+        
+          博客插入音视频
+        
+      </div>
+    </a>
   
   
     <a href="/2020/08/06/8%E6%9C%8826%E5%AE%B6%E6%95%99%E5%90%90%E6%A7%BD/" id="article-nav-older" class="article-nav-link-wrap">
@@ -282,6 +415,10 @@
       <ul>
         
           <li>
+            <a href="/2020/08/07/%E5%8D%9A%E5%AE%A2%E6%8F%92%E5%85%A5%E9%9F%B3%E8%A7%86%E9%A2%91/">博客插入音视频</a>
+          </li>
+        
+          <li>
             <a href="/2020/08/07/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B04-Roundtrip%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90/">网络编程学习笔记4-Roundtrip代码分析</a>
           </li>
         
@@ -295,10 +432,6 @@
         
           <li>
             <a href="/2020/08/06/%E5%89%91%E6%8C%8748-%E4%B8%8D%E7%94%A8%E5%8A%A0%E5%87%8F%E4%B9%98%E9%99%A4%E5%81%9A%E5%8A%A0%E6%B3%95/">剑指48-不用加减乘除做加法</a>
-          </li>
-        
-          <li>
-            <a href="/2020/08/06/%E5%89%91%E6%8C%8747-%E6%B1%821-2-3-n/">剑指47-求1+2+3+...+n</a>
           </li>
         
       </ul>
