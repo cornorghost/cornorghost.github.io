@@ -99,7 +99,7 @@
       <section class="inner">
         <section class="inner-main">
           <div class="post">
-    <article id="post-ckdkb82oe002nmsve1s6eeftq" class="article article-type-post" itemscope
+    <article id="post-ckdkllkpp002nu8vec2ul7ion" class="article article-type-post" itemscope
     itemprop="blogPost">
 
     <div class="article-inner">
@@ -172,7 +172,43 @@
 <p><img src="https://img-blog.csdnimg.cn/2020062508355427.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMjg2MjI1,size_16,color_FFFFFF,t_70" alt=""></p>
 <h3 id="TCP状态解读"><a href="#TCP状态解读" class="headerlink" title="TCP状态解读"></a><a href="https://blog.csdn.net/qq_40286225/article/details/106957047" target="_blank" rel="noopener">TCP状态解读</a></h3><p><img src="https://img-blog.csdnimg.cn/20200625124220959.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMjg2MjI1,size_16,color_FFFFFF,t_70" alt=""></p>
 <h2 id="UDP"><a href="#UDP" class="headerlink" title="UDP"></a>UDP</h2><p>UDP是一个非连接的协议，传输数据之前源端和终端不建立连接， 当它想传送时就简单地去抓取来自应用程序的数据，并尽可能快地把它扔到网络上。 在发送端，UDP传送数据的速度仅仅是受应用程序生成数据的速度、 计算机的能力和传输带宽的限制； 在接收端，UDP把每个消息段放在队列中，应用程序每次从队列中读一个消息段。</p>
-<h1 id="报文结构不同"><a href="#报文结构不同" class="headerlink" title="报文结构不同"></a>报文结构不同</h1>
+<h1 id="报文结构不同"><a href="#报文结构不同" class="headerlink" title="报文结构不同"></a>报文结构不同</h1><h2 id="TCP报文结构"><a href="#TCP报文结构" class="headerlink" title="TCP报文结构"></a>TCP报文结构</h2><p>TCP/IP协议里，TCP被封装在http报文中，如下</p>
+<img src="/2020/08/07/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B05-UDP&TCP/1.png" class="" title="1.png">
+
+<p>而TCP报文的结构如下图</p>
+<p><img src="https://img-blog.csdn.net/2018052919245371?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTQ3MTEwOTQ=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt=""></p>
+<p>下图为简约版，上图可以看到占位大小</p>
+<p><img src="https://img-blog.csdn.net/20180529192522442?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTQ3MTEwOTQ=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt=""></p>
+<p>源端口（Source port）和目的端口（Destination port）：都为16位，分别用于寻找发端和接收端应用进程，这两个进程加上IP报文里的两个IP地址确定了一个唯一的TCP连接</p>
+<p>序号（Sequence Number）和确认序号（Ackknowledgment Number）:都为32位，标识数据字节流，SN表示发送的第一个数据字节，AN表示希望下一次收到的字节</p>
+<p>首部长度（Data offset）:4位，表示的是除去可选项和数据，有多少个32位的字段，即有多少个4个字节的字段，4位能表示的范围为0~15，而基本必须包含的有5个字段（其实就是看行），所以TCP报文的最小长度为20个字节（32<em>5=160bit=20byte），最大则是（15</em>4*8=480bit=60byte）</p>
+<p>保留（Resevered）:6位，以备以后使用</p>
+<p>标志位（Flags）: 6位</p>
+<p>URG = 1，指示报文中有紧急数据，应尽快传送（相当于高优先级的数据）</p>
+<p>PSH = 1，接到后尽快交付给接收的应用进程</p>
+<p>RST = 1，TCP连接中出现严重差错（如主机崩溃），必须释放连接，在重新建立连接</p>
+<p>FIN = 1，发送端已完成数据传输，请求释放连接</p>
+<p>SYN = 1，处于TCP连接建立过程</p>
+<p>ACK = 1，确认序号（AN）有效</p>
+<p>窗口（Window size）：16位，接收的字节数，最大2^16个字节</p>
+<p>校验和（Checksum）:16位，校验报文首部、数据。</p>
+<p>紧急指针（Urgent pointer）：16位，如果URG = 1，该字段指示紧急数据的大小（相对于SN的偏移），紧急数据在数据部分的最前面</p>
+<p>可选项（Options）：TCP报文的字段实现了TCP的功能，标识进程、对字节流拆分组装、差错控制、流量控制、建立和释放连接等</p>
+<h2 id="UDP报文结构"><a href="#UDP报文结构" class="headerlink" title="UDP报文结构"></a>UDP报文结构</h2><p><img src="https://img-blog.csdn.net/20180530204528103?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTQ3MTEwOTQ=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt=""></p>
+<img src="/2020/08/07/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B05-UDP&TCP/2.png" class="" title="2.png">
+
+<h1 id="适用场景"><a href="#适用场景" class="headerlink" title="适用场景"></a>适用场景</h1><ol>
+<li><p>你真的很在乎延迟，不能忍受重传，那么就用UDP，例如 NTP 协议。重传NTP消息纯属添乱。</p>
+</li>
+<li><p>你真的不在乎可靠性，丢一些包也不需要重传，那么就可以用 UDP。例子我想不出来。有人说音频或视频流可以用UDP，不过据我看来各大视频网站都用HTTP协议，而HTTP是基于TCP的。</p>
+</li>
+<li><p>你需要NAT穿透，那么不得不用UDP。</p>
+</li>
+<li><p>其他情况，一旦程序要自己做重传，你都是在用UDP模拟出蹩脚的TCP，还不如直接用TCP呢</p>
+</li>
+</ol>
+<p><a href="https://www.zhihu.com/question/20060141" target="_blank" rel="noopener">https://www.zhihu.com/question/20060141</a></p>
+
         </div>
 
     </div>
