@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     
-    <title>Tag | leetcode | LIANGYUE&#39; BLOG</title>
+    <title>网络编程学习笔记5-UDP&amp;TCP | LIANGYUE&#39; BLOG</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
     
@@ -98,72 +98,137 @@
     <div class="main">
       <section class="inner">
         <section class="inner-main">
-          
+          <div class="post">
+    <article id="post-ckdkb72sw002jzcveb8kh8sr2" class="article article-type-post" itemscope
+    itemprop="blogPost">
+
+    <div class="article-inner">
+
+        
+
+        
+        <header class="article-header">
+            
   
+    <h1 class="article-title" itemprop="name">
+      网络编程学习笔记5-UDP&amp;TCP
+    </h1>
   
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2020" class="archive-year">2020</a>
+
+        </header>
+        
+
+        <div class="article-more-info article-more-info-post hairline">
+
+            <div class="article-date">
+  <time datetime="2020-08-07T12:09:43.000Z" itemprop="datePublished">2020-08-07</time>
+</div>
+
+            
+            <div class="article-category">
+                <a class="article-category-link" href="/categories/c/">c++</a>,<a class="article-category-link" href="/categories/%E6%9C%8D%E5%8A%A1%E5%99%A8/">服务器</a>
+            </div>
+            
+
+            
+            <div class="article-tag">
+                <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/muduo/" rel="tag">muduo</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%90%8E%E7%AB%AF/" rel="tag">后端</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C/" rel="tag">网络</a></li></ul>
+            </div>
+            
+
+            
+            <div class="article-busuanzi">
+                有 <span id="busuanzi_value_page_pv">N</span> 人看过
+            </div>
+            
         </div>
-        <div class="archives">
+
+        <div class="article-entry post-inner-html hairline" itemprop="articleBody">
+            <blockquote>
+<p>深入了解UDP和TCP的不同，视频p16</p>
+</blockquote>
+<a id="more"></a>
+
+<blockquote>
+<p>本笔记参考的视频链接:<a href="https://www.bilibili.com/video/BV1Ht411p7wx?p=16" target="_blank" rel="noopener">https://www.bilibili.com/video/BV1Ht411p7wx?p=16</a><br>库链接:<a href="https://github.com/chenshuo/muduo" target="_blank" rel="noopener">https://github.com/chenshuo/muduo</a></p>
+</blockquote>
+<p>UDP和TCP的不同都是老生常谈的问题，一个可靠，一个不可靠</p>
+<h1 id="连接不同"><a href="#连接不同" class="headerlink" title="连接不同"></a>连接不同</h1><h2 id="TCP三次握手和四次挥手"><a href="#TCP三次握手和四次挥手" class="headerlink" title="TCP三次握手和四次挥手"></a>TCP三次握手和四次挥手</h2><h3 id="三次握手"><a href="#三次握手" class="headerlink" title="三次握手"></a>三次握手</h3><ol>
+<li>请求端（通常是指客户端）发送一个SYN段打算连接服务器上的端口，以及初始序号（ISN，在这个例子中为1415531521），这个SYN段为报文段1</li>
+<li>服务器发回包含初始序号的SYN报文段作为应答（报文段2），同时，将确认序号设置为客户的ISN+1</li>
+<li>客户端将确认序号设置为服务器的ISN序号+1对服务器的报文做应答（报文段3）</li>
+</ol>
+<p><img src="https://img-blog.csdnimg.cn/2020062508355427.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMjg2MjI1,size_16,color_FFFFFF,t_70" alt=""></p>
+<h3 id="四次挥手"><a href="#四次挥手" class="headerlink" title="四次挥手"></a>四次挥手</h3><ul>
+<li><p>客户端发送一个FIN报文（报文4）给服务器，表示我将关闭客户端到服务器端这个方向的连接。</p>
+</li>
+<li><p>服务器收到报文4后，发送一个ACK报文（报文5）给客户端，序号为报文4的序号加1。</p>
+</li>
+<li><p>服务器发送一个FIN报文（报文6）给客户端，表示自己也将关闭服务器端到客户端这个方向的连接。</p>
+</li>
+<li><p>客户端收到报文6后，发回一个ACK报文（报文7）给服务器，序号为报文6的序号加1。</p>
+</li>
+</ul>
+<p><img src="https://img-blog.csdnimg.cn/2020062508355427.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMjg2MjI1,size_16,color_FFFFFF,t_70" alt=""></p>
+<h3 id="TCP状态解读"><a href="#TCP状态解读" class="headerlink" title="TCP状态解读"></a><a href="https://blog.csdn.net/qq_40286225/article/details/106957047" target="_blank" rel="noopener">TCP状态解读</a></h3><p><img src="https://img-blog.csdnimg.cn/20200625124220959.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMjg2MjI1,size_16,color_FFFFFF,t_70" alt=""></p>
+<h2 id="UDP"><a href="#UDP" class="headerlink" title="UDP"></a>UDP</h2><p>UDP是一个非连接的协议，传输数据之前源端和终端不建立连接， 当它想传送时就简单地去抓取来自应用程序的数据，并尽可能快地把它扔到网络上。 在发送端，UDP传送数据的速度仅仅是受应用程序生成数据的速度、 计算机的能力和传输带宽的限制； 在接收端，UDP把每个消息段放在队列中，应用程序每次从队列中读一个消息段。</p>
+<h1 id="报文结构不同"><a href="#报文结构不同" class="headerlink" title="报文结构不同"></a>报文结构不同</h1>
+        </div>
+
+    </div>
+
     
-    <article class="archive-article archive-type-post">
+
+    
+
+    
+
+    
+
+    
+
+    
+<nav class="article-nav">
   
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/07/28/%E5%89%91%E6%8C%8736-%E4%B8%A4%E4%B8%AA%E9%93%BE%E8%A1%A8%E4%B8%AD%E7%AC%AC%E4%B8%80%E4%B8%AA%E5%85%B1%E5%90%8C%E7%9A%84%E8%8A%82%E7%82%B9/">剑指36-两个链表中第一个共同的节点</a>
-    </h1>
+    <a href="/2020/08/07/hexo%E5%8D%9A%E5%AE%A2%E6%8F%92%E5%85%A5%E9%9F%B3%E8%A7%86%E9%A2%91/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-caption">上一篇</div>
+      <div class="article-nav-title">hexo博客插入音视频</div>
+    </a>
   
+</nav>
+
+
+    <section class="share">
+        <div class="share-title">分享</div>
+        <a class="share-item" target="_blank"
+            href="https://twitter.com/share?text=网络编程学习笔记5-UDP&TCP - LIANGYUE' BLOG&url=http://www.openrad.ink/2020/08/07/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B05-UDP&TCP/">
+            <box-icon type='logo' name='twitter'></box-icon>
+        </a>
+        <a class="share-item" target="_blank"
+            href="https://www.facebook.com/sharer.php?title=网络编程学习笔记5-UDP&TCP - LIANGYUE' BLOG&u=http://www.openrad.ink/2020/08/07/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B05-UDP&TCP/">
+            <box-icon name='facebook-square' type='logo' ></box-icon>
+        </a>
+        <!-- <a class="share-item" target="_blank"
+            href="https://service.weibo.com/share/share.php?title=网络编程学习笔记5-UDP&TCP - LIANGYUE' BLOG&url=http://www.openrad.ink/2020/08/07/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B05-UDP&TCP/&pic=">
+            <div class="n-icon n-icon-weibo"></div>
+        </a> -->
+    </section>
 
 </article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/07/28/%E5%89%91%E6%8C%8735-%E6%95%B0%E7%BB%84%E4%B8%AD%E7%9A%84%E9%80%86%E5%BA%8F%E5%AF%B9/">剑指35-数组中的逆序对</a>
-    </h1>
-  
-
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/07/24/%E5%89%91%E6%8C%8734-%E7%AC%AC%E4%B8%80%E4%B8%AA%E5%8F%AA%E5%87%BA%E7%8E%B0%E4%B8%80%E6%AC%A1%E7%9A%84%E5%AD%97%E7%AC%A6/">剑指34-第一个只出现一次的字符</a>
-    </h1>
-  
-
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/07/23/%E5%89%91%E6%8C%8733-%E4%B8%91%E6%95%B0/">剑指33-丑数</a>
-    </h1>
-  
-
-</article>
-  
-  
-    </div></section>
-  
 
 
 
 
+<section class="comments">
+    <div id="gitalk-container"></div>
+</section>
+
+
+
+<script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+</div>
         </section>
       </section>
       <aside class="sidebar">
@@ -171,6 +236,12 @@
           
 
   
+  <div class="widget-wrap">
+    <div class="widget-inner">
+      <div class="toc post-toc-html"></div>
+    </div>
+  </div>
+
 
   
   <div class="widget-wrap widget-cate">
