@@ -154,15 +154,166 @@
 <blockquote>
 <p>本笔记参考的视频链接:<a href="https://www.bilibili.com/video/BV1Ht411p7wx?p=13" target="_blank" rel="noopener">https://www.bilibili.com/video/BV1Ht411p7wx?p=13</a><br>库链接:<a href="https://github.com/chenshuo/muduo" target="_blank" rel="noopener">https://github.com/chenshuo/muduo</a></p>
 </blockquote>
-<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=3&id=2068576004&auto=0&height=66"></iframe>
-
 <p>前面说的是一些网络时间同步的历史原理，我觉得没必要深入这个，所以我跳过了</p>
 <p>接下来看一下代码，由于现在github上的代码和视频里解释的代码有差别，所以解释起来会有不一样的地方，但是本质还是一样的</p>
+<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=3&id=2068576004&auto=0&height=66"></iframe>
+
 <p>视频里的</p>
 <p>struct  Message<br>{<br>  int64_t request;<br>  int64_t response;<br>}</p>
 <p>改为使用int64_t message[2];</p>
 <p>视频里while(true)的部分也提取成callback函数，包括服务端的和客户端</p>
-<p><img src="/2020/08/07/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B04-Roundtrip%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90/1.png" class="" title="1.png}&lt;&#x2F;p&gt;">
+<img src="/2020/08/07/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B04-Roundtrip%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90/1.png" class="" title="1.png">
+
+<pre><code>#include &lt;muduo/base/Logging.h&gt;
+#include &lt;muduo/net/Channel.h&gt;
+#include &lt;muduo/net/EventLoop.h&gt;
+#include &lt;muduo/net/Socket.h&gt;
+#include &lt;muduo/net/SocketsOps.h&gt;
+#include &lt;muduo/net/TcpClient.h&gt;
+#include &lt;muduo/net/TcpServer.h&gt;
+
+#include &lt;stdio.h&gt;
+
+using namespace muduo;
+using namespace muduo::net;
+
+const size_t frameLen = 2*sizeof(int64_t);
+
+int createNonblockingUDP()  //创建UDP非阻塞socket
+{
+  int sockfd = ::socket(AF_INET, SOCK_DGRAM | SOCK_NONBLOCK | SOCK_CLOEXEC, IPPROTO_UDP);
+  if (sockfd &lt; 0)
+  {
+    LOG_SYSFATAL &lt;&lt; &quot;::socket&quot;;
+  }
+  return sockfd;
+}
+
+/////////////////////////////// Server ///////////////////////////////
+
+void serverReadCallback(int sockfd, muduo::Timestamp receiveTime)
+{
+  int64_t message[2];  //时间信息数组
+  struct sockaddr peerAddr;
+  memZero(&amp;peerAddr, sizeof peerAddr);
+  socklen_t addrLen = sizeof peerAddr;
+  ssize_t nr = ::recvfrom(sockfd, message, sizeof message, 0, &amp;peerAddr, &amp;addrLen);
+
+  char addrStr[64];
+  sockets::toIpPort(addrStr, sizeof addrStr, &amp;peerAddr);
+  LOG_DEBUG &lt;&lt; &quot;received &quot; &lt;&lt; nr &lt;&lt; &quot; bytes from &quot; &lt;&lt; addrStr;
+
+  if (nr &lt; 0)
+  {
+    LOG_SYSERR &lt;&lt; &quot;::recvfrom&quot;;
+  }
+  else if (implicit_cast&lt;size_t&gt;(nr) == frameLen)
+  {
+    message[1] = receiveTime.microSecondsSinceEpoch();  //修改response为本机当前时间
+    ssize_t nw = ::sendto(sockfd, message, sizeof message, 0, &amp;peerAddr, addrLen); //将修改的信息发回到客户端
+    if (nw &lt; 0)
+    {
+      LOG_SYSERR &lt;&lt; &quot;::sendto&quot;;
+    }
+    else if (implicit_cast&lt;size_t&gt;(nw) != frameLen)
+    {
+      LOG_ERROR &lt;&lt; &quot;Expect &quot; &lt;&lt; frameLen &lt;&lt; &quot; bytes, wrote &quot; &lt;&lt; nw &lt;&lt; &quot; bytes.&quot;;
+    }
+  }
+  else
+  {
+    LOG_ERROR &lt;&lt; &quot;Expect &quot; &lt;&lt; frameLen &lt;&lt; &quot; bytes, received &quot; &lt;&lt; nr &lt;&lt; &quot; bytes.&quot;;
+  }
+}
+
+void runServer(uint16_t port)
+{
+  Socket sock(createNonblockingUDP());
+  sock.bindAddress(InetAddress(port));
+  EventLoop loop;
+  Channel channel(&amp;loop, sock.fd());
+  channel.setReadCallback(std::bind(&amp;serverReadCallback, sock.fd(), _1));
+  channel.enableReading();
+  loop.loop();
+}
+
+/////////////////////////////// Client ///////////////////////////////
+
+void clientReadCallback(int sockfd, muduo::Timestamp receiveTime)
+{
+  int64_t message[2];
+  ssize_t nr = sockets::read(sockfd, message, sizeof message);
+
+  if (nr &lt; 0)
+  {
+    LOG_SYSERR &lt;&lt; &quot;::read&quot;;
+  }
+  else if (implicit_cast&lt;size_t&gt;(nr) == frameLen)  //收到长度刚好是两个int64_t
+  {
+    int64_t send = message[0];  //T1
+    int64_t their = message[1];  //T2
+    int64_t back = receiveTime.microSecondsSinceEpoch();  //T3
+    int64_t mine = (back+send)/2;  
+    LOG_INFO &lt;&lt; &quot;round trip &quot; &lt;&lt; back - send  //客户端自己计算的收发的时间
+             &lt;&lt; &quot; clock error &quot; &lt;&lt; their - mine;   //T2-(T1+T3)/2
+  }
+  else
+  {
+    LOG_ERROR &lt;&lt; &quot;Expect &quot; &lt;&lt; frameLen &lt;&lt; &quot; bytes, received &quot; &lt;&lt; nr &lt;&lt; &quot; bytes.&quot;;
+  }
+}
+
+void sendMyTime(int sockfd)
+{
+  int64_t message[2] = { 0, 0 };  //定义一个数组，第一个存放request，第二个存放response
+  message[0] = Timestamp::now().microSecondsSinceEpoch();  //修改request为本机当前时间
+  ssize_t nw = sockets::write(sockfd, message, sizeof message);
+  if (nw &lt; 0)
+  {
+    LOG_SYSERR &lt;&lt; &quot;::write&quot;;
+  }
+  else if (implicit_cast&lt;size_t&gt;(nw) != frameLen)
+  {
+    LOG_ERROR &lt;&lt; &quot;Expect &quot; &lt;&lt; frameLen &lt;&lt; &quot; bytes, wrote &quot; &lt;&lt; nw &lt;&lt; &quot; bytes.&quot;;
+  }
+}
+
+void runClient(const char* ip, uint16_t port)
+{
+  Socket sock(createNonblockingUDP());
+  InetAddress serverAddr(ip, port);
+  int ret = sockets::connect(sock.fd(), serverAddr.getSockAddr());
+  if (ret &lt; 0)
+  {
+    LOG_SYSFATAL &lt;&lt; &quot;::connect&quot;;
+  }
+  EventLoop loop;
+  Channel channel(&amp;loop, sock.fd());
+  channel.setReadCallback(std::bind(&amp;clientReadCallback, sock.fd(), _1));  //while(true)，不停接收信息
+  channel.enableReading();
+  loop.runEvery(0.2, std::bind(sendMyTime, sock.fd()));  //每0.2秒发送一个时间
+  loop.loop();
+}
+
+int main(int argc, char* argv[])
+{
+  if (argc &gt; 2)
+  {
+    uint16_t port = static_cast&lt;uint16_t&gt;(atoi(argv[2]));
+    if (strcmp(argv[1], &quot;-s&quot;) == 0)
+    {
+      runServer(port);
+    }
+    else
+    {
+      runClient(argv[1], port);
+    }
+  }
+  else
+  {
+    printf(&quot;Usage:\n%s -s port\n%s ip port\n&quot;, argv[0], argv[0]);
+  }
+}</code></pre>
         </div>
 
     </div>
