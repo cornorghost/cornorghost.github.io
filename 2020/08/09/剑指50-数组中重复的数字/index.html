@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     
-    <title>Tag | 字符串 | LIANGYUE&#39; BLOG</title>
+    <title>剑指50-数组中重复的数字 | LIANGYUE&#39; BLOG</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
     
@@ -98,84 +98,194 @@
     <div class="main">
       <section class="inner">
         <section class="inner-main">
-          
+          <div class="post">
+    <article id="post-ckdly9k8e0028rsveedxl6vvr" class="article article-type-post" itemscope
+    itemprop="blogPost">
+
+    <div class="article-inner">
+
+        
+
+        
+        <header class="article-header">
+            
   
+    <h1 class="article-title" itemprop="name">
+      剑指50-数组中重复的数字
+    </h1>
   
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2020" class="archive-year">2020</a>
+
+        </header>
+        
+
+        <div class="article-more-info article-more-info-post hairline">
+
+            <div class="article-date">
+  <time datetime="2020-08-08T16:15:24.000Z" itemprop="datePublished">2020-08-09</time>
+</div>
+
+            
+            <div class="article-category">
+                <a class="article-category-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+            </div>
+            
+
+            
+            <div class="article-tag">
+                <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%89%91%E6%8C%87offer/" rel="tag">剑指offer</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%93%88%E5%B8%8C%E8%A1%A8/" rel="tag">哈希表</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li></ul>
+            </div>
+            
+
+            
+            <div class="article-busuanzi">
+                有 <span id="busuanzi_value_page_pv">0</span> 人看过
+            </div>
+            
         </div>
-        <div class="archives">
+
+        <div class="article-entry post-inner-html hairline" itemprop="articleBody">
+            <blockquote>
+<p>哈希表、in-place方法、快慢指针</p>
+</blockquote>
+<a id="more"></a>
+
+<h1 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h1><p>在一个长度为n的数组里的所有数字都在0到n-1的范围内。 数组中某些数字是重复的，但不知道有几个数字是重复的。也不知道每个数字重复几次。请找出数组中任意一个重复的数字。 例如，如果输入长度为7的数组{2,3,1,0,2,5,3}，那么对应的输出是第一个重复的数字2。</p>
+<h1 id="解法"><a href="#解法" class="headerlink" title="解法"></a>解法</h1><p>这个题目和之前有个题很像，数组除了两个数字，其余数字都是出现了两次</p>
+<p>这两道题都能用万能解法，哈希表</p>
+<p>这道题除了哈希表还有一种方法：in-place，也叫下标定位法</p>
+<p>数组里每个数组都会指向下一个下标，当numbers[i] == numbers[numbers[i]]时，numbers[i]为重复的数字，在此之前，需要一直交换numbers[i]和numbers[numbers[i]]，直到i != numbers[i]，就是自己指向自己</p>
+<pre><code class="c++">class Solution {
+public:
+    // Parameters:
+    //        numbers:     an array of integers
+    //        length:      the length of array numbers
+    //        duplication: (Output) the duplicated number in the array number
+    // Return value:       true if the input is valid, and there are some duplications in the array number
+    //                     otherwise false
+    bool duplicate(int numbers[], int length, int* duplication) {
+
+
+     for (int i=0; i&lt;length; ++i) {
+         // 不相等就一直交换
+         while (i != numbers[i]) {
+             if (numbers[i] != numbers[numbers[i]]) {
+                 swap(numbers[i], numbers[numbers[i]]);
+             }
+             else {
+                 *duplication = numbers[i];
+                 return true;
+             }
+         }
+
+     }
+     return false;
+ }
+};</code></pre>
+<p>顺便把哈希表的解法也带上</p>
+<pre><code class="c++">class Solution {
+public:
+    // Parameters:
+    //        numbers:     an array of integers
+    //        length:      the length of array numbers
+    //        duplication: (Output) the duplicated number in the array number
+    // Return value:       true if the input is valid, and there are some duplications in the array number
+    //                     otherwise false
+    bool duplicate(int numbers[], int length, int* duplication) {
+        map&lt;int, int&gt; res_map;
+        for(int i=0;i&lt;length;i++)
+        {
+            if(res_map[numbers[i]]!=0) 
+            {
+                *duplication = numbers[i];
+                return true;
+            }
+            res_map[numbers[i]]++;
+        }
+        return false;
+    }
+};</code></pre>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>这道题我有想到一个方法，就是快慢指针，龟兔赛跑算法，但是我理解了这个算法的目的，快慢指针可以检测出数组是否存在环，但是，不能确定sings hi都存在重复的数字，因为形成环不一定需要重复数字，例如[2,1,3,0,5]，这里的2、1、0构成环，所以快慢指针会返回2，这里也罢错误的记录下</p>
+<pre><code class="c++">        int fast=numbers[0];
+        int slow=numbers[0];
+        while(true)
+        {
+            fast=numbers[numbers[fast]];
+            slow=numbers[slow];
+            if(fast==slow)
+            {
+                break;
+            }
+        }
+        fast=numbers[0]; //充值快指针
+        while(true)
+        {
+            fast=numbers[fast];
+            slow=numbers[slow];
+            if(fast=slow)
+            {
+                *duplication=fast;
+                return true;
+            }
+        }
+
+    }</code></pre>
+
+        </div>
+
+    </div>
+
     
-    <article class="archive-article archive-type-post">
+
+    
+
+    
+
+    
+
+    
+
+    
+<nav class="article-nav">
   
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/08/06/%E5%89%91%E6%8C%8749-%E6%8A%8A%E5%AD%97%E7%AC%A6%E4%B8%B2%E8%BD%AC%E6%8D%A2%E4%B8%BA%E6%95%B4%E6%95%B0/">剑指49-把字符串转换为整数</a>
-    </h1>
+    <a href="/2020/08/07/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B05-UDP&TCP/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-caption">上一篇</div>
+      <div class="article-nav-title">网络编程学习笔记5-UDP&amp;TCP</div>
+    </a>
   
+</nav>
+
+
+    <section class="share">
+        <div class="share-title">分享</div>
+        <a class="share-item" target="_blank"
+            href="https://twitter.com/share?text=剑指50-数组中重复的数字 - LIANGYUE' BLOG&url=http://www.openrad.ink/2020/08/09/%E5%89%91%E6%8C%8750-%E6%95%B0%E7%BB%84%E4%B8%AD%E9%87%8D%E5%A4%8D%E7%9A%84%E6%95%B0%E5%AD%97/">
+            <box-icon type='logo' name='twitter'></box-icon>
+        </a>
+        <a class="share-item" target="_blank"
+            href="https://www.facebook.com/sharer.php?title=剑指50-数组中重复的数字 - LIANGYUE' BLOG&u=http://www.openrad.ink/2020/08/09/%E5%89%91%E6%8C%8750-%E6%95%B0%E7%BB%84%E4%B8%AD%E9%87%8D%E5%A4%8D%E7%9A%84%E6%95%B0%E5%AD%97/">
+            <box-icon name='facebook-square' type='logo' ></box-icon>
+        </a>
+        <!-- <a class="share-item" target="_blank"
+            href="https://service.weibo.com/share/share.php?title=剑指50-数组中重复的数字 - LIANGYUE' BLOG&url=http://www.openrad.ink/2020/08/09/%E5%89%91%E6%8C%8750-%E6%95%B0%E7%BB%84%E4%B8%AD%E9%87%8D%E5%A4%8D%E7%9A%84%E6%95%B0%E5%AD%97/&pic=">
+            <div class="n-icon n-icon-weibo"></div>
+        </a> -->
+    </section>
 
 </article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/08/06/%E5%89%91%E6%8C%8748-%E4%B8%8D%E7%94%A8%E5%8A%A0%E5%87%8F%E4%B9%98%E9%99%A4%E5%81%9A%E5%8A%A0%E6%B3%95/">剑指48-不用加减乘除做加法</a>
-    </h1>
-  
-
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/08/06/%E5%89%91%E6%8C%8747-%E6%B1%821-2-3-n/">剑指47-求1+2+3+...+n</a>
-    </h1>
-  
-
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/08/04/%E5%89%91%E6%8C%8744-%E7%BF%BB%E8%BD%AC%E5%8D%95%E8%AF%8D%E9%A1%BA%E5%BA%8F%E5%BA%8F%E5%88%97/">剑指44-翻转单词顺序序列</a>
-    </h1>
-  
-
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/08/01/%E5%89%91%E6%8C%8743-%E5%B7%A6%E6%97%8B%E8%BD%AC%E5%AD%97%E7%AC%A6%E4%B8%B2/">剑指43-左旋转字符串</a>
-    </h1>
-  
-
-</article>
-  
-  
-    </div></section>
-  
 
 
 
 
+<section class="comments">
+    <div id="gitalk-container"></div>
+</section>
+
+
+
+<script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+</div>
         </section>
       </section>
       <aside class="sidebar">
@@ -184,6 +294,12 @@
 </script>
 
   
+  <div class="widget-wrap">
+    <div class="widget-inner">
+      <div class="toc post-toc-html"></div>
+    </div>
+  </div>
+
 
   
   <div class="widget-wrap widget-cate">
