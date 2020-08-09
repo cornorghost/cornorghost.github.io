@@ -99,7 +99,7 @@
       <section class="inner">
         <section class="inner-main">
           <div class="post">
-    <article id="post-ckdmhjt7e002afkvehkyv8hb3" class="article article-type-post" itemscope
+    <article id="post-ckdmhoqny002dj8ve5tflhma4" class="article article-type-post" itemscope
     itemprop="blogPost">
 
     <div class="article-inner">
@@ -160,7 +160,9 @@
 3： pattern[j-1]！=str[i-1]，即前一个字符是不匹配的，那dp[i-1][j-1]肯定是0，dp[i][j]也肯定是0，这个情况不用管</code></pre><p>情况2： pattern[j-1]==’<em>‘，即前一个字符为’\</em>‘，然后以下两种可能的情况，只要有一种成立即可</p>
 <pre><code>1：匹配0个字符：dp[i][j]=dp[i][j-2]
 
-2: 匹配1或多个个字符：dp[i][j]=dp[i-1][j]</code></pre><pre><code class="c++">class Solution {
+2: 匹配1或多个个字符：dp[i][j]=dp[i-1][j]</code></pre><p>初始化dp数组：考虑当pattern在位置0时，如果str不在位置0则匹配失败，如果str在位置0则匹配成功</p>
+<p>考虑越界情况，保证下标不会越界</p>
+<pre><code class="c++">class Solution {
 public:
     bool match(char* s, char* p)
     {
