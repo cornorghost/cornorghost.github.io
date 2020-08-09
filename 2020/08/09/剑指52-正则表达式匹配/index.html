@@ -57,6 +57,8 @@
                 
                 <a href="/archives">Archives</a>
                 
+                <a href="/friends">friends</a>
+                
             </div>
             <div class="header-menu-social">
                 
@@ -87,6 +89,8 @@
                     
                     <a href="/archives">Archives</a>
                     
+                    <a href="/friends">friends</a>
+                    
                 </div>
             </div>
         </div>
@@ -99,7 +103,7 @@
       <section class="inner">
         <section class="inner-main">
           <div class="post">
-    <article id="post-ckdmhoqny002dj8ve5tflhma4" class="article article-type-post" itemscope
+    <article id="post-ckdmhxesi002agcve24ka6ijz" class="article article-type-post" itemscope
     itemprop="blogPost">
 
     <div class="article-inner">
@@ -167,35 +171,35 @@ public:
     bool match(char* s, char* p)
     {
         int sn = strlen(s), pn = strlen(p);
-        vector&lt;vector&lt;char&gt;&gt; f(sn+1, vector&lt;char&gt;(pn+1, 0));
+        vector&lt;vector&lt;char&gt;&gt; dp(sn+1, vector&lt;char&gt;(pn+1, 0));
         for (int i=0; i&lt;=sn; ++i) {
             for (int j=0; j&lt;=pn; ++j) {
                 // 初始条件
-                if (j == 0) f[i][j] = (i == 0);
+                if (j == 0) dp[i][j] = (i == 0);
                 else {
                     // 如果没有 &#39;*&#39;
                     if (p[j-1] != &#39;*&#39;) {
                         if (i &gt;= 1 &amp;&amp; j&gt;=1 &amp;&amp; (s[i-1] == p[j-1] || p[j-1] == &#39;.&#39;)) {
-                            f[i][j] = f[i-1][j-1];
+                            dp[i][j] = dp[i-1][j-1];
                         }
                     }
                     // 如果有 &#39;*&#39;
                     else {
                         // 重复 0 次
                         if (j &gt;= 2) {
-                            f[i][j] |= f[i][j-2];
+                            dp[i][j] |= dp[i][j-2];
                         }
                         // 重复 1 次或者多次
                         // 这里要用 | 连接， 不然重复 0 次的会直接覆盖
                         if (i &gt;= 1 &amp;&amp; j&gt;=2 &amp;&amp; (s[i-1] == p[j-2] || p[j-2] == &#39;.&#39;)) {
-                            f[i][j] |= f[i-1][j];
+                            dp[i][j] |= dp[i-1][j];
                         }
                     }
                 }
 
             }
         }
-        return f[sn][pn];
+        return dp[sn][pn];
     }
 };</code></pre>
 
