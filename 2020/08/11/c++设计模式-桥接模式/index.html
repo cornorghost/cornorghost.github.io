@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     
-    <title>剑指45-扑克牌顺子 | LIANGYUE&#39; BLOG</title>
+    <title>c++设计模式-桥接模式 | LIANGYUE&#39; BLOG</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
     
@@ -103,7 +103,7 @@
       <section class="inner">
         <section class="inner-main">
           <div class="post">
-    <article id="post-ckdq5hjg60027xgve7fc45ipt" class="article article-type-post" itemscope
+    <article id="post-ckdq5hjdv0007xgvecg3z97vl" class="article article-type-post" itemscope
     itemprop="blogPost">
 
     <div class="article-inner">
@@ -115,7 +115,7 @@
             
   
     <h1 class="article-title" itemprop="name">
-      剑指45-扑克牌顺子
+      c++设计模式-桥接模式
     </h1>
   
 
@@ -125,18 +125,18 @@
         <div class="article-more-info article-more-info-post hairline">
 
             <div class="article-date">
-  <time datetime="2020-08-04T08:52:24.000Z" itemprop="datePublished">2020-08-04</time>
+  <time datetime="2020-08-11T07:36:46.000Z" itemprop="datePublished">2020-08-11</time>
 </div>
 
             
             <div class="article-category">
-                <a class="article-category-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+                <a class="article-category-link" href="/categories/c/">c++</a>
             </div>
             
 
             
             <div class="article-tag">
-                <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%89%91%E6%8C%87offer/" rel="tag">剑指offer</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%93%88%E5%B8%8C%E8%A1%A8/" rel="tag">哈希表</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li></ul>
+                <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/c/" rel="tag">c++</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%A1%A5%E6%8E%A5%E6%A8%A1%E5%BC%8F/" rel="tag">桥接模式</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a></li></ul>
             </div>
             
 
@@ -148,50 +148,123 @@
         </div>
 
         <div class="article-entry post-inner-html hairline" itemprop="articleBody">
-            <blockquote>
-<p>哈希表</p>
-</blockquote>
-<a id="more"></a>
+            <h2 id="桥接模式"><a href="#桥接模式" class="headerlink" title="桥接模式"></a><strong>桥接模式</strong></h2><h3 id="适用情况"><a href="#适用情况" class="headerlink" title="适用情况"></a><strong>适用情况</strong></h3><p>现在有m个功能类，功能类之间是拓展关系，然后需要在n个平台下实现，那么需要实现的类会增加m*n个</p>
+<p>假如你有一个几何 形状Shape类， 从它能扩展出两个子类： ​ 圆形Circle和 方形Square 。 你希望对这样的类层次结构进行扩展以使其包含颜色， 所以你打算创建名为 红色Red和 蓝色Blue的形状子类。 但是， 由于你已有两个子类， 所以总共需要创建四个类才能覆盖所有组合， 例如 蓝色圆形Blue­Circle和 红色方形Red­Square 。</p>
+<p><img src="https://refactoringguru.cn/images/patterns/diagrams/bridge/problem-zh.png" alt=""></p>
+<p>在层次结构中新增形状和颜色将导致代码复杂程度指数增长。 例如添加三角形状， 你需要新增两个子类， 也就是每种颜色一个； 此后新增一种新颜色需要新增三个子类， 即每种形状一个。 如此以往， 情况会越来越糟糕。</p>
+<p>问题的根本原因是我们试图在两个独立的维度——形状与颜色——上扩展形状类。 这在处理类继承时是很常见的问题。</p>
+<p>桥接模式通过将继承改为组合的方式来解决这个问题。 具体来说， 就是抽取其中一个维度并使之成为独立的类层次， 这样就可以在初始类中引用这个新层次的对象， 从而使得一个类不必拥有所有的状态和行为。</p>
+<p><img src="https://refactoringguru.cn/images/patterns/diagrams/bridge/solution-zh.png" alt=""></p>
+<p>根据该方法， 我们可以将颜色相关的代码抽取到拥有 红色和 蓝色两个子类的颜色类中， 然后在 形状类中添加一个指向某一颜色对象的引用成员变量。 现在， 形状类可以将所有与颜色相关的工作委派给连入的颜色对象。 这样的引用就成为了 形状和 颜色之间的桥梁。 此后， 新增颜色将不再需要修改形状的类层次， 反之亦然。</p>
+<h3 id="优缺点"><a href="#优缺点" class="headerlink" title="优缺点"></a><strong>优缺点</strong></h3><p>优点： 客户端代码仅与高层抽象部分进行互动， 不会接触到平台的详细信息、开闭原则<br>缺点：对高内聚的类使用该模式可能会让代码更加复杂</p>
+<h3 id="与其他模式关系"><a href="#与其他模式关系" class="headerlink" title="与其他模式关系"></a><strong>与其他模式关系</strong></h3><p>其实这个和装饰模式很像，最好是通过两者的适用场景来区分</p>
+<h3 id="代码实例"><a href="#代码实例" class="headerlink" title="代码实例"></a><strong>代码实例</strong></h3><pre><code class="c++">/**
+ * The Implementation defines the interface for all implementation classes. It
+ * doesn&#39;t have to match the Abstraction&#39;s interface. In fact, the two
+ * interfaces can be entirely different. Typically the Implementation interface
+ * provides only primitive operations, while the Abstraction defines higher-
+ * level operations based on those primitives.
+ */
 
-<h1 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h1><p>LL今天心情特别好,因为他去买了一副扑克牌,发现里面居然有2个大王,2个小王(一副牌原本是54张^_^)…他随机从中抽出了5张牌,想测测自己的手气,看看能不能抽到顺子,如果抽到的话,他决定去买体育彩票,嘿嘿！！“红心A,黑桃3,小王,大王,方片5”,“Oh My God!”不是顺子…..LL不高兴了,他想了想,决定大\小 王可以看成任何数字,并且A看作1,J为11,Q为12,K为13。上面的5张牌就可以变成“1,2,3,4,5”(大小王分别看作2和4),“So Lucky!”。LL决定去买体育彩票啦。 现在,要求你使用这幅牌模拟上面的过程,然后告诉我们LL的运气如何， 如果牌能组成顺子就输出true，否则就输出false。为了方便起见,你可以认为大小王是0。</p>
-<p>简单说，就是判断一副牌是否为同花顺，大小王为0，可以当作任意数字</p>
-<h1 id="解法"><a href="#解法" class="headerlink" title="解法"></a>解法</h1><p>我的解法是：</p>
-<p>首先判断牌出现的数字，除了0之外，只能出现一次，不然返回false</p>
-<p>然后找到最大牌和最小牌，计算差值，如果差值+1大于总牌数，则返回false，因为顺子的数量=最大值-最小值+1</p>
-<pre><code class="c++">#include&lt;map&gt;
-#include&lt;vector&gt;
+class Implementation {
+ public:
+  virtual ~Implementation() {}
+  virtual std::string OperationImplementation() const = 0;
+};
 
-using namespace std;
+/**
+ * Each Concrete Implementation corresponds to a specific platform and
+ * implements the Implementation interface using that platform&#39;s API.
+ */
+class ConcreteImplementationA : public Implementation {
+ public:
+  std::string OperationImplementation() const override {
+    return &quot;ConcreteImplementationA: Here&#39;s the result on the platform A.\n&quot;;
+  }
+};
+class ConcreteImplementationB : public Implementation {
+ public:
+  std::string OperationImplementation() const override {
+    return &quot;ConcreteImplementationB: Here&#39;s the result on the platform B.\n&quot;;
+  }
+};
 
-class Solution {
-public:
-    bool IsContinuous(vector&lt;int&gt; numbers) {
-        if (!numbers.size()) return false;
-        map&lt;int, int&gt; res_map;
-        for (auto item : numbers)
-        {
-            if (res_map[item] &gt;= 1 &amp;&amp; item != 0) return false;
-            else res_map[item]++;
-        }
-        int max_num = max(numbers);
-        int min_num = min(numbers);
-        if (max_num - min_num + 1 &gt; numbers.size()) return false;
-        return true;
-    }
+/**
+ * The Abstraction defines the interface for the &quot;control&quot; part of the two class
+ * hierarchies. It maintains a reference to an object of the Implementation
+ * hierarchy and delegates all of the real work to this object.
+ */
 
-    int max(vector&lt;int&gt; numbers) {
-        int res = -1;
-        for (auto item : numbers) if (item &gt; res &amp;&amp; item != 0) res = item;
-        return res;
-    }
+class Abstraction {
+  /**
+   * @var Implementation
+   */
+ protected:
+  Implementation* implementation_;
 
-    int min(vector&lt;int&gt; numbers) {
-        int res = 20;
-        for (auto item : numbers) if (item &lt; res &amp;&amp; item != 0) res = item;
-        return res;
-    }
-};</code></pre>
+ public:
+  Abstraction(Implementation* implementation) : implementation_(implementation) {
+  }
 
+  virtual ~Abstraction() {
+  }
+
+  virtual std::string Operation() const {
+    return &quot;Abstraction: Base operation with:\n&quot; +
+           this-&gt;implementation_-&gt;OperationImplementation();
+  }
+};
+/**
+ * You can extend the Abstraction without changing the Implementation classes.
+ */
+class ExtendedAbstraction : public Abstraction {
+ public:
+  ExtendedAbstraction(Implementation* implementation) : Abstraction(implementation) {
+  }
+  std::string Operation() const override {
+    return &quot;ExtendedAbstraction: Extended operation with:\n&quot; +
+           this-&gt;implementation_-&gt;OperationImplementation();
+  }
+};
+
+/**
+ * Except for the initialization phase, where an Abstraction object gets linked
+ * with a specific Implementation object, the client code should only depend on
+ * the Abstraction class. This way the client code can support any abstraction-
+ * implementation combination.
+ */
+void ClientCode(const Abstraction&amp; abstraction) {
+  // ...
+  std::cout &lt;&lt; abstraction.Operation();
+  // ...
+}
+/**
+ * The client code should be able to work with any pre-configured abstraction-
+ * implementation combination.
+ */
+
+int main() {
+  Implementation* implementation = new ConcreteImplementationA;
+  Abstraction* abstraction = new Abstraction(implementation);
+  ClientCode(*abstraction);
+  std::cout &lt;&lt; std::endl;
+  delete implementation;
+  delete abstraction;
+
+  implementation = new ConcreteImplementationB;
+  abstraction = new ExtendedAbstraction(implementation);
+  ClientCode(*abstraction);
+
+  delete implementation;
+  delete abstraction;
+
+  return 0;
+}</code></pre>
+<pre><code>Abstraction: Base operation with:
+ConcreteImplementationA: Here&#39;s the result on the platform A.
+
+ExtendedAbstraction: Extended operation with:
+ConcreteImplementationB: Here&#39;s the result on the platform B.</code></pre>
         </div>
 
     </div>
@@ -209,19 +282,10 @@ public:
     
 <nav class="article-nav">
   
-    <a href="/2020/08/04/%E5%89%91%E6%8C%8746-%E5%AD%A9%E5%AD%90%E4%BB%AC%E7%9A%84%E6%B8%B8%E6%88%8F/" id="article-nav-newer" class="article-nav-link-wrap">
-      <div class="article-nav-caption">下一篇</div>
-      <div class="article-nav-title">
-        
-          剑指46-孩子们的游戏
-        
-      </div>
-    </a>
   
-  
-    <a href="/2020/08/04/%E5%89%91%E6%8C%8744-%E7%BF%BB%E8%BD%AC%E5%8D%95%E8%AF%8D%E9%A1%BA%E5%BA%8F%E5%BA%8F%E5%88%97/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2020/08/11/c++%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E8%A3%85%E9%A5%B0%E6%A8%A1%E5%BC%8F/" id="article-nav-older" class="article-nav-link-wrap">
       <div class="article-nav-caption">上一篇</div>
-      <div class="article-nav-title">剑指44-翻转单词顺序序列</div>
+      <div class="article-nav-title">c++设计模式-策略模式</div>
     </a>
   
 </nav>
@@ -230,15 +294,15 @@ public:
     <section class="share">
         <div class="share-title">分享</div>
         <a class="share-item" target="_blank"
-            href="https://twitter.com/share?text=剑指45-扑克牌顺子 - LIANGYUE' BLOG&url=http://www.openrad.ink/2020/08/04/%E5%89%91%E6%8C%8745-%E6%89%91%E5%85%8B%E7%89%8C%E9%A1%BA%E5%AD%90/">
+            href="https://twitter.com/share?text=c++设计模式-桥接模式 - LIANGYUE' BLOG&url=http://www.openrad.ink/2020/08/11/c++%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E6%A1%A5%E6%8E%A5%E6%A8%A1%E5%BC%8F/">
             <box-icon type='logo' name='twitter'></box-icon>
         </a>
         <a class="share-item" target="_blank"
-            href="https://www.facebook.com/sharer.php?title=剑指45-扑克牌顺子 - LIANGYUE' BLOG&u=http://www.openrad.ink/2020/08/04/%E5%89%91%E6%8C%8745-%E6%89%91%E5%85%8B%E7%89%8C%E9%A1%BA%E5%AD%90/">
+            href="https://www.facebook.com/sharer.php?title=c++设计模式-桥接模式 - LIANGYUE' BLOG&u=http://www.openrad.ink/2020/08/11/c++%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E6%A1%A5%E6%8E%A5%E6%A8%A1%E5%BC%8F/">
             <box-icon name='facebook-square' type='logo' ></box-icon>
         </a>
         <!-- <a class="share-item" target="_blank"
-            href="https://service.weibo.com/share/share.php?title=剑指45-扑克牌顺子 - LIANGYUE' BLOG&url=http://www.openrad.ink/2020/08/04/%E5%89%91%E6%8C%8745-%E6%89%91%E5%85%8B%E7%89%8C%E9%A1%BA%E5%AD%90/&pic=">
+            href="https://service.weibo.com/share/share.php?title=c++设计模式-桥接模式 - LIANGYUE' BLOG&url=http://www.openrad.ink/2020/08/11/c++%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E6%A1%A5%E6%8E%A5%E6%A8%A1%E5%BC%8F/&pic=">
             <div class="n-icon n-icon-weibo"></div>
         </a> -->
     </section>
