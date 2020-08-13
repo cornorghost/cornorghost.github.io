@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     
-    <title>Tag | hexo | LIANGYUE&#39; BLOG</title>
+    <title>网络编程学习笔记6-netcat | LIANGYUE&#39; BLOG</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
     
@@ -102,60 +102,151 @@
     <div class="main">
       <section class="inner">
         <section class="inner-main">
-          
+          <div class="post">
+    <article id="post-ckds6r5gn003ab4ve1ix88r0b" class="article article-type-post" itemscope
+    itemprop="blogPost">
+
+    <div class="article-inner">
+
+        
+
+        
+        <header class="article-header">
+            
   
+    <h1 class="article-title" itemprop="name">
+      网络编程学习笔记6-netcat
+    </h1>
   
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2020" class="archive-year">2020</a>
+
+        </header>
+        
+
+        <div class="article-more-info article-more-info-post hairline">
+
+            <div class="article-date">
+  <time datetime="2020-08-11T23:56:13.000Z" itemprop="datePublished">2020-08-12</time>
+</div>
+
+            
+            <div class="article-category">
+                <a class="article-category-link" href="/categories/c/">c++</a>,<a class="article-category-link" href="/categories/%E6%9C%8D%E5%8A%A1%E5%99%A8/">服务器</a>
+            </div>
+            
+
+            
+            <div class="article-tag">
+                <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/muduo/" rel="tag">muduo</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/netcat/" rel="tag">netcat</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%90%8E%E7%AB%AF/" rel="tag">后端</a></li></ul>
+            </div>
+            
+
+            
+            <div class="article-busuanzi">
+                有 <span id="busuanzi_value_page_pv">0</span> 人看过
+            </div>
+            
         </div>
-        <div class="archives">
+
+        <div class="article-entry post-inner-html hairline" itemprop="articleBody">
+            <blockquote>
+<p>，视频p17</p>
+</blockquote>
+<a id="more"></a>
+
+<p>TCP建立的难度小于销毁的难度，服务端建立TCP的难度小于客户端，接收TCP的难度小于发送</p>
+<p>TCP缓冲区里还有数据就关闭连接会导致数据丢失</p>
+<p>安全关闭TCP的例子</p>
+<pre><code>void sender(const char* filename, TcpStreamPtr stream)
+{
+    FILE* fp=fopen(filename, &quot;rb&quot;);
+    if(!fp)
+        return;
+    printf(&quot;Sleeping 10 seconds.\n&quot;);
+    sleep(10);
+
+    printf(&quot;Start sending file %s\n&quot;, filename);
+    char buf[8192];
+    size_t nr=0;
+    while(nr=fread(buf, 1, sizeof(buf), fp &gt; 0))
+    {
+        stream-&gt;sendAll(buf, nr);
+    }
+    fclose(fp);
+    printf(&quot;Finish sending file %s\n&quot;, filename);
+
+    //正确关闭TCP连接
+    printf(&quot;Shutdown write and read until EOF\n&quot;);
+    sream-&gt;shutdownWrite();  //如果不在这关闭写端，会导致TCP会提前关闭
+    while(nr=stream-&gt;receiveSome(buf, sizeof(buf)) &gt; 0)
+    {
+        //do something
+    }
+    printf(&quot;All done&quot;);
+
+    //接收完文件后再断开TCP连接
+
+}</code></pre><p>在传输文件的时候，输入一些数据，将导致tcp连接断开，服务端接收的数据不完整</p>
+<p>如果客户端发送完数据后，断开TCP的写服务，可以解决这个问题，在客户端再输入一些数据时不会影响服务端接收文件</p>
+<p>完整的传输和不完整的传输流程分别为：</p>
+<p>send()-&gt;shutdown-&gt;read()-&gt;close</p>
+<p>send()-&gt;more data-&gt;close()  //如果数据没read完将丢失</p>
+
+        </div>
+
+    </div>
+
     
-    <article class="archive-article archive-type-post">
+
+    
+
+    
+
+    
+
+    
+
+    
+<nav class="article-nav">
   
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/08/07/hexo%E5%8D%9A%E5%AE%A2%E6%8F%92%E5%85%A5%E9%9F%B3%E8%A7%86%E9%A2%91/">hexo博客插入音视频</a>
-    </h1>
+    <a href="/2020/08/11/c++%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E6%A1%A5%E6%8E%A5%E6%A8%A1%E5%BC%8F/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-caption">上一篇</div>
+      <div class="article-nav-title">c++设计模式-桥接模式</div>
+    </a>
   
+</nav>
+
+
+    <section class="share">
+        <div class="share-title">分享</div>
+        <a class="share-item" target="_blank"
+            href="https://twitter.com/share?text=网络编程学习笔记6-netcat - LIANGYUE' BLOG&url=http://www.openrad.ink/2020/08/12/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B06-netcat/">
+            <box-icon type='logo' name='twitter'></box-icon>
+        </a>
+        <a class="share-item" target="_blank"
+            href="https://www.facebook.com/sharer.php?title=网络编程学习笔记6-netcat - LIANGYUE' BLOG&u=http://www.openrad.ink/2020/08/12/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B06-netcat/">
+            <box-icon name='facebook-square' type='logo' ></box-icon>
+        </a>
+        <!-- <a class="share-item" target="_blank"
+            href="https://service.weibo.com/share/share.php?title=网络编程学习笔记6-netcat - LIANGYUE' BLOG&url=http://www.openrad.ink/2020/08/12/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B06-netcat/&pic=">
+            <div class="n-icon n-icon-weibo"></div>
+        </a> -->
+    </section>
 
 </article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/07/22/hexo%E6%9C%AC%E5%9C%B0%E5%92%8C%E8%BF%9C%E7%A8%8B%E9%A2%84%E8%A7%88%E4%B8%8D%E4%B8%80%E8%87%B4/">hexo本地和远程预览不一致</a>
-    </h1>
-  
-
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/07/21/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA-hexo-d%E6%9C%8D%E5%8A%A1%E5%99%A8/">博客搭建-hexo+d服务器</a>
-    </h1>
-  
-
-</article>
-  
-  
-    </div></section>
-  
 
 
 
 
+<section class="comments">
+    <div id="gitalk-container"></div>
+</section>
+
+
+
+<script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+</div>
         </section>
       </section>
       <aside class="sidebar">
@@ -164,6 +255,12 @@
 </script>
 
   
+  <div class="widget-wrap">
+    <div class="widget-inner">
+      <div class="toc post-toc-html"></div>
+    </div>
+  </div>
+
 
   
   <div class="widget-wrap widget-cate">
