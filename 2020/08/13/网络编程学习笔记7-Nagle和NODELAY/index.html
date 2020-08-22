@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     
-    <title>网络编程学习笔记7-Nagle和NODELAY | LIANGYUE&#39; BLOG</title>
+    <title>网络编程学习笔记7-TCP使用的注意事项 | LIANGYUE&#39; BLOG</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
     
@@ -103,7 +103,7 @@
       <section class="inner">
         <section class="inner-main">
           <div class="post">
-    <article id="post-ckdsm30xf003hjsvehyle08jl" class="article article-type-post" itemscope
+    <article id="post-cke5vme8r003o7cve53b7gxym" class="article article-type-post" itemscope
     itemprop="blogPost">
 
     <div class="article-inner">
@@ -115,7 +115,7 @@
             
   
     <h1 class="article-title" itemprop="name">
-      网络编程学习笔记7-Nagle和NODELAY
+      网络编程学习笔记7-TCP使用的注意事项
     </h1>
   
 
@@ -149,7 +149,7 @@
 
         <div class="article-entry post-inner-html hairline" itemprop="articleBody">
             <blockquote>
-<p>视频p18</p>
+<p>Nagle和NODELAY，视频p18</p>
 </blockquote>
 <a id="more"></a>
 
@@ -171,10 +171,9 @@ if there is new data to send  //如果还有数据发送
     end if
   end if
 end if</code></pre><p><img src="https://upload-images.jianshu.io/upload_images/1002628-ac983702cd794f54?imageMogr2/auto-orient/strip%7CimageView2/2/w/500/format/webp" alt=""></p>
-<p>Nagle算法只允許一個未被ACK的包存在於網絡，它並不管包的大小，所以只要有一个没收到ACK，则会一直等下去</p>
+<p>Nagle算法只允许一个未被ACK的包存在，它并不管包的大小，所以只要有一个没收到ACK，则会一直等下去</p>
 <p>因为Nagle要等待确认后才能发送，所以会有一定延迟</p>
-<p>而且这里面有着ACK延迟机制 。</p>
-<p>当Server端收到数据之后，它并不会马上向client端发送ACK，而是会将ACK的发送延迟一段时间（假设为t），它希望在t时间内server端会向client端发送应答数据，这样ACK就能够和应答数据一起发送，就像是应答数据捎带着ACK过去</p>
+<p>而且这里面有着ACK延迟机制，当Server端收到数据之后，它并不会马上向client端发送ACK，而是会将ACK的发送延迟一段时间（假设为t），它希望在t时间内server端会向client端发送应答数据，这样ACK就能够和应答数据一起发送，就像是应答数据捎带着ACK过去</p>
 <p>所以一般发送延迟出现40ms以上的原因是Nagle算法在捣乱</p>
 <h1 id="TCP-NODELAY"><a href="#TCP-NODELAY" class="headerlink" title="TCP_NODELAY"></a>TCP_NODELAY</h1><p>TCP_NODELAY就是禁用Nagle算法</p>
 
@@ -216,15 +215,15 @@ end if</code></pre><p><img src="https://upload-images.jianshu.io/upload_images/1
     <section class="share">
         <div class="share-title">分享</div>
         <a class="share-item" target="_blank"
-            href="https://twitter.com/share?text=网络编程学习笔记7-Nagle和NODELAY - LIANGYUE' BLOG&url=http://www.openrad.ink/2020/08/13/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B07-Nagle%E5%92%8CNODELAY/">
+            href="https://twitter.com/share?text=网络编程学习笔记7-TCP使用的注意事项 - LIANGYUE' BLOG&url=http://www.openrad.ink/2020/08/13/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B07-Nagle%E5%92%8CNODELAY/">
             <box-icon type='logo' name='twitter'></box-icon>
         </a>
         <a class="share-item" target="_blank"
-            href="https://www.facebook.com/sharer.php?title=网络编程学习笔记7-Nagle和NODELAY - LIANGYUE' BLOG&u=http://www.openrad.ink/2020/08/13/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B07-Nagle%E5%92%8CNODELAY/">
+            href="https://www.facebook.com/sharer.php?title=网络编程学习笔记7-TCP使用的注意事项 - LIANGYUE' BLOG&u=http://www.openrad.ink/2020/08/13/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B07-Nagle%E5%92%8CNODELAY/">
             <box-icon name='facebook-square' type='logo' ></box-icon>
         </a>
         <!-- <a class="share-item" target="_blank"
-            href="https://service.weibo.com/share/share.php?title=网络编程学习笔记7-Nagle和NODELAY - LIANGYUE' BLOG&url=http://www.openrad.ink/2020/08/13/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B07-Nagle%E5%92%8CNODELAY/&pic=">
+            href="https://service.weibo.com/share/share.php?title=网络编程学习笔记7-TCP使用的注意事项 - LIANGYUE' BLOG&url=http://www.openrad.ink/2020/08/13/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B07-Nagle%E5%92%8CNODELAY/&pic=">
             <div class="n-icon n-icon-weibo"></div>
         </a> -->
     </section>
@@ -285,11 +284,15 @@ end if</code></pre><p><img src="https://upload-images.jianshu.io/upload_images/1
       <ul>
         
           <li>
+            <a href="/2020/08/22/8%E6%9C%8822%E6%97%A5%E8%BF%91%E5%86%B5/">8月22日近况</a>
+          </li>
+        
+          <li>
             <a href="/2020/08/13/8%E6%9C%8812%E6%97%A5%E5%8D%97%E5%AE%81%E4%B8%80%E6%97%A5%E6%B8%B8/">8月12日南宁一日游</a>
           </li>
         
           <li>
-            <a href="/2020/08/13/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B07-Nagle%E5%92%8CNODELAY/">网络编程学习笔记7-Nagle和NODELAY</a>
+            <a href="/2020/08/13/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B07-Nagle%E5%92%8CNODELAY/">网络编程学习笔记7-TCP使用的注意事项</a>
           </li>
         
           <li>
@@ -298,10 +301,6 @@ end if</code></pre><p><img src="https://upload-images.jianshu.io/upload_images/1
         
           <li>
             <a href="/2020/08/11/c++%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E6%A1%A5%E6%8E%A5%E6%A8%A1%E5%BC%8F/">c++设计模式-桥接模式</a>
-          </li>
-        
-          <li>
-            <a href="/2020/08/11/c++%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E8%A3%85%E9%A5%B0%E6%A8%A1%E5%BC%8F/">c++设计模式-装饰模式</a>
           </li>
         
       </ul>
