@@ -8,6 +8,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
     
+        <meta property="algolia:search" data-application-id="4SYIYZXVIU" data-api-key="20ab0cbbd4bead7851a31cdef82100b9" data-index-name="blog">
+    
+
+    
 
     
 
@@ -16,7 +20,7 @@
     
 
     
-<link rel="stylesheet" href="/dist/build.css?v=1.5.2.css">
+<link rel="stylesheet" href="/dist/build.css?v=1.7.0.css">
 
 
     <script>
@@ -33,13 +37,15 @@
             },
             
         }
+        window.aomori_logo_typed_animated = false
+        window.aomori_search_algolia = true
     </script>
 
 <meta name="generator" content="Hexo 4.2.1"></head>
 
 <body>
 
-  <div class="container">
+    <div class="container">
     <header class="header">
         <div class="header-type">
             
@@ -47,7 +53,11 @@
                 <img src="/images/avatar.png" alt="梁越">
             </div>
             
-            <a href="/">LIANGYUE&#39; BLOG</a>
+
+            
+                <a class="header-type-title" href="/">LIANGYUE&#39; BLOG</a>
+            
+
             
         </div>
         <div class="header-menu">
@@ -98,11 +108,11 @@
 
 </div>
 
-  <div class="container">
-    <div class="main">
-      <section class="inner">
-        <section class="inner-main">
-          
+    <div class="container">
+        <div class="main">
+            <section class="inner">
+                <section class="inner-main">
+                    
   
   
     
@@ -240,16 +250,30 @@
 
 
 
-        </section>
-      </section>
-      <aside class="sidebar">
-        <div class="widget">
-          
-</script>
+                </section>
+            </section>
 
-  
+            
+            <aside class="sidebar sidebar-search-fix">
+            
+                
 
-  
+    <div class="search">
+    <div class="has-icon-right">
+        <input type="text" class="form-input" id="search" placeholder="Search ..." autocomplete="off">
+        <div class="form-icon">
+            <box-icon name='search' color="#3c4859"></box-icon>
+        </div>
+    </div>
+    <div class="search-result" id="search-ps"></div>
+</div>
+
+
+<div class="widget" id="widget">
+    
+      
+    
+      
   <div class="widget-wrap widget-cate">
     <div class="widget-title"><span>分类</span></div>
     <div class="widget-inner">
@@ -258,8 +282,8 @@
   </div>
 
 
-
-  
+    
+      
   <div class="widget-wrap widget-tags">
     <div class="widget-title"><span>标签</span></div>
     <div class="widget-inner">
@@ -268,8 +292,8 @@
   </div>
 
 
-
-  
+    
+      
   <div class="widget-wrap widget-recent-posts">
     <div class="widget-title"><span>最近文章</span></div>
     <div class="widget-inner">
@@ -299,8 +323,8 @@
     </div>
   </div>
 
-
-  
+    
+      
   <div class="widget-wrap widget-archive">
     <div class="widget-title"><span>记录</span></div>
     <div class="widget-inner">
@@ -309,14 +333,16 @@
   </div>
 
 
+    
+</div>
 
+<div id="backtop"><i class="icon icon-arrow-up"></i></div>
+
+            </aside>
         </div>
-        <div id="backtop"><i class="icon icon-arrow-up"></i></div>
-      </aside>
     </div>
-  </div>
 
-  <footer class="footer">
+    <footer class="footer">
     <div class="footer-inner">
         <div class="footer-info">
             <span>&copy; 2020 - 2020 WORK HARD· LIVE HARD</span>
@@ -336,10 +362,10 @@
 
 
 
-<script src="/dist/build.js?1.5.2.js"></script>
+<script src="/dist/build.js?1.7.0.js"></script>
 
 
-<script src="/dist/custom.js?1.5.2.js"></script>
+<script src="/dist/custom.js?1.7.0.js"></script>
 
 
 
@@ -360,4 +386,5 @@
 
 
 </body>
+
 </html>
