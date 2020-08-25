@@ -113,7 +113,7 @@
             <section class="inner">
                 <section class="inner-main">
                     <div class="post">
-    <article id="post-cke7zikku003vrkve26zm7tc6" class="article article-type-post" itemscope
+    <article id="post-cke9uvhho003xrovee43p0rbq" class="article article-type-post" itemscope
     itemprop="blogPost">
 
     <div class="article-inner">
@@ -163,7 +163,7 @@
 </blockquote>
 <a id="more"></a>
 
-<h1 id="SIGPIP"><a href="#SIGPIP" class="headerlink" title="SIGPIP"></a>SIGPIP</h1><p>当服务器close一个连接时，若client端接着发数据</p>
+<h1 id="SIGPIPE"><a href="#SIGPIPE" class="headerlink" title="SIGPIPE"></a>SIGPIPE</h1><p>当服务器close一个连接时，若client端接着发数据</p>
 <p>根据TCP 协议的规定，会收到一个RST响应，client再往这个服务器发送数据时，系统会发出一个SIGPIPE信号给进程，告诉进程这个连接已经断开了，不要再写了</p>
 <p>根据信号的默认处理规则SIGPIPE信号的默认执行动作是terminate(终止、退出),所以client会退出，server也会退出</p>
 <p>为了不影响服务端和其他客户端，可以忽略SIGPIPE</p>
@@ -186,6 +186,153 @@ end if</code></pre><p><img src="https://upload-images.jianshu.io/upload_images/1
 <p>而且这里面有着ACK延迟机制，当Server端收到数据之后，它并不会马上向client端发送ACK，而是会将ACK的发送延迟一段时间（假设为t），它希望在t时间内server端会向client端发送应答数据，这样ACK就能够和应答数据一起发送，就像是应答数据捎带着ACK过去</p>
 <p>所以一般发送延迟出现40ms以上的原因是Nagle算法在捣乱</p>
 <h1 id="TCP-NODELAY"><a href="#TCP-NODELAY" class="headerlink" title="TCP_NODELAY"></a>TCP_NODELAY</h1><p>TCP_NODELAY就是禁用Nagle算法</p>
+<h1 id="验证Nagle和TCP-NODELAY的延迟"><a href="#验证Nagle和TCP-NODELAY的延迟" class="headerlink" title="验证Nagle和TCP_NODELAY的延迟"></a>验证Nagle和TCP_NODELAY的延迟</h1><p>因为找不到muduo对应的代码，但是我又想自己看看两者的延迟，所以我自己写了一个验证</p>
+<pre><code class="c++">//客户端
+#include&lt;stdio.h&gt;
+#include&lt;stdlib.h&gt;
+#include&lt;string.h&gt;
+#include&lt;errno.h&gt;
+#include&lt;unistd.h&gt;
+#include &lt;arpa/inet.h&gt;
+#include&lt;sys/types.h&gt;
+#include&lt;sys/socket.h&gt;
+#include&lt;netinet/in.h&gt;
+#include&lt;netinet/tcp.h&gt;
+
+#define MAXLINE 20
+
+int main(int argc, char** argv)
+{
+    int    sockfd, n;
+    char    recvline[4096], sendhead[20], senddata[20];
+    struct sockaddr_in    servaddr;
+
+    if( argc &lt; 2){
+    printf(&quot;usage: ./client &lt;ipaddress&gt;\n&quot;);
+    exit(0);
+    }
+
+    if( (sockfd = socket(AF_INET, SOCK_STREAM, 0)) &lt; 0){
+        printf(&quot;create socket error: %s(errno: %d)\n&quot;, strerror(errno),errno);
+        exit(0);
+    }
+
+    memset(&amp;servaddr, 0, sizeof(servaddr));
+    servaddr.sin_family = AF_INET;
+    servaddr.sin_port = htons(6666);
+    if( inet_pton(AF_INET, argv[1], &amp;servaddr.sin_addr) &lt;= 0){
+        printf(&quot;inet_pton error for %s\n&quot;,argv[1]);
+        exit(0);
+    }
+    //设置tcp_nodelay
+    if(argc==3 &amp;&amp; argv[2]==&quot;nodelay&quot;)
+    {
+        int on = 1;
+        setsockopt(sockfd, SOL_SOCKET, SO_KEEPALIVE, (void *)&amp;on, sizeof(on));
+        setsockopt( sockfd, IPPROTO_TCP, TCP_NODELAY, (void *)&amp;on, sizeof(on));
+    }
+
+    if( connect(sockfd, (struct sockaddr*)&amp;servaddr, sizeof(servaddr)) &lt; 0){
+        printf(&quot;connect error: %s(errno: %d)\n&quot;,strerror(errno),errno);
+        exit(0);
+    }
+
+    printf(&quot;send msg to server: \n&quot;);
+    //fgets(sendline, 4096, stdin);
+    for(int i=0;i&lt;MAXLINE;i++)
+    {
+        sendhead[i]=&#39;s&#39;;
+        senddata[i]=&#39;o&#39;;
+    }
+  //发送两次
+    if( send(sockfd, sendhead, strlen(sendhead), 0) &lt; 0)
+    {
+        printf(&quot;send msg error: %s(errno: %d)\n&quot;, strerror(errno), errno);
+        exit(0);
+    }
+    if( send(sockfd, senddata, strlen(senddata), 0) &lt; 0)
+    {
+        printf(&quot;send msg error: %s(errno: %d)\n&quot;, strerror(errno), errno);
+        exit(0);
+    }
+
+    close(sockfd);
+    exit(0);
+}</code></pre>
+<pre><code class="c++">//服务端
+#include&lt;stdio.h&gt;
+#include&lt;stdlib.h&gt;
+#include&lt;string.h&gt;
+#include&lt;errno.h&gt;
+#include&lt;unistd.h&gt;
+#include&lt;sys/types.h&gt;
+#include&lt;sys/socket.h&gt;
+#include&lt;netinet/in.h&gt;
+
+#define MAXLINE 4096
+
+int main(int argc, char** argv)
+{
+    int    listenfd, connfd;
+    struct sockaddr_in     servaddr;
+    char    buff[4096];
+    int     n;
+
+    if( (listenfd = socket(AF_INET, SOCK_STREAM, 0)) == -1 ){
+    printf(&quot;create socket error: %s(errno: %d)\n&quot;,strerror(errno),errno);
+    exit(0);
+    }
+
+    memset(&amp;servaddr, 0, sizeof(servaddr));
+    servaddr.sin_family = AF_INET;
+    servaddr.sin_addr.s_addr = htonl(INADDR_ANY);
+    servaddr.sin_port = htons(6666);
+
+    if( bind(listenfd, (struct sockaddr*)&amp;servaddr, sizeof(servaddr)) == -1){
+    printf(&quot;bind socket error: %s(errno: %d)\n&quot;,strerror(errno),errno);
+    exit(0);
+    }
+
+    if( listen(listenfd, 10) == -1){
+    printf(&quot;listen socket error: %s(errno: %d)\n&quot;,strerror(errno),errno);
+    exit(0);
+    }
+
+    printf(&quot;======waiting for client&#39;s request======\n&quot;);
+    while(1){
+    if( (connfd = accept(listenfd, (struct sockaddr*)NULL, NULL)) == -1){
+        printf(&quot;accept socket error: %s(errno: %d)&quot;,strerror(errno),errno);
+        continue;
+    }
+    n = recv(connfd, buff, MAXLINE, 0);
+    buff[n] = &#39;\0&#39;;
+    printf(&quot;recv msg from client: %s\n&quot;, buff);
+    close(connfd);
+    }
+
+    close(listenfd);
+}</code></pre>
+<h1 id="验证结果"><a href="#验证结果" class="headerlink" title="验证结果"></a>验证结果</h1><pre><code> //没加nodelay
+ 00:00:00.000000 IP 192.168.200.132.46442 &gt; 192.168.200.134.ircu-2: Flags [S], seq 922712728, win 29200, options [mss 1460,sackOK,TS val 41496494 ecr 0,nop,wscale 7], length 0
+ 00:00:00.000051 IP 192.168.200.134.ircu-2 &gt; 192.168.200.132.46442: Flags [S.], seq 536372574, ack 922712729, win 28960, options [mss 1460,sackOK,TS val 41501953 ecr 41496494,nop,wscale 7], length 0
+ 00:00:00.000296 IP 192.168.200.132.46442 &gt; 192.168.200.134.ircu-2: Flags [.], ack 1, win 229, options [nop,nop,TS val 41496494 ecr 41501953], length 0
+ 00:00:00.000247 IP 192.168.200.132.46442 &gt; 192.168.200.134.ircu-2: Flags [P.], seq 1:21, ack 1, win 229, options [nop,nop,TS val 41496494 ecr 41501953], length 20
+ 00:00:00.000031 IP 192.168.200.134.ircu-2 &gt; 192.168.200.132.46442: Flags [.], ack 21, win 227, options [nop,nop,TS val 41501953 ecr 41496494], length 0
+ 00:00:00.000068 IP 192.168.200.132.46442 &gt; 192.168.200.134.ircu-2: Flags [FP.], seq 21:41, ack 1, win 229, options [nop,nop,TS val 41496494 ecr 41501953], length 20
+ 00:00:00.000253 IP 192.168.200.134.ircu-2 &gt; 192.168.200.132.46442: Flags [F.], seq 1, ack 42, win 227, options [nop,nop,TS val 41501953 ecr 41496494], length 0
+ 00:00:00.000303 IP 192.168.200.132.46442 &gt; 192.168.200.134.ircu-2: Flags [.], ack 2, win 229, options [nop,nop,TS val 41496495 ecr 41501953], length 0
+
+//加了nodelay
+ 00:00:28.461646 IP 192.168.200.132.46444 &gt; 192.168.200.134.ircu-2: Flags [S], seq 2190537608, win 29200, options [mss 1460,sackOK,TS val 41524957 ecr 0,nop,wscale 7], length 0
+ 00:00:00.000200 IP 192.168.200.134.ircu-2 &gt; 192.168.200.132.46444: Flags [S.], seq 2615353636, ack 2190537609, win 28960, options [mss 1460,sackOK,TS val 41530416 ecr 41524957,nop,wscale 7], length 0
+ 00:00:00.000249 IP 192.168.200.132.46444 &gt; 192.168.200.134.ircu-2: Flags [.], ack 1, win 229, options [nop,nop,TS val 41524957 ecr 41530416], length 0
+ 00:00:00.000153 IP 192.168.200.132.46444 &gt; 192.168.200.134.ircu-2: Flags [P.], seq 1:21, ack 1, win 229, options [nop,nop,TS val 41524957 ecr 41530416], length 20
+ 00:00:00.000084 IP 192.168.200.134.ircu-2 &gt; 192.168.200.132.46444: Flags [.], ack 21, win 227, options [nop,nop,TS val 41530416 ecr 41524957], length 0
+ 00:00:00.000031 IP 192.168.200.132.46444 &gt; 192.168.200.134.ircu-2: Flags [FP.], seq 21:41, ack 1, win 229, options [nop,nop,TS val 41524957 ecr 41530416], length 20
+ 00:00:00.000543 IP 192.168.200.134.ircu-2 &gt; 192.168.200.132.46444: Flags [F.], seq 1, ack 42, win 227, options [nop,nop,TS val 41530417 ecr 41524957], length 0
+ 00:00:00.000135 IP 192.168.200.132.46444 &gt; 192.168.200.134.ircu-2: Flags [.], ack 2, win 229, options [nop,nop,TS val 41524958 ecr 41530417], length 0
+</code></pre><img src="/2020/08/13/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B07-Nagle%E5%92%8CNODELAY/1.png" class="" title="1.png">
+
 
         </div>
 
