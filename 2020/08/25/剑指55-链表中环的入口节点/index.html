@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     
-    <title>hexo博客插入音视频 | LIANGYUE&#39; BLOG</title>
+    <title>剑指55-链表中环的入口节点 | LIANGYUE&#39; BLOG</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
     
@@ -41,9 +41,7 @@
         window.aomori_search_algolia = true
     </script>
 
-<meta name="generator" content="Hexo 4.2.1"><link rel="stylesheet" href="\assets\css\APlayer.min.css" class="aplayer-style-marker">
-<script src="\assets\js\APlayer.min.js" class="aplayer-script-marker"></script>
-<script src="/assets/js/DPlayer.min.js"></script></head>
+<meta name="generator" content="Hexo 4.2.1"></head>
 
 <body>
 
@@ -115,7 +113,7 @@
             <section class="inner">
                 <section class="inner-main">
                     <div class="post">
-    <article id="post-cke9w0jnk0015x8ve587tc0v2" class="article article-type-post" itemscope
+    <article id="post-cke9w0jro0035x8ve5jgxhe67" class="article article-type-post" itemscope
     itemprop="blogPost">
 
     <div class="article-inner">
@@ -127,7 +125,7 @@
             
   
     <h1 class="article-title" itemprop="name">
-      hexo博客插入音视频
+      剑指55-链表中环的入口节点
     </h1>
   
 
@@ -137,18 +135,18 @@
         <div class="article-more-info article-more-info-post hairline">
 
             <div class="article-date">
-  <time datetime="2020-08-06T17:59:54.000Z" itemprop="datePublished">2020-08-07</time>
+  <time datetime="2020-08-25T11:46:52.000Z" itemprop="datePublished">2020-08-25</time>
 </div>
 
             
             <div class="article-category">
-                <a class="article-category-link" href="/categories/%E5%8D%9A%E5%AE%A2/">博客</a>
+                <a class="article-category-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
             </div>
             
 
             
             <div class="article-tag">
-                <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8D%9A%E5%AE%A2/" rel="tag">博客</a></li></ul>
+                <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%89%91%E6%8C%87offer/" rel="tag">剑指offer</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%BF%AB%E6%85%A2%E6%8C%87%E9%92%88/" rel="tag">快慢指针</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li></ul>
             </div>
             
 
@@ -161,59 +159,42 @@
 
         <div class="article-entry post-inner-html hairline" itemprop="articleBody">
             <blockquote>
-<p>iframe、aplayer、dplayer</p>
+<p>快慢指针、龟兔赛跑算法</p>
 </blockquote>
 <a id="more"></a>
 
-<h1 id="aplayer本地音频"><a href="#aplayer本地音频" class="headerlink" title="aplayer本地音频"></a>aplayer本地音频</h1>
-        <div id="aplayer-jDHDOOca" class="aplayer aplayer-tag-marker" style="margin-bottom: 20px;">
-            <pre class="aplayer-lrc-content"></pre>
-        </div>
-        <script>
-          var ap = new APlayer({
-            element: document.getElementById("aplayer-jDHDOOca"),
-            narrow: false,
-            autoplay: false,
-            showlrc: false,
-            music: {
-              title: "No_Time_for_Caution",
-              author: "Hans_Zimmer",
-              url: "No_Time_for_Caution-Hans_Zimmer-24026258.mp3",
-              pic: "https://img4.kuwo.cn/star/albumcover/300/50/69/4184500136.jpg",
-              lrc: ""
-            }
-          });
-          window.aplayers || (window.aplayers = []);
-          window.aplayers.push(ap);
-        </script>
+<h1 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h1><p>给一个链表，若其中包含环，请找出该链表的环的入口结点，否则，输出null。</p>
+<h1 id="解法"><a href="#解法" class="headerlink" title="解法"></a>解法</h1><p>归兔赛跑算法：定义两个指针，一个每次向前两步，一个每次向前一步，如果数组里有重复的数字，这两个指针一定会相遇，相遇后，快的指针重置到数组起点，两个指针在同时按步数为1的方法前进，再次相遇的数字即为重复数字</p>
+<pre><code class="c++">struct ListNode {
+    int val;
+    struct ListNode *next;
+    ListNode(int x) :
+        val(x), next(nullptr) {
+    }
+};
 
-<p>1.博客中如果要插入本地音频，需要先安装hexo-tag-aplayer，在你的cmd输入</p>
-<pre><code>npm install --save hexo-tag-aplayer</code></pre><p>2.然后确保你的hexo的配置文件_config.yml里</p>
-<pre><code>post_asset_folder: true</code></pre><p>打开这个可以让你new新的文章时生成同名文件夹</p>
-<p>当然如果你要使用别的路径，可以忽略这步</p>
-<p>3.把音频文件放到同名文件夹里，然后在文章插入以下语句</p>
-<pre><code>{% aplayer "No_Time_for_Caution" "Hans_Zimmer" "No_Time_for_Caution-Hans_Zimmer-24026258.mp3" "https://img4.kuwo.cn/star/albumcover/300/50/69/4184500136.jpg" %}</code></pre><p>第三个引号是文件名，是本地的，图片也可以是本地的</p>
-<p>其他详细参数参考<a href="https://github.com/grzhan/hexo-tag-aplayer#usage" target="_blank" rel="noopener">https://github.com/grzhan/hexo-tag-aplayer#usage</a></p>
-<h1 id="网易云音频"><a href="#网易云音频" class="headerlink" title="网易云音频"></a>网易云音频</h1><iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=430 height=86 src="//music.163.com/outchain/player?type=2&id=2919622&auto=0&height=66"></iframe>
-
-<pre><code>&lt;iframe frameborder=&quot;no&quot; border=&quot;0&quot; marginwidth=&quot;0&quot; marginheight=&quot;0&quot; width=430 height=86 src=&quot;//music.163.com/outchain/player?type=2&amp;id=2919622&amp;auto=0&amp;height=66&quot;&gt;&lt;/iframe&gt;</code></pre><p>width    宽度</p>
-<p>height    高度</p>
-<p>type    歌曲(1), 歌单(2), 电台(3)</p>
-<p>id    歌曲ID号</p>
-<p>auto    自动播放(1), 0手动播放(0)</p>
-<h1 id="iframe网络视频"><a href="#iframe网络视频" class="headerlink" title="iframe网络视频"></a>iframe网络视频</h1><p>复制嵌入代码</p>
-<p><img src="https://chant01.github.io/media/3.png" alt=""></p>
-<iframe width="951" height="535" src="https://www.youtube.com/embed/m4iRwp_FWxI" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-
-<pre><code>&lt;iframe width=&quot;951&quot; height=&quot;535&quot; src=&quot;https://www.youtube.com/embed/m4iRwp_FWxI&quot; frameborder=&quot;0&quot; allow=&quot;accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture&quot; allowfullscreen&gt;&lt;/iframe&gt;</code></pre><h1 id="dplayer本地视频"><a href="#dplayer本地视频" class="headerlink" title="dplayer本地视频"></a>dplayer本地视频</h1><p>和applayer一样</p>
-<p>1.博客中如果要插入本地视频，需要先安装hexo-tag-dplayer，在你的cmd输入</p>
-<pre><code>npm install hexo-tag-dplayer --save</code></pre><p>2.然后确保你的hexo的配置文件_config.yml里</p>
-<pre><code>post_asset_folder: true</code></pre><p>打开这个可以让你new新的文章时生成同名文件夹</p>
-<p>当然如果你要使用别的路径，可以忽略这步</p>
-<p>3.把视频文件放到同名文件夹里，然后在文章插入以下语句</p>
-<pre><code>{% dplayer "url=1.mp4"  "pic=1.png" "loop=yes" "theme=#FADFA3" "autoplay=false" "token=tokendemo" %}</code></pre><p>第一个引号是文件名</p>
-<p>其他详细参数参考<a href="https://github.com/NextMoe/hexo-tag-dplayer#usage" target="_blank" rel="noopener">https://github.com/NextMoe/hexo-tag-dplayer#usage</a></p>
-<div id="dplayer0" class="dplayer hexo-tag-dplayer-mark" style="margin-bottom: 20px;"></div><script>(function(){var player = new DPlayer({"container":document.getElementById("dplayer0"),"theme":"#FADFA3","loop":true,"video":{"url":"/2020/08/07/hexo博客插入音视频/1.mp4","pic":"1.png"}});window.dplayers||(window.dplayers=[]);window.dplayers.push(player);})()</script>
+class Solution {
+public:
+    ListNode* EntryNodeOfLoop(ListNode* pHead)
+    {
+        ListNode* fast = pHead;
+        ListNode* slow = pHead;
+        while (fast &amp;&amp; fast-&gt;next)
+        {
+            fast = fast-&gt;next-&gt;next;
+            slow = slow-&gt;next;
+            if (fast == slow) break;
+        }
+        if (!fast || !fast-&gt;next) return nullptr; //fast到末尾说明不存在
+        fast = pHead;
+        while (fast != slow)
+        {
+            fast = fast-&gt;next;
+            slow = slow-&gt;next;
+        }
+        return fast;
+    }
+};</code></pre>
 
         </div>
 
@@ -232,19 +213,10 @@
     
 <nav class="article-nav">
   
-    <a href="/2020/08/07/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B05-UDP&TCP/" id="article-nav-newer" class="article-nav-link-wrap">
-      <div class="article-nav-caption">下一篇</div>
-      <div class="article-nav-title">
-        
-          网络编程学习笔记5-UDP&amp;TCP
-        
-      </div>
-    </a>
   
-  
-    <a href="/2020/08/07/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B04-Roundtrip%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2020/08/24/%E5%89%91%E6%8C%8754-%E5%AD%97%E7%AC%A6%E6%B5%81%E4%B8%AD%E7%AC%AC%E4%B8%80%E4%B8%AA%E4%B8%8D%E9%87%8D%E5%A4%8D%E7%9A%84%E5%AD%97%E7%AC%A6/" id="article-nav-older" class="article-nav-link-wrap">
       <div class="article-nav-caption">上一篇</div>
-      <div class="article-nav-title">网络编程学习笔记4-Roundtrip代码分析</div>
+      <div class="article-nav-title">剑指54-字符流中第一个不重复的字符</div>
     </a>
   
 </nav>
@@ -253,15 +225,15 @@
     <section class="share">
         <div class="share-title">分享</div>
         <a class="share-item" target="_blank"
-            href="https://twitter.com/share?text=hexo博客插入音视频 - LIANGYUE' BLOG&url=http://www.openrad.ink/2020/08/07/hexo%E5%8D%9A%E5%AE%A2%E6%8F%92%E5%85%A5%E9%9F%B3%E8%A7%86%E9%A2%91/">
+            href="https://twitter.com/share?text=剑指55-链表中环的入口节点 - LIANGYUE' BLOG&url=http://www.openrad.ink/2020/08/25/%E5%89%91%E6%8C%8755-%E9%93%BE%E8%A1%A8%E4%B8%AD%E7%8E%AF%E7%9A%84%E5%85%A5%E5%8F%A3%E8%8A%82%E7%82%B9/">
             <box-icon type='logo' name='twitter'></box-icon>
         </a>
         <a class="share-item" target="_blank"
-            href="https://www.facebook.com/sharer.php?title=hexo博客插入音视频 - LIANGYUE' BLOG&u=http://www.openrad.ink/2020/08/07/hexo%E5%8D%9A%E5%AE%A2%E6%8F%92%E5%85%A5%E9%9F%B3%E8%A7%86%E9%A2%91/">
+            href="https://www.facebook.com/sharer.php?title=剑指55-链表中环的入口节点 - LIANGYUE' BLOG&u=http://www.openrad.ink/2020/08/25/%E5%89%91%E6%8C%8755-%E9%93%BE%E8%A1%A8%E4%B8%AD%E7%8E%AF%E7%9A%84%E5%85%A5%E5%8F%A3%E8%8A%82%E7%82%B9/">
             <box-icon name='facebook-square' type='logo' ></box-icon>
         </a>
         <!-- <a class="share-item" target="_blank"
-            href="https://service.weibo.com/share/share.php?title=hexo博客插入音视频 - LIANGYUE' BLOG&url=http://www.openrad.ink/2020/08/07/hexo%E5%8D%9A%E5%AE%A2%E6%8F%92%E5%85%A5%E9%9F%B3%E8%A7%86%E9%A2%91/&pic=">
+            href="https://service.weibo.com/share/share.php?title=剑指55-链表中环的入口节点 - LIANGYUE' BLOG&url=http://www.openrad.ink/2020/08/25/%E5%89%91%E6%8C%8755-%E9%93%BE%E8%A1%A8%E4%B8%AD%E7%8E%AF%E7%9A%84%E5%85%A5%E5%8F%A3%E8%8A%82%E7%82%B9/&pic=">
             <div class="n-icon n-icon-weibo"></div>
         </a> -->
     </section>
