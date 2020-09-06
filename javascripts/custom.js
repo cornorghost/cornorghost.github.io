@@ -159,7 +159,6 @@ import { addNewClass, removeClass, throttle } from './class-module'
             fadeOut: true,
             fadeOutDelay: 800,
             typeSpeed: 100,
-            showCursor: false,
         })
     }
 
