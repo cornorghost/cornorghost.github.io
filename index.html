@@ -136,68 +136,6 @@
           <blockquote>
 <p>这个是我和同学一起做的，结果都没做出来</p>
 </blockquote>
-<h1 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h1><p>请实现两个函数，分别用来序列化和反序列化二叉树</p>
-<p>二叉树的序列化是指：把一棵二叉树按照某种遍历方式的结果以某种格式保存为字符串，从而使得内存中建立起来的二叉树可以持久保存。序列化可以基于先序、中序、后序、层序的二叉树遍历方式来进行修改，序列化的结果是一个字符串，序列化时通过 某种符号表示空节点（#），以 ！ 表示一个结点值的结束（value!）。</p>
-<p>二叉树的反序列化是指：根据某种遍历顺序得到的序列化字符串结果str，重构二叉树。</p>
-<p>例如，我们可以把一个只有根节点为1的二叉树序列化为”1,”，然后通过自己的函数来解析回这个二叉树</p>
-<p><strong>首先这个题目就有点难受，因为这个#我理解错了，以为是每个空结点都添加#，其实是直接返回#，不过就算知道了这个我的解法也写错了</strong></p>
-<h1 id="解法"><a href="#解法" class="headerlink" title="解法"></a>解法</h1><p>这个题需要写两个函数，一个是序列化，一个是逆序列化</p>
-<p>序列化：其实看到这个返回值是char*，应该想到递归相加，将都归结果拼起来，首先需要一种遍历算法，这里参考其他答案的先序遍历，先序遍历，将当前数字的序列保存，添加！，递归左右，然后拼接</p>
-<p>逆序列化：遇到#直接返回，遇到！解析当前数字，构造根节点，递归构造左右结点</p>
-<h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><pre><code class="c++">/*
-struct TreeNode {
-    int val;
-    struct TreeNode *left;
-    struct TreeNode *right;
-    TreeNode(int x) :
-            val(x), left(NULL), right(NULL) {
-    }
-};
-*/
-
-class Solution {
-public:
-    char* Serialize(TreeNode *root) {    
-        if(!root) return &quot;#&quot;;
-        string res = to_string(root-&gt;val);
-        res+=(&#39;,&#39;);
-        char* left = Serialize(root-&gt;left);
-        char* right = Serialize(root-&gt;right);
-        char* ret = new char[strlen(left)+strlen(right)+res.size()];
-        strcpy(ret, res.c_str());
-        strcat(ret, left);
-        strcat(ret, right);
-        return ret;
-    }
-
-    TreeNode* Deserialize(char *str) {
-        return deseri(str);
-    }
-
-    // 参数使用引用&amp;， 以实现全局变量的目的
-    TreeNode* deseri(char *&amp;s) {
-        if (*s == &#39;#&#39;) {
-            ++s;
-            return nullptr;
-        }
-
-        // 构造根节点值
-        int num = 0;
-        while (*s != &#39;,&#39;) {
-            num = num * 10 + (*s - &#39;0&#39;);
-            ++s;
-        }
-        ++s;
-        // 递归构造树
-        TreeNode *root = new TreeNode(num);
-        root-&gt;left = deseri(s);
-        root-&gt;right = deseri(s);
-
-        return root;
-    }
-
-};</code></pre>
-
         
       </div>
     </div>
@@ -426,12 +364,12 @@ public:
 
     <div class="article-body">
       <header class="article-title">
-        <a href="/2020/08/26/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B09-%E7%AC%AC%E4%B8%80%E4%B8%AAnetcat%E7%9A%84%E5%AE%9E%E7%8E%B0/">网络编程学习笔记9-第一个netcat的实现</a>
+        <a href="/2020/08/26/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B09-%E7%AC%AC%E4%B8%80%E4%B8%AAnetcat%E7%9A%84%E5%AE%9E%E7%8E%B0/">网络编程学习笔记9-第一个netcat的实现(thread-per-connection)</a>
       </header>
       <div class="article-entry post-inner-html">
         
           <blockquote>
-<p>对系统的netcat进行压力测试，视频p20</p>
+<p>实现简单的netcat，每次读开一个线程，视频p20</p>
 </blockquote>
         
       </div>
