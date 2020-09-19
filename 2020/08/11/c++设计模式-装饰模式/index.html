@@ -117,7 +117,7 @@
             <section class="inner">
                 <section class="inner-main">
                     <div class="post">
-    <article id="post-ckf9saccn000vrwvedxwi8vac" class="article article-type-post" itemscope
+    <article id="post-ckf9u4izs000xpove2yr58gao" class="article article-type-post" itemscope
     itemprop="blogPost">
 
     <div class="article-inner">
@@ -180,7 +180,112 @@
 <p>其实之前的设计模式原则里有一条，组合优于继承，对于拓展的继承会产生数量巨大的类，可以尝试使用组合</p>
 <h3 id="优缺点"><a href="#优缺点" class="headerlink" title="优缺点"></a><strong>优缺点</strong></h3><p>优点：你无需创建新子类即可扩展对象的行为、编译时拓展变成运行时拓展、<br>缺点：代码有些难以理解、在封装器栈中删除特定封装器比较困难</p>
 <h3 id="与其他模式关系"><a href="#与其他模式关系" class="headerlink" title="与其他模式关系"></a><strong>与其他模式关系</strong></h3><p>这个等学完在对比</p>
-<h3 id="代码实例"><a href="#代码实例" class="headerlink" title="代码实例"></a><strong>代码实例</strong></h3><pre><code class="c++">/**
+<h3 id="代码实例"><a href="#代码实例" class="headerlink" title="代码实例"></a><strong>代码实例</strong></h3><p>先看一个生动形象的例子，不同咖啡的制作需要不同的原料</p>
+<pre><code class="c++">/********** 所有饮料的基类 **********/
+class IBeverage
+{
+public:
+    virtual string Name() = 0;  // 名称
+    virtual double Cost() = 0;  // 价钱
+};
+
+/********** 具体的饮料（咖啡）**********/
+
+// 黑咖啡，属于混合咖啡
+class HouseBlend : public IBeverage
+{
+public:
+    string Name() {
+        return &quot;HouseBlend&quot;;
+    }
+
+    double Cost() {
+        return 30.0;
+    }
+};
+
+// 深度烘培咖啡豆
+class DarkRoast : public IBeverage
+{
+public:
+    string Name() {
+        return &quot;DarkRoast&quot;;
+    }
+
+    double Cost() {
+        return 28.5;
+    }
+};
+
+/********** 调味品 **********/
+class CondimentDecorator : public IBeverage
+{
+public :
+    CondimentDecorator(IBeverage *beverage) : m_pBeverage(beverage) {}
+
+    string Name() {
+        return m_pBeverage-&gt;Name();
+    }
+
+    double Cost() {
+        return m_pBeverage-&gt;Cost();
+    }
+
+protected :
+    IBeverage *m_pBeverage;
+} ;
+
+
+/********** 具体的饮料（调味品）**********/
+
+// 奶油
+class Cream : public CondimentDecorator
+{
+public:
+    Cream(IBeverage *beverage) : CondimentDecorator(beverage) {}
+
+    string Name() {
+        return m_pBeverage-&gt;Name() + &quot; Cream&quot;;
+    }
+
+    double Cost() {
+        return m_pBeverage-&gt;Cost() + 3.5;
+    }
+};
+
+// 摩卡
+class Mocha : public CondimentDecorator
+{
+public:
+    Mocha(IBeverage *beverage) : CondimentDecorator(beverage) {}
+
+    string Name() {
+        return m_pBeverage-&gt;Name() + &quot; Mocha&quot;;
+    }
+
+    double Cost() {
+        return m_pBeverage-&gt;Cost() + 2.0;
+    }
+};
+
+// 糖浆
+class Syrup : public CondimentDecorator
+{
+public:
+    Syrup(IBeverage *beverage) : CondimentDecorator(beverage) {}
+
+    string Name() {
+        return m_pBeverage-&gt;Name() + &quot; Syrup&quot;;
+    }
+
+    double Cost() {
+        return m_pBeverage-&gt;Cost() + 3.0;
+    }
+};
+
+
+</code></pre>
+<pre><code class="c++">/**
  * The base Component interface defines operations that can be altered by
  * decorators.
  */
@@ -416,6 +521,10 @@ RESULT: ConcreteDecoratorB(ConcreteDecoratorA(ConcreteComponent))</code></pre>
       <ul>
         
           <li>
+            <a href="/2020/09/19/c++%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E7%AE%80%E5%8D%95%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/">c++设计模式-简单工厂模式</a>
+          </li>
+        
+          <li>
             <a href="/2020/09/17/NLP%E5%92%8C%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B11-neo4j%E5%AE%89%E8%A3%85%E5%92%8C%E4%BD%BF%E7%94%A8/">NLP和知识图谱-neo4j安装和使用</a>
           </li>
         
@@ -429,10 +538,6 @@ RESULT: ConcreteDecoratorB(ConcreteDecoratorA(ConcreteComponent))</code></pre>
         
           <li>
             <a href="/2020/09/14/%E5%89%91%E6%8C%8761-%E5%BA%8F%E5%88%97%E5%8C%96%E4%BA%8C%E5%8F%89%E6%A0%91/">剑指61-序列化二叉树</a>
-          </li>
-        
-          <li>
-            <a href="/2020/09/05/%E5%89%91%E6%8C%8760-%E6%8A%8A%E4%BA%8C%E5%8F%89%E6%A0%91%E6%89%93%E5%8D%B0%E6%88%90%E5%A4%9A%E8%A1%8C/">剑指60-把二叉树打印成多行</a>
           </li>
         
       </ul>

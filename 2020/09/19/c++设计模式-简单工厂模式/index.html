@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     
-    <title>Tag | roundtrip | LIANGYUE&#39; BLOG</title>
+    <title>c++设计模式-简单工厂模式 | LIANGYUE&#39; BLOG</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
     
@@ -116,36 +116,153 @@
         <div class="main">
             <section class="inner">
                 <section class="inner-main">
-                    
+                    <div class="post">
+    <article id="post-ckf9u4izp000upovegd4a4gb7" class="article article-type-post" itemscope
+    itemprop="blogPost">
+
+    <div class="article-inner">
+
+        
+
+        
+        <header class="article-header">
+            
   
-  
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2020" class="archive-year">2020</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/08/07/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B04-Roundtrip%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90/">网络编程学习笔记4-Roundtrip代码分析</a>
+    <h1 class="article-title" itemprop="name">
+      c++设计模式-简单工厂模式
     </h1>
   
 
+        </header>
+        
+
+        <div class="article-more-info article-more-info-post hairline">
+
+            <div class="article-date">
+  <time datetime="2020-09-19T15:19:59.000Z" itemprop="datePublished">2020-09-19</time>
+</div>
+
+            
+            <div class="article-category">
+                <a class="article-category-link" href="/categories/c/">c++</a>
+            </div>
+            
+
+            
+            <div class="article-tag">
+                <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/c/" rel="tag">c++</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/" rel="tag">工厂模式</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a></li></ul>
+            </div>
+            
+
+            
+            <div class="article-busuanzi">
+                有 <span id="busuanzi_value_page_pv">0</span> 人看过
+            </div>
+            
+        </div>
+
+        <div class="article-entry post-inner-html hairline" itemprop="articleBody">
+            <blockquote>
+<p>简单工厂模式</p>
+</blockquote>
+<a id="more"></a>
+
+<h2 id="简单工厂模式"><a href="#简单工厂模式" class="headerlink" title="简单工厂模式"></a><strong>简单工厂模式</strong></h2><h3 id="适用情况"><a href="#适用情况" class="headerlink" title="适用情况"></a><strong>适用情况</strong></h3><h3 id="优缺点"><a href="#优缺点" class="headerlink" title="优缺点"></a><strong>优缺点</strong></h3><h3 id="与其他模式关系"><a href="#与其他模式关系" class="headerlink" title="与其他模式关系"></a><strong>与其他模式关系</strong></h3><h3 id="简易类图"><a href="#简易类图" class="headerlink" title="简易类图"></a>简易类图</h3><img src="/2020/09/19/c++%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E7%AE%80%E5%8D%95%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/%E7%AE%80%E5%8D%95%E5%B7%A5%E5%8E%82.png" class="" title="简单工厂.png">
+
+<h3 id="代码实例"><a href="#代码实例" class="headerlink" title="代码实例"></a><strong>代码实例</strong></h3><pre><code class="c++">enum products{
+    ConcreteProduct1=1;
+    ConcreteProduct2=2;
+}
+
+class Product {
+ public:
+  virtual ~Product() {}
+  virtual std::string Operation() const = 0;
+};
+
+/**
+ * Concrete Products provide various implementations of the Product interface.
+ */
+class ConcreteProduct1 : public Product {
+ public:
+  std::string Operation() const override {
+    return &quot;{Result of the ConcreteProduct1}&quot;;
+  }
+};
+class ConcreteProduct2 : public Product {
+ public:
+  std::string Operation() const override {
+    return &quot;{Result of the ConcreteProduct2}&quot;;
+  }
+};
+
+class Creator {
+ public:
+  virtual ~Creator(){};
+  virtual Product* FactoryMethod() const = 0;
+
+  Product Create(products para) const {
+      if(para=products.ConcreteProduct1) return new ConcreteProduct1();
+      else if(para=products.ConcreteProduct2) return new ConcreteProduct2();
+  }
+};</code></pre>
+
+        </div>
+
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+<nav class="article-nav">
+  
+  
+    <a href="/2020/09/17/NLP%E5%92%8C%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B11-neo4j%E5%AE%89%E8%A3%85%E5%92%8C%E4%BD%BF%E7%94%A8/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-caption">上一篇</div>
+      <div class="article-nav-title">NLP和知识图谱-neo4j安装和使用</div>
+    </a>
+  
+</nav>
+
+
+    <section class="share">
+        <div class="share-title">分享</div>
+        <a class="share-item" target="_blank"
+            href="https://twitter.com/share?text=c++设计模式-简单工厂模式 - LIANGYUE' BLOG&url=http://www.openrad.ink/2020/09/19/c++%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E7%AE%80%E5%8D%95%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/">
+            <box-icon type='logo' name='twitter'></box-icon>
+        </a>
+        <a class="share-item" target="_blank"
+            href="https://www.facebook.com/sharer.php?title=c++设计模式-简单工厂模式 - LIANGYUE' BLOG&u=http://www.openrad.ink/2020/09/19/c++%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E7%AE%80%E5%8D%95%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/">
+            <box-icon name='facebook-square' type='logo' ></box-icon>
+        </a>
+        <!-- <a class="share-item" target="_blank"
+            href="https://service.weibo.com/share/share.php?title=c++设计模式-简单工厂模式 - LIANGYUE' BLOG&url=http://www.openrad.ink/2020/09/19/c++%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E7%AE%80%E5%8D%95%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/&pic=">
+            <div class="n-icon n-icon-weibo"></div>
+        </a> -->
+    </section>
+
 </article>
-  
-  
-    </div></section>
-  
 
 
 
 
+<section class="comments">
+    <div id="gitalk-container"></div>
+</section>
+
+
+
+<script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+</div>
                 </section>
             </section>
 
@@ -168,6 +285,12 @@
 <div class="widget" id="widget">
     
       
+  <div class="widget-wrap">
+    <div class="widget-inner">
+      <div class="toc post-toc-html"></div>
+    </div>
+  </div>
+
     
       
   <div class="widget-wrap widget-cate">
