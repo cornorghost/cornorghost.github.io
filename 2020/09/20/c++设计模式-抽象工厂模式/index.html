@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     
-    <title>hexo本地和远程预览不一致 | LIANGYUE&#39; BLOG</title>
+    <title>c++设计模式-抽象工厂 | LIANGYUE&#39; BLOG</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
     
@@ -117,7 +117,7 @@
             <section class="inner">
                 <section class="inner-main">
                     <div class="post">
-    <article id="post-ckfazeop6001i9cve3uor4ud6" class="article article-type-post" itemscope
+    <article id="post-ckfazeond000j9cve57ez3n3s" class="article article-type-post" itemscope
     itemprop="blogPost">
 
     <div class="article-inner">
@@ -129,7 +129,7 @@
             
   
     <h1 class="article-title" itemprop="name">
-      hexo本地和远程预览不一致
+      c++设计模式-抽象工厂
     </h1>
   
 
@@ -139,18 +139,18 @@
         <div class="article-more-info article-more-info-post hairline">
 
             <div class="article-date">
-  <time datetime="2020-07-22T05:37:17.000Z" itemprop="datePublished">2020-07-22</time>
+  <time datetime="2020-09-20T10:22:26.000Z" itemprop="datePublished">2020-09-20</time>
 </div>
 
             
             <div class="article-category">
-                <a class="article-category-link" href="/categories/%E5%8D%9A%E5%AE%A2/">博客</a>
+                <a class="article-category-link" href="/categories/c/">c++</a>
             </div>
             
 
             
             <div class="article-tag">
-                <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8D%9A%E5%AE%A2/" rel="tag">博客</a></li></ul>
+                <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/c/" rel="tag">c++</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/" rel="tag">工厂模式</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a></li></ul>
             </div>
             
 
@@ -163,11 +163,180 @@
 
         <div class="article-entry post-inner-html hairline" itemprop="articleBody">
             <blockquote>
-<p>解决hexo本地和服务器预览不一样的问题，强制刷新ctrl+f5</p>
+<p>工厂模式</p>
 </blockquote>
 <a id="more"></a>
 
-<p>我一开始以为是hexo d没有成功上传，可是我查看远程文件是成功上传了的，后来我在浏览器强制ctrl+f5，结果样式加载出来了，原来是本地浏览器有缓存</p>
+<h2 id="工厂模式"><a href="#工厂模式" class="headerlink" title="工厂模式"></a><strong>工厂模式</strong></h2><h3 id="适用情况"><a href="#适用情况" class="headerlink" title="适用情况"></a><strong>适用情况</strong></h3><p>例如需要读文件，文件类型都是txt，但是文件有3列的、6列的格式，以后还会有其他格式的；或者设计一个物流类，有水路的、陆路的、以后还会有空航；这些需要很多不同类的情况，以后可能还要添加新的类的情况，一般初期会考虑工厂模式</p>
+<h3 id="优缺点"><a href="#优缺点" class="headerlink" title="优缺点"></a><strong>优缺点</strong></h3><p>优点：你可以确保同一工厂生成的产品相互匹配。符合单一职责原则和开闭原则<br>缺点：由于采用该模式需要向应用中引入众多接口和类， 代码可能会比之前更加复杂</p>
+<h3 id="与其他模式关系"><a href="#与其他模式关系" class="headerlink" title="与其他模式关系"></a><strong>与其他模式关系</strong></h3><ul>
+<li><p>在许多设计工作的初期都会使用工厂方法模式 （较为简单， 而且可以更方便地通过子类进行定制）， 随后演化为使用抽象工厂模式、 原型模式或生成器模式 （更灵活但更加复杂）。</p>
+</li>
+<li><p>生成器重点关注如何分步生成复杂对象。 抽象工厂专门用于生产一系列相关对象。 抽象工厂会马上返回产品， 生成器则允许你在获取产品前执行一些额外构造步骤。</p>
+</li>
+<li><p>抽象工厂模式通常基于一组工厂方法， 但你也可以使用原型模式来生成这些类的方法。</p>
+</li>
+<li><p>当只需对客户端代码隐藏子系统创建对象的方式时， 你可以使用抽象工厂来代替外观模式。</p>
+</li>
+<li><p>你可以将抽象工厂和桥接模式搭配使用。 如果由桥接定义的抽象只能与特定实现合作， 这一模式搭配就非常有用。 在这种情况下， 抽象工厂可以对这些关系进行封装， 并且对客户端代码隐藏其复杂性。</p>
+</li>
+<li><p>抽象工厂、 生成器和原型都可以用单例模式来实现。</p>
+</li>
+</ul>
+<h3 id="简易类图"><a href="#简易类图" class="headerlink" title="简易类图"></a>简易类图</h3><img src="/2020/09/20/c++%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E6%8A%BD%E8%B1%A1%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/%E6%8A%BD%E8%B1%A1%E5%B7%A5%E5%8E%82.png" class="" title="抽象工厂.png">
+
+<h3 id="代码实例"><a href="#代码实例" class="headerlink" title="代码实例"></a><strong>代码实例</strong></h3><pre><code class="c++">/**
+ * Each distinct product of a product family should have a base interface. All
+ * variants of the product must implement this interface.
+ */
+class AbstractProductA {
+ public:
+  virtual ~AbstractProductA(){};
+  virtual std::string UsefulFunctionA() const = 0;
+};
+
+/**
+ * Concrete Products are created by corresponding Concrete Factories.
+ */
+class ConcreteProductA1 : public AbstractProductA {
+ public:
+  std::string UsefulFunctionA() const override {
+    return &quot;The result of the product A1.&quot;;
+  }
+};
+
+class ConcreteProductA2 : public AbstractProductA {
+  std::string UsefulFunctionA() const override {
+    return &quot;The result of the product A2.&quot;;
+  }
+};
+
+/**
+ * Here&#39;s the the base interface of another product. All products can interact
+ * with each other, but proper interaction is possible only between products of
+ * the same concrete variant.
+ */
+class AbstractProductB {
+  /**
+   * Product B is able to do its own thing...
+   */
+ public:
+  virtual ~AbstractProductB(){};
+  virtual std::string UsefulFunctionB() const = 0;
+  /**
+   * ...but it also can collaborate with the ProductA.
+   *
+   * The Abstract Factory makes sure that all products it creates are of the
+   * same variant and thus, compatible.
+   */
+  virtual std::string AnotherUsefulFunctionB(const AbstractProductA &amp;collaborator) const = 0;
+};
+
+/**
+ * Concrete Products are created by corresponding Concrete Factories.
+ */
+class ConcreteProductB1 : public AbstractProductB {
+ public:
+  std::string UsefulFunctionB() const override {
+    return &quot;The result of the product B1.&quot;;
+  }
+  /**
+   * The variant, Product B1, is only able to work correctly with the variant,
+   * Product A1. Nevertheless, it accepts any instance of AbstractProductA as an
+   * argument.
+   */
+  std::string AnotherUsefulFunctionB(const AbstractProductA &amp;collaborator) const override {
+    const std::string result = collaborator.UsefulFunctionA();
+    return &quot;The result of the B1 collaborating with ( &quot; + result + &quot; )&quot;;
+  }
+};
+
+class ConcreteProductB2 : public AbstractProductB {
+ public:
+  std::string UsefulFunctionB() const override {
+    return &quot;The result of the product B2.&quot;;
+  }
+  /**
+   * The variant, Product B2, is only able to work correctly with the variant,
+   * Product A2. Nevertheless, it accepts any instance of AbstractProductA as an
+   * argument.
+   */
+  std::string AnotherUsefulFunctionB(const AbstractProductA &amp;collaborator) const override {
+    const std::string result = collaborator.UsefulFunctionA();
+    return &quot;The result of the B2 collaborating with ( &quot; + result + &quot; )&quot;;
+  }
+};
+
+/**
+ * The Abstract Factory interface declares a set of methods that return
+ * different abstract products. These products are called a family and are
+ * related by a high-level theme or concept. Products of one family are usually
+ * able to collaborate among themselves. A family of products may have several
+ * variants, but the products of one variant are incompatible with products of
+ * another.
+ */
+class AbstractFactory {
+ public:
+  virtual AbstractProductA *CreateProductA() const = 0;
+  virtual AbstractProductB *CreateProductB() const = 0;
+};
+
+/**
+ * Concrete Factories produce a family of products that belong to a single
+ * variant. The factory guarantees that resulting products are compatible. Note
+ * that signatures of the Concrete Factory&#39;s methods return an abstract product,
+ * while inside the method a concrete product is instantiated.
+ */
+class ConcreteFactory1 : public AbstractFactory {
+ public:
+  AbstractProductA *CreateProductA() const override {
+    return new ConcreteProductA1();
+  }
+  AbstractProductB *CreateProductB() const override {
+    return new ConcreteProductB1();
+  }
+};
+
+/**
+ * Each Concrete Factory has a corresponding product variant.
+ */
+class ConcreteFactory2 : public AbstractFactory {
+ public:
+  AbstractProductA *CreateProductA() const override {
+    return new ConcreteProductA2();
+  }
+  AbstractProductB *CreateProductB() const override {
+    return new ConcreteProductB2();
+  }
+};
+
+/**
+ * The client code works with factories and products only through abstract
+ * types: AbstractFactory and AbstractProduct. This lets you pass any factory or
+ * product subclass to the client code without breaking it.
+ */
+
+void ClientCode(const AbstractFactory &amp;factory) {
+  const AbstractProductA *product_a = factory.CreateProductA();
+  const AbstractProductB *product_b = factory.CreateProductB();
+  std::cout &lt;&lt; product_b-&gt;UsefulFunctionB() &lt;&lt; &quot;\n&quot;;
+  std::cout &lt;&lt; product_b-&gt;AnotherUsefulFunctionB(*product_a) &lt;&lt; &quot;\n&quot;;
+  delete product_a;
+  delete product_b;
+}
+
+int main() {
+  std::cout &lt;&lt; &quot;Client: Testing client code with the first factory type:\n&quot;;
+  ConcreteFactory1 *f1 = new ConcreteFactory1();
+  ClientCode(*f1);
+  delete f1;
+  std::cout &lt;&lt; std::endl;
+  std::cout &lt;&lt; &quot;Client: Testing the same client code with the second factory type:\n&quot;;
+  ConcreteFactory2 *f2 = new ConcreteFactory2();
+  ClientCode(*f2);
+  delete f2;
+  return 0;
+}</code></pre>
 
         </div>
 
@@ -186,19 +355,10 @@
     
 <nav class="article-nav">
   
-    <a href="/2020/07/23/%E5%89%91%E6%8C%8733-%E4%B8%91%E6%95%B0/" id="article-nav-newer" class="article-nav-link-wrap">
-      <div class="article-nav-caption">下一篇</div>
-      <div class="article-nav-title">
-        
-          剑指33-丑数
-        
-      </div>
-    </a>
   
-  
-    <a href="/2020/07/21/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA-hexo-d%E6%9C%8D%E5%8A%A1%E5%99%A8/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2020/09/19/c++%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E7%AE%80%E5%8D%95%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/" id="article-nav-older" class="article-nav-link-wrap">
       <div class="article-nav-caption">上一篇</div>
-      <div class="article-nav-title">博客搭建-hexo+d服务器</div>
+      <div class="article-nav-title">c++设计模式-简单工厂模式</div>
     </a>
   
 </nav>
@@ -207,15 +367,15 @@
     <section class="share">
         <div class="share-title">分享</div>
         <a class="share-item" target="_blank"
-            href="https://twitter.com/share?text=hexo本地和远程预览不一致 - LIANGYUE' BLOG&url=http://www.openrad.ink/2020/07/22/hexo%E6%9C%AC%E5%9C%B0%E5%92%8C%E8%BF%9C%E7%A8%8B%E9%A2%84%E8%A7%88%E4%B8%8D%E4%B8%80%E8%87%B4/">
+            href="https://twitter.com/share?text=c++设计模式-抽象工厂 - LIANGYUE' BLOG&url=http://www.openrad.ink/2020/09/20/c++%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E6%8A%BD%E8%B1%A1%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/">
             <box-icon type='logo' name='twitter'></box-icon>
         </a>
         <a class="share-item" target="_blank"
-            href="https://www.facebook.com/sharer.php?title=hexo本地和远程预览不一致 - LIANGYUE' BLOG&u=http://www.openrad.ink/2020/07/22/hexo%E6%9C%AC%E5%9C%B0%E5%92%8C%E8%BF%9C%E7%A8%8B%E9%A2%84%E8%A7%88%E4%B8%8D%E4%B8%80%E8%87%B4/">
+            href="https://www.facebook.com/sharer.php?title=c++设计模式-抽象工厂 - LIANGYUE' BLOG&u=http://www.openrad.ink/2020/09/20/c++%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E6%8A%BD%E8%B1%A1%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/">
             <box-icon name='facebook-square' type='logo' ></box-icon>
         </a>
         <!-- <a class="share-item" target="_blank"
-            href="https://service.weibo.com/share/share.php?title=hexo本地和远程预览不一致 - LIANGYUE' BLOG&url=http://www.openrad.ink/2020/07/22/hexo%E6%9C%AC%E5%9C%B0%E5%92%8C%E8%BF%9C%E7%A8%8B%E9%A2%84%E8%A7%88%E4%B8%8D%E4%B8%80%E8%87%B4/&pic=">
+            href="https://service.weibo.com/share/share.php?title=c++设计模式-抽象工厂 - LIANGYUE' BLOG&url=http://www.openrad.ink/2020/09/20/c++%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E6%8A%BD%E8%B1%A1%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/&pic=">
             <div class="n-icon n-icon-weibo"></div>
         </a> -->
     </section>
