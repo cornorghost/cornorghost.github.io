@@ -117,7 +117,7 @@
             <section class="inner">
                 <section class="inner-main">
                     <div class="post">
-    <article id="post-ckfazme2g000vtsvehqq18xlz" class="article article-type-post" itemscope
+    <article id="post-ckfb5annh000yr0veg1l772g9" class="article article-type-post" itemscope
     itemprop="blogPost">
 
     <div class="article-inner">
@@ -170,37 +170,18 @@
 <h2 id="策略模式"><a href="#策略模式" class="headerlink" title="策略模式"></a><strong>策略模式</strong></h2><h3 id="适用情况"><a href="#适用情况" class="headerlink" title="适用情况"></a><strong>适用情况</strong></h3><p>假如你要开发一个地图导航应用，一开始你只能规划汽车线路，但是后面你要继续开发人行线路、飞机线路等，这些线路算法并不通用，需要重写某段算法，这时候你可以把重写放到一个新的类，并把这些类作为一个参数</p>
 <h3 id="优缺点"><a href="#优缺点" class="headerlink" title="优缺点"></a><strong>优缺点</strong></h3><p>优点：可以运行时切换、算法实现和算法使用隔离、使用组合来代替继承、 开闭原则<br>缺点：如果算法改动不大，新建类会显得复杂，而且使用多函数可能会更方便</p>
 <h3 id="与其他模式关系"><a href="#与其他模式关系" class="headerlink" title="与其他模式关系"></a><strong>与其他模式关系</strong></h3><p>这个等学完在对比</p>
-<h3 id="代码实例"><a href="#代码实例" class="headerlink" title="代码实例"></a><strong>代码实例</strong></h3><pre><code class="c++">**
- * The Strategy interface declares operations common to all supported versions
- * of some algorithm.
- *
- * The Context uses this interface to call the algorithm defined by Concrete
- * Strategies.
- */
-class Strategy
+<h3 id="代码实例"><a href="#代码实例" class="headerlink" title="代码实例"></a><strong>代码实例</strong></h3><pre><code class="c++">class Strategy
 {
 public:
     virtual ~Strategy() {}
     virtual std::string DoAlgorithm(const std::vector&lt;std::string&gt; &amp;data) const = 0;
 };
 
-/**
- * The Context defines the interface of interest to clients.
- */
-
 class Context
 {
-    /**
-     * @var Strategy The Context maintains a reference to one of the Strategy
-     * objects. The Context does not know the concrete class of a strategy. It
-     * should work with all strategies via the Strategy interface.
-     */
 private:
     Strategy *strategy_;
-    /**
-     * Usually, the Context accepts a strategy through the constructor, but also
-     * provides a setter to change it at runtime.
-     */
+
 public:
     Context(Strategy *strategy = nullptr) : strategy_(strategy)
     {
@@ -209,18 +190,13 @@ public:
     {
         delete this-&gt;strategy_;
     }
-    /**
-     * Usually, the Context allows replacing a Strategy object at runtime.
-     */
+
     void set_strategy(Strategy *strategy)
     {
         delete this-&gt;strategy_;
         this-&gt;strategy_ = strategy;
     }
-    /**
-     * The Context delegates some work to the Strategy object instead of
-     * implementing +multiple versions of the algorithm on its own.
-     */
+
     void DoSomeBusinessLogic() const
     {
         // ...
@@ -231,10 +207,6 @@ public:
     }
 };
 
-/**
- * Concrete Strategies implement the algorithm while following the base Strategy
- * interface. The interface makes them interchangeable in the Context.
- */
 class ConcreteStrategyA : public Strategy
 {
 public:
@@ -266,11 +238,6 @@ class ConcreteStrategyB : public Strategy
         return result;
     }
 };
-/**
- * The client code picks a concrete strategy and passes it to the context. The
- * client should be aware of the differences between strategies in order to make
- * the right choice.
- */
 
 void ClientCode()
 {
@@ -398,7 +365,7 @@ int main()
   <div class="widget-wrap widget-tags">
     <div class="widget-title"><span>标签</span></div>
     <div class="widget-inner">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/c/" rel="tag">c++</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/centos7/" rel="tag">centos7</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/leetcode/" rel="tag">leetcode</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/muduo/" rel="tag">muduo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nagle/" rel="tag">nagle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/neo4j/" rel="tag">neo4j</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/netcat/" rel="tag">netcat</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nlp/" rel="tag">nlp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/roundtrip/" rel="tag">roundtrip</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tcp/" rel="tag">tcp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tcp-nodelay/" rel="tag">tcp_nodelay</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/udp/" rel="tag">udp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BA%8C%E5%88%86%E6%B3%95/" rel="tag">二分法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BA%8C%E5%8F%89%E6%A0%91/" rel="tag">二叉树</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BB%8B%E7%BB%8D/" rel="tag">介绍</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BD%8D%E8%BF%90%E7%AE%97/" rel="tag">位运算</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%86%85%E6%8E%A8%E7%A0%81/" rel="tag">内推码</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%89%8D%E7%BC%80%E5%92%8C/" rel="tag">前缀和</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%89%91%E6%8C%87offer/" rel="tag">剑指offer</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8D%9A%E5%AE%A2/" rel="tag">博客</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%90%8E%E7%AB%AF/" rel="tag">后端</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%90%90%E6%A7%BD/" rel="tag">吐槽</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%93%88%E5%B8%8C%E8%A1%A8/" rel="tag">哈希表</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%9F%BA%E7%A1%80/" rel="tag">基础</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AD%97%E7%AC%A6%E4%B8%B2/" rel="tag">字符串</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8/" rel="tag">字节跳动</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/" rel="tag">工厂模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BF%AB%E6%85%A2%E6%8C%87%E9%92%88/" rel="tag">快慢指针</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8E%92%E5%BA%8F/" rel="tag">排序</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E5%AD%A6/" rel="tag">数学</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E7%BB%84/" rel="tag">数组</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A1%A5%E6%8E%A5%E6%A8%A1%E5%BC%8F/" rel="tag">桥接模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A8%A1%E6%9D%BF%E6%A8%A1%E5%BC%8F/" rel="tag">模板模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%AD%A3%E5%88%99/" rel="tag">正则</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B8%B8%E8%AE%B0/" rel="tag">游记</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%BB%91%E7%AA%97/" rel="tag">滑窗</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1/" rel="tag">知识图谱</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8F/" rel="tag">策略模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C/" rel="tag">网络</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/" rel="tag">网络编程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BE%8E%E5%9B%A2/" rel="tag">美团</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A3%85%E9%A5%B0%E6%A8%A1%E5%BC%8F/" rel="tag">装饰模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F/" rel="tag">观察者模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BF%9B%E7%A8%8B/" rel="tag">进程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%80%92%E5%BD%92/" rel="tag">递归</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%93%BE%E8%A1%A8/" rel="tag">链表</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%98%9F%E5%88%97/" rel="tag">队列</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9D%A2%E7%BB%8F/" rel="tag">面经</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9D%A2%E8%AF%95/" rel="tag">面试</a></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/c/" rel="tag">c++</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/centos7/" rel="tag">centos7</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/leetcode/" rel="tag">leetcode</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/muduo/" rel="tag">muduo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nagle/" rel="tag">nagle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/neo4j/" rel="tag">neo4j</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/netcat/" rel="tag">netcat</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nlp/" rel="tag">nlp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/roundtrip/" rel="tag">roundtrip</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tcp/" rel="tag">tcp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tcp-nodelay/" rel="tag">tcp_nodelay</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/udp/" rel="tag">udp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BA%8C%E5%88%86%E6%B3%95/" rel="tag">二分法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BA%8C%E5%8F%89%E6%A0%91/" rel="tag">二叉树</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BB%8B%E7%BB%8D/" rel="tag">介绍</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BD%8D%E8%BF%90%E7%AE%97/" rel="tag">位运算</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%86%85%E6%8E%A8%E7%A0%81/" rel="tag">内推码</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%89%8D%E7%BC%80%E5%92%8C/" rel="tag">前缀和</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%89%91%E6%8C%87offer/" rel="tag">剑指offer</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/" rel="tag">单例模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8D%9A%E5%AE%A2/" rel="tag">博客</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%90%8E%E7%AB%AF/" rel="tag">后端</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%90%90%E6%A7%BD/" rel="tag">吐槽</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%93%88%E5%B8%8C%E8%A1%A8/" rel="tag">哈希表</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%9F%BA%E7%A1%80/" rel="tag">基础</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AD%97%E7%AC%A6%E4%B8%B2/" rel="tag">字符串</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8/" rel="tag">字节跳动</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/" rel="tag">工厂模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BF%AB%E6%85%A2%E6%8C%87%E9%92%88/" rel="tag">快慢指针</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8E%92%E5%BA%8F/" rel="tag">排序</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E5%AD%A6/" rel="tag">数学</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E7%BB%84/" rel="tag">数组</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A1%A5%E6%8E%A5%E6%A8%A1%E5%BC%8F/" rel="tag">桥接模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A8%A1%E6%9D%BF%E6%A8%A1%E5%BC%8F/" rel="tag">模板模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%AD%A3%E5%88%99/" rel="tag">正则</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B8%B8%E8%AE%B0/" rel="tag">游记</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%BB%91%E7%AA%97/" rel="tag">滑窗</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1/" rel="tag">知识图谱</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8F/" rel="tag">策略模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C/" rel="tag">网络</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/" rel="tag">网络编程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BE%8E%E5%9B%A2/" rel="tag">美团</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A3%85%E9%A5%B0%E6%A8%A1%E5%BC%8F/" rel="tag">装饰模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F/" rel="tag">观察者模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BF%9B%E7%A8%8B/" rel="tag">进程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%80%92%E5%BD%92/" rel="tag">递归</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%93%BE%E8%A1%A8/" rel="tag">链表</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%98%9F%E5%88%97/" rel="tag">队列</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9D%A2%E7%BB%8F/" rel="tag">面经</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9D%A2%E8%AF%95/" rel="tag">面试</a></li></ul>
     </div>
   </div>
 
@@ -409,6 +376,10 @@ int main()
     <div class="widget-title"><span>最近文章</span></div>
     <div class="widget-inner">
       <ul>
+        
+          <li>
+            <a href="/2020/09/20/c++%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/">c++设计模式-单例模式</a>
+          </li>
         
           <li>
             <a href="/2020/09/20/c++%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E6%8A%BD%E8%B1%A1%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/">c++设计模式-抽象工厂</a>
@@ -424,10 +395,6 @@ int main()
         
           <li>
             <a href="/2020/09/17/%E5%89%91%E6%8C%8762-%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91%E7%9A%84%E7%AC%ACk%E4%B8%AA%E7%BB%93%E7%82%B9/">剑指62-二叉搜索树的第k个结点</a>
-          </li>
-        
-          <li>
-            <a href="/2020/09/15/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B010-%E7%AC%AC%E4%B8%80%E4%B8%AAnetcat%E7%9A%84%E5%AE%9E%E7%8E%B0-io-multiplexing/">网络编程学习笔记10-第一个netcat的实现(io-multiplexing)</a>
           </li>
         
       </ul>

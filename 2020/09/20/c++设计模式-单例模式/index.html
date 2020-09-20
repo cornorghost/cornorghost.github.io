@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     
-    <title>剑指47-求1+2+3+...+n | LIANGYUE&#39; BLOG</title>
+    <title>c++设计模式-单例模式 | LIANGYUE&#39; BLOG</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
     
@@ -117,7 +117,7 @@
             <section class="inner">
                 <section class="inner-main">
                     <div class="post">
-    <article id="post-ckfb5anqp0032r0vefcdk5nwr" class="article article-type-post" itemscope
+    <article id="post-ckfb5anmt000dr0ve5jv8b2hz" class="article article-type-post" itemscope
     itemprop="blogPost">
 
     <div class="article-inner">
@@ -129,7 +129,7 @@
             
   
     <h1 class="article-title" itemprop="name">
-      剑指47-求1+2+3+...+n
+      c++设计模式-单例模式
     </h1>
   
 
@@ -139,18 +139,18 @@
         <div class="article-more-info article-more-info-post hairline">
 
             <div class="article-date">
-  <time datetime="2020-08-06T00:00:17.000Z" itemprop="datePublished">2020-08-06</time>
+  <time datetime="2020-09-20T12:46:59.000Z" itemprop="datePublished">2020-09-20</time>
 </div>
 
             
             <div class="article-category">
-                <a class="article-category-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+                <a class="article-category-link" href="/categories/c/">c++</a>
             </div>
             
 
             
             <div class="article-tag">
-                <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%89%91%E6%8C%87offer/" rel="tag">剑指offer</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%AD%97%E7%AC%A6%E4%B8%B2/" rel="tag">字符串</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li></ul>
+                <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/c/" rel="tag">c++</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/" rel="tag">单例模式</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a></li></ul>
             </div>
             
 
@@ -163,22 +163,163 @@
 
         <div class="article-entry post-inner-html hairline" itemprop="articleBody">
             <blockquote>
-<p>一个无聊的题</p>
+<p>单例模式</p>
 </blockquote>
 <a id="more"></a>
 
-<h1 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h1><p>求1+2+3+…+n，要求不能使用乘除法、for、while、if、else、switch、case等关键字及条件判断语句（A?B:C）。</p>
-<h1 id="解法"><a href="#解法" class="headerlink" title="解法"></a>解法</h1><p>先把常规的递归线写出来，然后再看看怎么不用上面的关键字</p>
-<pre><code class="c++">class Solution {
-public:
-    int Sum_Solution(int n) {
-        //if(n==1) return n;
-        //return n+Sum_Solution(n-1);
+<h2 id="单例模式"><a href="#单例模式" class="headerlink" title="单例模式"></a><strong>单例模式</strong></h2><h3 id="适用情况"><a href="#适用情况" class="headerlink" title="适用情况"></a><strong>适用情况</strong></h3><p>保证一个类只有一个实例， 并提供一个访问该实例的全局节点，不仅考虑实例的个数，还要考虑线程安全问题</p>
+<h3 id="优缺点"><a href="#优缺点" class="headerlink" title="优缺点"></a><strong>优缺点</strong></h3><p>优点：你可以确保同一工厂生成的产品相互匹配。符合单一职责原则和开闭原则<br>缺点：由于采用该模式需要向应用中引入众多接口和类， 代码可能会比之前更加复杂</p>
+<h3 id="与其他模式关系"><a href="#与其他模式关系" class="headerlink" title="与其他模式关系"></a><strong>与其他模式关系</strong></h3><ul>
+<li><p>在许多设计工作的初期都会使用工厂方法模式 （较为简单， 而且可以更方便地通过子类进行定制）， 随后演化为使用抽象工厂模式、 原型模式或生成器模式 （更灵活但更加复杂）。</p>
+</li>
+<li><p>生成器重点关注如何分步生成复杂对象。 抽象工厂专门用于生产一系列相关对象。 抽象工厂会马上返回产品， 生成器则允许你在获取产品前执行一些额外构造步骤。</p>
+</li>
+<li><p>抽象工厂模式通常基于一组工厂方法， 但你也可以使用原型模式来生成这些类的方法。</p>
+</li>
+<li><p>当只需对客户端代码隐藏子系统创建对象的方式时， 你可以使用抽象工厂来代替外观模式。</p>
+</li>
+<li><p>你可以将抽象工厂和桥接模式搭配使用。 如果由桥接定义的抽象只能与特定实现合作， 这一模式搭配就非常有用。 在这种情况下， 抽象工厂可以对这些关系进行封装， 并且对客户端代码隐藏其复杂性。</p>
+</li>
+<li><p>抽象工厂、 生成器和原型都可以用单例模式来实现。</p>
+</li>
+</ul>
+<h3 id="简易类图"><a href="#简易类图" class="headerlink" title="简易类图"></a>简易类图</h3>
 
-        bool x=n&gt;1 &amp;&amp; (n+=Sum_Solution(n-1));
-        return n;
+<h3 id="代码实例"><a href="#代码实例" class="headerlink" title="代码实例"></a><strong>代码实例</strong></h3><p>饿汉版，单例实例在程序运行时被立即执行初始化</p>
+<pre><code class="c++">class Singleton
+{
+protected:
+    Singleton(const std::string value): value_(value)
+    {
     }
-};</code></pre>
+
+    static Singleton* singleton_;
+
+    std::string value_;
+
+public:
+    //拷贝函数不能被使用
+    Singleton(Singleton &amp;other) = delete;
+
+    void operator=(const Singleton &amp;) = delete;
+
+    static Singleton *GetInstance(const std::string&amp; value);
+
+    void SomeBusinessLogic()
+    {
+        // ...
+    }
+
+    std::string value() const{
+        return value_;
+    } 
+};
+
+Singleton* Singleton::singleton_= nullptr;;  //饿汉
+
+Singleton *Singleton::GetInstance(const std::string&amp; value)
+{
+    if(singleton_==nullptr){
+        singleton_ = new Singleton(value);
+    }
+    return singleton_;
+}
+
+void ThreadFoo(){
+    // Following code emulates slow initialization.
+    std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+    Singleton* singleton = Singleton::GetInstance(&quot;FOO&quot;);
+    std::cout &lt;&lt; singleton-&gt;value() &lt;&lt; &quot;\n&quot;;
+}
+
+void ThreadBar(){
+    // Following code emulates slow initialization.
+    std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+    Singleton* singleton = Singleton::GetInstance(&quot;BAR&quot;);
+    std::cout &lt;&lt; singleton-&gt;value() &lt;&lt; &quot;\n&quot;;
+}
+
+
+int main()
+{
+    std::cout &lt;&lt;&quot;If you see the same value, then singleton was reused (yay!\n&quot; &lt;&lt;
+                &quot;If you see different values, then 2 singletons were created (booo!!)\n\n&quot; &lt;&lt;
+                &quot;RESULT:\n&quot;;   
+    std::thread t1(ThreadFoo);
+    std::thread t2(ThreadBar);
+    t1.join();
+    t2.join();
+
+    return 0;
+}</code></pre>
+<p>懒汉版，保证线程安全你的同时，不需要运行前初始化</p>
+<pre><code class="c++">#include &lt;iostream&gt;
+#include &lt;thread&gt;
+#include &lt;string&gt;
+
+using namespace std;
+
+class Singleton
+{
+protected:
+    Singleton(const std::string value) : value_(value)
+    {
+    }
+
+    std::string value_;
+
+public:
+    //拷贝函数不能被使用
+    Singleton(Singleton &amp;other) = delete;
+
+    void operator=(const Singleton &amp;) = delete;
+
+    static Singleton *GetInstance(const std::string&amp; value);
+
+    void SomeBusinessLogic()
+    {
+        // ...
+    }
+
+    std::string value() const {
+        return value_;
+    }
+};
+
+Singleton *Singleton::GetInstance(const std::string&amp; value)
+{
+    static Singleton* instance=new Singleton(value);
+    return instance;
+}
+
+void ThreadFoo() {
+    // Following code emulates slow initialization.
+    std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+    Singleton* singleton = Singleton::GetInstance(&quot;FOO&quot;);
+    cout &lt;&lt; singleton-&gt;value() &lt;&lt; &quot;\n&quot;;
+}
+
+void ThreadBar() {
+    // Following code emulates slow initialization.
+    std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+    Singleton* singleton = Singleton::GetInstance(&quot;BAR&quot;);
+    cout &lt;&lt; singleton-&gt;value() &lt;&lt; &quot;\n&quot;;
+}
+
+
+int main()
+{
+    std::cout &lt;&lt; &quot;If you see the same value, then singleton was reused (yay!\n&quot; &lt;&lt;
+        &quot;If you see different values, then 2 singletons were created (booo!!)\n\n&quot; &lt;&lt;
+        &quot;RESULT:\n&quot;;
+    std::thread t1(ThreadFoo);
+    std::thread t2(ThreadBar);
+    t1.join();
+    t2.join();
+
+    return 0;
+}
+</code></pre>
 
         </div>
 
@@ -197,19 +338,10 @@ public:
     
 <nav class="article-nav">
   
-    <a href="/2020/08/06/%E5%89%91%E6%8C%8748-%E4%B8%8D%E7%94%A8%E5%8A%A0%E5%87%8F%E4%B9%98%E9%99%A4%E5%81%9A%E5%8A%A0%E6%B3%95/" id="article-nav-newer" class="article-nav-link-wrap">
-      <div class="article-nav-caption">下一篇</div>
-      <div class="article-nav-title">
-        
-          剑指48-不用加减乘除做加法
-        
-      </div>
-    </a>
   
-  
-    <a href="/2020/08/05/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B03-%E9%98%BB%E5%A1%9EIO%E4%B8%8B%E7%9A%84ttcp/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2020/09/20/c++%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E6%8A%BD%E8%B1%A1%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/" id="article-nav-older" class="article-nav-link-wrap">
       <div class="article-nav-caption">上一篇</div>
-      <div class="article-nav-title">网络编程学习笔记3-阻塞IO下的ttcp</div>
+      <div class="article-nav-title">c++设计模式-抽象工厂</div>
     </a>
   
 </nav>
@@ -218,15 +350,15 @@ public:
     <section class="share">
         <div class="share-title">分享</div>
         <a class="share-item" target="_blank"
-            href="https://twitter.com/share?text=剑指47-求1+2+3+...+n - LIANGYUE' BLOG&url=http://www.openrad.ink/2020/08/06/%E5%89%91%E6%8C%8747-%E6%B1%821-2-3-n/">
+            href="https://twitter.com/share?text=c++设计模式-单例模式 - LIANGYUE' BLOG&url=http://www.openrad.ink/2020/09/20/c++%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/">
             <box-icon type='logo' name='twitter'></box-icon>
         </a>
         <a class="share-item" target="_blank"
-            href="https://www.facebook.com/sharer.php?title=剑指47-求1+2+3+...+n - LIANGYUE' BLOG&u=http://www.openrad.ink/2020/08/06/%E5%89%91%E6%8C%8747-%E6%B1%821-2-3-n/">
+            href="https://www.facebook.com/sharer.php?title=c++设计模式-单例模式 - LIANGYUE' BLOG&u=http://www.openrad.ink/2020/09/20/c++%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/">
             <box-icon name='facebook-square' type='logo' ></box-icon>
         </a>
         <!-- <a class="share-item" target="_blank"
-            href="https://service.weibo.com/share/share.php?title=剑指47-求1+2+3+...+n - LIANGYUE' BLOG&url=http://www.openrad.ink/2020/08/06/%E5%89%91%E6%8C%8747-%E6%B1%821-2-3-n/&pic=">
+            href="https://service.weibo.com/share/share.php?title=c++设计模式-单例模式 - LIANGYUE' BLOG&url=http://www.openrad.ink/2020/09/20/c++%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/&pic=">
             <div class="n-icon n-icon-weibo"></div>
         </a> -->
     </section>

@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     
-    <title>剑指47-求1+2+3+...+n | LIANGYUE&#39; BLOG</title>
+    <title>Tag | 单例模式 | LIANGYUE&#39; BLOG</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
     
@@ -116,135 +116,36 @@
         <div class="main">
             <section class="inner">
                 <section class="inner-main">
-                    <div class="post">
-    <article id="post-ckfb5anqp0032r0vefcdk5nwr" class="article article-type-post" itemscope
-    itemprop="blogPost">
-
-    <div class="article-inner">
-
-        
-
-        
-        <header class="article-header">
-            
+                    
   
-    <h1 class="article-title" itemprop="name">
-      剑指47-求1+2+3+...+n
+  
+    
+    
+      
+      
+      <section class="archives-wrap">
+        <div class="archive-year-wrap">
+          <a href="/archives/2020" class="archive-year">2020</a>
+        </div>
+        <div class="archives">
+    
+    <article class="archive-article archive-type-post">
+  
+  
+    <h1 itemprop="name">
+      <a class="archive-article-title" href="/2020/09/20/c++%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/">c++设计模式-单例模式</a>
     </h1>
   
 
-        </header>
-        
-
-        <div class="article-more-info article-more-info-post hairline">
-
-            <div class="article-date">
-  <time datetime="2020-08-06T00:00:17.000Z" itemprop="datePublished">2020-08-06</time>
-</div>
-
-            
-            <div class="article-category">
-                <a class="article-category-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
-            </div>
-            
-
-            
-            <div class="article-tag">
-                <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%89%91%E6%8C%87offer/" rel="tag">剑指offer</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%AD%97%E7%AC%A6%E4%B8%B2/" rel="tag">字符串</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li></ul>
-            </div>
-            
-
-            
-            <div class="article-busuanzi">
-                有 <span id="busuanzi_value_page_pv">0</span> 人看过
-            </div>
-            
-        </div>
-
-        <div class="article-entry post-inner-html hairline" itemprop="articleBody">
-            <blockquote>
-<p>一个无聊的题</p>
-</blockquote>
-<a id="more"></a>
-
-<h1 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h1><p>求1+2+3+…+n，要求不能使用乘除法、for、while、if、else、switch、case等关键字及条件判断语句（A?B:C）。</p>
-<h1 id="解法"><a href="#解法" class="headerlink" title="解法"></a>解法</h1><p>先把常规的递归线写出来，然后再看看怎么不用上面的关键字</p>
-<pre><code class="c++">class Solution {
-public:
-    int Sum_Solution(int n) {
-        //if(n==1) return n;
-        //return n+Sum_Solution(n-1);
-
-        bool x=n&gt;1 &amp;&amp; (n+=Sum_Solution(n-1));
-        return n;
-    }
-};</code></pre>
-
-        </div>
-
-    </div>
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-<nav class="article-nav">
-  
-    <a href="/2020/08/06/%E5%89%91%E6%8C%8748-%E4%B8%8D%E7%94%A8%E5%8A%A0%E5%87%8F%E4%B9%98%E9%99%A4%E5%81%9A%E5%8A%A0%E6%B3%95/" id="article-nav-newer" class="article-nav-link-wrap">
-      <div class="article-nav-caption">下一篇</div>
-      <div class="article-nav-title">
-        
-          剑指48-不用加减乘除做加法
-        
-      </div>
-    </a>
-  
-  
-    <a href="/2020/08/05/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B03-%E9%98%BB%E5%A1%9EIO%E4%B8%8B%E7%9A%84ttcp/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-caption">上一篇</div>
-      <div class="article-nav-title">网络编程学习笔记3-阻塞IO下的ttcp</div>
-    </a>
-  
-</nav>
-
-
-    <section class="share">
-        <div class="share-title">分享</div>
-        <a class="share-item" target="_blank"
-            href="https://twitter.com/share?text=剑指47-求1+2+3+...+n - LIANGYUE' BLOG&url=http://www.openrad.ink/2020/08/06/%E5%89%91%E6%8C%8747-%E6%B1%821-2-3-n/">
-            <box-icon type='logo' name='twitter'></box-icon>
-        </a>
-        <a class="share-item" target="_blank"
-            href="https://www.facebook.com/sharer.php?title=剑指47-求1+2+3+...+n - LIANGYUE' BLOG&u=http://www.openrad.ink/2020/08/06/%E5%89%91%E6%8C%8747-%E6%B1%821-2-3-n/">
-            <box-icon name='facebook-square' type='logo' ></box-icon>
-        </a>
-        <!-- <a class="share-item" target="_blank"
-            href="https://service.weibo.com/share/share.php?title=剑指47-求1+2+3+...+n - LIANGYUE' BLOG&url=http://www.openrad.ink/2020/08/06/%E5%89%91%E6%8C%8747-%E6%B1%821-2-3-n/&pic=">
-            <div class="n-icon n-icon-weibo"></div>
-        </a> -->
-    </section>
-
 </article>
+  
+  
+    </div></section>
+  
 
 
 
 
-<section class="comments">
-    <div id="gitalk-container"></div>
-</section>
-
-
-
-<script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-
-</div>
                 </section>
             </section>
 
@@ -267,12 +168,6 @@ public:
 <div class="widget" id="widget">
     
       
-  <div class="widget-wrap">
-    <div class="widget-inner">
-      <div class="toc post-toc-html"></div>
-    </div>
-  </div>
-
     
       
   <div class="widget-wrap widget-cate">
