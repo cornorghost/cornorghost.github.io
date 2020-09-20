@@ -117,7 +117,7 @@
             <section class="inner">
                 <section class="inner-main">
                     <div class="post">
-    <article id="post-ckf9u4izp000upovegd4a4gb7" class="article article-type-post" itemscope
+    <article id="post-ckfay76ey000u24vee83zgorv" class="article article-type-post" itemscope
     itemprop="blogPost">
 
     <div class="article-inner">
@@ -167,7 +167,10 @@
 </blockquote>
 <a id="more"></a>
 
-<h2 id="简单工厂模式"><a href="#简单工厂模式" class="headerlink" title="简单工厂模式"></a><strong>简单工厂模式</strong></h2><h3 id="适用情况"><a href="#适用情况" class="headerlink" title="适用情况"></a><strong>适用情况</strong></h3><h3 id="优缺点"><a href="#优缺点" class="headerlink" title="优缺点"></a><strong>优缺点</strong></h3><h3 id="与其他模式关系"><a href="#与其他模式关系" class="headerlink" title="与其他模式关系"></a><strong>与其他模式关系</strong></h3><h3 id="简易类图"><a href="#简易类图" class="headerlink" title="简易类图"></a>简易类图</h3><img src="/2020/09/19/c++%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E7%AE%80%E5%8D%95%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/%E7%AE%80%E5%8D%95%E5%B7%A5%E5%8E%82.png" class="" title="简单工厂.png">
+<h2 id="简单工厂模式"><a href="#简单工厂模式" class="headerlink" title="简单工厂模式"></a><strong>简单工厂模式</strong></h2><h3 id="适用情况"><a href="#适用情况" class="headerlink" title="适用情况"></a><strong>适用情况</strong></h3><p>当产品类数目不多，而且逻辑简单的时候可以使用简单工厂</p>
+<h3 id="优缺点"><a href="#优缺点" class="headerlink" title="优缺点"></a><strong>优缺点</strong></h3><p>有点：逻辑简单<br>缺点：违背了开闭原则，每次都要修改代码逻辑</p>
+<h3 id="与其他模式关系"><a href="#与其他模式关系" class="headerlink" title="与其他模式关系"></a><strong>与其他模式关系</strong></h3><p>简单工厂是工厂模式的原型，工厂模式是将简单工厂里的if-else提取成类</p>
+<h3 id="简易类图"><a href="#简易类图" class="headerlink" title="简易类图"></a>简易类图</h3><img src="/2020/09/19/c++%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E7%AE%80%E5%8D%95%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/%E7%AE%80%E5%8D%95%E5%B7%A5%E5%8E%82.png" class="" title="简单工厂.png">
 
 <h3 id="代码实例"><a href="#代码实例" class="headerlink" title="代码实例"></a><strong>代码实例</strong></h3><pre><code class="c++">enum products{
     ConcreteProduct1=1;
