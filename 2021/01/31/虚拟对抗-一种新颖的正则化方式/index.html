@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     
-    <title>Category | 基本 | LIANGYUE&#39;S BLOG</title>
+    <title>虚拟对抗-一种新颖的正则化方式 | LIANGYUE&#39;S BLOG</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
     
@@ -24,7 +24,7 @@
 
 
     <script>
-        window.isPost = false
+        window.isPost = true
         window.aomori = {
             
             gitalk: {
@@ -119,48 +119,149 @@
         <div class="main">
             <section class="inner">
                 <section class="inner-main">
-                    
+                    <div class="post">
+    <article id="post-ckklbccv10064p8ve6ioo3nw1" class="article article-type-post" itemscope
+    itemprop="blogPost">
+
+    <div class="article-inner">
+
+        
+          
+        
+        
+        
+
+        
+        <header class="article-header">
+            
   
+    <h1 class="article-title" itemprop="name">
+      虚拟对抗-一种新颖的正则化方式
+    </h1>
   
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2020" class="archive-year">2020</a>
+
+        </header>
+        
+
+        <div class="article-more-info article-more-info-post hairline">
+
+            <div class="article-date">
+  <time datetime="2021-01-31T15:41:57.000Z" itemprop="datePublished">2021-01-31</time>
+</div>
+
+            
+
+            
+
+            
+            <div class="article-busuanzi">
+                有 <span id="busuanzi_value_page_pv">0</span> 人看过
+            </div>
+            
+
         </div>
-        <div class="archives">
+
+        <div class="article-entry post-inner-html hairline" itemprop="articleBody">
+            <p>试图让美国“再次伟大”的特朗普20日（今日）结束任期了。风靡NLP社区的预训练语言模型能否找到一种方式、让其再次强大呢？</p>
+<p>本文JayJay就介绍一种让预训练模型再次强大的方式——虚拟对抗训练(Virtual Adversarial Training,VAT)。通过本文，希望传递给大家一个idea：在相同的预训练时间下，对BERT采取虚拟对抗训练，则效果会更好！</p>
+<p>众所周知，泛化性和鲁棒性都是设计机器学习方法的关键要求。对抗训练在CV领域已经有着广泛的研究和应用，但一些研究表明：对抗训练虽然可以增强鲁棒性，但会损害泛化性[1]。</p>
+<p>在NLP中，BERT等大型预训练语言模型在下游任务中有良好的泛化性能；通过对抗训练是否可以进一步增加泛化能力呢？不恰当的对抗训练方式是不是会损害BERT呢？BERT是不是也经受不住“对抗攻击”呢？</p>
+<p>带着这些疑问，我们介绍一篇来自微软在ACL20的paper《Adversarial Training for Large Neural Language Models》，这篇论文首次全面对「对抗预训练」进行了全面研究，建立了一种统一的、适配于语言模型的对抗训练框架——ALUM (Adversarial training for large neural LangUage Models)。</p>
+<p>具体地，这篇paper的主要精华有：</p>
+<p>提出对抗训练框架ALUM，可同时应用到预训练和微调两个阶段。<br>全面分析了对抗训练在从头预训练、持续预训练、任务微调下的表现。<br>对抗训练框架ALUM超过了一众预训练模型的指标，同时提升鲁棒性和泛化性。</p>
+<p>论文下载地址：<a href="https://arxiv.org/pdf/2004.08994" target="_blank" rel="noopener">https://arxiv.org/pdf/2004.08994</a></p>
+<p>论文开源地址：<a href="https://github.com/namisan/mt-dnn" target="_blank" rel="noopener">https://github.com/namisan/mt-dnn</a></p>
+<p>本文的组织结构为：</p>
+<p>Image<br>1、NLP中的对抗训练怎么做？<br>不同于CV的对抗训练是在像素级别，由于文本输入是离散，NLP通常是在embedding空间添加扰动。</p>
+<p>对抗训练的目标损失函数是一个Min-Max公式：</p>
+<p>Min-Max公式分为两个部分：</p>
+<p>内部损失函数的最大化：为了寻找最大的扰动，为扰动空间，一般采用梯度上升求解。<br>外部经验风险的最小化：为了最鲁棒的模型参数，并进行防御。<br>2、ALUM的关键：虚拟对抗训练<br>ALUM既能应用在预训练阶段，也能应用在微调阶段。ALUM采取（划重点）虚拟对抗训练进行，不是上述传统的对抗训练。</p>
+<p>那什么是虚拟对抗训练(VAT)呢？</p>
+<p>VAT不需要标签信息，可应用于无监督学习，其梯度上升的方向是能使输出分布偏离现状的方向，而传统对抗训练找的是使模型预测最大偏离label的方向。因此，VAT不使用真实label，而是虚拟label。其实虚拟label就是当前模型的预测结果，是Soft的logit。</p>
+<p>ALUM的目标函数是：</p>
+<p>Image<br>ALUM既包含有监督损失，也包括VAT损失(红框部分)。</p>
+<p>ALUM为什么要使用VAT呢？</p>
+<p>VAT不使用真实label，表明其更适合在标签嘈杂的情况下使用，而且比传统的对抗训练更具优势。特别是：预训练进行MLM任务的时候，使用被MASK的单词作为自我监督的标签，而其他相似词汇作为预测标签也没错，而且这种做法会更加Soft。可见：VAT会更加适合MLM预训练这种嘈杂的任务。</p>
+<p>在上述ALUM的目标函数中，对于预训练阶段，，加大VAT惩罚；而在微调阶段，。</p>
+<p>ALUM的扰动计算过程，与PGD方法类似，具体可参考文献[2]。其具体计算流程如下图，繁杂数学公式并不影响我们理解ALUM的核心观点，所以感兴趣的同学可参见原论文。</p>
+<p>Image</p>
+<p>理论上，迭代次数K值越大，估计越好，但训练时间越长。论文折中，取。</p>
+<p>3、ALUM表现如何？<br>3.1 泛化性比较：</p>
+<p>论文采取3种设置在GLUE等数据集上进行了验证：</p>
+<dl><dt>: 基于原生BERT预训练；<br>:预训练时间是原生BERT的1.5倍，训练时间与ALUM相同；</dt><dd>在原生BERT预训练后一半的时候加入VAT，由于时VAT前向计算为2次，反向传播1次，因此总的预训练时间是原生BERT的1.5倍。和 预训练时间相同。<br>Image<br>如上图给出了ALUM与BERT的对比，ALUM在500k步以后进行VAT，加入VAT后虽然总体训练时间是BERT的1.5倍，但指标提升明显。</dd></dl><p>Image<br>上图也给出3种不同预训练方式下的指标对比，可以看出：</p>
+<p>ALUM相较于原生BERT，指标提升均在2%左右！<br>由 预训练表现可以看出，BERT增加预训练时间，效果会更好！<br>ALUM和 预训练时间一样，但ALUM效果最佳！并显著提升泛化性！<br>同样，论文也在预训练充分的RoBERTa模型上进行了对比，ALUM同样取得最佳效果！</p>
+<p>3.2 鲁棒性比较：</p>
+<p>Image<br>论文也在对抗数据集上，将ALUM与其他预训练模型进行了对比，ALUM取得最佳效果，显著提升鲁棒性。</p>
+<p>3.3 预训练和微调阶段都进行对抗训练：</p>
+<p>Image<br>论文也在 预训练和微调阶段都进行对抗训练的情况进行对比（如上图），发现继续在微调阶段进行VAT，指标还会继续提升。</p>
+<p>总结<br>本文介绍了一种针对预训练语言模型进行对抗训练的方法——ALUM，主要结论如下：</p>
+<p>采取虚拟对抗训练的ALUM，兼具鲁棒性和泛化性！<br>虽然之前的工作表明：对抗训练不同时兼具提升鲁棒性和泛化性，但ALUM可以调和这一冲突，这主要归咎于预训练阶段进行了对抗训练。此外，之前工作是在有监督条件下进行的对抗训练，这表明对未标记数据的虚拟对抗性训练是更为work，更能调和泛化性与鲁棒性之间的明显冲突。</p>
+<p>在预训练阶段进行对抗训练，虽然训练时间变长，但仍然会比同样训练时间的持续预训练模型效果好！继续在微调阶段进行对抗训练，指标会进一步提升！<br>当然，本文介绍的ALUM仍然有进一步提升空间，例如继续加速对抗训练、应用到更广泛的领域等。</p>
+<p>此外，NLP中的对抗训练大多集中在instance级别的扰动，而在token的扰动是否会更加合理？对更大规模的预训练模型，对抗训练是否不太稳定？对于这些问题，JayJay将在后续公号文章中，继续介绍对抗训练在NLP中的进展等等，欢迎持续关注。</p>
+<p>欢迎大家关注JayJay的「高能AI」公众号，后面会有更多干货、还有大招！还可以撩JayJay微信～</p>
+<p>Image</p>
+<p>参考资料<br>[1]<br>The curious case of adversarially robust models: More data can help, double descend, or hurt generalization: <a href="https://openreview.net/forum?id=1dUk8vfKbhP" target="_blank" rel="noopener">https://openreview.net/forum?id=1dUk8vfKbhP</a></p>
+<p>[2]<br>【炼丹技巧】功守道：NLP中的对抗训练 + PyTorch实现: <a href="https://zhuanlan.zhihu.com/p/91269728" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/91269728</a></p>
+
+        </div>
+
+    </div>
+
     
-    <article class="archive-article archive-type-post">
+
+    
+
+    
+
+    
+
+    
+
+    
+<nav class="article-nav">
   
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/07/28/c++%E5%AE%9E%E7%8E%B0%E5%B8%B8%E7%94%A8%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%EF%BC%88%E5%85%A8%EF%BC%89/">c++实现常用排序算法(全)</a>
-    </h1>
+    <a href="/2021/01/17/primer%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-caption">上一篇</div>
+      <div class="article-nav-title">c++ primer读书笔记</div>
+    </a>
   
+</nav>
+
+
+    <section class="share">
+        <div class="share-title">分享</div>
+        <a class="share-item" target="_blank"
+            href="https://twitter.com/share?text=虚拟对抗-一种新颖的正则化方式 - LIANGYUE'S BLOG&url=http://www.openrad.ink/2021/01/31/%E8%99%9A%E6%8B%9F%E5%AF%B9%E6%8A%97-%E4%B8%80%E7%A7%8D%E6%96%B0%E9%A2%96%E7%9A%84%E6%AD%A3%E5%88%99%E5%8C%96%E6%96%B9%E5%BC%8F/">
+            <box-icon type='logo' name='twitter'></box-icon>
+        </a>
+        <a class="share-item" target="_blank"
+            href="https://www.facebook.com/sharer.php?title=虚拟对抗-一种新颖的正则化方式 - LIANGYUE'S BLOG&u=http://www.openrad.ink/2021/01/31/%E8%99%9A%E6%8B%9F%E5%AF%B9%E6%8A%97-%E4%B8%80%E7%A7%8D%E6%96%B0%E9%A2%96%E7%9A%84%E6%AD%A3%E5%88%99%E5%8C%96%E6%96%B9%E5%BC%8F/">
+            <box-icon name='facebook-square' type='logo' ></box-icon>
+        </a>
+        <!-- <a class="share-item" target="_blank"
+            href="https://service.weibo.com/share/share.php?title=虚拟对抗-一种新颖的正则化方式 - LIANGYUE'S BLOG&url=http://www.openrad.ink/2021/01/31/%E8%99%9A%E6%8B%9F%E5%AF%B9%E6%8A%97-%E4%B8%80%E7%A7%8D%E6%96%B0%E9%A2%96%E7%9A%84%E6%AD%A3%E5%88%99%E5%8C%96%E6%96%B9%E5%BC%8F/&pic=">
+            <div class="n-icon n-icon-weibo"></div>
+        </a> -->
+    </section>
 
 </article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/07/16/%E9%80%86%E8%BD%AC%E9%93%BE%E8%A1%A8/">基本算法：逆转链表</a>
-    </h1>
-  
-
-</article>
-  
-  
-    </div></section>
-  
 
 
 
 
+<section class="comments">
+    <div id="gitalk-container"></div>
+</section>
+
+
+
+<script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+</div>
                 </section>
             </section>
 
@@ -183,6 +284,12 @@
 <div class="widget" id="widget">
     
       
+  <div class="widget-wrap">
+    <div class="widget-inner">
+      <div class="toc post-toc-html"></div>
+    </div>
+  </div>
+
     
       
   <div class="widget-wrap widget-cate">
