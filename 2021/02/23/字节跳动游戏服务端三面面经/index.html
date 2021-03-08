@@ -120,7 +120,7 @@
             <section class="inner">
                 <section class="inner-main">
                     <div class="post">
-    <article id="post-cklxykz6v0052vgve9naehp3v" class="article article-type-post" itemscope
+    <article id="post-ckm0gqmq10052f0ve9qcfe63h" class="article article-type-post" itemscope
     itemprop="blogPost">
 
     <div class="article-inner">
@@ -201,8 +201,20 @@
 <h2 id="6-静态库和动态库"><a href="#6-静态库和动态库" class="headerlink" title=" 6. 静态库和动态库 "></a><span style="color:red;"> 6. 静态库和动态库 </span></h2><p>静态库一般是.lib文件， 动态库一般是dll文件</p>
 <p>静态库是在程序编译时加载，而动态库时程序运行时加载，所以使用静态库的工程体积和占用内存较大，而动态库的较小</p>
 <h2 id="7-斐波那契数列，数很大时如何优化"><a href="#7-斐波那契数列，数很大时如何优化" class="headerlink" title=" 7. 斐波那契数列，数很大时如何优化 "></a><span style="color:red;"> 7. 斐波那契数列，数很大时如何优化 </span></h2><p>这个题目我理解为斐波那契数列如何优化</p>
-<p>我会用空间换时间，定义一个数组，保存该轮计算的结果供下次使用</p>
+<p>我会用空间换时间，定义一个数组，保存该轮计算的结果供下次使用，例如</p>
+<pre><code class="c++">vector&lt;int&gt; record&lt;n+1, 0&gt;;
+record[1]=1;
+record[2]=1;
 
+int Feb(int n){
+    if(record[n]!=0) 
+    {
+        record[n];
+    }
+    record[n]=Feb(n-1)+Feb(n-2);
+    return record[n];
+}</code></pre>
+<h2 id="8-跳表和B-树和红黑树"><a href="#8-跳表和B-树和红黑树" class="headerlink" title=" 8. 跳表和B+树和红黑树 "></a><span style="color:red;"> 8. 跳表和B+树和红黑树 </span></h2>
         </div>
 
     </div>
