@@ -32,5 +32,9 @@ $color-type: #3c4859;
             padding: 15px 20px;
             position: relative;
         }
+
+        a:hover {
+            box-shadow: 0 8px 12px var(--color-white);
+        }
     }
 }

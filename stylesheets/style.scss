@@ -510,43 +510,20 @@ img:not([src]):not([srcset]) {
             margin-bottom: 0;
         }
 
-        .article-badge {
+        .article-top {
             position: absolute;
             right: 0;
             top: 0;
-            display: flex;
-
-            .article-top {
-                width: 20px;
-                height: 20px;
-                line-height: 20px;
-                margin-left: 5px;
-                color: var(--color-white-light);
-                background-color: var(--color-light);
-                text-align: center;
-                border-radius: 3px;
-                user-select: none;
-
-                box-icon {
-                    margin-top: 2px;
-                }
-            }
-
-            .article-repost {
-                width: 20px;
-                height: 20px;
-                line-height: 20px;
-                margin-left: 5px;
-                color: var(--color-white-light);
-                background-color: var(--color-light);
-                text-align: center;
-                border-radius: 3px;
-                user-select: none;
-
-                box-icon {
-                    margin-top: 2px;
-                }
-            }
+            width: 40px;
+            height: 20px;
+            line-height: 20px;
+            color: var(--color-white-light);
+            background-color: var(--color-light);
+            font-size: 12px;
+            font-weight: bold;
+            text-align: center;
+            border-radius: 3px;
+            user-select: none;
         }
 
         .article-inner {
