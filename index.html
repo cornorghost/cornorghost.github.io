@@ -136,10 +136,9 @@
       </header>
       <div class="article-entry post-inner-html">
         
-          <a id="more"></a>
-
-<h1 id="单调栈"><a href="#单调栈" class="headerlink" title=" 单调栈 "></a><span style="color:red;"> 单调栈 </span></h1><p>*<a href="https://leetcode-cn.com/problems/largest-rectangle-in-histogram/submissions/" target="_blank" rel="noopener">力扣84: 柱状图中最大的矩形</a><br>*<a href="https://leetcode-cn.com/problems/maximal-rectangle/" target="_blank" rel="noopener">力扣85: 最大矩形</a></p>
-
+          <blockquote>
+<p>准备找工作</p>
+</blockquote>
         
       </div>
     </div>
@@ -187,7 +186,9 @@
       </header>
       <div class="article-entry post-inner-html">
         
-          
+          <blockquote>
+<p>参考UNIX网络编程卷1</p>
+</blockquote>
         
       </div>
     </div>
@@ -202,6 +203,10 @@
   <time datetime="2021-03-08T17:03:11.000Z" itemprop="datePublished">2021-03-09</time>
 </div>
       
+      
+        <div class="article-tag">
+          <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/IO/" rel="tag">IO</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/socket/" rel="tag">socket</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/" rel="tag">服务器</a></li></ul>
+        </div>
       
     </div>
   </footer>
@@ -323,50 +328,9 @@
       </header>
       <div class="article-entry post-inner-html">
         
-          <a id="more"></a>
-
-
-<p>试图让美国“再次伟大”的特朗普20日（今日）结束任期了。风靡NLP社区的预训练语言模型能否找到一种方式、让其再次强大呢？</p>
-<p>本文JayJay就介绍一种让预训练模型再次强大的方式——虚拟对抗训练(Virtual Adversarial Training,VAT)。通过本文，希望传递给大家一个idea：在相同的预训练时间下，对BERT采取虚拟对抗训练，则效果会更好！</p>
-<p>众所周知，泛化性和鲁棒性都是设计机器学习方法的关键要求。对抗训练在CV领域已经有着广泛的研究和应用，但一些研究表明：对抗训练虽然可以增强鲁棒性，但会损害泛化性[1]。</p>
-<p>在NLP中，BERT等大型预训练语言模型在下游任务中有良好的泛化性能；通过对抗训练是否可以进一步增加泛化能力呢？不恰当的对抗训练方式是不是会损害BERT呢？BERT是不是也经受不住“对抗攻击”呢？</p>
-<p>带着这些疑问，我们介绍一篇来自微软在ACL20的paper《Adversarial Training for Large Neural Language Models》，这篇论文首次全面对「对抗预训练」进行了全面研究，建立了一种统一的、适配于语言模型的对抗训练框架——ALUM (Adversarial training for large neural LangUage Models)。</p>
-<p>具体地，这篇paper的主要精华有：</p>
-<p>提出对抗训练框架ALUM，可同时应用到预训练和微调两个阶段。<br>全面分析了对抗训练在从头预训练、持续预训练、任务微调下的表现。<br>对抗训练框架ALUM超过了一众预训练模型的指标，同时提升鲁棒性和泛化性。</p>
-<p>论文下载地址：<a href="https://arxiv.org/pdf/2004.08994" target="_blank" rel="noopener">https://arxiv.org/pdf/2004.08994</a></p>
-<p>论文开源地址：<a href="https://github.com/namisan/mt-dnn" target="_blank" rel="noopener">https://github.com/namisan/mt-dnn</a></p>
-<p>本文的组织结构为：</p>
-<p>Image<br>1、NLP中的对抗训练怎么做？<br>不同于CV的对抗训练是在像素级别，由于文本输入是离散，NLP通常是在embedding空间添加扰动。</p>
-<p>对抗训练的目标损失函数是一个Min-Max公式：</p>
-<p>Min-Max公式分为两个部分：</p>
-<p>内部损失函数的最大化：为了寻找最大的扰动，为扰动空间，一般采用梯度上升求解。<br>外部经验风险的最小化：为了最鲁棒的模型参数，并进行防御。<br>2、ALUM的关键：虚拟对抗训练<br>ALUM既能应用在预训练阶段，也能应用在微调阶段。ALUM采取（划重点）虚拟对抗训练进行，不是上述传统的对抗训练。</p>
-<p>那什么是虚拟对抗训练(VAT)呢？</p>
-<p>VAT不需要标签信息，可应用于无监督学习，其梯度上升的方向是能使输出分布偏离现状的方向，而传统对抗训练找的是使模型预测最大偏离label的方向。因此，VAT不使用真实label，而是虚拟label。其实虚拟label就是当前模型的预测结果，是Soft的logit。</p>
-<p>ALUM的目标函数是：</p>
-<p>Image<br>ALUM既包含有监督损失，也包括VAT损失(红框部分)。</p>
-<p>ALUM为什么要使用VAT呢？</p>
-<p>VAT不使用真实label，表明其更适合在标签嘈杂的情况下使用，而且比传统的对抗训练更具优势。特别是：预训练进行MLM任务的时候，使用被MASK的单词作为自我监督的标签，而其他相似词汇作为预测标签也没错，而且这种做法会更加Soft。可见：VAT会更加适合MLM预训练这种嘈杂的任务。</p>
-<p>在上述ALUM的目标函数中，对于预训练阶段，，加大VAT惩罚；而在微调阶段，。</p>
-<p>ALUM的扰动计算过程，与PGD方法类似，具体可参考文献[2]。其具体计算流程如下图，繁杂数学公式并不影响我们理解ALUM的核心观点，所以感兴趣的同学可参见原论文。</p>
-<p>Image</p>
-<p>理论上，迭代次数K值越大，估计越好，但训练时间越长。论文折中，取。</p>
-<p>3、ALUM表现如何？<br>3.1 泛化性比较：</p>
-<p>论文采取3种设置在GLUE等数据集上进行了验证：</p>
-<dl><dt>: 基于原生BERT预训练；<br>:预训练时间是原生BERT的1.5倍，训练时间与ALUM相同；</dt><dd>在原生BERT预训练后一半的时候加入VAT，由于时VAT前向计算为2次，反向传播1次，因此总的预训练时间是原生BERT的1.5倍。和 预训练时间相同。<br>Image<br>如上图给出了ALUM与BERT的对比，ALUM在500k步以后进行VAT，加入VAT后虽然总体训练时间是BERT的1.5倍，但指标提升明显。</dd></dl><p>Image<br>上图也给出3种不同预训练方式下的指标对比，可以看出：</p>
-<p>ALUM相较于原生BERT，指标提升均在2%左右！<br>由 预训练表现可以看出，BERT增加预训练时间，效果会更好！<br>ALUM和 预训练时间一样，但ALUM效果最佳！并显著提升泛化性！<br>同样，论文也在预训练充分的RoBERTa模型上进行了对比，ALUM同样取得最佳效果！</p>
-<p>3.2 鲁棒性比较：</p>
-<p>Image<br>论文也在对抗数据集上，将ALUM与其他预训练模型进行了对比，ALUM取得最佳效果，显著提升鲁棒性。</p>
-<p>3.3 预训练和微调阶段都进行对抗训练：</p>
-<p>Image<br>论文也在 预训练和微调阶段都进行对抗训练的情况进行对比（如上图），发现继续在微调阶段进行VAT，指标还会继续提升。</p>
-<p>总结<br>本文介绍了一种针对预训练语言模型进行对抗训练的方法——ALUM，主要结论如下：</p>
-<p>采取虚拟对抗训练的ALUM，兼具鲁棒性和泛化性！<br>虽然之前的工作表明：对抗训练不同时兼具提升鲁棒性和泛化性，但ALUM可以调和这一冲突，这主要归咎于预训练阶段进行了对抗训练。此外，之前工作是在有监督条件下进行的对抗训练，这表明对未标记数据的虚拟对抗性训练是更为work，更能调和泛化性与鲁棒性之间的明显冲突。</p>
-<p>在预训练阶段进行对抗训练，虽然训练时间变长，但仍然会比同样训练时间的持续预训练模型效果好！继续在微调阶段进行对抗训练，指标会进一步提升！<br>当然，本文介绍的ALUM仍然有进一步提升空间，例如继续加速对抗训练、应用到更广泛的领域等。</p>
-<p>此外，NLP中的对抗训练大多集中在instance级别的扰动，而在token的扰动是否会更加合理？对更大规模的预训练模型，对抗训练是否不太稳定？对于这些问题，JayJay将在后续公号文章中，继续介绍对抗训练在NLP中的进展等等，欢迎持续关注。</p>
-<p>欢迎大家关注JayJay的「高能AI」公众号，后面会有更多干货、还有大招！还可以撩JayJay微信～</p>
-<p>Image</p>
-<p>参考资料<br>[1]<br>The curious case of adversarially robust models: More data can help, double descend, or hurt generalization: <a href="https://openreview.net/forum?id=1dUk8vfKbhP" target="_blank" rel="noopener">https://openreview.net/forum?id=1dUk8vfKbhP</a></p>
-<p>[2]<br>【炼丹技巧】功守道：NLP中的对抗训练 + PyTorch实现: <a href="https://zhuanlan.zhihu.com/p/91269728" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/91269728</a></p>
-
+          <blockquote>
+<p>毕业论文</p>
+</blockquote>
         
       </div>
     </div>
@@ -705,7 +669,7 @@
   <div class="widget-wrap widget-tags">
     <div class="widget-title"><span>标签</span></div>
     <div class="widget-inner">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/bert/" rel="tag">bert</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/bios/" rel="tag">bios</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/c/" rel="tag">c++</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/centos7/" rel="tag">centos7</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/dfs/" rel="tag">dfs</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/image-animation/" rel="tag">image animation</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/leetcode/" rel="tag">leetcode</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/muduo/" rel="tag">muduo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nagle/" rel="tag">nagle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/neo4j/" rel="tag">neo4j</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/netcat/" rel="tag">netcat</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nlp/" rel="tag">nlp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/roundtrip/" rel="tag">roundtrip</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tcp/" rel="tag">tcp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tcp-nodelay/" rel="tag">tcp_nodelay</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/udp/" rel="tag">udp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BA%8C%E5%88%86%E6%B3%95/" rel="tag">二分法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BA%8C%E5%8F%89%E6%A0%91/" rel="tag">二叉树</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/" rel="tag">人工智能</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BB%8B%E7%BB%8D/" rel="tag">介绍</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BD%8D%E8%BF%90%E7%AE%97/" rel="tag">位运算</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%86%85%E6%8E%A8%E7%A0%81/" rel="tag">内推码</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%89%8D%E7%BC%80%E5%92%8C/" rel="tag">前缀和</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%89%91%E6%8C%87offer/" rel="tag">剑指offer</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" rel="tag">动态规划</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/" rel="tag">单例模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8D%9A%E5%AE%A2/" rel="tag">博客</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%90%8E%E7%AB%AF/" rel="tag">后端</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%90%90%E6%A7%BD/" rel="tag">吐槽</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%93%88%E5%B8%8C%E8%A1%A8/" rel="tag">哈希表</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%9F%BA%E7%A1%80/" rel="tag">基础</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AD%97%E7%AC%A6%E4%B8%B2/" rel="tag">字符串</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8/" rel="tag">字节跳动</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/" rel="tag">工厂模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BF%AB%E6%85%A2%E6%8C%87%E9%92%88/" rel="tag">快慢指针</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8E%92%E5%BA%8F/" rel="tag">排序</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%99%E7%A8%8B/" rel="tag">教程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E5%AD%A6/" rel="tag">数学</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E7%BB%84/" rel="tag">数组</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A1%A5%E6%8E%A5%E6%A8%A1%E5%BC%8F/" rel="tag">桥接模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A8%A1%E6%9D%BF%E6%A8%A1%E5%BC%8F/" rel="tag">模板模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%AD%A3%E5%88%99/" rel="tag">正则</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B8%B8%E8%AE%B0/" rel="tag">游记</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%BB%91%E7%AA%97/" rel="tag">滑窗</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1/" rel="tag">知识图谱</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8F/" rel="tag">策略模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C/" rel="tag">网络</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/" rel="tag">网络编程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BE%8E%E5%9B%A2/" rel="tag">美团</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A3%85%E9%A5%B0%E6%A8%A1%E5%BC%8F/" rel="tag">装饰模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F/" rel="tag">观察者模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BF%9B%E7%A8%8B/" rel="tag">进程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%80%92%E5%BD%92/" rel="tag">递归</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%93%BE%E8%A1%A8/" rel="tag">链表</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%98%9F%E5%88%97/" rel="tag">队列</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9D%A2%E7%BB%8F/" rel="tag">面经</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9D%A2%E8%AF%95/" rel="tag">面试</a></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/IO/" rel="tag">IO</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/bert/" rel="tag">bert</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/bios/" rel="tag">bios</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/c/" rel="tag">c++</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/centos7/" rel="tag">centos7</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/dfs/" rel="tag">dfs</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/image-animation/" rel="tag">image animation</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/leetcode/" rel="tag">leetcode</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/muduo/" rel="tag">muduo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nagle/" rel="tag">nagle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/neo4j/" rel="tag">neo4j</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/netcat/" rel="tag">netcat</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nlp/" rel="tag">nlp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/roundtrip/" rel="tag">roundtrip</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/socket/" rel="tag">socket</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tcp/" rel="tag">tcp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tcp-nodelay/" rel="tag">tcp_nodelay</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/udp/" rel="tag">udp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BA%8C%E5%88%86%E6%B3%95/" rel="tag">二分法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BA%8C%E5%8F%89%E6%A0%91/" rel="tag">二叉树</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/" rel="tag">人工智能</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BB%8B%E7%BB%8D/" rel="tag">介绍</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BD%8D%E8%BF%90%E7%AE%97/" rel="tag">位运算</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%86%85%E6%8E%A8%E7%A0%81/" rel="tag">内推码</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%89%8D%E7%BC%80%E5%92%8C/" rel="tag">前缀和</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%89%91%E6%8C%87offer/" rel="tag">剑指offer</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" rel="tag">动态规划</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/" rel="tag">单例模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8D%9A%E5%AE%A2/" rel="tag">博客</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%90%8E%E7%AB%AF/" rel="tag">后端</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%90%90%E6%A7%BD/" rel="tag">吐槽</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%93%88%E5%B8%8C%E8%A1%A8/" rel="tag">哈希表</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%9F%BA%E7%A1%80/" rel="tag">基础</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AD%97%E7%AC%A6%E4%B8%B2/" rel="tag">字符串</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8/" rel="tag">字节跳动</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/" rel="tag">工厂模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BF%AB%E6%85%A2%E6%8C%87%E9%92%88/" rel="tag">快慢指针</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8E%92%E5%BA%8F/" rel="tag">排序</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%99%E7%A8%8B/" rel="tag">教程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E5%AD%A6/" rel="tag">数学</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E7%BB%84/" rel="tag">数组</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/" rel="tag">服务器</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A1%A5%E6%8E%A5%E6%A8%A1%E5%BC%8F/" rel="tag">桥接模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A8%A1%E6%9D%BF%E6%A8%A1%E5%BC%8F/" rel="tag">模板模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%AD%A3%E5%88%99/" rel="tag">正则</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B8%B8%E8%AE%B0/" rel="tag">游记</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%BB%91%E7%AA%97/" rel="tag">滑窗</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1/" rel="tag">知识图谱</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8F/" rel="tag">策略模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C/" rel="tag">网络</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/" rel="tag">网络编程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BE%8E%E5%9B%A2/" rel="tag">美团</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A3%85%E9%A5%B0%E6%A8%A1%E5%BC%8F/" rel="tag">装饰模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F/" rel="tag">观察者模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BF%9B%E7%A8%8B/" rel="tag">进程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%80%92%E5%BD%92/" rel="tag">递归</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%93%BE%E8%A1%A8/" rel="tag">链表</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%98%9F%E5%88%97/" rel="tag">队列</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9D%A2%E7%BB%8F/" rel="tag">面经</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9D%A2%E8%AF%95/" rel="tag">面试</a></li></ul>
     </div>
   </div>
 
