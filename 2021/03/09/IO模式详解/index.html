@@ -118,7 +118,7 @@
             <section class="inner">
                 <section class="inner-main">
                     <div class="post">
-    <article id="post-ckm28qmyn000bs4ve0lvjcber" class="article article-type-post" itemscope
+    <article id="post-ckm28ufxf000bjsve0bkna5ti" class="article article-type-post" itemscope
     itemprop="blogPost">
 
     <div class="article-inner">
@@ -174,22 +174,18 @@
 <img src="/2021/03/09/IO%E6%A8%A1%E5%BC%8F%E8%AF%A6%E8%A7%A3/1.png" class="" title="1.png">
 
 <p>关于这三者更深入的理解在<a href="">这里</a></p>
-<p><span style='color: red'> # 阻塞IO</p>
-<p>以套接字数据传送为例，一般的socket默认都是阻塞的，其模式图如下：</p>
+<h1 id="阻塞IO"><a href="#阻塞IO" class="headerlink" title="阻塞IO"></a><span style='color: red'>阻塞IO</h1><p>以套接字数据传送为例，一般的socket默认都是阻塞的，其模式图如下：</p>
 <img src="/2021/03/09/IO%E6%A8%A1%E5%BC%8F%E8%AF%A6%E8%A7%A3/2.png" class="" title="2.png">
 
 <p>这里的recvfrom函数会通过系统调用进入内核，这里函数开始请求后，如果数据准备好，那么内核将数据从内存复制出来，返回函数结果，那么recvfrom函数也结束了。这时候应用进程才继续往下走，在等待期间，进程什么也不干，处于阻塞状态。</p>
-<p><span style='color: red'> # 非阻塞IO</p>
-<img src="/2021/03/09/IO%E6%A8%A1%E5%BC%8F%E8%AF%A6%E8%A7%A3/3.png" class="" title="3.png">
+<h1 id="非阻塞IO"><a href="#非阻塞IO" class="headerlink" title="非阻塞IO"></a><span style='color: red'>非阻塞IO</h1><img src="/2021/03/09/IO%E6%A8%A1%E5%BC%8F%E8%AF%A6%E8%A7%A3/3.png" class="" title="3.png">
 
 <p>非阻塞IO就不太一样了，我们看到recvfrom函数在数据没准备好的情况下直接返回了，这里返回的是一个错误码，并没有一直等待，当数据好了然后阻塞去处理数据。这里虽然进程还是在等待结果，不过等待的方式不同了，采用轮询法，不停的去问内核数据有没有，没有我直接走人，就算我每隔1秒去问一次，也是非阻塞的表现。不过这样消耗挺大的，因为从用户态到内核的消耗较大，会占用较多的cpu资源。</p>
-<p><span style='color: red'> # IO多路复用</p>
-<img src="/2021/03/09/IO%E6%A8%A1%E5%BC%8F%E8%AF%A6%E8%A7%A3/4.png" class="" title="4.png">
+<h1 id="IO多路复用"><a href="#IO多路复用" class="headerlink" title="IO多路复用"></a><span style='color: red'>IO多路复用</h1><img src="/2021/03/09/IO%E6%A8%A1%E5%BC%8F%E8%AF%A6%E8%A7%A3/4.png" class="" title="4.png">
 
 <p>select和poll的功能相似，都是帮助进程去监听数据，现在用epoll函数了，作用都差不多，如果数据来了，再启动进程去接收数据。这样有啥好处呢，好处就是可以监听多个socket，而且不止socket，其他你感兴趣的事件都也可以监听。</p>
 <p>关于select和poll函数的深入解读再<a href="">这里</a></p>
-<p><span style='color: red'> # 异步IO</p>
-<img src="/2021/03/09/IO%E6%A8%A1%E5%BC%8F%E8%AF%A6%E8%A7%A3/5.png" class="" title="5.png">
+<h1 id="异步IO"><a href="#异步IO" class="headerlink" title="异步IO"></a><span style='color: red'>异步IO</h1><img src="/2021/03/09/IO%E6%A8%A1%E5%BC%8F%E8%AF%A6%E8%A7%A3/5.png" class="" title="5.png">
 
 <p>类似与select和poll功能的，还有信号通知，recvfrom函数请求后直接返回，集成继续干别的事去，等数据来了，再发送一个信号通知进程去处理。这才是真正的异步。</p>
 
