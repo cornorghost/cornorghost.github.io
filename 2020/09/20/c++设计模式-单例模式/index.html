@@ -118,7 +118,7 @@
             <section class="inner">
                 <section class="inner-main">
                     <div class="post">
-    <article id="post-ckm8u3soo000jokve9fze7fb8" class="article article-type-post" itemscope
+    <article id="post-ckmav25m9000jx8ve7uapbtpm" class="article article-type-post" itemscope
     itemprop="blogPost">
 
     <div class="article-inner">
@@ -174,26 +174,23 @@
 <a id="more"></a>
 
 <h2 id="单例模式"><a href="#单例模式" class="headerlink" title="单例模式"></a><strong>单例模式</strong></h2><h3 id="适用情况"><a href="#适用情况" class="headerlink" title="适用情况"></a><strong>适用情况</strong></h3><p>保证一个类只有一个实例， 并提供一个访问该实例的全局节点，不仅考虑实例的个数，还要考虑线程安全问题</p>
-<h3 id="优缺点"><a href="#优缺点" class="headerlink" title="优缺点"></a><strong>优缺点</strong></h3><p>优点：你可以确保同一工厂生成的产品相互匹配。符合单一职责原则和开闭原则<br>缺点：由于采用该模式需要向应用中引入众多接口和类， 代码可能会比之前更加复杂</p>
-<h3 id="与其他模式关系"><a href="#与其他模式关系" class="headerlink" title="与其他模式关系"></a><strong>与其他模式关系</strong></h3><ul>
-<li><p>在许多设计工作的初期都会使用工厂方法模式 （较为简单， 而且可以更方便地通过子类进行定制）， 随后演化为使用抽象工厂模式、 原型模式或生成器模式 （更灵活但更加复杂）。</p>
-</li>
-<li><p>生成器重点关注如何分步生成复杂对象。 抽象工厂专门用于生产一系列相关对象。 抽象工厂会马上返回产品， 生成器则允许你在获取产品前执行一些额外构造步骤。</p>
-</li>
-<li><p>抽象工厂模式通常基于一组工厂方法， 但你也可以使用原型模式来生成这些类的方法。</p>
-</li>
-<li><p>当只需对客户端代码隐藏子系统创建对象的方式时， 你可以使用抽象工厂来代替外观模式。</p>
-</li>
-<li><p>你可以将抽象工厂和桥接模式搭配使用。 如果由桥接定义的抽象只能与特定实现合作， 这一模式搭配就非常有用。 在这种情况下， 抽象工厂可以对这些关系进行封装， 并且对客户端代码隐藏其复杂性。</p>
-</li>
-<li><p>抽象工厂、 生成器和原型都可以用单例模式来实现。</p>
-</li>
-</ul>
-<h3 id="简易类图"><a href="#简易类图" class="headerlink" title="简易类图"></a>简易类图</h3>
+<h3 id="优缺点"><a href="#优缺点" class="headerlink" title="优缺点"></a><strong>优缺点</strong></h3><p>优点：保证全局只有一个实例<br>缺点：该模式在多线程环境下需要进行特殊处理， 避免多个线程多次创建单例对象</p>
+<h3 id="简易类图"><a href="#简易类图" class="headerlink" title="简易类图"></a>简易类图</h3><img src="/2020/09/20/c++%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/1.png" class="" title="1.png">
 
-<h3 id="代码实例"><a href="#代码实例" class="headerlink" title="代码实例"></a><strong>代码实例</strong></h3><p>饿汉版，单例实例在程序运行时被立即执行初始化</p>
-<pre><code class="c++">class Singleton
+<h3 id="代码实例"><a href="#代码实例" class="headerlink" title="代码实例"></a><strong>代码实例</strong></h3><p>基础单例（线程不安全）</p>
+<pre><code class="c++">/**
+ * The Singleton class defines the `GetInstance` method that serves as an
+ * alternative to constructor and lets clients access the same instance of this
+ * class over and over.
+ */
+class Singleton
 {
+
+    /**
+     * The Singleton&#39;s constructor should always be private to prevent direct
+     * construction calls with the `new` operator.
+     */
+
 protected:
     Singleton(const std::string value): value_(value)
     {
@@ -204,13 +201,27 @@ protected:
     std::string value_;
 
 public:
-    //拷贝函数不能被使用
-    Singleton(Singleton &amp;other) = delete;
 
+    /**
+     * Singletons should not be cloneable.
+     */
+    Singleton(Singleton &amp;other) = delete;
+    /**
+     * Singletons should not be assignable.
+     */
     void operator=(const Singleton &amp;) = delete;
+    /**
+     * This is the static method that controls the access to the singleton
+     * instance. On the first run, it creates a singleton object and places it
+     * into the static field. On subsequent runs, it returns the client existing
+     * object stored in the static field.
+     */
 
     static Singleton *GetInstance(const std::string&amp; value);
-
+    /**
+     * Finally, any singleton should define some business logic, which can be
+     * executed on its instance.
+     */
     void SomeBusinessLogic()
     {
         // ...
@@ -221,10 +232,17 @@ public:
     } 
 };
 
-Singleton* Singleton::singleton_= nullptr;;  //饿汉
+Singleton* Singleton::singleton_= nullptr;;
 
+/**
+ * Static methods should be defined outside the class.
+ */
 Singleton *Singleton::GetInstance(const std::string&amp; value)
 {
+    /**
+     * This is a safer way to create an instance. instance = new Singleton is
+     * dangeruous in case two instance threads wants to access at the same time
+     */
     if(singleton_==nullptr){
         singleton_ = new Singleton(value);
     }
@@ -258,30 +276,160 @@ int main()
 
     return 0;
 }</code></pre>
-<p>懒汉版，保证线程安全你的同时，不需要运行前初始化</p>
-<pre><code class="c++">#include &lt;iostream&gt;
-#include &lt;thread&gt;
-#include &lt;string&gt;
+<p>线程安全版</p>
+<pre><code>/**
+ * The Singleton class defines the `GetInstance` method that serves as an
+ * alternative to constructor and lets clients access the same instance of this
+ * class over and over.
+ */
+class Singleton
+{
 
-using namespace std;
+    /**
+     * The Singleton&#39;s constructor/destructor should always be private to
+     * prevent direct construction/desctruction calls with the `new`/`delete`
+     * operator.
+     */
+private:
+    static Singleton * pinstance_;
+    static std::mutex mutex_;
+
+protected:
+    Singleton(const std::string value): value_(value)
+    {
+    }
+    ~Singleton() {}
+    std::string value_;
+
+public:
+    /**
+     * Singletons should not be cloneable.
+     */
+    Singleton(Singleton &amp;other) = delete;
+    /**
+     * Singletons should not be assignable.
+     */
+    void operator=(const Singleton &amp;) = delete;
+    /**
+     * This is the static method that controls the access to the singleton
+     * instance. On the first run, it creates a singleton object and places it
+     * into the static field. On subsequent runs, it returns the client existing
+     * object stored in the static field.
+     */
+
+    static Singleton *GetInstance(const std::string&amp; value);
+    /**
+     * Finally, any singleton should define some business logic, which can be
+     * executed on its instance.
+     */
+    void SomeBusinessLogic()
+    {
+        // ...
+    }
+
+    std::string value() const{
+        return value_;
+    } 
+};
+
+/**
+ * Static methods should be defined outside the class.
+ */
+
+Singleton* Singleton::pinstance_{nullptr};
+std::mutex Singleton::mutex_;
+
+/**
+ * The first time we call GetInstance we will lock the storage location
+ *      and then we make sure again that the variable is null and then we
+ *      set the value. RU:
+ */
+Singleton *Singleton::GetInstance(const std::string&amp; value)
+{
+    std::lock_guard&lt;std::mutex&gt; lock(mutex_);
+    if (pinstance_ == nullptr)
+    {
+        pinstance_ = new Singleton(value);
+    }
+    return pinstance_;
+}
+
+void ThreadFoo(){
+    // Following code emulates slow initialization.
+    std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+    Singleton* singleton = Singleton::GetInstance(&quot;FOO&quot;);
+    std::cout &lt;&lt; singleton-&gt;value() &lt;&lt; &quot;\n&quot;;
+}
+
+void ThreadBar(){
+    // Following code emulates slow initialization.
+    std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+    Singleton* singleton = Singleton::GetInstance(&quot;BAR&quot;);
+    std::cout &lt;&lt; singleton-&gt;value() &lt;&lt; &quot;\n&quot;;
+}
+
+int main()
+{   
+    std::cout &lt;&lt;&quot;If you see the same value, then singleton was reused (yay!\n&quot; &lt;&lt;
+                &quot;If you see different values, then 2 singletons were created (booo!!)\n\n&quot; &lt;&lt;
+                &quot;RESULT:\n&quot;;   
+    std::thread t1(ThreadFoo);
+    std::thread t2(ThreadBar);
+    t1.join();
+    t2.join();
+
+    return 0;
+}</code></pre><p>真正的完全安全版，使用volatile，保证编译器不使用优化处理，导致直接把内存赋给未实例对象</p>
+<pre><code class="c++">/*
+* The Singleton class defines the `GetInstance` method that serves as an
+* alternative to constructor and lets clients access the same instance of this
+* class over and over.
+*/
+#include&lt;iostream&gt;
+#include&lt;string&gt;
+#include&lt;mutex&gt;
+
 
 class Singleton
 {
+
+    /**
+     * The Singleton&#39;s constructor/destructor should always be private to
+     * prevent direct construction/desctruction calls with the `new`/`delete`
+     * operator.
+     */
+private:
+    static volatile Singleton * pinstance_; //完全安全的操作
+    static std::mutex mutex_;
+
 protected:
     Singleton(const std::string value) : value_(value)
     {
     }
-
+    ~Singleton() {}
     std::string value_;
 
 public:
-    //拷贝函数不能被使用
+    /**
+     * Singletons should not be cloneable.
+     */
     Singleton(Singleton &amp;other) = delete;
-
+    /**
+     * Singletons should not be assignable.
+     */
     void operator=(const Singleton &amp;) = delete;
+    /**
+     * This is the static method that controls the access to the singleton
+     * instance. On the first run, it creates a singleton object and places it
+     * into the static field. On subsequent runs, it returns the client existing
+     * object stored in the static field.
+     */
 
     static Singleton *GetInstance(const std::string&amp; value);
-
+    /**
+     * Finally, any singleton should define some business logic, which can be
+     * executed on its instance.
+     */
     void SomeBusinessLogic()
     {
         // ...
@@ -292,26 +440,41 @@ public:
     }
 };
 
+/**
+ * Static methods should be defined outside the class.
+ */
+
+Singleton* Singleton::pinstance_{ nullptr };
+std::mutex Singleton::mutex_;
+
+/**
+ * The first time we call GetInstance we will lock the storage location
+ *      and then we make sure again that the variable is null and then we
+ *      set the value. RU:
+ */
 Singleton *Singleton::GetInstance(const std::string&amp; value)
 {
-    static Singleton* instance=new Singleton(value);
-    return instance;
+    std::lock_guard&lt;std::mutex&gt; lock(mutex_);
+    if (pinstance_ == nullptr)
+    {
+        pinstance_ = new Singleton(value);
+    }
+    return pinstance_;
 }
 
 void ThreadFoo() {
     // Following code emulates slow initialization.
     std::this_thread::sleep_for(std::chrono::milliseconds(1000));
     Singleton* singleton = Singleton::GetInstance(&quot;FOO&quot;);
-    cout &lt;&lt; singleton-&gt;value() &lt;&lt; &quot;\n&quot;;
+    std::cout &lt;&lt; singleton-&gt;value() &lt;&lt; &quot;\n&quot;;
 }
 
 void ThreadBar() {
     // Following code emulates slow initialization.
     std::this_thread::sleep_for(std::chrono::milliseconds(1000));
     Singleton* singleton = Singleton::GetInstance(&quot;BAR&quot;);
-    cout &lt;&lt; singleton-&gt;value() &lt;&lt; &quot;\n&quot;;
+    std::cout &lt;&lt; singleton-&gt;value() &lt;&lt; &quot;\n&quot;;
 }
-
 
 int main()
 {
@@ -324,8 +487,7 @@ int main()
     t2.join();
 
     return 0;
-}
-</code></pre>
+}</code></pre>
 
         </div>
 
@@ -449,6 +611,14 @@ int main()
       <ul>
         
           <li>
+            <a href="/2021/03/16/tcp%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/">tcp滑动窗口</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/16/tcp%E6%8B%A5%E5%A1%9E%E6%8E%A7%E5%88%B6/">tcp拥塞控制</a>
+          </li>
+        
+          <li>
             <a href="/2021/03/14/c-11%E6%96%B0%E7%89%B9%E6%80%A7-lambda%E5%87%BD%E6%95%B0/">c++11新特性-lambda函数</a>
           </li>
         
@@ -458,14 +628,6 @@ int main()
         
           <li>
             <a href="/2021/03/12/%E4%B8%AA%E4%BA%BA%E7%AE%80%E5%8E%86%E9%A1%B9%E7%9B%AE%E5%B1%95%E7%A4%BA/">个人简历项目展示</a>
-          </li>
-        
-          <li>
-            <a href="/2021/03/09/%E5%A4%8D%E7%9B%98%E7%AE%97%E6%B3%95%E9%A2%98-%E9%A2%98%E5%9E%8B%E6%80%BB%E7%BB%93/">复盘算法题-题型总结</a>
-          </li>
-        
-          <li>
-            <a href="/2021/03/09/IO%E6%A8%A1%E5%BC%8F%E8%AF%A6%E8%A7%A3/">IO模式详解</a>
           </li>
         
       </ul>
