@@ -118,7 +118,7 @@
             <section class="inner">
                 <section class="inner-main">
                     <div class="post">
-    <article id="post-ckp9sedf4007ya8veepy176ym" class="article article-type-post" itemscope
+    <article id="post-ckpcqrk91008294ve6j575l1c" class="article article-type-post" itemscope
     itemprop="blogPost">
 
     <div class="article-inner">
@@ -169,8 +169,7 @@
 </blockquote>
 <a id="more"></a>
 
-
-<p>首先进程分为<span style='color: red'>实时进程</span>和<span style='color: red'>非实时进程（普通进程）</span>，Linux的进程优先级范围为[0, 139]，其中实时进程优先级的范围为[0, 99]，非实时进程的优先级为[100, 139)，优先级的数值越低，说明优先级越高。</p>
+<h1 id="根据优先级"><a href="#根据优先级" class="headerlink" title="根据优先级"></a>根据优先级</h1><p>根据优先级，进程分为<span style='color: red'>实时进程</span>和<span style='color: red'>非实时进程（普通进程）</span>，Linux的进程优先级范围为[0, 139]，其中实时进程优先级的范围为[0, 99]，非实时进程的优先级为[100, 139)，优先级的数值越低，说明优先级越高。</p>
 <p>进程和线程都用<span style='color: green'>task_struct</span>表示，这个结构体里面包含了用到的所有的信息，线程的信息比较少，主要是进程里的一些资源和线程信息，而进程里包含的字段比较多，主要有标识符，状态，优先级，程序计数器，内存指针，上下文信息，IO状态记录，记账信息。</p>
 <p>其中static_prio是普通进程的优先级，rt_priority是实时进程的优先级</p>
 <p><span style='color: blue'>对于实时进程的调度策略</span></p>
@@ -189,6 +188,20 @@
 <li><p>SCHED_BATCH：批处理，类似NORMAL，用来调度侧重吞吐量的任务</p>
 </li>
 <li><p>SCHED_IDLE：用于调度CPU需求极低的任务</p>
+</li>
+</ol>
+<h1 id="根据不同场景"><a href="#根据不同场景" class="headerlink" title="根据不同场景"></a>根据不同场景</h1><ol>
+<li><p>先来先服务，通俗易懂，但是如果前面来的几个全是长任务，会导致系统吞吐量降低</p>
+</li>
+<li><p>短服务优先，解决了上面吞吐量的问题，但是这又对长任务不利</p>
+</li>
+<li><p>高响应比优先，有个公式 优先权=（就绪等待时间+要求服务的时间）/ 要求服务时间，就绪越久，优先级越高，任务越短，优先级也越高</p>
+</li>
+<li><p>时间片轮转，每个任务时间一样</p>
+</li>
+<li><p>最高优先级，每个任务的优先级可以静态设置，也可以动态改变</p>
+</li>
+<li><p>多级反馈队列，结合时间片和优先级，每个优先级都有一个队列，每个级别的队列里的任务，时间片都是一样的，但是不同级别队列的时间片不一样，级别越高，时间片越短</p>
 </li>
 </ol>
 
