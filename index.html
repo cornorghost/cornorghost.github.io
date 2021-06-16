@@ -145,6 +145,7 @@
 <p><img src="https://img-blog.csdnimg.cn/20200507114653575.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dhbmdxdWFuMTk5Mg==,size_16,color_FFFFFF,t_70" alt="avatar"></p>
 <p>而且在accept接收连接时，add_event(this-&gt;epollfd, c-&gt;socketfd, EPOLLIN | EPOLLET);</p>
 <p>这里的socket和读写数据的socket是不同的socket，新的连接到来时设置为边缘触发，并触发一次读事件EPOLLIN</p>
+<p>一般情况边缘模式更有效率，因为水平模式会有惊群效应，遍历每个socket时，只要里面有数据就会触发读，而边缘模式会等到下一次事件到来才会触发读</p>
 
         
       </div>
