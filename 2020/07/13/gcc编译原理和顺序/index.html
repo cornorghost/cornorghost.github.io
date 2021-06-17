@@ -118,7 +118,7 @@
             <section class="inner">
                 <section class="inner-main">
                     <div class="post">
-    <article id="post-ckpz5ucp2001m5kveblvwexk5" class="article article-type-post" itemscope
+    <article id="post-ckq0i9uh0001mbgvebh2ha4t9" class="article article-type-post" itemscope
     itemprop="blogPost">
 
     <div class="article-inner">
@@ -230,7 +230,7 @@ struct TreeNode {
      28     .set    _ZN8TreeNodeC1Ei,_ZN8TreeNodeC2Ei</code></pre>
 <h1 id="汇编"><a href="#汇编" class="headerlink" title=" 汇编 "></a><span style="color:red;"> 汇编 </span></h1><p>这个步骤主要是把<em>.s文件翻译成二进制机器指令文件</em>.o</p>
 <p>gcc使用-c参数</p>
-<pre><code>gcc -c main.s -o main.o</code></pre><pre><code>^?ELF^B^A^A^@^@^@^@^@^@^@^@^@^A^@&gt;^@^A^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@ ^G^@^@^@^@^@^@^@^@^@^@@^@^@^@^@^        @@^@^Q^@^P^@^A^@^@^@^F^@^@^@UH&lt;89&gt;åSH&lt;83&gt;ì^X¿^@^@^@^@è^@^@^@^@¿^P^@^@^@è^@^@^@^@H&lt;89&gt;Ã¾^A^@^@^@H&lt;89&gt;ßè^@^@^@^        @H&lt;89&gt;]èH&lt;8b&gt;Eè&lt;8b&gt;^@&lt;89&gt;Æ¿^@^@^@^@è^@^@^@^@¸^@^@^@^@H&lt;83&gt;Ä^X[]ÃUH&lt;89&gt;åH&lt;83&gt;ì^P&lt;89&gt;}ü&lt;89&gt;uø&lt;83&gt;}ü^Au&#39;&lt;81&gt;}øÿÿ        ^@^@u^^¿^@^@^@^@è^@^@^@^@º^@^@^@^@¾^@^@^@^@¿^@^@^@^@è^@^@^@^@ÉÃUH&lt;89&gt;å¾ÿÿ^@^@¿^A^@^@^@è°ÿÿÿ]Ã^@UH&lt;89&gt;åH&lt;89&gt;}ø        &lt;89&gt;uôH&lt;8b&gt;Eø&lt;8b&gt;Uô&lt;89&gt;^P]Ãhello from epoll!^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@GCC: (GNU) 4.8.5 20150623 (Red Ha        t 4.8.5-44)^@^@^@^T^@^@^@^@^@^@^@^AzR^@^Ax^P^A^[^L^G^H&lt;90&gt;^A^@^@^\^@^@^@^\^@^@^@^@^@^@^@^V^@^@^@^@A^N^P&lt;86&gt;^B        C^M^FQ^L^G^H^@^@^@ ^@^@^@&lt;^@^@^@^@^@^@^@O^@^@^@^@A^N^P&lt;86&gt;^BC^M^FE&lt;83&gt;^C^BE^L^G^H^@^@^@^\^@^@^@`^@^@^@^@^@^@^        @=^@^@^@^@A^N^P&lt;86&gt;^BC^M^Fx^L^G^H^@^@^@ ^@^@^@&lt;80&gt;^@^@^@^@^@^@^@^U^@^@^@^@A^N^P&lt;86&gt;^BC^M^FP^L^G^H^@^@^@^@^@^@        ^@^@^@^@^@^@</code></pre><h1 id="汇编-1"><a href="#汇编-1" class="headerlink" title=" 汇编 "></a><span style="color:red;"> 汇编 </span></h1><p>这个步骤主要是把相关的静态库.a文件和动态库.so文件拼起来</p>
+<pre><code>gcc -c main.s -o main.o</code></pre><pre><code>^?ELF^B^A^A^@^@^@^@^@^@^@^@^@^A^@&gt;^@^A^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@ ^G^@^@^@^@^@^@^@^@^@^@@^@^@^@^@^        @@^@^Q^@^P^@^A^@^@^@^F^@^@^@UH&lt;89&gt;åSH&lt;83&gt;ì^X¿^@^@^@^@è^@^@^@^@¿^P^@^@^@è^@^@^@^@H&lt;89&gt;Ã¾^A^@^@^@H&lt;89&gt;ßè^@^@^@^        @H&lt;89&gt;]èH&lt;8b&gt;Eè&lt;8b&gt;^@&lt;89&gt;Æ¿^@^@^@^@è^@^@^@^@¸^@^@^@^@H&lt;83&gt;Ä^X[]ÃUH&lt;89&gt;åH&lt;83&gt;ì^P&lt;89&gt;}ü&lt;89&gt;uø&lt;83&gt;}ü^Au&#39;&lt;81&gt;}øÿÿ        ^@^@u^^¿^@^@^@^@è^@^@^@^@º^@^@^@^@¾^@^@^@^@¿^@^@^@^@è^@^@^@^@ÉÃUH&lt;89&gt;å¾ÿÿ^@^@¿^A^@^@^@è°ÿÿÿ]Ã^@UH&lt;89&gt;åH&lt;89&gt;}ø        &lt;89&gt;uôH&lt;8b&gt;Eø&lt;8b&gt;Uô&lt;89&gt;^P]Ãhello from epoll!^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@GCC: (GNU) 4.8.5 20150623 (Red Ha        t 4.8.5-44)^@^@^@^T^@^@^@^@^@^@^@^AzR^@^Ax^P^A^[^L^G^H&lt;90&gt;^A^@^@^\^@^@^@^\^@^@^@^@^@^@^@^V^@^@^@^@A^N^P&lt;86&gt;^B        C^M^FQ^L^G^H^@^@^@ ^@^@^@&lt;^@^@^@^@^@^@^@O^@^@^@^@A^N^P&lt;86&gt;^BC^M^FE&lt;83&gt;^C^BE^L^G^H^@^@^@^\^@^@^@`^@^@^@^@^@^@^        @=^@^@^@^@A^N^P&lt;86&gt;^BC^M^Fx^L^G^H^@^@^@ ^@^@^@&lt;80&gt;^@^@^@^@^@^@^@^U^@^@^@^@A^N^P&lt;86&gt;^BC^M^FP^L^G^H^@^@^@^@^@^@        ^@^@^@^@^@^@</code></pre><h1 id="链接"><a href="#链接" class="headerlink" title=" 链接 "></a><span style="color:red;"> 链接 </span></h1><p>这个步骤主要是把相关的静态库.a文件和动态库.so文件拼起来</p>
 <p>对于使用gcc的，可以用-L参数声明库文件地址，也可以使用一下参数</p>
 <p>gcc -xc++ -lstdc++ -shared-libgcc 这里会声明使用c++标准库</p>
 <pre><code>gcc -xc++ -lstdc++ -shared-libgcc main.cpp -o main2</code></pre><p>或者使用g++，g++的好处就是能够自动链接</p>
@@ -370,7 +370,7 @@ struct TreeNode {
           </li>
         
           <li>
-            <a href="/2021/05/04/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">多线程学习笔记</a>
+            <a href="/2021/05/04/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">多线程</a>
           </li>
         
           <li>

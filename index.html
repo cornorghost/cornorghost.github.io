@@ -146,6 +146,11 @@
 <p>而且在accept接收连接时，add_event(this-&gt;epollfd, c-&gt;socketfd, EPOLLIN | EPOLLET);</p>
 <p>这里的socket和读写数据的socket是不同的socket，新的连接到来时设置为边缘触发，并触发一次读事件EPOLLIN</p>
 <p>一般情况边缘模式更有效率，因为水平模式会有惊群效应，遍历每个socket时，只要里面有数据就会触发读，而边缘模式会等到下一次事件到来才会触发读</p>
+<h1 id="类的多态实现、继承"><a href="#类的多态实现、继承" class="headerlink" title=" 类的多态实现、继承 "></a><span style="color:red;"> 类的多态实现、继承 </span></h1><p>多态是利用虚函数实现的，每个类会维护一个虚函数表，对一个对象取地址就可以获取虚表指针，例如&amp;obj</p>
+<p>继承的话，有公有继承，私有继承和保护继承，公有继承会继承父类的公有和保护方法并保留其原有属性；私有继承会继承父类的公有和保护方法，并作为私有成员；保护继承会继承公有和保护方法并作为保护成员。</p>
+<h1 id="编译顺序"><a href="#编译顺序" class="headerlink" title=" 编译顺序 "></a><span style="color:red;"> 编译顺序 </span></h1><p>这个可以看[<a href="https://www.openrad.ink/2020/07/13/gcc%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E5%92%8C%E9%A1%BA%E5%BA%8F/]">https://www.openrad.ink/2020/07/13/gcc%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E5%92%8C%E9%A1%BA%E5%BA%8F/]</a></p>
+<p>有预处理，汇编，编译，链接</p>
+<h1 id="说说多线程"><a href="#说说多线程" class="headerlink" title=" 说说多线程 "></a><span style="color:red;"> 说说多线程 </span></h1><p>关于多线程的所有东西，包括多线程概念、线程池设计、锁在另一篇文章里[]</p>
 
         
       </div>
@@ -286,12 +291,131 @@
 
     <div class="article-body">
       <header class="article-title">
-        <a href="/2021/05/04/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">多线程学习笔记</a>
+        <a href="/2021/05/04/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">多线程</a>
       </header>
       <div class="article-entry post-inner-html">
         
           <a id="more"></a>
-<h1 id="volitile"><a href="#volitile" class="headerlink" title="volitile"></a><span style="color: red">volitile</h1><p>volitile关键字的作用，一个是保证线程的可见性，也就是保证缓存一致性，同时也可以避免指令重排问题</p>
+
+<h1 id="什么是线程"><a href="#什么是线程" class="headerlink" title="什么是线程"></a><span style="color: red">什么是线程</h1><p>线程是CPU调度的基本单位，在早期，单核CPU上，一个CPU在某个事件执行一个线程，这就没有多线程的说法，后来单核CPU采取时间片轮转调度，不同的线程分配一定的时间，并在时间结束后切换线程，也就是CPU频繁切换线程，让我们看起来多个任务真的在<span style="color: red">“同时”</span>进行，其实只是单核在不停切换，到了多核CPU才实现了真正的多线程，异步进行，每个核心都可以处理一个线程</p>
+<h1 id="线程数量设置多少合适"><a href="#线程数量设置多少合适" class="headerlink" title="线程数量设置多少合适"></a><span style="color: red">线程数量设置多少合适</h1><p>一般一个线程占用1M的内存，理论上，一个2G的内存，可以开辟2048个线程，但是线程多也不意味着高并发，工作线程数量主要由CPU核心数和处理器能力决定，一般一个核心一个线程最佳，如果是CPU密集型，会设置线程数N+1或者N+2，N是核心数，如果是IO密集型，设置为2N。当然还有个公式</p>
+<p>最佳线程数目 = （（线程等待时间+线程CPU时间）/线程CPU时间 ）* CPU数目</p>
+<h1 id="线程池设计"><a href="#线程池设计" class="headerlink" title="线程池设计"></a><span style="color: red">线程池设计</h1><p>代码可见[<a href="https://github.com/progschj/ThreadPool/blob/master/ThreadPool.h]" target="_blank" rel="noopener">https://github.com/progschj/ThreadPool/blob/master/ThreadPool.h]</a></p>
+<p>主要是工作线程std::vector&lt; std::thread &gt; workers，一个vector，每个元素都是一个循环等待任务，然后是任务队列std::queue&lt; std::function&lt;void()&gt; &gt; tasks</p>
+<p>线程池如果核心线程满了，就加入任务队列，如果队列也满了，那这一般会有集中策略</p>
+<ol>
+<li>丢弃任务，同时抛出异常</li>
+<li>丢弃任务，不抛出异常</li>
+<li>删除队列队头的任务，然后加入</li>
+<li>直接运行该任务</li>
+</ol>
+<h1 id="线程池调度策略"><a href="#线程池调度策略" class="headerlink" title="线程池调度策略"></a><span style="color: red">线程池调度策略</h1><p>可见[<a href="https://www.openrad.ink/2021/05/29/%E8%BF%9B%E7%A8%8B%E8%B0%83%E5%BA%A6%E7%AD%96%E7%95%A5/]">https://www.openrad.ink/2021/05/29/%E8%BF%9B%E7%A8%8B%E8%B0%83%E5%BA%A6%E7%AD%96%E7%95%A5/]</a></p>
+<h1 id="什么是锁，为什么要锁"><a href="#什么是锁，为什么要锁" class="headerlink" title="什么是锁，为什么要锁"></a><span style="color: blue">什么是锁，为什么要锁</h1><p>多线程伴随的是并发问题，在不同线程访问同一个资源的时候，会发生不一致的情况，为了数据的同步，必须使用锁</p>
+<p>按照锁的种类分类，可以分为以下几种</p>
+<ol>
+<li>互斥锁</li>
+<li>自旋锁</li>
+<li>条件变量</li>
+</ol>
+<h2 id="1-对于互斥锁在C-标准库里有的："><a href="#1-对于互斥锁在C-标准库里有的：" class="headerlink" title="1. 对于互斥锁在C++标准库里有的："></a>1. 对于互斥锁在C++标准库里有的：</h2><ul>
+<li><p>std::mutex，可以阻塞式等锁（lock()）也可以非阻塞式上锁（try_lock()），lock可以同时锁定几个互斥量，try_lock如果锁定失败会直接返回</p>
+</li>
+<li><p>std::timed_mutex，互斥锁的加时版，如果在一段时间内（try_lock_for()）或是在某个时间之前（try_lock_until()）获取锁成功则成功上锁</p>
+</li>
+<li><p>std::recursive_mutex，递归互斥锁，在互斥锁的基础上允许持有锁的线程多次通过lock()或者try_lock()获取锁，而std::mutex的拥有者不能继续请求上锁</p>
+</li>
+<li><p>std::recursive_timed_mutex，递归互斥锁加时版</p>
+</li>
+<li><p>std::shared_mutex，共享互斥锁，允许多个线程共享锁(lock_shared()系列)，但只有一个线程能够持有互斥锁(lock()系列)，也就是一般所说的读写锁</p>
+</li>
+<li><p>std::shared_timed_mutex，共享互斥锁的加时版本</p>
+</li>
+</ul>
+<h2 id="2-自旋锁："><a href="#2-自旋锁：" class="headerlink" title="2. 自旋锁："></a>2. 自旋锁：</h2><p>自旋锁其实是获取锁失败时阻塞等待，比较消耗CPU时间，所以比较适合占用锁比较少时间的场景</p>
+<p>在c++里实现自旋</p>
+<pre><code class="c++">链接：https://www.nowcoder.com/questionTerminal/554355eea5aa44d697a3a4bc99795207
+来源：牛客网
+
+#include &lt;atomic&gt;
+#include &lt;iostream&gt;
+
+std::atomic_flag lock = ATOMIC_FLAG_INIT; // 这是个标准库里的宏
+
+void spin_lock_output(int n) {
+    // 上锁
+    while(lock.test_and_set(std::memory_order_acquire))
+        ; // 忙等自旋
+    std::cout &lt;&lt; &quot;output from thread &quot; &lt;&lt; n &lt;&lt; std::endl;
+    // 解锁
+    lock.clear(std::memory_order_release);
+}</code></pre>
+<h2 id="3-条件锁"><a href="#3-条件锁" class="headerlink" title="3. 条件锁"></a>3. 条件锁</h2><p>也就是满足某个条件时才继续<br>std::condition_variable，需要搭配std::unique_lock来使用<br>std::condition_variable_any，不限于std::unique_lock</p>
+<p>##　原子变量</p>
+<p>原子操作即是进行过程中不能被中断的操作，针对某个值的原子操作在被进行的过程中，CPU绝不会再去进行其他的针对该值的操作。为了实现这样的严谨性，原子操作仅会由一个独立的CPU指令代表和完成。原子操作是无锁的，常常直接通过CPU指令直接实现。事实上，其它同步技术的实现常常依赖于原子操作。</p>
+<p>std::atomic<T>，原子变量。但不保证原子性不是由锁来实现的<br>std::atomic_flag，原子性的标记变量，保证其原子性的实现是无锁的</p>
+<p>上面的自旋锁就是用原子变量实现的</p>
+<h2 id="RAII式锁管理器"><a href="#RAII式锁管理器" class="headerlink" title="RAII式锁管理器"></a>RAII式锁管理器</h2><p>c++里有自动管理锁的管理器</p>
+<ol>
+<li><p>std::lock_guard<Mutex>，自动上锁，退出作用域自动解锁，但是提前解锁做不到</p>
+</li>
+<li><p>std::unique_lock<Mutex>，独享所有权的锁管理器，除基础RAII功能之外还能移交所有权（此时不解锁），（解锁后）上锁和（提前）解锁</p>
+</li>
+<li><p>std::shared_lock<SharedMutex>，配合共享锁使用的锁管理器</p>
+</li>
+</ol>
+<h1 id="再深入了解读写锁"><a href="#再深入了解读写锁" class="headerlink" title="再深入了解读写锁"></a>再深入了解读写锁</h1><p>在c++里实现读写锁</p>
+<pre><code class="c++">#include &lt;iostream&gt;
+//std::unique_lock
+#include &lt;mutex&gt; 
+#include &lt;shared_mutex&gt;
+#include &lt;thread&gt;
+
+class ThreadSafeCounter {
+public:
+    ThreadSafeCounter() = default;
+
+    // 多个线程/读者能同时读计数器的值。
+    unsigned int get() const {
+        std::shared_lock&lt;std::shared_mutex&gt; lock(mutex_);
+        return value_;
+    }
+
+    // 只有一个线程/写者能增加/写线程的值。
+    void increment() {
+        std::unique_lock&lt;std::shared_mutex&gt; lock(mutex_);
+        value_++;
+    }
+
+    // 只有一个线程/写者能重置/写线程的值。
+    void reset() {
+        std::unique_lock&lt;std::shared_mutex&gt; lock(mutex_);
+        value_ = 0;
+    }
+
+private:
+    mutable std::shared_mutex mutex_;
+    unsigned int value_ = 0;
+};
+
+int main() {
+    ThreadSafeCounter counter;
+
+    auto increment_and_print = [&amp;counter]() {
+        for (int i = 0; i &lt; 3; i++) {
+            counter.increment();
+            std::cout &lt;&lt; std::this_thread::get_id() &lt;&lt; &#39;\t&#39; &lt;&lt; counter.get() &lt;&lt; std::endl;
+        }
+    };
+
+    std::thread thread1(increment_and_print);
+    std::thread thread2(increment_and_print);
+
+    thread1.join();
+    thread2.join();
+
+    system(&quot;pause&quot;);
+    return 0;
+}</code></pre>
 
         
       </div>
@@ -693,7 +817,7 @@
           </li>
         
           <li>
-            <a href="/2021/05/04/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">多线程学习笔记</a>
+            <a href="/2021/05/04/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">多线程</a>
           </li>
         
           <li>

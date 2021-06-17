@@ -118,7 +118,7 @@
             <section class="inner">
                 <section class="inner-main">
                     <div class="post">
-    <article id="post-ckpz5ucuc006a5kve3klh82e8" class="article article-type-post" itemscope
+    <article id="post-ckq0i9ult0066bgvehp1420q9" class="article article-type-post" itemscope
     itemprop="blogPost">
 
     <div class="article-inner">
@@ -178,6 +178,11 @@
 <p>而且在accept接收连接时，add_event(this-&gt;epollfd, c-&gt;socketfd, EPOLLIN | EPOLLET);</p>
 <p>这里的socket和读写数据的socket是不同的socket，新的连接到来时设置为边缘触发，并触发一次读事件EPOLLIN</p>
 <p>一般情况边缘模式更有效率，因为水平模式会有惊群效应，遍历每个socket时，只要里面有数据就会触发读，而边缘模式会等到下一次事件到来才会触发读</p>
+<h1 id="类的多态实现、继承"><a href="#类的多态实现、继承" class="headerlink" title=" 类的多态实现、继承 "></a><span style="color:red;"> 类的多态实现、继承 </span></h1><p>多态是利用虚函数实现的，每个类会维护一个虚函数表，对一个对象取地址就可以获取虚表指针，例如&amp;obj</p>
+<p>继承的话，有公有继承，私有继承和保护继承，公有继承会继承父类的公有和保护方法并保留其原有属性；私有继承会继承父类的公有和保护方法，并作为私有成员；保护继承会继承公有和保护方法并作为保护成员。</p>
+<h1 id="编译顺序"><a href="#编译顺序" class="headerlink" title=" 编译顺序 "></a><span style="color:red;"> 编译顺序 </span></h1><p>这个可以看[<a href="https://www.openrad.ink/2020/07/13/gcc%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E5%92%8C%E9%A1%BA%E5%BA%8F/]">https://www.openrad.ink/2020/07/13/gcc%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E5%92%8C%E9%A1%BA%E5%BA%8F/]</a></p>
+<p>有预处理，汇编，编译，链接</p>
+<h1 id="说说多线程"><a href="#说说多线程" class="headerlink" title=" 说说多线程 "></a><span style="color:red;"> 说说多线程 </span></h1><p>关于多线程的所有东西，包括多线程概念、线程池设计、锁在另一篇文章里[]</p>
 
         </div>
 
@@ -304,7 +309,7 @@
           </li>
         
           <li>
-            <a href="/2021/05/04/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">多线程学习笔记</a>
+            <a href="/2021/05/04/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">多线程</a>
           </li>
         
           <li>
