@@ -118,7 +118,7 @@
             <section class="inner">
                 <section class="inner-main">
                     <div class="post">
-    <article id="post-ckq0uezzm000hdsve91s1gaz8" class="article article-type-post" itemscope
+    <article id="post-ckq5e0h98000hgovegl3qgce2" class="article article-type-post" itemscope
     itemprop="blogPost">
 
     <div class="article-inner">
@@ -210,9 +210,9 @@ public:
         {
             int dataTemp = numList[i];
             int j=i;
-            for (j ; j &gt; 0 &amp;&amp; dataTemp &lt;= numList[j-1]; j--) //注意判断条件j-1
+            for (j ; j &gt; 0; j--) //注意判断条件j-1
             {
-                numList[j] = numList[j - 1]; //右移
+                if( dataTemp &lt;= numList[j-1] ) numList[j] = numList[j - 1]; //右移
             }
             //cout &lt;&lt; j &lt;&lt; dataTemp &lt;&lt; endl;
             numList[j] = dataTemp; //最后一个合适位置放处理的值

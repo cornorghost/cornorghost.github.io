@@ -136,7 +136,9 @@
       </header>
       <div class="article-entry post-inner-html">
         
-          <h1 id="水平触发和边缘触发的区别"><a href="#水平触发和边缘触发的区别" class="headerlink" title=" 水平触发和边缘触发的区别 "></a><span style="color:red;"> 水平触发和边缘触发的区别 </span></h1><p>水平触发是当缓冲区有数据时会一直读，当缓冲区可以写入时会一直写入</p>
+          <a id="more"></a>
+
+<h1 id="—————————腾讯一面"><a href="#—————————腾讯一面" class="headerlink" title="—————————腾讯一面"></a>—————————腾讯一面</h1><h1 id="水平触发和边缘触发的区别"><a href="#水平触发和边缘触发的区别" class="headerlink" title=" 水平触发和边缘触发的区别 "></a><span style="color:red;"> 水平触发和边缘触发的区别 </span></h1><p>水平触发是当缓冲区有数据时会一直读，当缓冲区可以写入时会一直写入</p>
 <p>边缘触发是当缓冲区从空到非空时会发送读取信号，缓冲区从满到不满时会发送写信号</p>
 <p>下面有两个直观的例子</p>
 <p><span style="color:red;">水平模式下：</span></p>
@@ -151,6 +153,59 @@
 <h1 id="编译顺序"><a href="#编译顺序" class="headerlink" title=" 编译顺序 "></a><span style="color:red;"> 编译顺序 </span></h1><p>这个可以看[<a href="https://www.openrad.ink/2020/07/13/gcc%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E5%92%8C%E9%A1%BA%E5%BA%8F/]">https://www.openrad.ink/2020/07/13/gcc%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E5%92%8C%E9%A1%BA%E5%BA%8F/]</a></p>
 <p>有预处理，汇编，编译，链接</p>
 <h1 id="说说多线程"><a href="#说说多线程" class="headerlink" title=" 说说多线程 "></a><span style="color:red;"> 说说多线程 </span></h1><p>关于多线程的所有东西，包括多线程概念、线程池设计、锁在另一篇文章里[]</p>
+<h1 id="说说对协程的理解"><a href="#说说对协程的理解" class="headerlink" title=" 说说对协程的理解 "></a><span style="color:red;"> 说说对协程的理解 </span></h1><p>协程也被叫做轻量级线程或者用户态线程,但实际上和线程还是有区别的.可以想象在单核下运行线程的机制,线程在CPU不停切换达到并发.而协程就是类似的情况</p>
+<p>协程的本质是函数,但是函数运行时可以中断,然后切到别的协程函数运行,之后还可以恢复运行,但是多个协程还是运行在一个线程里的,所以协程不需要锁,共用同一个线程的资源,而且是同步阻塞的</p>
+<h1 id="epoll和select的区别"><a href="#epoll和select的区别" class="headerlink" title=" epoll和select的区别 "></a><span style="color:red;"> <a href="https://imageslr.com/2020/02/27/select-poll-epoll.html#select" target="_blank" rel="noopener">epoll和select的区别</a> </span></h1><p><span style="color:red;">select</span>是用fd_set保存所有文件描述符,fd_set是一个二进制集合,第几个fd就绪,第几个位就是1,否则置0.  调用select时会把fd_set拷贝进内核,然后遍历,如果有fd就绪的话,就修改fd_set,然后返回给用户态,用户再遍历一次fd_set</p>
+<p>可以看到select的缺点很明显,内核和用户拷贝fd_set是很消耗性能的,而且采用的是遍历的方法,效率很低;同时select只支持1024个fd</p>
+<p><span style="color:red;">epoll</span> 有以下几个特点：</p>
+<ol>
+<li>使用红黑树存储文件描述符集合</li>
+<li>使用队列存储就绪的文件描述符</li>
+<li>每个文件描述符只需在添加时传入一次；通过事件更改文件描述符状态</li>
+</ol>
+<p>epoll 模型使用三个函数：epoll_create、epoll_ctl 和 epoll_wait</p>
+<p><span style="color:green;">epoll_create</span> 会创建一个 epoll 实例，同时返回一个引用该实例的文件描述符,epoll实例包含两个结构:</p>
+<ul>
+<li>监听列表:底层红黑树,保存所有fd</li>
+<li>就绪列表:底层链表,保存就绪的fd</li>
+</ul>
+<p><span style="color:green;">epoll_ctl</span> 会fd 添加到 epoll 实例的监听列表里，同时为 fd 设置一个回调函数，并监听事件 event。当 fd 上发生相应事件时，会调用回调函数，将 fd 添加到 epoll 实例的就绪队列上。</p>
+<p><span style="color:green;">epoll_wait</span>这是 epoll 模型的主要函数，功能相当于 select,主要是传入epoll_fd</p>
+<p>epoll的优点是使用红黑树存储,效率高,而且每个fd设置回调函数,自动响应事件,不需要遍历,同时避免了内核和用户态频繁拷贝fd_set,只在epoll_ctl传递一次epoll_fd,后面不用再传递</p>
+<p>还有个<span style="color:red;">poll</span>和select类似,但是poll使用的是链表存储fd</p>
+<h1 id="动态库和静态库"><a href="#动态库和静态库" class="headerlink" title=" 动态库和静态库 "></a><span style="color:red;"> 动态库和静态库 </span></h1><p>可以先说一下链接原理,无非就是预处理,汇编,编译,链接</p>
+<p>动态库和静态的主要区别是在链接阶段,静态库是将所有的代码拷贝进可执行文件,而动态库只拷贝一些链接相关的东西,所以动态库较小,</p>
+<p>然后在运行时动态库是运行时进行链接加载,而静态库加载很快,因为它已经包含了所有代码</p>
+<p>静态库在编译完成后就可以不需要了,但是动态库一直需要存在</p>
+<h1 id="跳台阶高级"><a href="#跳台阶高级" class="headerlink" title=" 跳台阶高级 "></a><span style="color:red;"> 跳台阶高级 </span></h1><p>有个公式f[i]=2*f[i-1]</p>
+<p>或者是f[i]=2^(n-1)</p>
+<h1 id="—————————阿里一面"><a href="#—————————阿里一面" class="headerlink" title="—————————阿里一面"></a>—————————阿里一面</h1><h1 id="说说TCP拥塞控制和流量控制"><a href="#说说TCP拥塞控制和流量控制" class="headerlink" title=" 说说TCP拥塞控制和流量控制 "></a><span style="color:red;"> <a href="https://www.openrad.ink/2021/03/16/tcp%E6%8B%A5%E5%A1%9E%E6%8E%A7%E5%88%B6/">说说TCP拥塞控制和流量控制</a> </span></h1><p>首先流量控制解决的问题是发送方发送能力和接收方接收能力不平衡的情况,如果接收方缓冲区满了,而发送方还在一直发送的话,会丢包,所以在接收方维护一个窗口,通过报文发送,发送方接收到这个窗口大小后,调整自己的发送窗口,不大于接收窗口大小</p>
+<p>拥塞控制只要是避免发送方一直发送数据导致占满整个网络的问题,因为当网络拥堵时,有可能会丢包重传,发送方会一直发送导致网络更拥堵.</p>
+<p>拥塞控制主要有四个算法:</p>
+<ul>
+<li>慢启动算法:随着确认的ACK数+1,确认2个就cwnd+2,呈指数型增长</li>
+<li>拥塞避免算法:设置阈值ssthresh,当cwnd超过这个值时,cwnd呈线性增长</li>
+<li>拥塞发生算法有:超时重传和快重传<ol>
+<li>超时重传,ssthresh 设为 cwnd/2, cwnd 重置为 1</li>
+<li>快重传,cwnd 设为 cwnd/2, ssthresh 重置为 cwnd</li>
+</ol>
+</li>
+<li>快恢复算法:快恢复和快重传一般一起使用,在快重传更新cwnd和ssthresh之后,cwnd=cwnd/2+3,这里的3时确认了的ACK,就是拥堵时接收到的数据量.而且当收到新数据之后,ssthresh恢复为最初拥堵时的值</li>
+</ul>
+<h1 id="TCP-IP五层协议"><a href="#TCP-IP五层协议" class="headerlink" title=" TCP/IP五层协议 "></a><span style="color:red;"> TCP/IP五层协议 </span></h1><p>物理,数据链路,传输,网络,应用</p>
+<h1 id="问项目"><a href="#问项目" class="headerlink" title=" 问项目 "></a><span style="color:red;"> 问项目 </span></h1><h1 id="hashmap底层"><a href="#hashmap底层" class="headerlink" title=" hashmap底层 "></a><span style="color:red;"> hashmap底层 </span></h1><p>哈希表底层是数组加链表,数组下标由哈希函数确定,发生冲突时使用拉链法,将该值插入到链表后面</p>
+<h1 id="说说红黑树"><a href="#说说红黑树" class="headerlink" title=" 说说红黑树 "></a><span style="color:red;"> 说说红黑树 </span></h1><p>红黑树是一颗特殊的树,它具有如下特点:</p>
+<ol>
+<li>每个节点只有红色和黑色两种</li>
+<li>根节点是黑色的, 叶节点是黑色的空值NULL</li>
+<li>根节点到叶节点的黑色节点个数相同</li>
+<li>根节点到叶节点,不会出现连续的红色节点</li>
+</ol>
+<p>红黑树的插入,删除和查找就不展开说了</p>
+<h1 id="说说快排"><a href="#说说快排" class="headerlink" title=" 说说快排 "></a><span style="color:red;"> 说说快排 </span></h1><p>快排的基本思想就是使用两个指针,然后定义一个哨兵,一般为首元素,然后从右向左找第一个比哨兵小的,从左向右找第一个比哨兵大的,然后交换这两个值,最后再交换哨兵和最后位置的值.</p>
+<p>然后快排的事件复杂度平均为O(n),最坏情况下为O(n2),具体实现在<a href="https://www.openrad.ink/2020/07/28/c++%E5%AE%9E%E7%8E%B0%E5%B8%B8%E7%94%A8%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%EF%BC%88%E5%85%A8%EF%BC%89/">所有排序</a></p>
+<h1 id="说说堆排"><a href="#说说堆排" class="headerlink" title=" 说说堆排 "></a><span style="color:red;"> 说说堆排 </span></h1><p>对一个数组堆排序的过程可以分为两步,首先建堆,从最后一个非叶子结点开始(n/2-1)进行调整;然后是另一轮调整,从最后一个节点开始向前到1,交换第0个节点和第i个节点,然后调整.</p>
+<p>堆排的事件复杂度都是O(logn)</p>
 
         
       </div>
