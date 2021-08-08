@@ -118,7 +118,7 @@
             <section class="inner">
                 <section class="inner-main">
                     <div class="post">
-    <article id="post-ckrszq29f000hzgve1ww23d7g" class="article article-type-post" itemscope
+    <article id="post-cks2uatvr000nn4vegzt69nob" class="article article-type-post" itemscope
     itemprop="blogPost">
 
     <div class="article-inner">
@@ -188,7 +188,21 @@ using namespace std;
 int index=s.find(&#39;,&#39;)
 */
 
-//分割字符串
+//分割字符串1
+vector&lt;int&gt; process(string s){
+    vector&lt;int&gt; res;
+    stringstream input(s);   //读取str到字符串流中
+    string temp;
+    //使用getline函数从字符串流中读取,遇到分隔符时停止,和从cin中读取类似
+    //注意,getline默认是可以读取空格的
+    while(getline(input, temp, &#39;,&#39;))
+    {
+        res.push_back(stoi(temp));
+    }
+    return res;
+}
+
+//分割字符串2
 vector&lt;int&gt; mysplit(string str, const char pattern)
 {
     vector&lt;int&gt; res;
