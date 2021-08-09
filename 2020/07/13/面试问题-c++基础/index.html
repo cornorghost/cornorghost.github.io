@@ -118,7 +118,7 @@
             <section class="inner">
                 <section class="inner-main">
                     <div class="post">
-    <article id="post-cks2uau4z008un4ve8zf0e4gn" class="article article-type-post" itemscope
+    <article id="post-cks48ak8b008u9kveh8fd6ueb" class="article article-type-post" itemscope
     itemprop="blogPost">
 
     <div class="article-inner">
@@ -664,6 +664,86 @@ A析构
 A析构
 A析构
 A析构</code></pre>
+<h1 id="c-成员初始化列表为什么会性能更好"><a href="#c-成员初始化列表为什么会性能更好" class="headerlink" title="c++成员初始化列表为什么会性能更好"></a>c++成员初始化列表为什么会性能更好</h1><p>对于一般的数据类型，例如int, float, char等在初始化列表和在构造函数内两者的区别并不是很大，但是如果是自定义的类成员，区别就大了，使用初始化列表调用的是<span style='color: red'>拷贝构造函数</span>，而在构造函数中调用的类成员的<span style='color: red'>构造函数和赋值函数</span>，所以在构造函数中需要进行两步，性能也更慢一点</p>
+<h1 id="不同情况下类的大小"><a href="#不同情况下类的大小" class="headerlink" title="不同情况下类的大小"></a>不同情况下类的大小</h1><p>主要遵循一下几个原则：</p>
+<ol>
+<li>类的静态成员变量不占类的空间</li>
+<li>空类的大小是1个字节</li>
+<li>类不为空的情况下，不计这1个字节大小</li>
+<li>类的虚函数占4个字节</li>
+<li>类的普通成员函数不占空间</li>
+<li>类继承需要把基类大小加上</li>
+<li>string占用28个字节</li>
+</ol>
+<pre><code class="c++">class A1
+{
+    virtual void fun() {};
+};
+
+class A2
+{
+    virtual void fun() {};
+    virtual void fun1() {};
+};
+
+class B1 {
+    int b;
+};
+
+class B2: private A1
+{
+    int b;
+};
+
+class C1{
+    void fun() {};
+};
+
+class C2
+{
+    int a;
+    void func() { cout &lt;&lt; &quot;ok&quot;; };
+};
+
+class D1
+{
+    static int a;
+};
+
+class D2
+{
+    static int a;
+    int b;
+};
+
+class E
+{
+    string a=&quot;ab&quot;;
+};
+
+
+int main()
+{
+    cout &lt;&lt; sizeof(A1)&lt;&lt;endl; //4
+    cout &lt;&lt; sizeof(A2) &lt;&lt; endl; //4
+    cout &lt;&lt; sizeof(B1) &lt;&lt; endl; //4
+    cout &lt;&lt; sizeof(B2) &lt;&lt; endl; //8
+    cout &lt;&lt; sizeof(C1) &lt;&lt; endl; //1
+    cout &lt;&lt; sizeof(C2) &lt;&lt; endl; //4
+    cout &lt;&lt; sizeof(D1) &lt;&lt; endl; //1
+    cout &lt;&lt; sizeof(D2) &lt;&lt; endl; //4
+    cout &lt;&lt; sizeof(E) &lt;&lt; endl;  //28
+}</code></pre>
+<h1 id="成员列表和构造函数的执行顺序"><a href="#成员列表和构造函数的执行顺序" class="headerlink" title="成员列表和构造函数的执行顺序"></a>成员列表和构造函数的执行顺序</h1><ol>
+<li><p>成员的初始化顺序与成员的声明顺序相同</p>
+</li>
+<li><p>成员的初始化顺序与初始化列表中的位置无关</p>
+</li>
+<li><p>初始化列表先于构造函数的函数体执行</p>
+</li>
+</ol>
+<h1 id="内存对齐"><a href="#内存对齐" class="headerlink" title="内存对齐"></a>内存对齐</h1><p>按多少字节对齐，首先取alig=Min(所有成员中最大的， 默认对齐方式)，默认一般是4个字节</p>
+<p>然后每个成员大小是alig的整数倍，并且最后计算的总和也是alig的整数倍</p>
 <hr>
 
         </div>
