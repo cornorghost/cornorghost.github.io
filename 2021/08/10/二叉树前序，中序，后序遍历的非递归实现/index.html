@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     
-    <title>剑指53-表示数值的字符串 | LIANGYUE&#39;S BLOG</title>
+    <title>二叉树前序，中序，后序遍历的非递归实现 | LIANGYUE&#39;S BLOG</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
     
@@ -118,7 +118,7 @@
             <section class="inner">
                 <section class="inner-main">
                     <div class="post">
-    <article id="post-cks67xpd0004nncvegs5k7ds4" class="article article-type-post" itemscope
+    <article id="post-cks67xpbq002lncve15066r34" class="article article-type-post" itemscope
     itemprop="blogPost">
 
     <div class="article-inner">
@@ -134,7 +134,7 @@
             
   
     <h1 class="article-title" itemprop="name">
-      剑指53-表示数值的字符串
+      二叉树前序，中序，后序遍历的非递归实现
     </h1>
   
 
@@ -144,7 +144,7 @@
         <div class="article-more-info article-more-info-post hairline">
 
             <div class="article-date">
-  <time datetime="2020-08-23T15:49:26.000Z" itemprop="datePublished">2020-08-23</time>
+  <time datetime="2021-08-10T14:25:20.000Z" itemprop="datePublished">2021-08-10</time>
 </div>
 
             
@@ -155,7 +155,7 @@
 
             
             <div class="article-tag">
-                <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%89%91%E6%8C%87offer/" rel="tag">剑指offer</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%AD%97%E7%AC%A6%E4%B8%B2/" rel="tag">字符串</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li></ul>
+                <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/c/" rel="tag">c++</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li></ul>
             </div>
             
 
@@ -169,80 +169,71 @@
 
         <div class="article-entry post-inner-html hairline" itemprop="articleBody">
             <blockquote>
-<p>状态分析</p>
+<p>阿里二面的算法题</p>
 </blockquote>
 <a id="more"></a>
 
-<h1 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h1><p>请实现一个函数用来判断字符串是否表示数值（包括整数和小数）。例如，字符串”+100”,”5e2”,”-123”,”3.1416”和”-1E-16”都表示数值。 但是”12e”,”1a3.14”,”1.2.3”,”+-5”和”12e+4.3”都不是。</p>
-<h1 id="解法"><a href="#解法" class="headerlink" title="解法"></a>解法</h1><p>分析所有会出现的情况，并指定是数值的条件</p>
-<ul>
-<li>“e”或”E”后面只能跟”+””-“和数字，而且不能在开头，不能出现重复的”e”</li>
-<li>“.”后面只能跟数字或者”e”和”E”，或在末尾，”.”前面不能出现”e”且”.”不能重复</li>
-<li>“+””-“后面能跟数字或者”.”</li>
-<li>数字后面跟”.”或者”e”和”E”，或者数字，或者在最后</li>
-<li>不属于以上符号返回false</li>
-</ul>
-<h1 id="边界条件"><a href="#边界条件" class="headerlink" title="边界条件"></a>边界条件</h1><p>边界条件1：有多个”.”或者多个”e”(如1.2.3)</p>
-<p>边界条件2：”.”在”e”之后(如123e+1.2)</p>
-<p>解决： 使用两个bool变量point和exp控制，当出现了”.”之后不能再出现”.”，当出现了”e”之后不能再出现”e”或”.”</p>
-<h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><pre><code class="c++">class Solution {
-public:
-    bool isNumeric(char* string)
-    {
-        //e或E后面只能跟+-和数字，而且不能在开头，不能出现重复的e
-        //.后面只能跟数字或者e和E.或在末尾，.前面不能出现e且.不能重复
-        //+-后面能跟数字或者.
-        //数字后面跟.或者e和E，或者数字，或者在最后
-        //不属于以上符号返回false
+<h1 id="非递归写法"><a href="#非递归写法" class="headerlink" title="非递归写法"></a>非递归写法</h1><h2 id="前序遍历"><a href="#前序遍历" class="headerlink" title="前序遍历"></a>前序遍历</h2><pre><code class="c++">void pretOrder(TreeNode *root){
+    if(root==nullptr) return root;
 
-        //边界条件：有多个.或者多个e(1.2.3)
-        //边界条件：.在e之后(123e+1.2)
-        int lenth = strlen(string);
-        bool point = false, exp = false;  //边界条件控制
-        for (int i = 0; i &lt; lenth; i++)
-        {
-            if (string[i] == &#39;e&#39; || string[i] == &#39;E&#39;)
-            {
-                if (!exp &amp;&amp; i != 0 &amp;&amp; i + 1 &lt; lenth &amp;&amp; (string[i + 1] == &#39;+&#39; || string[i + 1] == &#39;-&#39; || isdigit(string[i + 1])))
-                {
-                    exp = true;
-                    continue;
-                }
-                else return false;
-            }
-            else if (string[i] == &#39;.&#39;)
-            {
-                if (!exp &amp;&amp; !point &amp;&amp; i != 0 &amp;&amp; (i + 1 &lt; lenth &amp;&amp; (string[i + 1] == &#39;e&#39; || string[i + 1] == &#39;E&#39; || isdigit(string[i + 1]))))
-                {
-                    point = true;
-                    continue;
-                }
-                else if (!exp &amp;&amp; !point &amp;&amp; i == lenth - 1) return true;
-                else return false;
-            }
-            else if (string[i] == &#39;+&#39; || string[i] == &#39;-&#39;)
-            {
-                if (i + 1 &lt; lenth &amp;&amp; (isdigit(string[i + 1]) || string[i + 1] == &#39;.&#39;))
-                {
-                    continue;
-                }
-                else return false;
-            }
-            else if (isdigit(string[i]))
-            {
-                if (i + 1 &lt; lenth &amp;&amp; (string[i + 1] == &#39;.&#39; || string[i + 1] == &#39;e&#39; || string[i + 1] == &#39;E&#39; || isdigit(string[i + 1])))
-                {
-                    continue;
-                }
-                else if (i == lenth - 1) return true;
-                else return false;
-            }
-            else return false;
+    TreeNode *p=root;
+    stack&lt;TreeNodr *&gt; st;
+
+    while(p || !st.empty()){
+        while(p){
+            st.push(p);
+            cout&lt;&lt;p-&gt;val;
+            p=p-&gt;left;
         }
-        return true;
-    }
 
-};</code></pre>
+        p=st.top();
+        st.pop();
+        p=p-&gt;right;
+    }
+}</code></pre>
+<h2 id="中序遍历"><a href="#中序遍历" class="headerlink" title="中序遍历"></a>中序遍历</h2><pre><code class="c++">void inOrder(TreeNode *root){
+    if(root==nullptr) return root;
+
+    TreeNode *p=root;
+    stack&lt;TreeNodr *&gt; st;
+
+    while(p || !st.empty()){
+        while(p){
+            st.push(p);
+            p=p-&gt;left;
+        }
+
+        p=st.top();
+        cout&lt;&lt;p-&gt;val;
+        st.pop();
+        p=p-&gt;right;
+    }
+}</code></pre>
+<h2 id="后序遍历"><a href="#后序遍历" class="headerlink" title="后序遍历"></a>后序遍历</h2><pre><code class="c++">void postOrder(TreeNode *root){
+    if(root==nullptr) return root;
+
+    TreeNode *p=root;
+    TreeNode *r=nullptr;  //记录最近访问的节点
+    stack&lt;TreeNodr *&gt; st;
+
+    while(p || !st.empty()){
+        while(p){
+            st.push(p);
+            p=p-&gt;left;
+        }
+
+        p=st.top();
+        if(p-&gt;right &amp;&amp; p-&gt;right!=r){
+            p=p-&gt;right;
+        }
+        else{
+            st.pop();
+            cout&lt;&lt;p-&gt;val;
+            r=p;
+            p=nullptr;
+        }
+    }
+}</code></pre>
 
         </div>
 
@@ -261,19 +252,10 @@ public:
     
 <nav class="article-nav">
   
-    <a href="/2020/08/24/%E5%89%91%E6%8C%8754-%E5%AD%97%E7%AC%A6%E6%B5%81%E4%B8%AD%E7%AC%AC%E4%B8%80%E4%B8%AA%E4%B8%8D%E9%87%8D%E5%A4%8D%E7%9A%84%E5%AD%97%E7%AC%A6/" id="article-nav-newer" class="article-nav-link-wrap">
-      <div class="article-nav-caption">下一篇</div>
-      <div class="article-nav-title">
-        
-          剑指54-字符流中第一个不重复的字符
-        
-      </div>
-    </a>
   
-  
-    <a href="/2020/08/22/8%E6%9C%8822%E6%97%A5%E8%BF%91%E5%86%B5/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2021/08/01/c++%E7%AC%94%E8%AF%95%E8%AF%BB%E5%86%99%E6%A8%A1%E6%9D%BF/" id="article-nav-older" class="article-nav-link-wrap">
       <div class="article-nav-caption">上一篇</div>
-      <div class="article-nav-title">8月22日近况</div>
+      <div class="article-nav-title">c++笔试读写模板</div>
     </a>
   
 </nav>
@@ -282,15 +264,15 @@ public:
     <section class="share">
         <div class="share-title">分享</div>
         <a class="share-item" target="_blank"
-            href="https://twitter.com/share?text=剑指53-表示数值的字符串 - LIANGYUE'S BLOG&url=http://www.openrad.ink/2020/08/23/%E5%89%91%E6%8C%8753-%E8%A1%A8%E7%A4%BA%E6%95%B0%E5%80%BC%E7%9A%84%E5%AD%97%E7%AC%A6%E4%B8%B2/">
+            href="https://twitter.com/share?text=二叉树前序，中序，后序遍历的非递归实现 - LIANGYUE'S BLOG&url=http://www.openrad.ink/2021/08/10/%E4%BA%8C%E5%8F%89%E6%A0%91%E5%89%8D%E5%BA%8F%EF%BC%8C%E4%B8%AD%E5%BA%8F%EF%BC%8C%E5%90%8E%E5%BA%8F%E9%81%8D%E5%8E%86%E7%9A%84%E9%9D%9E%E9%80%92%E5%BD%92%E5%AE%9E%E7%8E%B0/">
             <box-icon type='logo' name='twitter'></box-icon>
         </a>
         <a class="share-item" target="_blank"
-            href="https://www.facebook.com/sharer.php?title=剑指53-表示数值的字符串 - LIANGYUE'S BLOG&u=http://www.openrad.ink/2020/08/23/%E5%89%91%E6%8C%8753-%E8%A1%A8%E7%A4%BA%E6%95%B0%E5%80%BC%E7%9A%84%E5%AD%97%E7%AC%A6%E4%B8%B2/">
+            href="https://www.facebook.com/sharer.php?title=二叉树前序，中序，后序遍历的非递归实现 - LIANGYUE'S BLOG&u=http://www.openrad.ink/2021/08/10/%E4%BA%8C%E5%8F%89%E6%A0%91%E5%89%8D%E5%BA%8F%EF%BC%8C%E4%B8%AD%E5%BA%8F%EF%BC%8C%E5%90%8E%E5%BA%8F%E9%81%8D%E5%8E%86%E7%9A%84%E9%9D%9E%E9%80%92%E5%BD%92%E5%AE%9E%E7%8E%B0/">
             <box-icon name='facebook-square' type='logo' ></box-icon>
         </a>
         <!-- <a class="share-item" target="_blank"
-            href="https://service.weibo.com/share/share.php?title=剑指53-表示数值的字符串 - LIANGYUE'S BLOG&url=http://www.openrad.ink/2020/08/23/%E5%89%91%E6%8C%8753-%E8%A1%A8%E7%A4%BA%E6%95%B0%E5%80%BC%E7%9A%84%E5%AD%97%E7%AC%A6%E4%B8%B2/&pic=">
+            href="https://service.weibo.com/share/share.php?title=二叉树前序，中序，后序遍历的非递归实现 - LIANGYUE'S BLOG&url=http://www.openrad.ink/2021/08/10/%E4%BA%8C%E5%8F%89%E6%A0%91%E5%89%8D%E5%BA%8F%EF%BC%8C%E4%B8%AD%E5%BA%8F%EF%BC%8C%E5%90%8E%E5%BA%8F%E9%81%8D%E5%8E%86%E7%9A%84%E9%9D%9E%E9%80%92%E5%BD%92%E5%AE%9E%E7%8E%B0/&pic=">
             <div class="n-icon n-icon-weibo"></div>
         </a> -->
     </section>

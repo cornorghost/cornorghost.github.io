@@ -118,7 +118,7 @@
             <section class="inner">
                 <section class="inner-main">
                     <div class="post">
-    <article id="post-cks48ak8b008u9kveh8fd6ueb" class="article article-type-post" itemscope
+    <article id="post-cks67xpfq0091ncveg8cp2921" class="article article-type-post" itemscope
     itemprop="blogPost">
 
     <div class="article-inner">
@@ -521,7 +521,7 @@ int main()
 <li>指针被free或者delete之后，没有置为NULL</li>
 </ol>
 <hr>
-<h1 id="浅copy和深copy和赋值"><a href="#浅copy和深copy和赋值" class="headerlink" title="浅copy和深copy和赋值"></a><a href="https://zhuanlan.zhihu.com/p/64476550" target="_blank" rel="noopener">浅copy和深copy和赋值</a></h1><p>浅copy只是复制了对象的地址，即指针，和原对象共享同一地址，改变其中一个的值，另一个也会跟着改变；<br>深copy是将整个对象复制，有独立的地址，两个对象相互独立</p>
+<h1 id="浅copy和深copy和赋值-深拷贝和浅拷贝"><a href="#浅copy和深copy和赋值-深拷贝和浅拷贝" class="headerlink" title="浅copy和深copy和赋值(深拷贝和浅拷贝)"></a><a href="https://zhuanlan.zhihu.com/p/64476550" target="_blank" rel="noopener">浅copy和深copy和赋值</a>(深拷贝和浅拷贝)</h1><p>浅copy只是复制了对象的地址，即指针，和原对象共享同一地址，改变其中一个的值，另一个也会跟着改变；<br>深copy是将整个对象复制，有独立的地址，两个对象相互独立</p>
 <p>赋值和浅copy的区别：赋值是复制了栈中的地址，不论赋值的是基本数据类型还是地址，新旧对象具有关联；浅copy如果复制的是基本的数据类型，那么改变其中一个，另一个不会改变，如果复制的是地址，如数组等，改变其中一个，另一个会发生变化<br><img src="https://user-gold-cdn.xitu.io/2018/12/23/167da74d45d3103b?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt=""></p>
 <hr>
 <h1 id="显式类型转换"><a href="#显式类型转换" class="headerlink" title="显式类型转换"></a>显式类型转换</h1><ol>
@@ -742,7 +742,12 @@ int main()
 <li><p>初始化列表先于构造函数的函数体执行</p>
 </li>
 </ol>
-<h1 id="内存对齐"><a href="#内存对齐" class="headerlink" title="内存对齐"></a>内存对齐</h1><p>按多少字节对齐，首先取alig=Min(所有成员中最大的， 默认对齐方式)，默认一般是4个字节</p>
+<h1 id="什么情况必须使用成员列表初始化"><a href="#什么情况必须使用成员列表初始化" class="headerlink" title="什么情况必须使用成员列表初始化"></a>什么情况必须使用成员列表初始化</h1><ol>
+<li>初始化cost成员变量时</li>
+<li>初始化引用成员变量时</li>
+<li>初始化的自定义的类数据，并且类数据不包含构造函数</li>
+</ol>
+<h1 id="内存对齐"><a href="#内存对齐" class="headerlink" title="内存对齐"></a><a href="https://www.openrad.ink/2021/01/13/%E5%86%85%E5%AD%98%E5%AF%B9%E9%BD%90/">内存对齐</a></h1><p>按多少字节对齐，首先取alig=Min(所有成员中最大的， 默认对齐方式)，默认一般是4个字节</p>
 <p>然后每个成员大小是alig的整数倍，并且最后计算的总和也是alig的整数倍</p>
 <hr>
 
@@ -868,6 +873,10 @@ int main()
       <ul>
         
           <li>
+            <a href="/2021/08/10/%E4%BA%8C%E5%8F%89%E6%A0%91%E5%89%8D%E5%BA%8F%EF%BC%8C%E4%B8%AD%E5%BA%8F%EF%BC%8C%E5%90%8E%E5%BA%8F%E9%81%8D%E5%8E%86%E7%9A%84%E9%9D%9E%E9%80%92%E5%BD%92%E5%AE%9E%E7%8E%B0/">二叉树前序，中序，后序遍历的非递归实现</a>
+          </li>
+        
+          <li>
             <a href="/2021/08/01/c++%E7%AC%94%E8%AF%95%E8%AF%BB%E5%86%99%E6%A8%A1%E6%9D%BF/">c++笔试读写模板</a>
           </li>
         
@@ -881,10 +890,6 @@ int main()
         
           <li>
             <a href="/2021/07/23/%E5%AE%9E%E7%8E%B0vector%E6%8F%92%E5%85%A5%E6%89%A9%E5%AE%B9/">实现vector插入扩容</a>
-          </li>
-        
-          <li>
-            <a href="/2021/07/11/redis%E7%AE%80%E4%BB%8B/">redis简介</a>
           </li>
         
       </ul>
