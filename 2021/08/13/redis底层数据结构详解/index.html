@@ -118,7 +118,7 @@
             <section class="inner">
                 <section class="inner-main">
                     <div class="post">
-    <article id="post-cks9uzbkp00273gve5rjbbul6" class="article article-type-post" itemscope
+    <article id="post-cksa4wjqo0026l0vefkt90iiq" class="article article-type-post" itemscope
     itemprop="blogPost">
 
     <div class="article-inner">
@@ -173,7 +173,95 @@
 </blockquote>
 <a id="more"></a>
 
-<h1 id="SDS-简单动态字符串"><a href="#SDS-简单动态字符串" class="headerlink" title="SDS(简单动态字符串)"></a>SDS(简单动态字符串)</h1>
+<h1 id="SDS-简单动态字符串"><a href="#SDS-简单动态字符串" class="headerlink" title="SDS(简单动态字符串)"></a>SDS(简单动态字符串)</h1><p>一个SDS结构如下:</p>
+<pre><code class="c++">struct sdshdr{
+    int len; //记录保存字符串的长度，也就是buf的长度
+    int free; //记录数组中未使用字节的数量
+    char buf[];
+}sdshdr</code></pre>
+<img src="/2021/08/13/redis%E5%BA%95%E5%B1%82%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E8%AF%A6%E8%A7%A3/1.png" class="" title="1.png">
+
+<ol>
+<li>获取SDS字符长度的时间复杂度为O（1）</li>
+<li>当修改SDS时，会先对len进行判断，如果不够长会先进行分配，空间预分配遵循以下规则，如果SDS的len小于1MB，将会预分配当前len长度的空间；如果SDS的len超过1MB，将会预分配1M的长度</li>
+<li>惰性回收，当删除字符时，SDS不立即回收空间，而是留着等待下次使用</li>
+</ol>
+<h1 id="双向链表"><a href="#双向链表" class="headerlink" title="双向链表"></a>双向链表</h1><p>一个双向链表的节点结构如下：</p>
+<pre><code class="c++">struct listNode{
+    listNode *pre;
+    listNode *next;
+    void *value;
+}listNode</code></pre>
+<p>整个链表的结构如下：</p>
+<pre><code class="c++">struct list{
+    listNode *head; //头结点
+    listNode *tail; //尾节点
+    unsigned long len; //链表所含节点数量
+    void *(*dup)(void *ptr); //节点值赋值函数
+    void *(*free)(void *ptr); //节点值释放函数
+    void *(*match)(void *ptr, void *key); //节点值对比函数
+}list</code></pre>
+<img src="/2021/08/13/redis%E5%BA%95%E5%B1%82%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E8%AF%A6%E8%A7%A3/2.png" class="" title="2.png">
+
+<h1 id="哈希和字典"><a href="#哈希和字典" class="headerlink" title="哈希和字典"></a>哈希和字典</h1><p>字典底层由哈希结构组成，而哈希包含哈希节点，三者的数据定义如下：</p>
+<pre><code class="c++">//哈希表结构
+struct dictht{
+    dictEntry **table; //哈希表数组
+    unsigned long size; //哈希表大小
+    unsigned long sizemask; //哈希表大小掩码，总是等于size-1
+    unsigned long used; //该哈希表当前已有节点
+}dictht
+
+//哈希节点结构
+struct dictEntry{
+    void *key; //键
+    union{  //值
+        void *val;
+        uint64_tu64;
+        int64_ts64;
+    }v;
+
+    dictEntry *next; //下一个节点
+}dictEntry
+
+//字典结构
+struct dict{
+    dictType *type; //类型特定函数
+    void *privdata; //私有数据
+    dictht ht[2]; //两个哈希表，一个用于hash， 一个用于rehash
+    int rehashidx; //是否正在rehash，如果为-1，说明当前不在进行
+}dict
+</code></pre>
+<img src="/2021/08/13/redis%E5%BA%95%E5%B1%82%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E8%AF%A6%E8%A7%A3/3.png" class="" title="3.png">
+
+<h1 id="跳表"><a href="#跳表" class="headerlink" title="跳表"></a>跳表</h1><p>跳表的数据结构比较复杂，可以参考<a href="https://mp.weixin.qq.com/s/drEJPZw7iYiwtMlRI--L6g" target="_blank" rel="noopener">这里</a></p>
+<p>跳表是可以实现二分查找的存储结构，查找效率是O（logn）</p>
+<h1 id="整数集合"><a href="#整数集合" class="headerlink" title="整数集合"></a>整数集合</h1><p>整数集合结构如下：</p>
+<pre><code class="c++">struct intset{
+    uint32_t encoding; //决定数值类型
+    uint32_t length; //集合包含的元素数量
+    int8_t contents[]; //保存元素的数组
+}intset</code></pre>
+<p>并且数组中的每个项按从小到大有序排列，不含任何重复项</p>
+<h1 id="压缩列表"><a href="#压缩列表" class="headerlink" title="压缩列表"></a>压缩列表</h1><p>压缩列表的结构如下：</p>
+<pre><code class="c++">struct ziplist{
+    unsigned int zlbytes; //压缩列表占用的字节内存数
+    unsigned int zltail; //压缩列表表尾节点的偏移量：用来倒序遍历压缩列表。
+    unsigned short zlen; //压缩列表包含的节点数量
+    zipEntry entry[]; //节点数组，包含元素的具体信息
+    byte zlend; //一个字节，标志节点结束
+
+}ziplist
+
+
+struct zipEntry{
+    previous_entry_length;  //记录前一个节点的长度，一般是1字节或者5字节
+    encoding; //记录值的类型，一般有1字节，2字节，5字节
+    content;  //保存的值，可以是整数或者字符串
+
+}zipEntry</code></pre>
+<img src="/2021/08/13/redis%E5%BA%95%E5%B1%82%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E8%AF%A6%E8%A7%A3/4.png" class="" title="4.png">
+
         </div>
 
     </div>
