@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     
-    <title>LIANGYUE&#39;S BLOG</title>
+    <title>redis常见的数据类型及其底层结构和应用场景 | LIANGYUE&#39;S BLOG</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
     
@@ -24,7 +24,7 @@
 
 
     <script>
-        window.isPost = false
+        window.isPost = true
         window.aomori = {
             
             gitalk: {
@@ -117,516 +117,195 @@
         <div class="main">
             <section class="inner">
                 <section class="inner-main">
-                    <div class="index">
-  
-    
-      <article
-  id="post-redis常见的数据类型及其底层结构和应用场景"
-  class="article article-type-post"
->
+                    <div class="post">
+    <article id="post-cks9uqh7y0023m0ve5myj6iga" class="article article-type-post" itemscope
+    itemprop="blogPost">
 
-  
+    <div class="article-inner">
 
-  <div class="article-inner">
-    
-
-    <div class="article-body">
-      <header class="article-title">
-        <a href="/2021/08/13/redis%E5%B8%B8%E8%A7%81%E7%9A%84%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E5%8F%8A%E5%85%B6%E5%BA%95%E5%B1%82%E7%BB%93%E6%9E%84%E5%92%8C%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF/">redis常见的数据类型及其底层结构和应用场景</a>
-      </header>
-      <div class="article-entry post-inner-html">
         
-          <blockquote>
-<p>redis知识归纳</p>
-</blockquote>
+          
         
-      </div>
-    </div>
+        
+        
 
-    
+        
+        <header class="article-header">
+            
+  
+    <h1 class="article-title" itemprop="name">
+      redis常见的数据类型及其底层结构和应用场景
+    </h1>
+  
 
-  </div>
+        </header>
+        
 
-  <footer class="article-footer">
-    <div class="article-more-info">
-      <div class="article-date">
+        <div class="article-more-info article-more-info-post hairline">
+
+            <div class="article-date">
   <time datetime="2021-08-13T02:14:39.000Z" itemprop="datePublished">2021-08-13</time>
 </div>
-      
-        <div class="article-category">
-          <a class="article-category-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>,<a class="article-category-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/redis/">redis</a>
+
+            
+            <div class="article-category">
+                <a class="article-category-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
+            </div>
+            
+
+            
+            <div class="article-tag">
+                <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/redis/" rel="tag">redis</a></li></ul>
+            </div>
+            
+
+            
+            <div class="article-busuanzi">
+                有 <span id="busuanzi_value_page_pv">0</span> 人看过
+            </div>
+            
+
         </div>
-      
-      
-        <div class="article-tag">
-          <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/redis/" rel="tag">redis</a></li></ul>
-        </div>
-      
-    </div>
-  </footer>
 
-</article>
-
-    
-  
-    
-      <article
-  id="post-条件变量使用细节"
-  class="article article-type-post"
->
-
-  
-
-  <div class="article-inner">
-    
-
-    <div class="article-body">
-      <header class="article-title">
-        <a href="/2021/08/12/%E6%9D%A1%E4%BB%B6%E5%8F%98%E9%87%8F%E4%BD%BF%E7%94%A8%E7%BB%86%E8%8A%82/">条件变量使用细节</a>
-      </header>
-      <div class="article-entry post-inner-html">
-        
-          <blockquote>
-<p>c++服务器开发精髓有感</p>
+        <div class="article-entry post-inner-html hairline" itemprop="articleBody">
+            <blockquote>
+<p>redis知识归纳</p>
 </blockquote>
-        
-      </div>
+<a id="more"></a>
+
+<h1 id="redis有如下几种数据类型"><a href="#redis有如下几种数据类型" class="headerlink" title="redis有如下几种数据类型"></a>redis有如下几种数据类型</h1><p>| 类型常量 | 对象 |<br>| —— | —— | —— |<br>| REDIS_STRING | 字符串对象 |<br>| REDIS_LIST | 列表对象 |<br>| REDIS_HASH | 哈希对象 |<br>| REDIS_SET | 集合对象 |<br>| REDIS_ZSET | 有序集合对象 |</p>
+<p>对于redis保存的键值来说，键总是一个字符串对象，值可以是其他类型</p>
+<p>每种类型其实不仅限于一种数据结构，例如哈希集合有压缩列表的实现，也有哈希表的实现，这个取决于编码类型encoding</p>
+<h1 id="不同的编码类型对应不同的数据结构"><a href="#不同的编码类型对应不同的数据结构" class="headerlink" title="不同的编码类型对应不同的数据结构"></a>不同的编码类型对应不同的数据结构</h1><p>| 编码类型 | 底层数据结构 |<br>| —— | —— | —— |<br>| REDIS_ENCODING_INT | long类型的整数 |<br>| REDIS_ENCODING_EMBSTR | embstr编码的简单动态字符串(SDS) |<br>| REDIS_ENCODING_RAW | 简单动态字符串(SDS) |<br>| REDIS_ENCODING_HT | 字典 |<br>| REDIS_ENCODING_LINKEDLIST | 双端链表 |<br>| REDIS_ENCODING_ZIPLIST | 压缩列表 |<br>| REDIS_ENCODING_INTSET | 整数集合 |<br>| REDIS_ENCODING_SKIPLIST | 跳表和字典 |</p>
+<h1 id="而每种对象会对应不止一种编码方式"><a href="#而每种对象会对应不止一种编码方式" class="headerlink" title="而每种对象会对应不止一种编码方式"></a>而每种对象会对应不止一种编码方式</h1><p>如下表：</p>
+<table>
+<thead>
+<tr>
+<th>类型常量</th>
+<th>编码方式</th>
+<th>底层数据结构</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>REDIS_STRING</td>
+<td>REDIS_ENCODING_INT</td>
+<td>使用整数实现的字符串</td>
+</tr>
+<tr>
+<td>REDIS_STRING</td>
+<td>REDIS_ENCODING_EMBSTR</td>
+<td>使用embstr编码的SDS实现的字符串</td>
+</tr>
+<tr>
+<td>REDIS_STRING</td>
+<td>REDIS_ENCODING_RAW</td>
+<td>使用SDS实现的字符串</td>
+</tr>
+<tr>
+<td>REDIS_LIST</td>
+<td>REDIS_ENCODING_ZIPLIST</td>
+<td>使用压缩列表实现的列表</td>
+</tr>
+<tr>
+<td>REDIS_LIST</td>
+<td>REDIS_ENCODING_LINKEDLIST</td>
+<td>使用双端链表实现的列表</td>
+</tr>
+<tr>
+<td>REDIS_HASH</td>
+<td>REDIS_ENCODING_ZIPLIST</td>
+<td>使用压缩列表实现的哈希</td>
+</tr>
+<tr>
+<td>REDIS_HASH</td>
+<td>REDIS_ENCODING_HT</td>
+<td>使用字典实现的哈希</td>
+</tr>
+<tr>
+<td>REDIS_SET</td>
+<td>REDIS_ENCODING_INTSET</td>
+<td>使用整数集合实现的集合</td>
+</tr>
+<tr>
+<td>REDIS_SET</td>
+<td>REDIS_ENCODING_HT</td>
+<td>使用字典实现的集合</td>
+</tr>
+<tr>
+<td>REDIS_ZSET</td>
+<td>REDIS_ENCODING_ZIPLIST</td>
+<td>使用压缩列表实现的有序集合</td>
+</tr>
+<tr>
+<td>REDIS_ZSET</td>
+<td>REDIS_ENCODING_SKIPLIST</td>
+<td>使用跳表和字典实现的有序集合</td>
+</tr>
+</tbody></table>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>如果一个字符串用来表示整数的时候，保存的形式是long，会将字符串转化为整型保存<br>其他情况字符串一般是使用SDS（简单动态字符串）表示</p>
+<p>列表可以是压缩列表或者是双端链表</p>
+<p>哈希可以是压缩列表或者是字典</p>
+<p>集合可以是整数集合或者是字典</p>
+<p>有序集合可以是压缩列表或者是跳表</p>
+<p>对于底层数据结构的详细介绍在<a href="">这里</a></p>
+
+        </div>
+
     </div>
 
     
 
-  </div>
+    
 
-  <footer class="article-footer">
-    <div class="article-more-info">
-      <div class="article-date">
-  <time datetime="2021-08-12T07:57:41.000Z" itemprop="datePublished">2021-08-12</time>
-</div>
-      
-        <div class="article-category">
-          <a class="article-category-link" href="/categories/%E5%90%8E%E7%AB%AF/">后端</a>,<a class="article-category-link" href="/categories/%E5%90%8E%E7%AB%AF/%E6%9C%8D%E5%8A%A1%E5%99%A8/">服务器</a>,<a class="article-category-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a>,<a class="article-category-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E5%A4%9A%E7%BA%BF%E7%A8%8B/">多线程</a>
-        </div>
-      
-      
-        <div class="article-tag">
-          <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%90%8E%E7%AB%AF/" rel="tag">后端</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" rel="tag">操作系统</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%9D%A1%E4%BB%B6%E5%8F%98%E9%87%8F/" rel="tag">条件变量</a></li></ul>
-        </div>
-      
-    </div>
-  </footer>
+    
+
+    
+
+    
+
+    
+<nav class="article-nav">
+  
+  
+    <a href="/2021/08/12/%E6%9D%A1%E4%BB%B6%E5%8F%98%E9%87%8F%E4%BD%BF%E7%94%A8%E7%BB%86%E8%8A%82/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-caption">上一篇</div>
+      <div class="article-nav-title">条件变量使用细节</div>
+    </a>
+  
+</nav>
+
+
+    <section class="share">
+        <div class="share-title">分享</div>
+        <a class="share-item" target="_blank"
+            href="https://twitter.com/share?text=redis常见的数据类型及其底层结构和应用场景 - LIANGYUE'S BLOG&url=http://www.openrad.ink/2021/08/13/redis%E5%B8%B8%E8%A7%81%E7%9A%84%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E5%8F%8A%E5%85%B6%E5%BA%95%E5%B1%82%E7%BB%93%E6%9E%84%E5%92%8C%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF/">
+            <box-icon type='logo' name='twitter'></box-icon>
+        </a>
+        <a class="share-item" target="_blank"
+            href="https://www.facebook.com/sharer.php?title=redis常见的数据类型及其底层结构和应用场景 - LIANGYUE'S BLOG&u=http://www.openrad.ink/2021/08/13/redis%E5%B8%B8%E8%A7%81%E7%9A%84%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E5%8F%8A%E5%85%B6%E5%BA%95%E5%B1%82%E7%BB%93%E6%9E%84%E5%92%8C%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF/">
+            <box-icon name='facebook-square' type='logo' ></box-icon>
+        </a>
+        <!-- <a class="share-item" target="_blank"
+            href="https://service.weibo.com/share/share.php?title=redis常见的数据类型及其底层结构和应用场景 - LIANGYUE'S BLOG&url=http://www.openrad.ink/2021/08/13/redis%E5%B8%B8%E8%A7%81%E7%9A%84%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E5%8F%8A%E5%85%B6%E5%BA%95%E5%B1%82%E7%BB%93%E6%9E%84%E5%92%8C%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF/&pic=">
+            <div class="n-icon n-icon-weibo"></div>
+        </a> -->
+    </section>
 
 </article>
 
-    
-  
-    
-      <article
-  id="post-服务端和客户端心跳包机制"
-  class="article article-type-post"
->
 
-  
 
-  <div class="article-inner">
-    
 
-    <div class="article-body">
-      <header class="article-title">
-        <a href="/2021/08/11/%E6%9C%8D%E5%8A%A1%E7%AB%AF%E5%92%8C%E5%AE%A2%E6%88%B7%E7%AB%AF%E5%BF%83%E8%B7%B3%E5%8C%85%E6%9C%BA%E5%88%B6/">服务端和客户端心跳包机制</a>
-      </header>
-      <div class="article-entry post-inner-html">
-        
-          <blockquote>
-<p>面试问的一个问题</p>
-</blockquote>
-        
-      </div>
-    </div>
+<section class="comments">
+    <div id="gitalk-container"></div>
+</section>
 
-    
 
-  </div>
 
-  <footer class="article-footer">
-    <div class="article-more-info">
-      <div class="article-date">
-  <time datetime="2021-08-11T15:29:06.000Z" itemprop="datePublished">2021-08-11</time>
+<script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
 </div>
-      
-        <div class="article-category">
-          <a class="article-category-link" href="/categories/%E5%90%8E%E7%AB%AF/">后端</a>,<a class="article-category-link" href="/categories/%E5%90%8E%E7%AB%AF/%E6%9C%8D%E5%8A%A1%E5%99%A8/">服务器</a>
-        </div>
-      
-      
-        <div class="article-tag">
-          <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%90%8E%E7%AB%AF/" rel="tag">后端</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C/" rel="tag">网络</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/" rel="tag">网络编程</a></li></ul>
-        </div>
-      
-    </div>
-  </footer>
-
-</article>
-
-    
-  
-    
-      <article
-  id="post-TCP的time-wait和close-wait状态"
-  class="article article-type-post"
->
-
-  
-
-  <div class="article-inner">
-    
-
-    <div class="article-body">
-      <header class="article-title">
-        <a href="/2021/08/11/TCP%E7%9A%84time-wait%E5%92%8Cclose-wait%E7%8A%B6%E6%80%81/">TCP的TIME_WAIT和CLOSE_WAIT状态</a>
-      </header>
-      <div class="article-entry post-inner-html">
-        
-          <blockquote>
-<p>面试中常问的问题</p>
-</blockquote>
-        
-      </div>
-    </div>
-
-    
-
-  </div>
-
-  <footer class="article-footer">
-    <div class="article-more-info">
-      <div class="article-date">
-  <time datetime="2021-08-11T10:30:30.000Z" itemprop="datePublished">2021-08-11</time>
-</div>
-      
-        <div class="article-category">
-          <a class="article-category-link" href="/categories/%E5%90%8E%E7%AB%AF/">后端</a>,<a class="article-category-link" href="/categories/%E5%90%8E%E7%AB%AF/%E5%9F%BA%E7%A1%80/">基础</a>
-        </div>
-      
-      
-        <div class="article-tag">
-          <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/TCP/" rel="tag">TCP</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C/" rel="tag">网络</a></li></ul>
-        </div>
-      
-    </div>
-  </footer>
-
-</article>
-
-    
-  
-    
-      <article
-  id="post-二叉树前序，中序，后序遍历的非递归实现"
-  class="article article-type-post"
->
-
-  
-
-  <div class="article-inner">
-    
-
-    <div class="article-body">
-      <header class="article-title">
-        <a href="/2021/08/10/%E4%BA%8C%E5%8F%89%E6%A0%91%E5%89%8D%E5%BA%8F%EF%BC%8C%E4%B8%AD%E5%BA%8F%EF%BC%8C%E5%90%8E%E5%BA%8F%E9%81%8D%E5%8E%86%E7%9A%84%E9%9D%9E%E9%80%92%E5%BD%92%E5%AE%9E%E7%8E%B0/">二叉树前序，中序，后序遍历的非递归实现</a>
-      </header>
-      <div class="article-entry post-inner-html">
-        
-          <blockquote>
-<p>阿里二面的算法题</p>
-</blockquote>
-        
-      </div>
-    </div>
-
-    
-
-  </div>
-
-  <footer class="article-footer">
-    <div class="article-more-info">
-      <div class="article-date">
-  <time datetime="2021-08-10T14:25:20.000Z" itemprop="datePublished">2021-08-10</time>
-</div>
-      
-        <div class="article-category">
-          <a class="article-category-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a>,<a class="article-category-link" href="/categories/%E7%AE%97%E6%B3%95/%E5%9F%BA%E6%9C%AC/">基本</a>
-        </div>
-      
-      
-        <div class="article-tag">
-          <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/c/" rel="tag">c++</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li></ul>
-        </div>
-      
-    </div>
-  </footer>
-
-</article>
-
-    
-  
-    
-      <article
-  id="post-c++笔试读写模板"
-  class="article article-type-post"
->
-
-  
-
-  <div class="article-inner">
-    
-
-    <div class="article-body">
-      <header class="article-title">
-        <a href="/2021/08/01/c++%E7%AC%94%E8%AF%95%E8%AF%BB%E5%86%99%E6%A8%A1%E6%9D%BF/">c++笔试读写模板</a>
-      </header>
-      <div class="article-entry post-inner-html">
-        
-          <blockquote>
-<p>分割字符串</p>
-</blockquote>
-        
-      </div>
-    </div>
-
-    
-
-  </div>
-
-  <footer class="article-footer">
-    <div class="article-more-info">
-      <div class="article-date">
-  <time datetime="2021-08-01T09:09:42.000Z" itemprop="datePublished">2021-08-01</time>
-</div>
-      
-        <div class="article-category">
-          <a class="article-category-link" href="/categories/c-%E5%9F%BA%E7%A1%80/">c++基础</a>
-        </div>
-      
-      
-        <div class="article-tag">
-          <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/c/" rel="tag">c++</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/lambda/" rel="tag">lambda</a></li></ul>
-        </div>
-      
-    </div>
-  </footer>
-
-</article>
-
-    
-  
-    
-      <article
-  id="post-二维前缀和模板"
-  class="article article-type-post"
->
-
-  
-
-  <div class="article-inner">
-    
-
-    <div class="article-body">
-      <header class="article-title">
-        <a href="/2021/07/29/%E4%BA%8C%E7%BB%B4%E5%89%8D%E7%BC%80%E5%92%8C%E6%A8%A1%E6%9D%BF/">二维前缀和模板</a>
-      </header>
-      <div class="article-entry post-inner-html">
-        
-          <blockquote>
-<p>前缀和总结</p>
-</blockquote>
-        
-      </div>
-    </div>
-
-    
-
-  </div>
-
-  <footer class="article-footer">
-    <div class="article-more-info">
-      <div class="article-date">
-  <time datetime="2021-07-29T13:58:49.000Z" itemprop="datePublished">2021-07-29</time>
-</div>
-      
-        <div class="article-category">
-          <a class="article-category-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a>,<a class="article-category-link" href="/categories/%E7%AE%97%E6%B3%95/%E5%9F%BA%E6%9C%AC/">基本</a>
-        </div>
-      
-      
-        <div class="article-tag">
-          <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/c/" rel="tag">c++</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%93%BE%E8%A1%A8/" rel="tag">链表</a></li></ul>
-        </div>
-      
-    </div>
-  </footer>
-
-</article>
-
-    
-  
-    
-      <article
-  id="post-二分查找模板，包括左边界右边界"
-  class="article article-type-post"
->
-
-  
-
-  <div class="article-inner">
-    
-
-    <div class="article-body">
-      <header class="article-title">
-        <a href="/2021/07/26/%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%E6%A8%A1%E6%9D%BF%EF%BC%8C%E5%8C%85%E6%8B%AC%E5%B7%A6%E8%BE%B9%E7%95%8C%E5%8F%B3%E8%BE%B9%E7%95%8C/">二分查找模板，包括左边界右边界</a>
-      </header>
-      <div class="article-entry post-inner-html">
-        
-          <blockquote>
-<p>一次记住所有情况</p>
-</blockquote>
-        
-      </div>
-    </div>
-
-    
-
-  </div>
-
-  <footer class="article-footer">
-    <div class="article-more-info">
-      <div class="article-date">
-  <time datetime="2021-07-25T16:15:57.000Z" itemprop="datePublished">2021-07-26</time>
-</div>
-      
-        <div class="article-category">
-          <a class="article-category-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a>,<a class="article-category-link" href="/categories/%E7%AE%97%E6%B3%95/%E5%9F%BA%E6%9C%AC/">基本</a>
-        </div>
-      
-      
-        <div class="article-tag">
-          <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E4%BA%8C%E5%88%86%E6%B3%95/" rel="tag">二分法</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li></ul>
-        </div>
-      
-    </div>
-  </footer>
-
-</article>
-
-    
-  
-    
-      <article
-  id="post-实现vector插入扩容"
-  class="article article-type-post"
->
-
-  
-
-  <div class="article-inner">
-    
-
-    <div class="article-body">
-      <header class="article-title">
-        <a href="/2021/07/23/%E5%AE%9E%E7%8E%B0vector%E6%8F%92%E5%85%A5%E6%89%A9%E5%AE%B9/">实现vector插入扩容</a>
-      </header>
-      <div class="article-entry post-inner-html">
-        
-          <blockquote>
-<p>联发科提前批难点记录</p>
-</blockquote>
-        
-      </div>
-    </div>
-
-    
-
-  </div>
-
-  <footer class="article-footer">
-    <div class="article-more-info">
-      <div class="article-date">
-  <time datetime="2021-07-23T02:34:25.000Z" itemprop="datePublished">2021-07-23</time>
-</div>
-      
-        <div class="article-category">
-          <a class="article-category-link" href="/categories/c-%E5%9F%BA%E7%A1%80/">c++基础</a>,<a class="article-category-link" href="/categories/%E9%9D%A2%E8%AF%95/">面试</a>,<a class="article-category-link" href="/categories/%E9%9D%A2%E8%AF%95/%E8%81%94%E5%8F%91%E7%A7%91/">联发科</a>
-        </div>
-      
-      
-        <div class="article-tag">
-          <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%9D%A2%E7%BB%8F/" rel="tag">面经</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%9D%A2%E8%AF%95/" rel="tag">面试</a></li></ul>
-        </div>
-      
-    </div>
-  </footer>
-
-</article>
-
-    
-  
-    
-      <article
-  id="post-redis简介"
-  class="article article-type-post"
->
-
-  
-
-  <div class="article-inner">
-    
-
-    <div class="article-body">
-      <header class="article-title">
-        <a href="/2021/07/11/redis%E7%AE%80%E4%BB%8B/">redis简介</a>
-      </header>
-      <div class="article-entry post-inner-html">
-        
-          <blockquote>
-<p>简介</p>
-</blockquote>
-        
-      </div>
-    </div>
-
-    
-
-  </div>
-
-  <footer class="article-footer">
-    <div class="article-more-info">
-      <div class="article-date">
-  <time datetime="2021-07-11T15:21:36.000Z" itemprop="datePublished">2021-07-11</time>
-</div>
-      
-        <div class="article-category">
-          <a class="article-category-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>,<a class="article-category-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/redis/">redis</a>
-        </div>
-      
-      
-        <div class="article-tag">
-          <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/redis/" rel="tag">redis</a></li></ul>
-        </div>
-      
-    </div>
-  </footer>
-
-</article>
-
-    
-  
-
-  
-    <nav class="pagination">
-        <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><a class="extend next" rel="next" href="/page/2/">Next</a>
-    </nav>
-  
-</div>
-
                 </section>
             </section>
 
@@ -649,6 +328,12 @@
 <div class="widget" id="widget">
     
       
+  <div class="widget-wrap">
+    <div class="widget-inner">
+      <div class="toc post-toc-html"></div>
+    </div>
+  </div>
+
     
       
   <div class="widget-wrap widget-cate">
