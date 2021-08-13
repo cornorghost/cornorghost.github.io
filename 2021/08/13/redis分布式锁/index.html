@@ -118,7 +118,7 @@
             <section class="inner">
                 <section class="inner-main">
                     <div class="post">
-    <article id="post-cksa7xfmb0024dgve0uts6xr4" class="article article-type-post" itemscope
+    <article id="post-cksaggll10027ckvebb1g2o9g" class="article article-type-post" itemscope
     itemprop="blogPost">
 
     <div class="article-inner">
@@ -148,7 +148,15 @@
 </div>
 
             
+            <div class="article-category">
+                <a class="article-category-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
+            </div>
+            
 
+            
+            <div class="article-tag">
+                <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/redis/" rel="tag">redis</a></li></ul>
+            </div>
             
 
             
@@ -160,7 +168,30 @@
         </div>
 
         <div class="article-entry post-inner-html hairline" itemprop="articleBody">
-            
+            <blockquote>
+<p>面试常见题目</p>
+</blockquote>
+<a id="more"></a>
+
+<p>分布式中经常会有多个请求同时获取资源的情况，如何保证有序的访问资源</p>
+<p>在第一次在面试中被问到这个问题时，因为我之前对redis海比较陌生，所以我的想法是在redis维护一对键值，值是可以同时访问的数量，每次获取前先看这个值是否为0，不为0，获取，然后值-1，释放时值+1.其实我的想法时模拟了信号量的实现，模拟PV操作。</p>
+<p>其实不用这么复杂，redis是使用一对字符串键值，如果获取发现这个键值对不存在或者值为空，说明当前没有请求在使用资源，如果不为空，说明被占用了，等待释放。</p>
+<ol>
+<li>SETNX，用法是SETNX key value，SETNX是『 SET if Not eXists』(如果不存在，则 SET)的简写，设置成功就返回1，否则返回0。</li>
+</ol>
+<p>使用SETNX可以达到上锁的目的，但是除非你手动释放锁，不然这个锁永远不会释放，所以你还需要设置过期时间，例如：</p>
+<p><code>SETNX Key 1</code><br><code>EXPIRE Key Seconds</code></p>
+<p>但是这两句话并不是原子操作，如果获取锁成功了，但是设置过期时间失败了，依然会永久上锁，所以出现了下面的方法</p>
+<ol start="2">
+<li><p>SETEX，用法SETEX key seconds value，可以看到多了一个设置过期时间的参数，并且整个操作都是原子性的</p>
+</li>
+<li><p>PSETEX ，用法PSETEX key milliseconds value</p>
+</li>
+</ol>
+<p>这个命令和SETEX命令相似，但它以毫秒为单位设置 key 的生存时间，而不是像SETEX命令那样，以秒为单位。</p>
+<p>但是在某些情况，例如设置了过期时间，但是你请求A占用的时间是未知的，如果你占用的时间超过了过期时间，这时候释放了锁，但是其他请求B来到时，在他看来目前锁是空的，也就是没人占有。那么A请求用完资源后删除锁，其实删除的是B的锁，这就有问题了。</p>
+<p>所以有其他方法来保证过期时间不会小于占用的时间，例如使用第三方框架redisson，会开一个守护进程去检测当前过期时间和占用时间的关系，并在需要时给锁加时</p>
+
         </div>
 
     </div>
