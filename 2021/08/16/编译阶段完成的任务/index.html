@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     
-    <title>Archive | 2020/11 | LIANGYUE&#39;S BLOG</title>
+    <title>编译阶段完成的任务 | LIANGYUE&#39;S BLOG</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
     
@@ -24,7 +24,7 @@
 
 
     <script>
-        window.isPost = false
+        window.isPost = true
         window.aomori = {
             
             gitalk: {
@@ -117,48 +117,152 @@
         <div class="main">
             <section class="inner">
                 <section class="inner-main">
-                    
+                    <div class="post">
+    <article id="post-cksecxeaz0089v0vef0jzerxd" class="article article-type-post" itemscope
+    itemprop="blogPost">
+
+    <div class="article-inner">
+
+        
+          
+        
+        
+        
+
+        
+        <header class="article-header">
+            
   
+    <h1 class="article-title" itemprop="name">
+      编译阶段完成的任务
+    </h1>
   
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2020" class="archive-year">2020</a>
+
+        </header>
+        
+
+        <div class="article-more-info article-more-info-post hairline">
+
+            <div class="article-date">
+  <time datetime="2021-08-16T08:06:30.000Z" itemprop="datePublished">2021-08-16</time>
+</div>
+
+            
+            <div class="article-category">
+                <a class="article-category-link" href="/categories/c-%E5%9F%BA%E7%A1%80/">c++基础</a>,<a class="article-category-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a>,<a class="article-category-link" href="/categories/%E9%9D%A2%E8%AF%95/">面试</a>
+            </div>
+            
+
+            
+            <div class="article-tag">
+                <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/c/" rel="tag">c++</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%9F%BA%E7%A1%80/" rel="tag">基础</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%9D%A2%E8%AF%95/" rel="tag">面试</a></li></ul>
+            </div>
+            
+
+            
+            <div class="article-busuanzi">
+                有 <span id="busuanzi_value_page_pv">0</span> 人看过
+            </div>
+            
+
         </div>
-        <div class="archives">
+
+        <div class="article-entry post-inner-html hairline" itemprop="articleBody">
+            <blockquote>
+<p>面试常问</p>
+</blockquote>
+<p>源代码 (source code) → 预处理器 (preprocessor) → 编译器 (compiler) → 汇编程序 (assembler) → 目标代码 (object code) → 连接器 (Linker) → 可执行程序 (executables)</p>
+<ol>
+<li>词法分析</li>
+</ol>
+<p>词法分析器根据词法规则识别出源程序中的各个记号（token），每个记号代表一类单词（lexeme）。源程序中常见的记号可以归为几大类：关键字、标识符、字面量和特殊符号。词法分析器的输入是源程序，输出是识别的记号流。词法分析器的任务是把源文件的字符流转换成记号流。本质上它查看连续的字符然后把它们识别为“单词”。</p>
+<ol start="2">
+<li>语法分析</li>
+</ol>
+<p>语法分析器根据语法规则识别出记号流中的结构（短语、句子），并构造一棵能够正确反映该结构的语法树。</p>
+<ol start="3">
+<li>语义分析</li>
+</ol>
+<p>语义分析器根据语义规则对语法树中的语法单元进行静态语义检查，如果类型检查和转换等，其目的在于保证语法正确的结构在语义上也是合法的。</p>
+<ol start="4">
+<li>中间代码生成</li>
+</ol>
+<p>中间代码生成器根据语义分析器的输出生成中间代码。中间代码可以有若干种形式，它们的共同特征是与具体机器无关。最常用的一种中间代码是三地址码，它的一种实现方式是四元式。三地址码的优点是便于阅读、便于优化。</p>
+<ol start="5">
+<li>中间代码优化</li>
+</ol>
+<p>优化是编译器的一个重要组成部分，由于编译器将源程序翻译成中间代码的工作是机械的、按固定模式进行的，因此，生成的中间代码往往在时间和空间上有很大浪费。当需要生成高效目标代码时，就必须进行优化。</p>
+<ol start="6">
+<li>目标代码生成</li>
+</ol>
+<p>目标代码生成是编译器的最后一个阶段。在生成目标代码时要考虑以下几个问题：计算机的系统结构、指令系统、寄存器的分配以及内存的组织等。编译器生成的目标程序代码可以有多种形式：汇编语言、可重定位二进制代码、内存形式。</p>
+<ol start="7">
+<li>符号表管理</li>
+</ol>
+<p>符号表的作用是记录源程序中符号的必要信息，并加以合理组织，从而在编译器的各个阶段能对它们进行快速、准确的查找和操作。符号表中的某些内容甚至要保留到程序的运行阶段。</p>
+<ol start="8">
+<li>出错处理</li>
+</ol>
+<p>用户编写的源程序中往往会有一些错误，可分为静态错误和动态错误两类。所谓动态错误，是指源程序中的逻辑错误，它们发生在程序运行的时候，也被称作动态语义错误，如变量取值为零时作为除数，数组元素引用时下标出界等。静态错误又可分为语法错误和静态语义错误。语法错误是指有关语言结构上的错误，如单词拼写错、表达式中缺少操作数、begin和end不匹配等。静态语义错误是指分析源程序时可以发现的语言意义上的错误，如加法的两个操作数中一个是整型变量名，而另一个是数组名等。</p>
+<p>参考链接:<a href="https://blog.csdn.net/jiary5201314/article/details/8451755" target="_blank" rel="noopener">https://blog.csdn.net/jiary5201314/article/details/8451755</a></p>
+
+        </div>
+
+    </div>
+
     
-    <article class="archive-article archive-type-post">
+
+    
+
+    
+
+    
+
+    
+
+    
+<nav class="article-nav">
   
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/11/30/%E5%89%91%E6%8C%8767-%E5%89%AA%E7%BB%B3%E5%AD%90/">剑指67-剪绳子</a>
-    </h1>
+    <a href="/2021/08/16/%E5%AE%9E%E7%8E%B0memcpy%E5%87%BD%E6%95%B0/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-caption">上一篇</div>
+      <div class="article-nav-title">实现memcpy函数</div>
+    </a>
   
+</nav>
+
+
+    <section class="share">
+        <div class="share-title">分享</div>
+        <a class="share-item" target="_blank"
+            href="https://twitter.com/share?text=编译阶段完成的任务 - LIANGYUE'S BLOG&url=http://www.openrad.ink/2021/08/16/%E7%BC%96%E8%AF%91%E9%98%B6%E6%AE%B5%E5%AE%8C%E6%88%90%E7%9A%84%E4%BB%BB%E5%8A%A1/">
+            <box-icon type='logo' name='twitter'></box-icon>
+        </a>
+        <a class="share-item" target="_blank"
+            href="https://www.facebook.com/sharer.php?title=编译阶段完成的任务 - LIANGYUE'S BLOG&u=http://www.openrad.ink/2021/08/16/%E7%BC%96%E8%AF%91%E9%98%B6%E6%AE%B5%E5%AE%8C%E6%88%90%E7%9A%84%E4%BB%BB%E5%8A%A1/">
+            <box-icon name='facebook-square' type='logo' ></box-icon>
+        </a>
+        <!-- <a class="share-item" target="_blank"
+            href="https://service.weibo.com/share/share.php?title=编译阶段完成的任务 - LIANGYUE'S BLOG&url=http://www.openrad.ink/2021/08/16/%E7%BC%96%E8%AF%91%E9%98%B6%E6%AE%B5%E5%AE%8C%E6%88%90%E7%9A%84%E4%BB%BB%E5%8A%A1/&pic=">
+            <div class="n-icon n-icon-weibo"></div>
+        </a> -->
+    </section>
 
 </article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/11/23/%E5%89%91%E6%8C%8766-%E6%9C%BA%E5%99%A8%E4%BA%BA%E8%BF%90%E5%8A%A8%E7%9A%84%E8%8C%83%E5%9B%B4/">剑指66-机器人运动的范围</a>
-    </h1>
-  
-
-</article>
-  
-  
-    </div></section>
-  
 
 
 
 
+<section class="comments">
+    <div id="gitalk-container"></div>
+</section>
+
+
+
+<script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+</div>
                 </section>
             </section>
 
@@ -181,6 +285,12 @@
 <div class="widget" id="widget">
     
       
+  <div class="widget-wrap">
+    <div class="widget-inner">
+      <div class="toc post-toc-html"></div>
+    </div>
+  </div>
+
     
       
   <div class="widget-wrap widget-cate">

@@ -121,6 +121,91 @@
   
     
       <article
+  id="post-编译阶段完成的任务"
+  class="article article-type-post"
+>
+
+  
+
+  <div class="article-inner">
+    
+
+    <div class="article-body">
+      <header class="article-title">
+        <a href="/2021/08/16/%E7%BC%96%E8%AF%91%E9%98%B6%E6%AE%B5%E5%AE%8C%E6%88%90%E7%9A%84%E4%BB%BB%E5%8A%A1/">编译阶段完成的任务</a>
+      </header>
+      <div class="article-entry post-inner-html">
+        
+          <blockquote>
+<p>面试常问</p>
+</blockquote>
+<p>源代码 (source code) → 预处理器 (preprocessor) → 编译器 (compiler) → 汇编程序 (assembler) → 目标代码 (object code) → 连接器 (Linker) → 可执行程序 (executables)</p>
+<ol>
+<li>词法分析</li>
+</ol>
+<p>词法分析器根据词法规则识别出源程序中的各个记号（token），每个记号代表一类单词（lexeme）。源程序中常见的记号可以归为几大类：关键字、标识符、字面量和特殊符号。词法分析器的输入是源程序，输出是识别的记号流。词法分析器的任务是把源文件的字符流转换成记号流。本质上它查看连续的字符然后把它们识别为“单词”。</p>
+<ol start="2">
+<li>语法分析</li>
+</ol>
+<p>语法分析器根据语法规则识别出记号流中的结构（短语、句子），并构造一棵能够正确反映该结构的语法树。</p>
+<ol start="3">
+<li>语义分析</li>
+</ol>
+<p>语义分析器根据语义规则对语法树中的语法单元进行静态语义检查，如果类型检查和转换等，其目的在于保证语法正确的结构在语义上也是合法的。</p>
+<ol start="4">
+<li>中间代码生成</li>
+</ol>
+<p>中间代码生成器根据语义分析器的输出生成中间代码。中间代码可以有若干种形式，它们的共同特征是与具体机器无关。最常用的一种中间代码是三地址码，它的一种实现方式是四元式。三地址码的优点是便于阅读、便于优化。</p>
+<ol start="5">
+<li>中间代码优化</li>
+</ol>
+<p>优化是编译器的一个重要组成部分，由于编译器将源程序翻译成中间代码的工作是机械的、按固定模式进行的，因此，生成的中间代码往往在时间和空间上有很大浪费。当需要生成高效目标代码时，就必须进行优化。</p>
+<ol start="6">
+<li>目标代码生成</li>
+</ol>
+<p>目标代码生成是编译器的最后一个阶段。在生成目标代码时要考虑以下几个问题：计算机的系统结构、指令系统、寄存器的分配以及内存的组织等。编译器生成的目标程序代码可以有多种形式：汇编语言、可重定位二进制代码、内存形式。</p>
+<ol start="7">
+<li>符号表管理</li>
+</ol>
+<p>符号表的作用是记录源程序中符号的必要信息，并加以合理组织，从而在编译器的各个阶段能对它们进行快速、准确的查找和操作。符号表中的某些内容甚至要保留到程序的运行阶段。</p>
+<ol start="8">
+<li>出错处理</li>
+</ol>
+<p>用户编写的源程序中往往会有一些错误，可分为静态错误和动态错误两类。所谓动态错误，是指源程序中的逻辑错误，它们发生在程序运行的时候，也被称作动态语义错误，如变量取值为零时作为除数，数组元素引用时下标出界等。静态错误又可分为语法错误和静态语义错误。语法错误是指有关语言结构上的错误，如单词拼写错、表达式中缺少操作数、begin和end不匹配等。静态语义错误是指分析源程序时可以发现的语言意义上的错误，如加法的两个操作数中一个是整型变量名，而另一个是数组名等。</p>
+<p>参考链接:<a href="https://blog.csdn.net/jiary5201314/article/details/8451755" target="_blank" rel="noopener">https://blog.csdn.net/jiary5201314/article/details/8451755</a></p>
+
+        
+      </div>
+    </div>
+
+    
+
+  </div>
+
+  <footer class="article-footer">
+    <div class="article-more-info">
+      <div class="article-date">
+  <time datetime="2021-08-16T08:06:30.000Z" itemprop="datePublished">2021-08-16</time>
+</div>
+      
+        <div class="article-category">
+          <a class="article-category-link" href="/categories/c-%E5%9F%BA%E7%A1%80/">c++基础</a>,<a class="article-category-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a>,<a class="article-category-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E5%9F%BA%E7%A1%80/">基础</a>,<a class="article-category-link" href="/categories/%E9%9D%A2%E8%AF%95/">面试</a>,<a class="article-category-link" href="/categories/%E9%9D%A2%E8%AF%95/%E5%A5%BD%E6%9C%AA%E6%9D%A5/">好未来</a>
+        </div>
+      
+      
+        <div class="article-tag">
+          <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/c/" rel="tag">c++</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%9F%BA%E7%A1%80/" rel="tag">基础</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%9D%A2%E8%AF%95/" rel="tag">面试</a></li></ul>
+        </div>
+      
+    </div>
+  </footer>
+
+</article>
+
+    
+  
+    
+      <article
   id="post-实现memcpy函数"
   class="article article-type-post"
 >
@@ -569,56 +654,6 @@
 
     
   
-    
-      <article
-  id="post-c++笔试读写模板"
-  class="article article-type-post"
->
-
-  
-
-  <div class="article-inner">
-    
-
-    <div class="article-body">
-      <header class="article-title">
-        <a href="/2021/08/01/c++%E7%AC%94%E8%AF%95%E8%AF%BB%E5%86%99%E6%A8%A1%E6%9D%BF/">c++笔试读写模板</a>
-      </header>
-      <div class="article-entry post-inner-html">
-        
-          <blockquote>
-<p>分割字符串</p>
-</blockquote>
-        
-      </div>
-    </div>
-
-    
-
-  </div>
-
-  <footer class="article-footer">
-    <div class="article-more-info">
-      <div class="article-date">
-  <time datetime="2021-08-01T09:09:42.000Z" itemprop="datePublished">2021-08-01</time>
-</div>
-      
-        <div class="article-category">
-          <a class="article-category-link" href="/categories/c-%E5%9F%BA%E7%A1%80/">c++基础</a>
-        </div>
-      
-      
-        <div class="article-tag">
-          <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/c/" rel="tag">c++</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/lambda/" rel="tag">lambda</a></li></ul>
-        </div>
-      
-    </div>
-  </footer>
-
-</article>
-
-    
-  
 
   
     <nav class="pagination">
@@ -654,7 +689,7 @@
   <div class="widget-wrap widget-cate">
     <div class="widget-title"><span>分类</span></div>
     <div class="widget-inner">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/c-%E5%9F%BA%E7%A1%80/">c++基础</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/">人工智能</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/NLP/">NLP</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%85%B3%E4%BA%8E/">关于</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%8D%9A%E5%AE%A2/">博客</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%90%8E%E7%AB%AF/">后端</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%90%8E%E7%AB%AF/%E5%9F%BA%E7%A1%80/">基础</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%90%8E%E7%AB%AF/%E6%9C%8D%E5%8A%A1%E5%99%A8/">服务器</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%90%90%E6%A7%BD/">吐槽</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E5%A4%9A%E7%BA%BF%E7%A8%8B/">多线程</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/redis/">redis</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%97%A5%E5%B8%B8%E6%8A%80%E8%83%BD/">日常技能</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/%E5%89%91%E6%8C%87offer/">剑指offer</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/%E5%9F%BA%E6%9C%AC/">基本</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/">面试</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/%E5%A5%BD%E6%9C%AA%E6%9D%A5/">好未来</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/%E5%AD%97%E8%8A%82/">字节</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/%E7%BE%8E%E5%9B%A2/">美团</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/%E8%81%94%E5%8F%91%E7%A7%91/">联发科</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/%E8%85%BE%E8%AE%AF/">腾讯</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/%E9%98%BF%E9%87%8C/">阿里</a></li></ul></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/c-%E5%9F%BA%E7%A1%80/">c++基础</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/">人工智能</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/NLP/">NLP</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%85%B3%E4%BA%8E/">关于</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%8D%9A%E5%AE%A2/">博客</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%90%8E%E7%AB%AF/">后端</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%90%8E%E7%AB%AF/%E5%9F%BA%E7%A1%80/">基础</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%90%8E%E7%AB%AF/%E6%9C%8D%E5%8A%A1%E5%99%A8/">服务器</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%90%90%E6%A7%BD/">吐槽</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E5%9F%BA%E7%A1%80/">基础</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E5%A4%9A%E7%BA%BF%E7%A8%8B/">多线程</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/redis/">redis</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%97%A5%E5%B8%B8%E6%8A%80%E8%83%BD/">日常技能</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/%E5%89%91%E6%8C%87offer/">剑指offer</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/%E5%9F%BA%E6%9C%AC/">基本</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/">面试</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/%E5%A5%BD%E6%9C%AA%E6%9D%A5/">好未来</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/%E5%AD%97%E8%8A%82/">字节</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/%E7%BE%8E%E5%9B%A2/">美团</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/%E8%81%94%E5%8F%91%E7%A7%91/">联发科</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/%E8%85%BE%E8%AE%AF/">腾讯</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/%E9%98%BF%E9%87%8C/">阿里</a></li></ul></li></ul>
     </div>
   </div>
 
@@ -677,6 +712,10 @@
       <ul>
         
           <li>
+            <a href="/2021/08/16/%E7%BC%96%E8%AF%91%E9%98%B6%E6%AE%B5%E5%AE%8C%E6%88%90%E7%9A%84%E4%BB%BB%E5%8A%A1/">编译阶段完成的任务</a>
+          </li>
+        
+          <li>
             <a href="/2021/08/16/%E5%AE%9E%E7%8E%B0memcpy%E5%87%BD%E6%95%B0/">实现memcpy函数</a>
           </li>
         
@@ -690,10 +729,6 @@
         
           <li>
             <a href="/2021/08/13/redis%E5%BA%95%E5%B1%82%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E8%AF%A6%E8%A7%A3/">redis底层数据结构详解</a>
-          </li>
-        
-          <li>
-            <a href="/2021/08/13/redis%E5%B8%B8%E8%A7%81%E7%9A%84%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E5%8F%8A%E5%85%B6%E5%BA%95%E5%B1%82%E7%BB%93%E6%9E%84%E5%92%8C%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF/">redis常见的数据类型及其底层结构和应用场景</a>
           </li>
         
       </ul>
