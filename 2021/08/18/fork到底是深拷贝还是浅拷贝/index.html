@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     
-    <title>hexo本地和远程预览不一致 | LIANGYUE&#39;S BLOG</title>
+    <title>fork到底是深拷贝还是浅拷贝 | LIANGYUE&#39;S BLOG</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
     
@@ -118,7 +118,7 @@
             <section class="inner">
                 <section class="inner-main">
                     <div class="post">
-    <article id="post-cksh19sg10022hsve57uv2s2v" class="article article-type-post" itemscope
+    <article id="post-cksh19sf9001mhsvebazb6htv" class="article article-type-post" itemscope
     itemprop="blogPost">
 
     <div class="article-inner">
@@ -134,7 +134,7 @@
             
   
     <h1 class="article-title" itemprop="name">
-      hexo本地和远程预览不一致
+      fork到底是深拷贝还是浅拷贝
     </h1>
   
 
@@ -144,18 +144,18 @@
         <div class="article-more-info article-more-info-post hairline">
 
             <div class="article-date">
-  <time datetime="2020-07-22T05:37:17.000Z" itemprop="datePublished">2020-07-22</time>
+  <time datetime="2021-08-18T04:16:45.000Z" itemprop="datePublished">2021-08-18</time>
 </div>
 
             
             <div class="article-category">
-                <a class="article-category-link" href="/categories/%E5%8D%9A%E5%AE%A2/">博客</a>
+                <a class="article-category-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a>
             </div>
             
 
             
             <div class="article-tag">
-                <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8D%9A%E5%AE%A2/" rel="tag">博客</a></li></ul>
+                <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%BF%9B%E7%A8%8B/" rel="tag">进程</a></li></ul>
             </div>
             
 
@@ -169,11 +169,60 @@
 
         <div class="article-entry post-inner-html hairline" itemprop="articleBody">
             <blockquote>
-<p>解决hexo本地和服务器预览不一样的问题，强制刷新ctrl+f5</p>
+<p>面试常问</p>
 </blockquote>
 <a id="more"></a>
 
-<p>我一开始以为是hexo d没有成功上传，可是我查看远程文件是成功上传了的，后来我在浏览器强制ctrl+f5，结果样式加载出来了，原来是本地浏览器有缓存</p>
+<p>进程定义两个变量，fork函数在子进程返回0，在父进程返回子进程号，可以看到子进程和父进程的变量地址都是一样的，看起来是一个浅拷贝，但是我们看到，在子进程中改变值并不会影响父进程的值，地址一样，但是值不同？其实这里面涉及到一个技术叫<span style='color:red'>写时复制技术</span>，我们要知道，我们看到的地址是虚拟地址，并不是真实的物理地址，每个进程相同的虚拟地址可以对应不同的物理地址。但是写时复制指的是当你改变某个变量时，物理地址才会改变。所以我们这样理解，首先子进程和父进程的虚拟地址和指向的物理地址都一样，但是当改变某个值时，物理地址才发生改变。</p>
+<p>一般的变量会深拷贝，但是像文件句柄呢，例如管道这些文件是共享的，也就是浅拷贝的，可以共用的</p>
+<pre><code class="c++">#include&lt;stdio.h&gt;
+#include&lt;string.h&gt;
+#include&lt;stdlib.h&gt;
+#include&lt;unistd.h&gt;
+
+int main()
+{
+    char str[6] = &quot;hello&quot;;
+    int a = 1;
+
+    pid_t pid = fork();
+
+    if (pid == 0)
+    {
+        str[0] = &#39;b&#39;;
+        a=2;
+        printf(&quot;sub str=%s\n&quot;, str);
+        printf(&quot;sub a=%x\n&quot;, a);
+        printf(&quot;sub a=%x\n&quot;, &amp;a);
+        printf(&quot;sub point:%x\n&quot;, &amp;str);
+    }
+    else
+    {
+        sleep(1);
+        printf(&quot;main str=%s\n&quot;, str);
+        printf(&quot;main a=%x\n&quot;, a);
+        printf(&quot;main a=%x\n&quot;, &amp;a);
+        printf(&quot;main point:%x\n&quot;, &amp;str);
+    }
+
+    return 0;
+
+    /*
+    sub str=bello
+    sub a=2
+    sub a=ffffe994
+    sub b=1
+    sub b=ffffe998
+    sub point:ffffe9a2
+    main str=hello
+    main a=1
+    main a=ffffe994
+    main b=2
+    main b=ffffe998
+    main point:ffffe9a2
+    */
+}
+</code></pre>
 
         </div>
 
@@ -192,19 +241,10 @@
     
 <nav class="article-nav">
   
-    <a href="/2020/07/23/%E5%89%91%E6%8C%8733-%E4%B8%91%E6%95%B0/" id="article-nav-newer" class="article-nav-link-wrap">
-      <div class="article-nav-caption">下一篇</div>
-      <div class="article-nav-title">
-        
-          剑指33-丑数
-        
-      </div>
-    </a>
   
-  
-    <a href="/2020/07/21/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA-hexo-d%E6%9C%8D%E5%8A%A1%E5%99%A8/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2021/08/16/%E7%BC%96%E8%AF%91%E9%98%B6%E6%AE%B5%E5%AE%8C%E6%88%90%E7%9A%84%E4%BB%BB%E5%8A%A1/" id="article-nav-older" class="article-nav-link-wrap">
       <div class="article-nav-caption">上一篇</div>
-      <div class="article-nav-title">博客搭建-hexo+d服务器</div>
+      <div class="article-nav-title">编译阶段完成的任务</div>
     </a>
   
 </nav>
@@ -213,15 +253,15 @@
     <section class="share">
         <div class="share-title">分享</div>
         <a class="share-item" target="_blank"
-            href="https://twitter.com/share?text=hexo本地和远程预览不一致 - LIANGYUE'S BLOG&url=http://www.openrad.ink/2020/07/22/hexo%E6%9C%AC%E5%9C%B0%E5%92%8C%E8%BF%9C%E7%A8%8B%E9%A2%84%E8%A7%88%E4%B8%8D%E4%B8%80%E8%87%B4/">
+            href="https://twitter.com/share?text=fork到底是深拷贝还是浅拷贝 - LIANGYUE'S BLOG&url=http://www.openrad.ink/2021/08/18/fork%E5%88%B0%E5%BA%95%E6%98%AF%E6%B7%B1%E6%8B%B7%E8%B4%9D%E8%BF%98%E6%98%AF%E6%B5%85%E6%8B%B7%E8%B4%9D/">
             <box-icon type='logo' name='twitter'></box-icon>
         </a>
         <a class="share-item" target="_blank"
-            href="https://www.facebook.com/sharer.php?title=hexo本地和远程预览不一致 - LIANGYUE'S BLOG&u=http://www.openrad.ink/2020/07/22/hexo%E6%9C%AC%E5%9C%B0%E5%92%8C%E8%BF%9C%E7%A8%8B%E9%A2%84%E8%A7%88%E4%B8%8D%E4%B8%80%E8%87%B4/">
+            href="https://www.facebook.com/sharer.php?title=fork到底是深拷贝还是浅拷贝 - LIANGYUE'S BLOG&u=http://www.openrad.ink/2021/08/18/fork%E5%88%B0%E5%BA%95%E6%98%AF%E6%B7%B1%E6%8B%B7%E8%B4%9D%E8%BF%98%E6%98%AF%E6%B5%85%E6%8B%B7%E8%B4%9D/">
             <box-icon name='facebook-square' type='logo' ></box-icon>
         </a>
         <!-- <a class="share-item" target="_blank"
-            href="https://service.weibo.com/share/share.php?title=hexo本地和远程预览不一致 - LIANGYUE'S BLOG&url=http://www.openrad.ink/2020/07/22/hexo%E6%9C%AC%E5%9C%B0%E5%92%8C%E8%BF%9C%E7%A8%8B%E9%A2%84%E8%A7%88%E4%B8%8D%E4%B8%80%E8%87%B4/&pic=">
+            href="https://service.weibo.com/share/share.php?title=fork到底是深拷贝还是浅拷贝 - LIANGYUE'S BLOG&url=http://www.openrad.ink/2021/08/18/fork%E5%88%B0%E5%BA%95%E6%98%AF%E6%B7%B1%E6%8B%B7%E8%B4%9D%E8%BF%98%E6%98%AF%E6%B5%85%E6%8B%B7%E8%B4%9D/&pic=">
             <div class="n-icon n-icon-weibo"></div>
         </a> -->
     </section>
