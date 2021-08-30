@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     
-    <title>对进程状态的理解，不同状态的进程到底在哪 | LIANGYUE&#39;S BLOG</title>
+    <title>内存溢出、内存泄露、野指针、空指针 | LIANGYUE&#39;S BLOG</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
     
@@ -118,7 +118,7 @@
             <section class="inner">
                 <section class="inner-main">
                     <div class="post">
-    <article id="post-cksy8ydpk007z9wve9vbtbd2g" class="article article-type-post" itemscope
+    <article id="post-cksy8ydml003r9wve9hl267od" class="article article-type-post" itemscope
     itemprop="blogPost">
 
     <div class="article-inner">
@@ -134,7 +134,7 @@
             
   
     <h1 class="article-title" itemprop="name">
-      对进程状态的理解，不同状态的进程到底在哪
+      内存溢出、内存泄露、野指针、空指针
     </h1>
   
 
@@ -144,18 +144,18 @@
         <div class="article-more-info article-more-info-post hairline">
 
             <div class="article-date">
-  <time datetime="2021-08-24T15:42:52.000Z" itemprop="datePublished">2021-08-24</time>
+  <time datetime="2021-08-30T03:03:26.000Z" itemprop="datePublished">2021-08-30</time>
 </div>
 
             
             <div class="article-category">
-                <a class="article-category-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a>
+                <a class="article-category-link" href="/categories/c-%E5%9F%BA%E7%A1%80/">c++基础</a>,<a class="article-category-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a>
             </div>
             
 
             
             <div class="article-tag">
-                <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%BF%9B%E7%A8%8B/" rel="tag">进程</a></li></ul>
+                <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/c/" rel="tag">c++</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%86%85%E5%AD%98/" rel="tag">内存</a></li></ul>
             </div>
             
 
@@ -168,22 +168,127 @@
         </div>
 
         <div class="article-entry post-inner-html hairline" itemprop="articleBody">
-            <p>阻塞 VS 挂起<br>阻塞与挂起都是进程的状态，但他们有一些相似之处，也有一些区别，下面先对他们进行概述，再进行比较</p>
-<p>阻塞：正在执行的进程由于发生某时间（如I/O请求、申请缓冲区失败等）暂时无法继续执行。此时引起进程调度，OS把处理机分配给另一个就绪进程，而让受阻进程处于暂停状态，一般将这种状态称为阻塞状态。</p>
-<p>挂起：由于系统和用户的需要引入了挂起的操作，进程被挂起意味着该进程处于静止状态。如果进程正在执行，它将暂停执行，若原本处于就绪状态，则该进程此时暂不接受调度。</p>
-<p>共同点：</p>
+            <blockquote>
+<p>彻底理清内存溢出，内存泄露，野指针和空指针</p>
+</blockquote>
+<h1 id="内存溢出"><a href="#内存溢出" class="headerlink" title="内存溢出"></a>内存溢出</h1><p>看到下面代码的情况，如果使用while循环一直调用GetMemory，一直malloc内存，但是没有使用free函数释放内存，会导致最后没有空间分配，产生的这种情况就是内存溢出</p>
+<pre><code class="c++">#include &lt;stdlib.h&gt;
+#include &lt;iostream&gt;
+using namespace std;
+
+void GetMemory(char *p, int num)
+{
+    p = (char*)malloc(sizeof(char) * num);//使用new也能够检测出来
+}
+
+int main(int argc,char** argv)
+{
+    char *str = NULL;
+    GetMemory(str, 100);
+    cout&lt;&lt;&quot;Memory leak test!&quot;&lt;&lt;endl;
+    //如果main中存在while循环调用GetMemory
+    //那么问题将变得很严重
+    //while(1){GetMemory(...);}
+    return 0;
+}</code></pre>
+<h1 id="内存泄露"><a href="#内存泄露" class="headerlink" title="内存泄露"></a>内存泄露</h1><p>内存泄露往往是对指针操作不当出现的，没有正确回收</p>
 <ol>
-<li>进程都暂停执行</li>
-<li>进程都释放CPU，即两个过程都会涉及上下文切换</li>
+<li>new和delete，malloc和free没有成对的出现，也就是没有正确回收</li>
 </ol>
-<p>不同点：</p>
+<pre><code class="c++">{
+    int *p = new int[100];
+    delete p;//new[],delete []不匹配，导致99对象的内存空间被泄漏。 
+    delete []p; //这里正确使用
+}</code></pre>
+<ol start="2">
+<li>调用void *类型的对象，导致没有调用对象的析构函数，内存没有回收</li>
+</ol>
+<pre><code class="c++">class Object {
+private:
+    void* data;
+    const int size;
+    const char id;
+public:
+    Object(int sz, char c):size(sz), id(c){
+        data = new char[size];
+        cout &lt;&lt; &quot;Object() &quot; &lt;&lt; id &lt;&lt; &quot; size = &quot; &lt;&lt; size &lt;&lt; endl;
+    }
+    ~Object(){
+        cout &lt;&lt; &quot;~Object() &quot; &lt;&lt; id &lt;&lt; endl;
+        delete []data;      
+    }
+};
+int main() {
+    Object* a = new Object(10, &#39;A&#39;);//Object*指针指向一个Object对象；
+    void* b = new Object(20, &#39;B&#39;);//void*指针指向一个Object对象；
+    delete a;//执行delete，编译器自动调用析构函数；
+    delete b;//执行delete，编译器不会调用析构函数，导致data占用内存没有得到回收；
+
+    return 0;
+}</code></pre>
+<ol start="3">
+<li>没有将子类的析构函数设置为虚函数，导致某些情况，例如使用子类实例化基类对象时，delete基类只会调用基类的析构函数，具体可以看<a href="https://www.openrad.ink/2021/04/10/%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0%E5%92%8C%E6%9E%90%E6%9E%84%E5%87%BD%E6%95%B0%E5%8F%AF%E4%BB%A5%E6%98%AF%E8%99%9A%E5%87%BD%E6%95%B0%E5%90%97%EF%BC%8C%E5%9C%A8%E9%87%8C%E9%9D%A2%E8%83%BD%E8%B0%83%E7%94%A8%E8%99%9A%E5%87%BD%E6%95%B0%E5%90%97/">这里</a></li>
+</ol>
+<pre><code class="c++">#include &lt;iostream&gt;
+using namespace std;
+
+class Father
+{
+public:
+    Father() { cout &lt;&lt; &quot;contructor Father!&quot; &lt;&lt; endl; };
+    ~Father() { cout &lt;&lt; &quot;destructor Father!&quot; &lt;&lt; endl; };
+};
+
+class Son :public Father
+{
+public:
+    Son() { cout &lt;&lt; &quot;contructor Son!&quot; &lt;&lt; endl; };
+    ~Son() { cout &lt;&lt; &quot;destructor Son!&quot; &lt;&lt; endl; }; //需要设置为析构函数
+};
+
+int main()
+{
+    Father *pfather=new Son;
+    delete pfather;
+    pfather = NULL;
+
+    return 0;
+}
+
+//ontructor Father!
+//contructor Son!
+//destructor Father!</code></pre>
+<h1 id="野指针和空指针"><a href="#野指针和空指针" class="headerlink" title="野指针和空指针"></a>野指针和空指针</h1><p>野指针的情况</p>
 <ol>
-<li>对系统资源占用不同：虽然都释放了CPU，但阻塞的进程仍处于内存中，而挂起的进程通过“对换”技术被换出到外存（磁盘）中。</li>
-<li>发生时机不同：阻塞一般在进程等待资源（IO资源、信号量等）时发生；而挂起是由于用户和系统的需要，例如，终端用户需要暂停程序研究其执行情况或对其进行修改、OS为了提高内存利用率需要将暂时不能运行的进程（处于就绪或阻塞队列的进程）调出到磁盘</li>
-<li>恢复时机不同：阻塞要在等待的资源得到满足（例如获得了锁）后，才会进入就绪状态，等待被调度而执行；被挂起的进程由将其挂起的对象（如用户、系统）在时机符合时（调试结束、被调度进程选中需要重新执行）将其主动激活</li>
+<li><p>指针没有初始化为某个对象或者nullptr或者NULL</p>
+</li>
+<li><p>指针被delete后没有置空，也就是设置NULL或者nullptr</p>
+</li>
 </ol>
-<p>sleep()<br>之所以将sleep一起讨论，是因为sleep是一个很常见的系统调用，在很多编程语言中，也有对应的函数，所以一起讨论可以明白sleep的过程与阻塞和挂起在底层的效果又有哪些区别。</p>
-<p>sleep()：进程、线程或任务(Linux中不区分进程与线程，都称为task)可以sleep，这会导致它们暂停执行一段时间，直到等待的时间结束才恢复执行或在这段时间内被中断。<br>————————————————<br>版权声明：本文为CSDN博主「pyxiea」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。<br>原文链接：<a href="https://blog.csdn.net/xpy870663266/article/details/78164506" target="_blank" rel="noopener">https://blog.csdn.net/xpy870663266/article/details/78164506</a></p>
+<pre><code class="c++">char *p = (char *)malloc(10);
+strcpy(p,&quot;hello&quot;);
+free(p);  //p所指的内存被释放，变为垃圾内存(不可用内存)，但是p所指的地址没变。
+//p=NULL 应该加上这样一句
+if(p != NULL)  //没有起到防错作用
+strcpy(p,&quot;world&quot;);  //篡改动态内存区，后果难以预料，非常危险</code></pre>
+<ol start="3">
+<li>指针超过了作用域返回，导致指针不知道指向了谁</li>
+</ol>
+<pre><code class="c++">
+class A 
+{ 
+　public:
+　　void Func(void){ cout &lt;&lt; “Func of class A” &lt;&lt; endl; }
+};
+void Test(void)
+{
+　A *p;
+　{
+　　A a;
+　　p = &amp;a;   // 注意 a 的生命期，过了{}即被回收
+　}
+　p-&gt;Func(); // p是“野指针”</code></pre>
+<p>空指针一般就是指针没有初始化为某个对象，导致使用的时候异常，或者类似野指针中的3情况，指针被回收了，其实对象是空的</p>
 
         </div>
 
@@ -202,19 +307,10 @@
     
 <nav class="article-nav">
   
-    <a href="/2021/08/26/%E7%BA%BF%E7%A8%8B%E4%BA%A4%E6%9B%BF%E6%89%93%E5%8D%B0/" id="article-nav-newer" class="article-nav-link-wrap">
-      <div class="article-nav-caption">下一篇</div>
-      <div class="article-nav-title">
-        
-          线程交替打印
-        
-      </div>
-    </a>
   
-  
-    <a href="/2021/08/24/%E6%88%91%E6%98%AF%E6%B2%A1%E6%83%B3%E5%88%B0%E8%BF%99%E4%B8%AA%E5%85%AC%E5%8F%B8%E7%9A%84%E7%AC%94%E8%AF%95%E7%BC%96%E7%A8%8B%E9%A2%98%E8%BF%99%E4%B9%88%E9%9A%BE/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2021/08/29/%E4%B8%80%E6%96%87%E5%90%83%E9%80%8F%E5%93%88%E5%B8%8C/" id="article-nav-older" class="article-nav-link-wrap">
       <div class="article-nav-caption">上一篇</div>
-      <div class="article-nav-title">我是没想到这个公司的笔试编程题这么难</div>
+      <div class="article-nav-title">一文吃透哈希</div>
     </a>
   
 </nav>
@@ -223,15 +319,15 @@
     <section class="share">
         <div class="share-title">分享</div>
         <a class="share-item" target="_blank"
-            href="https://twitter.com/share?text=对进程状态的理解，不同状态的进程到底在哪 - LIANGYUE'S BLOG&url=http://www.openrad.ink/2021/08/24/%E5%AF%B9%E8%BF%9B%E7%A8%8B%E7%8A%B6%E6%80%81%E7%9A%84%E7%90%86%E8%A7%A3%EF%BC%8C%E4%B8%8D%E5%90%8C%E7%8A%B6%E6%80%81%E7%9A%84%E8%BF%9B%E7%A8%8B%E5%88%B0%E5%BA%95%E5%9C%A8%E5%93%AA/">
+            href="https://twitter.com/share?text=内存溢出、内存泄露、野指针、空指针 - LIANGYUE'S BLOG&url=http://www.openrad.ink/2021/08/30/%E5%86%85%E5%AD%98%E6%BA%A2%E5%87%BA%E3%80%81%E5%86%85%E5%AD%98%E6%B3%84%E9%9C%B2%E3%80%81%E9%87%8E%E6%8C%87%E9%92%88%E3%80%81%E7%A9%BA%E6%8C%87%E9%92%88/">
             <box-icon type='logo' name='twitter'></box-icon>
         </a>
         <a class="share-item" target="_blank"
-            href="https://www.facebook.com/sharer.php?title=对进程状态的理解，不同状态的进程到底在哪 - LIANGYUE'S BLOG&u=http://www.openrad.ink/2021/08/24/%E5%AF%B9%E8%BF%9B%E7%A8%8B%E7%8A%B6%E6%80%81%E7%9A%84%E7%90%86%E8%A7%A3%EF%BC%8C%E4%B8%8D%E5%90%8C%E7%8A%B6%E6%80%81%E7%9A%84%E8%BF%9B%E7%A8%8B%E5%88%B0%E5%BA%95%E5%9C%A8%E5%93%AA/">
+            href="https://www.facebook.com/sharer.php?title=内存溢出、内存泄露、野指针、空指针 - LIANGYUE'S BLOG&u=http://www.openrad.ink/2021/08/30/%E5%86%85%E5%AD%98%E6%BA%A2%E5%87%BA%E3%80%81%E5%86%85%E5%AD%98%E6%B3%84%E9%9C%B2%E3%80%81%E9%87%8E%E6%8C%87%E9%92%88%E3%80%81%E7%A9%BA%E6%8C%87%E9%92%88/">
             <box-icon name='facebook-square' type='logo' ></box-icon>
         </a>
         <!-- <a class="share-item" target="_blank"
-            href="https://service.weibo.com/share/share.php?title=对进程状态的理解，不同状态的进程到底在哪 - LIANGYUE'S BLOG&url=http://www.openrad.ink/2021/08/24/%E5%AF%B9%E8%BF%9B%E7%A8%8B%E7%8A%B6%E6%80%81%E7%9A%84%E7%90%86%E8%A7%A3%EF%BC%8C%E4%B8%8D%E5%90%8C%E7%8A%B6%E6%80%81%E7%9A%84%E8%BF%9B%E7%A8%8B%E5%88%B0%E5%BA%95%E5%9C%A8%E5%93%AA/&pic=">
+            href="https://service.weibo.com/share/share.php?title=内存溢出、内存泄露、野指针、空指针 - LIANGYUE'S BLOG&url=http://www.openrad.ink/2021/08/30/%E5%86%85%E5%AD%98%E6%BA%A2%E5%87%BA%E3%80%81%E5%86%85%E5%AD%98%E6%B3%84%E9%9C%B2%E3%80%81%E9%87%8E%E6%8C%87%E9%92%88%E3%80%81%E7%A9%BA%E6%8C%87%E9%92%88/&pic=">
             <div class="n-icon n-icon-weibo"></div>
         </a> -->
     </section>
