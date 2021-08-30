@@ -118,7 +118,7 @@
             <section class="inner">
                 <section class="inner-main">
                     <div class="post">
-    <article id="post-cksy8ydml003r9wve9hl267od" class="article article-type-post" itemscope
+    <article id="post-cksy919v4003rvoveaaqhbyr6" class="article article-type-post" itemscope
     itemprop="blogPost">
 
     <div class="article-inner">
@@ -171,6 +171,9 @@
             <blockquote>
 <p>彻底理清内存溢出，内存泄露，野指针和空指针</p>
 </blockquote>
+<a id="more"></a>
+
+
 <h1 id="内存溢出"><a href="#内存溢出" class="headerlink" title="内存溢出"></a>内存溢出</h1><p>看到下面代码的情况，如果使用while循环一直调用GetMemory，一直malloc内存，但是没有使用free函数释放内存，会导致最后没有空间分配，产生的这种情况就是内存溢出</p>
 <pre><code class="c++">#include &lt;stdlib.h&gt;
 #include &lt;iostream&gt;
