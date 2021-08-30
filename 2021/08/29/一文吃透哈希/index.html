@@ -118,7 +118,7 @@
             <section class="inner">
                 <section class="inner-main">
                     <div class="post">
-    <article id="post-cksxesx1e0031zkve6xjeeb15" class="article article-type-post" itemscope
+    <article id="post-cksy0phm100308cvegq0266lk" class="article article-type-post" itemscope
     itemprop="blogPost">
 
     <div class="article-inner">
@@ -289,6 +289,12 @@ int main()
 <li>除了上述的应用场景之外，布隆过滤器还有一个应用场景就是解决缓存穿透的问题。所谓的缓存穿透就是服务调用方每次都是查询不在缓存中的数据，这样每次服务调用都会到数据库中进行查询，如果这类请求比较多的话，就会导致数据库压力增大，这样缓存就失去了意义。</li>
 </ol>
 <p>利用布隆过滤器我们可以预先把数据查询的主键，比如用户 ID 或文章 ID 缓存到过滤器中。当根据 ID 进行数据查询的时候，我们先判断该 ID 是否存在，若存在的话，则进行下一步处理。若不存在的话，直接返回，这样就不会触发后续的数据库查询。需要注意的是缓存穿透不能完全解决，我们只能将其控制在一个可以容忍的范围内。</p>
+<h1 id="mysql对URL做索引-长字符做索引"><a href="#mysql对URL做索引-长字符做索引" class="headerlink" title="mysql对URL做索引(长字符做索引)"></a>mysql对URL做索引(长字符做索引)</h1><ol>
+<li><p>hash索引<br>使用crc32哈希函数转化为int</p>
+</li>
+<li><p>前缀索引<br>直接取字符串的前几位（注意区别度）作为索引字段</p>
+</li>
+</ol>
 
         </div>
 
