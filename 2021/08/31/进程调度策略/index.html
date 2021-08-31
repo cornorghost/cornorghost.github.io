@@ -118,7 +118,7 @@
             <section class="inner">
                 <section class="inner-main">
                     <div class="post">
-    <article id="post-ckszpb6gi00ar64veece6bnvc" class="article article-type-post" itemscope
+    <article id="post-ckszpglah00at7wve5wl17z9o" class="article article-type-post" itemscope
     itemprop="blogPost">
 
     <div class="article-inner">
@@ -144,9 +144,13 @@
         <div class="article-more-info article-more-info-post hairline">
 
             <div class="article-date">
-  <time datetime="2021-05-29T12:24:03.000Z" itemprop="datePublished">2021-05-29</time>
+  <time datetime="2021-08-31T06:35:39.000Z" itemprop="datePublished">2021-08-31</time>
 </div>
 
+            
+            <div class="article-category">
+                <a class="article-category-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a>
+            </div>
             
 
             
@@ -164,7 +168,47 @@
         </div>
 
         <div class="article-entry post-inner-html hairline" itemprop="articleBody">
-            
+            <blockquote>
+<p>读书笔记</p>
+</blockquote>
+<a id="more"></a>
+
+<h1 id="根据优先级"><a href="#根据优先级" class="headerlink" title="根据优先级"></a>根据优先级</h1><p>根据优先级，进程分为<span style='color: red'>实时进程</span>和<span style='color: red'>非实时进程（普通进程）</span>，Linux的进程优先级范围为[0, 139]，其中实时进程优先级的范围为[0, 99]，非实时进程的优先级为[100, 139)，优先级的数值越低，说明优先级越高。</p>
+<p>进程和线程都用<span style='color: green'>task_struct</span>表示，这个结构体里面包含了用到的所有的信息，线程的信息比较少，主要是进程里的一些资源和线程信息，而进程里包含的字段比较多，主要有标识符，状态，优先级，程序计数器，内存指针，上下文信息，IO状态记录，记账信息。</p>
+<p>其中static_prio是普通进程的优先级，rt_priority是实时进程的优先级</p>
+<p><span style='color: blue'>对于实时进程的调度策略</span></p>
+<ol>
+<li><p>SCHED_FIFO：先来先服务算法，高优先级可以抢占低优先级，低优先级可以主动让出CPU</p>
+</li>
+<li><p>SCHED_RR：轮转调度，按优先级调度，但优先级相同时，每个任务分配相同的时间片</p>
+</li>
+<li><p>SCHED_DEADLINE：选择离deadline时间点最近的进程执行</p>
+</li>
+</ol>
+<p><span style='color: blue'>对于非实时进程的调度策略</span></p>
+<ol>
+<li><p>SCHED_NORMAL：根据进程优先级和当前可用时间片来给进程分配一个固定的时间片，使用的是CFS调度管理器</p>
+</li>
+<li><p>SCHED_BATCH：批处理，类似NORMAL，用来调度侧重吞吐量的任务</p>
+</li>
+<li><p>SCHED_IDLE：用于调度CPU需求极低的任务</p>
+</li>
+</ol>
+<h1 id="根据不同场景"><a href="#根据不同场景" class="headerlink" title="根据不同场景"></a>根据不同场景</h1><ol>
+<li><p>先来先服务，通俗易懂，但是如果前面来的几个全是长任务，会导致系统吞吐量降低</p>
+</li>
+<li><p>短服务优先，解决了上面吞吐量的问题，但是这又对长任务不利</p>
+</li>
+<li><p>高响应比优先，有个公式 优先权=（就绪等待时间+要求服务的时间）/ 要求服务时间，就绪越久，优先级越高，任务越短，优先级也越高</p>
+</li>
+<li><p>时间片轮转，每个任务时间一样</p>
+</li>
+<li><p>最高优先级，每个任务的优先级可以静态设置，也可以动态改变</p>
+</li>
+<li><p>多级反馈队列，结合时间片和优先级，每个优先级都有一个队列，每个级别的队列里的任务，时间片都是一样的，但是不同级别队列的时间片不一样，级别越高，时间片越短</p>
+</li>
+</ol>
+
         </div>
 
     </div>
@@ -182,19 +226,10 @@
     
 <nav class="article-nav">
   
-    <a href="/2021/06/16/%E5%AE%9E%E4%B9%A0%E9%9D%A2%E7%BB%8F-%E8%85%BE%E8%AE%AF%E4%B8%80%E9%9D%A2%E3%80%81%E9%98%BF%E9%87%8C%E4%B8%80%E9%9D%A2/" id="article-nav-newer" class="article-nav-link-wrap">
-      <div class="article-nav-caption">下一篇</div>
-      <div class="article-nav-title">
-        
-          实习面经-腾讯一面、阿里一面
-        
-      </div>
-    </a>
   
-  
-    <a href="/2021/05/12/%E8%B4%9F%E6%95%B0%E7%9A%84%E4%BA%8C%E8%BF%9B%E5%88%B6%E8%A1%A8%E7%A4%BA/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2021/08/30/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E9%9D%A2%E8%AF%95%E5%B8%B8%E9%97%AE/" id="article-nav-older" class="article-nav-link-wrap">
       <div class="article-nav-caption">上一篇</div>
-      <div class="article-nav-title">负数的二进制表示</div>
+      <div class="article-nav-title">消息队列面试常问</div>
     </a>
   
 </nav>
@@ -203,15 +238,15 @@
     <section class="share">
         <div class="share-title">分享</div>
         <a class="share-item" target="_blank"
-            href="https://twitter.com/share?text=进程调度策略 - LIANGYUE'S BLOG&url=http://www.openrad.ink/2021/05/29/%E8%BF%9B%E7%A8%8B%E8%B0%83%E5%BA%A6%E7%AD%96%E7%95%A5/">
+            href="https://twitter.com/share?text=进程调度策略 - LIANGYUE'S BLOG&url=http://www.openrad.ink/2021/08/31/%E8%BF%9B%E7%A8%8B%E8%B0%83%E5%BA%A6%E7%AD%96%E7%95%A5/">
             <box-icon type='logo' name='twitter'></box-icon>
         </a>
         <a class="share-item" target="_blank"
-            href="https://www.facebook.com/sharer.php?title=进程调度策略 - LIANGYUE'S BLOG&u=http://www.openrad.ink/2021/05/29/%E8%BF%9B%E7%A8%8B%E8%B0%83%E5%BA%A6%E7%AD%96%E7%95%A5/">
+            href="https://www.facebook.com/sharer.php?title=进程调度策略 - LIANGYUE'S BLOG&u=http://www.openrad.ink/2021/08/31/%E8%BF%9B%E7%A8%8B%E8%B0%83%E5%BA%A6%E7%AD%96%E7%95%A5/">
             <box-icon name='facebook-square' type='logo' ></box-icon>
         </a>
         <!-- <a class="share-item" target="_blank"
-            href="https://service.weibo.com/share/share.php?title=进程调度策略 - LIANGYUE'S BLOG&url=http://www.openrad.ink/2021/05/29/%E8%BF%9B%E7%A8%8B%E8%B0%83%E5%BA%A6%E7%AD%96%E7%95%A5/&pic=">
+            href="https://service.weibo.com/share/share.php?title=进程调度策略 - LIANGYUE'S BLOG&url=http://www.openrad.ink/2021/08/31/%E8%BF%9B%E7%A8%8B%E8%B0%83%E5%BA%A6%E7%AD%96%E7%95%A5/&pic=">
             <div class="n-icon n-icon-weibo"></div>
         </a> -->
     </section>
@@ -287,7 +322,7 @@
       <ul>
         
           <li>
-            <a href="/2021/08/31/%E8%BF%9B%E7%A8%8B%E8%B0%83%E5%BA%A6%E7%AD%96%E7%95%A5-1/">进程调度策略</a>
+            <a href="/2021/08/31/%E8%BF%9B%E7%A8%8B%E8%B0%83%E5%BA%A6%E7%AD%96%E7%95%A5/">进程调度策略</a>
           </li>
         
           <li>
