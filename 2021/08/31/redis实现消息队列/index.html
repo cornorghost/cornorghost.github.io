@@ -118,7 +118,7 @@
             <section class="inner">
                 <section class="inner-main">
                     <div class="post">
-    <article id="post-ckt4dnwlw002gnsve3a4e3sxp" class="article article-type-post" itemscope
+    <article id="post-ckt4dw8gl002gm8ve3yoegd5j" class="article article-type-post" itemscope
     itemprop="blogPost">
 
     <div class="article-inner">
@@ -174,7 +174,7 @@
 <a id="more"></a>
 
 <p>Redis 怎么做消息队列？ - Kaito的回答 - 知乎<br><a href="https://www.zhihu.com/question/20795043/answer/1931265868" target="_blank" rel="noopener">https://www.zhihu.com/question/20795043/answer/1931265868</a></p>
-<p><a href="https://mp.weixin.qq.com/s/RthQvzLHZRGNo-z6X_7jQQ" target="_blank" rel="noopener">https://mp.weixin.qq.com/s/RthQvzLHZRGNo-z6X_7jQQ</a><br>sss</p>
+<p><a href="https://mp.weixin.qq.com/s/RthQvzLHZRGNo-z6X_7jQQ" target="_blank" rel="noopener">https://mp.weixin.qq.com/s/RthQvzLHZRGNo-z6X_7jQQ</a></p>
 <img src="/2021/08/31/redis%E5%AE%9E%E7%8E%B0%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/1.webp" class="" title="1.webp">
 
 <h1 id="从最简单的开始：List-队列"><a href="#从最简单的开始：List-队列" class="headerlink" title="从最简单的开始：List 队列"></a>从最简单的开始：List 队列</h1><p>首先，我们先从最简单的场景开始讲起。</p>
@@ -192,7 +192,8 @@
 127.0.0.1:6379&gt; RPOP queue
 &quot;msg2&quot;</code></pre>
 <p>这个模型非常简单，也很容易理解。</p>
-<p><img src="https://mmbiz.qpic.cn/mmbiz_jpg/gB9Yvac5K3PnYugKyFT6iaYiaXnHG02HFWu8QC6wleS3iaKtD1iaHBCicxiapia7DfYWH1qzum9iaiaaf2MAxoE3dR4xicSA/640?wx_fmt=jpeg&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" alt="模型"></p>
+<img src="/2021/08/31/redis%E5%AE%9E%E7%8E%B0%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/2.webp" class="" title="2.webp">
+
 <p>但这里有个小问题，当队列中已经没有消息了，消费者在执行 RPOP 时，会返回 NULL。</p>
 <pre><code class="bash">127.0.0.1:6379&gt; RPOP queue
 (nil)   // 没消息了</code></pre>
@@ -223,7 +224,8 @@
 <p>那如何做，既能及时处理新消息，还能避免 CPU 空转呢？</p>
 <p>Redis 是否存在这样一种机制：如果队列为空，消费者在拉取消息时就「阻塞等待」，一旦有新消息过来，就通知我的消费者立即处理新消息呢？</p>
 <p>幸运的是，Redis 确实提供了「阻塞式」拉取消息的命令：BRPOP / BLPOP，这里的 B 指的是阻塞（Block）。</p>
-<p><img src="https://mmbiz.qpic.cn/mmbiz_jpg/gB9Yvac5K3PnYugKyFT6iaYiaXnHG02HFWptBP43IUaOX9WHSibbIDMj4IIntO47FnUOCz94RQl6icCiaXlEaicxq7DQ/640?wx_fmt=jpeg&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" alt="阻塞模型"></p>
+<img src="/2021/08/31/redis%E5%AE%9E%E7%8E%B0%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/3.webp" class="" title="3.webp">
+
 <p>现在，你可以这样来拉取消息了：</p>
 <pre><code class="python">while true:
     // 没消息阻塞等待，0表示不设置超时时间
@@ -251,7 +253,8 @@
 <p>它正好可以解决前面提到的第一个问题：重复消费。</p>
 <p>即多组生产者、消费者的场景，我们来看它是如何做的。</p>
 <p>Redis 提供了 PUBLISH / SUBSCRIBE 命令，来完成发布、订阅的操作。</p>
-<p><img src="https://mmbiz.qpic.cn/mmbiz_jpg/gB9Yvac5K3PnYugKyFT6iaYiaXnHG02HFWcVxxQr6pxO6UfDwAFgwicPNMFXicEOvBokFAsGbEMXUibzZNUAedQSnow/640?wx_fmt=jpeg&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" alt="发布订阅模型"></p>
+<img src="/2021/08/31/redis%E5%AE%9E%E7%8E%B0%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/4.webp" class="" title="4.webp">
+
 <p>假设你想开启 2 个消费者，同时消费同一批数据，就可以按照以下方式来实现。</p>
 <p>首先，使用 SUBSCRIBE 命令，启动 2 个消费者，并「订阅」同一个队列。</p>
 <pre><code class="bash">// 2个消费者 都订阅一个队列
@@ -299,7 +302,8 @@ Reading messages... (press Ctrl-C to quit)
 2) &quot;queue.*&quot;
 3) &quot;queue.p2&quot;
 4) &quot;msg2&quot;</code></pre>
-<p><img src="https://mmbiz.qpic.cn/mmbiz_jpg/gB9Yvac5K3PnYugKyFT6iaYiaXnHG02HFWEgHBBbv2VxurLPcgDd9CJnzueRPuqLS6hugowGMlKvdzsvoYIDd0ibQ/640?wx_fmt=jpeg&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" alt="订阅多个队列"></p>
+<img src="/2021/08/31/redis%E5%AE%9E%E7%8E%B0%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/5.webp" class="" title="5.webp">
+
 <p>上图为订阅多个队列</p>
 <p>我们可以看到，Pub/Sub 最大的优势就是，支持多组生产者、消费者处理消息。</p>
 <p>讲完了它的优点，那它有什么缺点呢？</p>
@@ -310,7 +314,8 @@ Reading messages... (press Ctrl-C to quit)
 <p>Pub/Sub 在实现时非常简单，它没有基于任何数据类型，也没有做任何的数据存储，它只是单纯地为生产者、消费者建立「数据转发通道」，把符合规则的数据，从一端转发到另一端。</p>
 <p>一个完整的发布、订阅消息处理流程是这样的：</p>
 <p>消费者订阅指定队列，Redis 就会记录一个映射关系：队列-&gt;消费者<br>生产者向这个队列发布消息，那 Redis 就从映射关系中找出对应的消费者，把消息转发给它</p>
-<p><img src="https://mmbiz.qpic.cn/mmbiz_jpg/gB9Yvac5K3PnYugKyFT6iaYiaXnHG02HFWmvU2w2M5re8p6Dq5uPtHa0Ws9RJ6cGZd6oRhibia9cveicrrqcu5A36LA/640?wx_fmt=jpeg&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" alt="发布与订阅整体"></p>
+<img src="/2021/08/31/redis%E5%AE%9E%E7%8E%B0%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/6.webp" class="" title="6.webp">
+
 <p>看到了么，整个过程中，没有任何的数据存储，一切都是实时转发的。</p>
 <p>这种设计方案，就导致了上面提到的那些问题。</p>
 <p>例如，如果一个消费者异常挂掉了，它再重新上线后，只能接收新的消息，在下线期间生产者发布的消息，因为找不到消费者，都会被丢弃掉。</p>
@@ -328,7 +333,8 @@ Reading messages... (press Ctrl-C to quit)
 <p>每个消费者订阅一个队列时，Redis 都会在 Server 上给这个消费者在分配一个「缓冲区」，这个缓冲区其实就是一块内存。</p>
 <p>当生产者发布消息时，Redis 先把消息写到对应消费者的缓冲区中。</p>
 <p>之后，消费者不断地从缓冲区读取消息，处理消息。</p>
-<p><img src="https://mmbiz.qpic.cn/mmbiz_jpg/gB9Yvac5K3PnYugKyFT6iaYiaXnHG02HFW6z62WCJjDASE4WaQ2Th4CkMnZlshf59DiakB84vTnHDkG24xmPGsPuw/640?wx_fmt=jpeg&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" alt="消息积压"></p>
+<img src="/2021/08/31/redis%E5%AE%9E%E7%8E%B0%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/7.webp" class="" title="7.webp">
+
 <p>但是，问题就出在这个缓冲区上。</p>
 <p>因为这个缓冲区其实是有「上限」的（可配置），如果消费者拉取消息很慢，就会造成生产者发布到缓冲区的消息开始积压，缓冲区内存持续增长。</p>
 <p>如果超过了缓冲区配置的上限，此时，Redis 就会「强制」把这个消费者踢下线。</p>
@@ -404,7 +410,8 @@ Reading messages... (press Ctrl-C to quit)
 <pre><code class="bash">127.0.0.1:6379&gt; XREAD COUNT 5 STREAMS queue 1618469127777-0
 (nil)</code></pre>
 <p>没有消息，Redis 会返回 NULL。</p>
-<p><img src="https://mmbiz.qpic.cn/mmbiz_jpg/gB9Yvac5K3PnYugKyFT6iaYiaXnHG02HFWTGjnYoFly2IbkMAqaicicVhtgFsPlBW9kibBzmbFJDHVzDRWFbmgSTd7A/640?wx_fmt=jpeg&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" alt="stream模式"></p>
+<img src="/2021/08/31/redis%E5%AE%9E%E7%8E%B0%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/8.webp" class="" title="8.webp">
+
 <p>以上就是 Stream 最简单的生产、消费。</p>
 <blockquote>
 <p>这里不再重点介绍 Stream 命令的各种参数，我在例子中演示时，凡是大写的单词都是「固定」参数，凡是小写的单词，都是可以自己定义的，例如队列名、消息长度等等，下面的例子规则也是一样，为了方便你理解，这里有必要提醒一下。</p>
@@ -461,7 +468,8 @@ OK</code></pre>
             2) &quot;lisi&quot;</code></pre>
 <p>我们可以看到，这 2 组消费者，都可以获取同一批数据进行处理了。</p>
 <p>这样一来，就达到了多组消费者「订阅」消费的目的。</p>
-<p><img src="https://mmbiz.qpic.cn/mmbiz_jpg/gB9Yvac5K3PnYugKyFT6iaYiaXnHG02HFWeoaD3ZnP3xHV4tazwd7AZvom0Cyjf5ZoibEBhnjlpKETib9ypLrhoyIg/640?wx_fmt=jpeg&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" alt="Stream的发布订阅"></p>
+<img src="/2021/08/31/redis%E5%AE%9E%E7%8E%B0%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/9.webp" class="" title="9.webp">
+
 <ol start="3">
 <li>消息处理时异常，Stream 能否保证消息不丢失，重新消费？</li>
 </ol>
@@ -469,7 +477,8 @@ OK</code></pre>
 <p>当一组消费者处理完消息后，需要执行 XACK 命令告知 Redis，这时 Redis 就会把这条消息标记为「处理完成」。</p>
 <pre><code class="bash">// group1下的 1618472043089-0 消息已处理完成
 127.0.0.1:6379&gt; XACK queue group1 1618472043089-0</code></pre>
-<p><img src="https://mmbiz.qpic.cn/mmbiz_jpg/gB9Yvac5K3PnYugKyFT6iaYiaXnHG02HFWnqicNAVrYEghyoiaZqwtSlphRJ5FX3lhPGYr6XANByxxk1PwfuW2k3jQ/640?wx_fmt=jpeg&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" alt="Stream的发布订阅返回XACK"></p>
+<img src="/2021/08/31/redis%E5%AE%9E%E7%8E%B0%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/10.webp" class="" title="10.webp">
+
 <p>如果消费者异常宕机，肯定不会发送 XACK，那么 Redis 就会依旧保留这条消息。</p>
 <p>待这组消费者重新上线后，Redis 就会把之前没有处理成功的数据，重新发给这个消费者。这样一来，即使消费者异常，也不会丢失数据了。也就是消息发送出去，收到返回的XACK后才会删除数据，确保消息被消费</p>
 <pre><code class="bash">// 消费者重新上线，0-0表示重新拉取未ACK的消息
@@ -519,7 +528,8 @@ OK</code></pre>
 <p>前面我们讨论的重点，很大篇幅围绕的是第一点展开的。</p>
 <p>这里我们换个角度，从一个消息队列的「使用模型」来分析一下，怎么做，才能保证数据不丢？</p>
 <p>使用一个消息队列，其实就分为三大块：生产者、队列中间件、消费者。</p>
-<p><img src="https://mmbiz.qpic.cn/mmbiz_jpg/gB9Yvac5K3PnYugKyFT6iaYiaXnHG02HFWcMh2Wso6LtJIzqfk87O0LwLsyOgGvBwJKiamJjrwALKUE47dqhBicdKw/640?wx_fmt=jpeg&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" alt=""></p>
+<img src="/2021/08/31/redis%E5%AE%9E%E7%8E%B0%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/11.webp" class="" title="11.webp">
+
 <p>消息是否会发生丢失，其重点也就在于以下 3 个环节：</p>
 <ol>
 <li>生产者会不会丢消息？</li>
@@ -591,8 +601,7 @@ OK</code></pre>
 <p>之后又把 Redis 和专业的消息队列中间件做对比，发现 Redis 的不足之处。</p>
 <p>最后，我们得出 Redis 做队列的合适场景。</p>
 <p>这里我也列了一个表格，总结了它们各自的优缺点。</p>
-<p><img src="https://mmbiz.qpic.cn/mmbiz_jpg/gB9Yvac5K3PnYugKyFT6iaYiaXnHG02HFWjjanXypYOraDsDSBTYkXHXLD2gribiamm2GYvPmciaia3ziaN8ZeU0cEdibA/640?wx_fmt=jpeg&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" alt="对比"></p>
-
+<img src="/2021/08/31/redis%E5%AE%9E%E7%8E%B0%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/12.webp" class="" title="12.webp">
         </div>
 
     </div>
