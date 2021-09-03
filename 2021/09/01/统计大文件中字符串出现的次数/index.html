@@ -118,7 +118,7 @@
             <section class="inner">
                 <section class="inner-main">
                     <div class="post">
-    <article id="post-ckt13h8hv009d5ovedo5hdjwe" class="article article-type-post" itemscope
+    <article id="post-ckt4db5cq009c1gve0r1i29t0" class="article article-type-post" itemscope
     itemprop="blogPost">
 
     <div class="article-inner">
@@ -174,7 +174,48 @@
 <a id="more"></a>
 
 <p>如果有一个大文件，里面全是ip字符串，现在需要统计每个ip出现的次数，并且ip长度都挺长的，怎么在不使用map的情况下怎么统计，或者怎么优化</p>
-<h1 id="bitmap和bitcount"><a href="#bitmap和bitcount" class="headerlink" title="bitmap和bitcount"></a>bitmap和bitcount</h1><h1 id="字典树"><a href="#字典树" class="headerlink" title="字典树"></a>字典树</h1>
+<h1 id="hashmap"><a href="#hashmap" class="headerlink" title="hashmap"></a>hashmap</h1><p>要统计单词的次数，可以直接上map，但是可能字符会占挺多内存，这时候可以考虑字符转化为int之后再进行map，如果是ip字符串可以<a href="https://www.openrad.ink/2021/08/29/%E4%B8%80%E6%96%87%E5%90%83%E9%80%8F%E5%93%88%E5%B8%8C/">参考</a></p>
+<h1 id="字典树"><a href="#字典树" class="headerlink" title="字典树"></a>字典树</h1><p><a href="https://leetcode-cn.com/problems/words-frequency-lcci/" target="_blank" rel="noopener">力扣面试题 16.02. 单词频率</a></p>
+<pre><code class="c++">struct Trie{
+    Trie* son[26];
+    int cnt=0;
+    Trie(){
+        for(int i=0;i&lt;26;i++){
+            son[i]=nullptr;
+        }
+    }
+};
+class WordsFrequency {
+
+private:
+    Trie *root;
+public:
+
+    WordsFrequency(vector&lt;string&gt;&amp; book) {
+        root=new Trie();
+        Trie* temp;
+        for(auto item:book){
+            temp = root;
+            for(auto ch:item){
+                int index=ch-&#39;a&#39;;
+                if(!temp-&gt;son[index]) temp-&gt;son[index]=new Trie();
+                temp=temp-&gt;son[index];
+            }
+            ++temp-&gt;cnt;
+        }
+    }
+
+    int get(string word) {
+        Trie* temp=root;
+        for(auto ch:word){
+            int index=ch-&#39;a&#39;;
+            if(temp-&gt;son[index]) temp=temp-&gt;son[index];
+            else return 0;
+        }
+        return temp-&gt;cnt;
+    }
+};</code></pre>
+
         </div>
 
     </div>
