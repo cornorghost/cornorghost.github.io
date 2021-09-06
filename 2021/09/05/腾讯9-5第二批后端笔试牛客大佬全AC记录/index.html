@@ -118,7 +118,7 @@
             <section class="inner">
                 <section class="inner-main">
                     <div class="post">
-    <article id="post-ckt8p2mhw00b4i0vefelocwcx" class="article article-type-post" itemscope
+    <article id="post-ckt8p85k800b5aovech5deeuj" class="article article-type-post" itemscope
     itemprop="blogPost">
 
     <div class="article-inner">
@@ -327,13 +327,13 @@ int main()
 using namespace std;
 
 
-longlonggao(longlongx, longlongbase, longlongi) {
+long long gao(long long x, long long base, long long i) {
     if(base == 0) return0;
-    returni&lt;=base/2-1?gao(x/2,base/2, i): x/2+x%2+gao(x/2,base/2, i-base/2);
+    return i&lt;=base/2-1?gao(x/2,base/2, i): x/2+x%2+gao(x/2,base/2, i-base/2);
 }
-intmain() {
-    longlongn, l, r; cin &gt;&gt; n &gt;&gt; l &gt;&gt; r;
-    longlongbase = 1ll&lt;&lt;int(log2l(n)+1);
+int main() {
+    long long n, l, r; cin &gt;&gt; n &gt;&gt; l &gt;&gt; r;
+    long long base = 1ll&lt;&lt;int(log2l(n)+1);
     cout &lt;&lt; gao(n, base, r) - gao(n,base, l-1) &lt;&lt; endl;
 }</code></pre>
 <h2 id="有效序列的数量"><a href="#有效序列的数量" class="headerlink" title="有效序列的数量"></a><strong>有效序列的数量</strong></h2><img src="/2021/09/05/%E8%85%BE%E8%AE%AF9-5%E7%AC%AC%E4%BA%8C%E6%89%B9%E5%90%8E%E7%AB%AF%E7%AC%94%E8%AF%95%E7%89%9B%E5%AE%A2%E5%A4%A7%E4%BD%AC%E5%85%A8AC%E8%AE%B0%E5%BD%95/4.png" class="" title="4.png">
