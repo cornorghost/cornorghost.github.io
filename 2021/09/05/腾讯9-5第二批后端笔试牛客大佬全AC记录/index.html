@@ -118,7 +118,7 @@
             <section class="inner">
                 <section class="inner-main">
                     <div class="post">
-    <article id="post-ckt7eawa200b2m8vefbl2hbry" class="article article-type-post" itemscope
+    <article id="post-ckt8p2mhw00b4i0vefelocwcx" class="article article-type-post" itemscope
     itemprop="blogPost">
 
     <div class="article-inner">
@@ -226,8 +226,8 @@ public:
 #include &lt;iterator&gt;
 #include &lt;iostream&gt;
 using namespace std;
-intdp[100100];
-intmain(){
+int dp[100100];
+int main(){
     for(inti=1;i&lt;=1e5;i++){
         for(intj=i;j&lt;=1e5;j+=i)dp[j]++;
     }
@@ -262,7 +262,7 @@ intmain(){
 <p>知识点：动态规划 ,找规律</p>
 <pre><code class="c++">#include &lt;bits/stdc++.h&gt;
 using namespace std;
-intmain()
+int main()
 {
     intn;
     cin &gt;&gt; n;
@@ -284,7 +284,7 @@ intmain()
 
 <p>难度：4星</p>
 <p>知识点：dfs，二分，分治</p>
-<p>我们可以发现，对于一个数 x ，它可以被划分成 [x/2][x%2][x/2]三部分。这样对于 l 和 r 与len(x)/2len(x)的关系，我们就可以分类讨论了，根据不同的情况进行递归求解。</p>
+<p>我们可以发现，对于一个数 x ，它可以被划分成 [x/2][x%2][x/2]三部分。这样对于 l 和 r 与len(x)/2的关系，我们就可以分类讨论了，根据不同的情况进行递归求解。</p>
 <pre><code class="c++">#include&lt;bits/stdc++.h&gt;
 using namespace std;
 #define ll longlong
@@ -297,9 +297,9 @@ ll n,l,r;
 map&lt;ll,ll&gt; mp;
 ll num(ll x)
 {
-    if(x&lt;=1) return1;
-    if(mp.find(x)!=mp.end()) returnmp[x];
-    returnmp[x]=num(x/2)*2+1;
+    if(x&lt;=1) return 1;
+    if(mp.find(x)!=mp.end()) return mp[x];
+    return mp[x]=num(x/2)*2+1;
 }
 ll dfs(ll tl,ll tr,ll x)
 {
@@ -309,9 +309,9 @@ ll dfs(ll tl,ll tr,ll x)
     if(l&lt;=mid&amp;&amp;mid&lt;=r) ans+=x%2;
     if(tl&lt;=r&amp;&amp;l&lt;=mid-1) ans+=dfs(tl,mid-1,x/2);
     if(mid+1&lt;=r&amp;&amp;l&lt;=tr) ans+=dfs(mid+1,tr,x/2);
-    returnans;
+    return ans;
 }
-intmain()
+int main()
 {
     ll up=1;
     for(inti=1;i&lt;=50;i++) up*=2;
@@ -320,7 +320,7 @@ intmain()
     assert(0&lt;=r-l&amp;&amp;r-l&lt;=50000);
     assert(r&lt;=num(n));
     printf(&quot;%lld\n&quot;,dfs(1,num(n),n));
-    return0;
+    return 0;
 }</code></pre>
 <p>当然差分一下更简单</p>
 <pre><code class="c++">#include&lt;bits/stdc++.h&gt;
@@ -343,8 +343,8 @@ intmain() {
 <p>这个题目出的非常好，一步一步进阶。首先想到的是3重循环暴力解法:</p>
 <pre><code class="c++">#include &lt;iostream&gt;
 using namespace std;
-inta[3001];
-intmain()
+int a[3001];
+int main()
 {
     intn;
     cin &gt;&gt; n;
@@ -379,7 +379,7 @@ intmain()
     }
     std::cout &lt;&lt; ans;
 
-    return0;
+    return 0;
 }</code></pre>
 <p>然后就是进阶的双指针了，O(n^2)</p>
 <p>当我们保持左端点 i 不动时，当右端点向右移动时，合法的右端点满足以下两个特性：</p>
@@ -389,8 +389,8 @@ intmain()
 <p>这样的算法复杂度是 O(n^2)的，可以通过70%的用例。</p>
 <pre><code class="c++">#include &lt;iostream&gt;
 using namespace std;
-inta[100001];
-intmain()
+int a[100001];
+int main()
 {
     intn;
     cin &gt;&gt; n;
@@ -428,8 +428,8 @@ intmain()
 #define all(a) a.begin(),a.end()
 using namespace std;
 constintmaxn = 1e5+5;
-inta[maxn], n, pre[maxn];
-intsol(){
+int a[maxn], n, pre[maxn];
+int sol(){
     intans = 0;
     fors(i,1,n+1){
         intp = i-1;
@@ -437,7 +437,7 @@ intsol(){
     }returnans;
 }
 intsame[maxn];
-intmain(){
+int main(){
     scanf(&quot;%d&quot;, &amp;n);
     fors(i,1,n+1) scanf(&quot;%d&quot;, &amp;a[i]);
     ll ans = 0;
@@ -457,7 +457,7 @@ intmain(){
         }
     }
     cout&lt;&lt;ans&lt;&lt;endl;
-    return0;
+    return 0;
 }</code></pre>
 <p>这个题目的水平相当之高，数据设计的特别好<br>相似题目：</p>
 <p><a href="https://www.nowcoder.com/practice/1624bc35a45c42c0bc17d17fa0cba788?from=2021qqexam" target="_blank" rel="noopener">https://www.nowcoder.com/practice/1624bc35a45c42c0bc17d17fa0cba788?from=2021qqexam</a></p>
