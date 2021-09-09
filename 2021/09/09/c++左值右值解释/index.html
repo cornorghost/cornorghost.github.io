@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     
-    <title>友情链接 | LIANGYUE&#39;S BLOG</title>
+    <title>c++左值右值解释 | LIANGYUE&#39;S BLOG</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
     
@@ -24,7 +24,7 @@
 
 
     <script>
-        window.isPost = false
+        window.isPost = true
         window.aomori = {
             
             gitalk: {
@@ -62,8 +62,6 @@
                     <a class="header-type-title" id="typed" href="/"></a>
                 
     
-                
-                    <span class="header-type-page-title">友情链接</span>
                 
             </div>
         </div>
@@ -119,57 +117,197 @@
         <div class="main">
             <section class="inner">
                 <section class="inner-main">
-                    
-<div class="friends">
-  <div class="friends-links clearfix">
-	
-    
-	
-    <a href="https://linhong.me" rel="nofollow" target="_blank" style="border: 1px dashed #3366FF"> linhong.me </a>
-    
-	
-    <a href="https://openrad.ink" rel="nofollow" target="_blank" style="border: 1px dashed #3366FF"> cornor ghost </a>
-    
-</div>
-<script type="text/javascript">
-	len = $(".friends-links").length - 1;
-	$(".widget_ui_tags .items a").each(function(i) {
-		var let = new Array( '27ea80','3366FF','ff5473','df27ea', '31ac76', 'ea4563', '31a6a0', '8e7daa', '4fad7b', 'f99f13', 'f85200', '666666');
-		var random1 = Math.floor(Math.random() * 12) + 0;
-		var num = Math.floor(Math.random() * 5 + 12);
-		$(this).attr('style', 'border-color: #' + let[random1]);
-		if ($(this).next().length > 0) {
-			last = $(this).next().position().left
-		}
-	});
-</script>
+                    <div class="post">
+    <article id="post-cktcoe18y000n50vehohlavqc" class="article article-type-post" itemscope
+    itemprop="blogPost">
 
-
-<article
-  id="friends-cktcoe17q000150vedqc582ll"
-  class="article article-type-friends"
->
     <div class="article-inner">
-        <div class="article-entry post-inner-html">
-            <p>以上是本站的友情链接，欢迎大家访问</p>
-<p>友链申请方式：发送邮件到<a href="mailto:1648313898g@gmail.com">1648313898g@gmail.com</a>，邮件内容包括</p>
-<pre><code>主体：友链申请
 
-内容：
-    网站名
-    网站链接</code></pre><p>欢迎大家一起交流鸭</p>
+        
+          
+        
+        
+        
+
+        
+        <header class="article-header">
+            
+  
+    <h1 class="article-title" itemprop="name">
+      c++左值右值解释
+    </h1>
+  
+
+        </header>
+        
+
+        <div class="article-more-info article-more-info-post hairline">
+
+            <div class="article-date">
+  <time datetime="2021-09-09T06:33:14.000Z" itemprop="datePublished">2021-09-09</time>
+</div>
+
+            
+            <div class="article-category">
+                <a class="article-category-link" href="/categories/c-%E5%9F%BA%E7%A1%80/">c++基础</a>
+            </div>
+            
+
+            
+            <div class="article-tag">
+                <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/c/" rel="tag">c++</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%9F%BA%E7%A1%80/" rel="tag">基础</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%9D%A2%E8%AF%95/" rel="tag">面试</a></li></ul>
+            </div>
+            
+
+            
+            <div class="article-busuanzi">
+                有 <span id="busuanzi_value_page_pv">0</span> 人看过
+            </div>
+            
 
         </div>
+
+        <div class="article-entry post-inner-html hairline" itemprop="articleBody">
+            <blockquote>
+<p>现在网上对于左值右值的解释很多废话</p>
+</blockquote>
+<a id="more"></a>
+
+<h1 id="什么是左值和右值"><a href="#什么是左值和右值" class="headerlink" title="什么是左值和右值"></a><strong>什么是左值和右值</strong></h1><p>左值就是有指向特定内存地址的变量，反之就是右值；</p>
+<p>而且左值一般出现在等号左边，右值一般出现在等号右边</p>
+<p>最简单的</p>
+<pre><code class="c++">int x = 666;   // ok</code></pre>
+<p>上面的x是左值，666是右值；因为x是一个变量，运行的时候给x分配了内存，x是有地址的，一个有地址的变量就是左值，而666是一个常量，是一个右值。</p>
+<p>然后对于左值，不一定都放在等号左边，例如：</p>
+<pre><code class="c++">int *y=&amp;x;   //ok</code></pre>
+<p>我们看上面，x作为一个左值出现在了右边，y是一个指针变量，存放地址，而x也是一个变量，但是使用取地址符&amp;之后得到的是x的地址，地址是一个常量，也就是说&amp;x是一个右值，所以上式成立</p>
+<p>所以上面两个都是正确使用左值右值的例子，下面这个则是错误的例子</p>
+<pre><code class="c++">int y;
+666 = y; // error!</code></pre>
+<p>原因不难看出666是个右值，y是左值，以上代码在gcc运行时会出现如下错误提示：</p>
+<blockquote>
+<p>error: lvalue required as left operand of assignment</p>
+</blockquote>
+<p>下面这个操作也是错的</p>
+<pre><code class="c++">int *y=&amp;666; //error</code></pre>
+<p>对一个常量取地址是不存在的，取地址符只能对一个左值操作</p>
+<p>这个在gcc中的错误提示：</p>
+<blockquote>
+<p>error: lvalue required as unary ‘&amp;’ operand`</p>
+</blockquote>
+<p>&amp;地址符需要一个左值</p>
+<h1 id="方法返回左值和右值"><a href="#方法返回左值和右值" class="headerlink" title="方法返回左值和右值"></a><strong>方法返回左值和右值</strong></h1><p>等号左边一般是左值，所以下面这个操作是错误的：</p>
+<pre><code class="c++">int setValue()
+{
+    return 6;
+}
+
+setValue() = 3; // error</code></pre>
+<p>返回的6是个右值，不能作为左值使用</p>
+<p>但是如果改为以下写法，那就是正确的：</p>
+<pre><code class="c++">int global = 100;
+
+int&amp; setGlobal()
+{
+    return global;    
+}
+
+setGlobal() = 400; // OK</code></pre>
+<p>这里的setGlobal返回的是一个引用，引用是指向一个有效地址的，属于左值，所以以上操作合理，注意区分取地址符和引用</p>
+<h1 id="左值到右值的转换"><a href="#左值到右值的转换" class="headerlink" title="左值到右值的转换"></a><strong>左值到右值的转换</strong></h1><p>有时候我们会看见左值也出现在等号右边，除了取地址符外，还有以下情况：</p>
+<pre><code class="c++">int x = 1;
+int y = 3;
+int z = x + y;   // ok</code></pre>
+<p>这里x和y作为左值居然在等号右边，但是也合理，是因为这里做了一个隐式转换。还有很多的其他运算会进行隐式转换，如减法、乘法、除法。</p>
+<h1 id="左值引用"><a href="#左值引用" class="headerlink" title="左值引用"></a><strong>左值引用</strong></h1><p>常见的引用使用方式如下：</p>
+<pre><code class="c++">int y = 10;
+int&amp; yref = y;
+yref++;        // y is now 11</code></pre>
+<p>这里的y和yref都是左值，为什么可以这样呢，这是因为c++编译器规定非常量引用的变量初始值必须为左值，所以下面的操作是错误的：</p>
+<pre><code class="c++">int&amp; yref = 10;</code></pre>
+<p>10是右值，不能用来初始化引用，但是如果是常量引用的话，就合理了</p>
+<pre><code class="c++">const int&amp; yref=10;</code></pre>
+<p>如果忽略这个知识点，很容易在给函数参数赋值的时候出现错误</p>
+<pre><code class="c++">void fnc(int&amp; x)
+{
+}
+
+int main()
+{
+    fnc(10);  // Nope!
+    // This works instead:
+    // int x = 10;
+    // fnc(x);
+}</code></pre>
+<pre><code class="c++">void fnc(const int&amp; x)
+{
+}
+
+int main()
+{
+    fnc(10);  // OK!
+}</code></pre>
+<p>而对于常量引用的底层实际上隐式定义了一个临时的变量</p>
+<pre><code class="c++">const int&amp; ref = 10;
+
+//相当于
+int __internal_unique_name = 10;
+const int&amp; ref = __internal_unique_name;</code></pre>
+
+        </div>
+
     </div>
-</article>
 
     
+
+    
+
+    
+
+    
+
+    
+
+    
+<nav class="article-nav">
+  
+  
+    <a href="/2021/09/08/%E8%BD%AF%E9%93%BE%E6%8E%A5%E5%92%8C%E7%A1%AC%E9%93%BE%E6%8E%A5/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-caption">上一篇</div>
+      <div class="article-nav-title">软链接和硬链接</div>
+    </a>
+  
+</nav>
+
+
+    <section class="share">
+        <div class="share-title">分享</div>
+        <a class="share-item" target="_blank"
+            href="https://twitter.com/share?text=c++左值右值解释 - LIANGYUE'S BLOG&url=http://www.openrad.ink/2021/09/09/c++%E5%B7%A6%E5%80%BC%E5%8F%B3%E5%80%BC%E8%A7%A3%E9%87%8A/">
+            <box-icon type='logo' name='twitter'></box-icon>
+        </a>
+        <a class="share-item" target="_blank"
+            href="https://www.facebook.com/sharer.php?title=c++左值右值解释 - LIANGYUE'S BLOG&u=http://www.openrad.ink/2021/09/09/c++%E5%B7%A6%E5%80%BC%E5%8F%B3%E5%80%BC%E8%A7%A3%E9%87%8A/">
+            <box-icon name='facebook-square' type='logo' ></box-icon>
+        </a>
+        <!-- <a class="share-item" target="_blank"
+            href="https://service.weibo.com/share/share.php?title=c++左值右值解释 - LIANGYUE'S BLOG&url=http://www.openrad.ink/2021/09/09/c++%E5%B7%A6%E5%80%BC%E5%8F%B3%E5%80%BC%E8%A7%A3%E9%87%8A/&pic=">
+            <div class="n-icon n-icon-weibo"></div>
+        </a> -->
+    </section>
+
+</article>
+
 
 
 
 <section class="comments">
-  <div id="gitalk-container"></div>
+    <div id="gitalk-container"></div>
 </section>
+
+
+
+<script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
 
 </div>
@@ -195,6 +333,12 @@
 <div class="widget" id="widget">
     
       
+  <div class="widget-wrap">
+    <div class="widget-inner">
+      <div class="toc post-toc-html"></div>
+    </div>
+  </div>
+
     
       
   <div class="widget-wrap widget-cate">
