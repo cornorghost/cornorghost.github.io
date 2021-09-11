@@ -118,7 +118,7 @@
             <section class="inner">
                 <section class="inner-main">
                     <div class="post">
-    <article id="post-cktefwcfs002aewve9uib8nyy" class="article article-type-post" itemscope
+    <article id="post-cktfz0zmp002aocvebjs41qke" class="article article-type-post" itemscope
     itemprop="blogPost">
 
     <div class="article-inner">
@@ -211,7 +211,124 @@ Query OK, 0 rows affected (0.00 sec) </code></pre>
 |  1 | SIMPLE      | servers | ALL  | NULL          | NULL | NULL    | NULL |    1 | NULL  |
 +----+-------------+---------+------+---------------+------+---------+------+------+-------+
 1 row in set (0.03 sec)</code></pre><p>expain出来的信息有10列，分别是id、select_type、table、type、possible_keys、key、key_len、ref、rows、Extra,下面对这些字段出现的可能进行解释：</p>
-<h1 id="如何更好的建立和使用索引"><a href="#如何更好的建立和使用索引" class="headerlink" title="如何更好的建立和使用索引"></a><strong>如何更好的建立和使用索引</strong></h1><h1 id="查询语句如何优化"><a href="#查询语句如何优化" class="headerlink" title="查询语句如何优化"></a><strong>查询语句如何优化</strong></h1><h1 id="分表分库解决查询慢"><a href="#分表分库解决查询慢" class="headerlink" title="分表分库解决查询慢"></a><strong>分表分库解决查询慢</strong></h1><h1 id="缓存和数据库"><a href="#缓存和数据库" class="headerlink" title="缓存和数据库"></a><strong>缓存和数据库</strong></h1><h1 id="分布式数据库"><a href="#分布式数据库" class="headerlink" title="分布式数据库"></a><strong>分布式数据库</strong></h1>
+<table>
+<thead>
+<tr>
+<th>列名</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>id</td>
+<td>在一个大的查询语句中，每个SELECT关键字都对应一个唯一的id</td>
+</tr>
+<tr>
+<td>select_type</td>
+<td>SELECT关键字对应的查询的类型</td>
+</tr>
+<tr>
+<td>table</td>
+<td>表名</td>
+</tr>
+<tr>
+<td>partitions</td>
+<td>匹配的分区信息</td>
+</tr>
+<tr>
+<td>type</td>
+<td>针对单表的访问方法</td>
+</tr>
+<tr>
+<td>possible_keys</td>
+<td>可能用到的索引</td>
+</tr>
+<tr>
+<td>key</td>
+<td>实际使用的索引</td>
+</tr>
+<tr>
+<td>key_len</td>
+<td>实际使用的索引长度</td>
+</tr>
+<tr>
+<td>ref</td>
+<td>当使用索引列等值查询时，与索引列进行等值匹配的对象信息</td>
+</tr>
+<tr>
+<td>rows</td>
+<td>预估的需要读取的记录条数</td>
+</tr>
+<tr>
+<td>filtered</td>
+<td>针对预估的需要读取的记录，经过搜索条件过滤后剩余记录条数的百分比</td>
+</tr>
+<tr>
+<td>Extra</td>
+<td>一些额外的信息</td>
+</tr>
+</tbody></table>
+<p>一般如果建立了索引，我们会看type字段，这个字段有如下：</p>
+<ul>
+<li><p>system：一般整个数据库只有一条记录，那么就是system，能精确的查找</p>
+</li>
+<li><p>const：当我们使用id或者唯一二级索引进行查找的时候，对单表的访问就是const</p>
+</li>
+<li><p>eq_ref：执行连接查询时，如果被驱动表通过id或者唯一二级索引进行查找的就是eq_ref。说到被驱动表，当连接查询没有where条件时，左连接查询时，前面的表是驱动表，后面的表是被驱动表，右连接查询时相反，内连接查询时，哪张表的数据较少，哪张表就是驱动表<br>当连接查询有where条件时，带where条件的表是驱动表，否则是被驱动表</p>
+</li>
+<li><p>ref：通过普通的二级索引进行查找就是ref</p>
+</li>
+<li><p>fulltext：全文索引</p>
+</li>
+<li><p>ref_or_null：通过普通的二级索引进行查找，并且该索引列的值可以是NULL时</p>
+</li>
+<li><p>index_merge：在一些索引合并的场景下</p>
+</li>
+<li><p>unique_subquery：类似于eq_ref，优化器对IN查询优化为EXISTS子查询时，并且转换后通过id或者唯一二级索引进行查找</p>
+</li>
+<li><p>index_subquery：类似于unique_subquery，只不过在子查询使用的普通索引</p>
+</li>
+<li><p>range：通过索引获取扫描区间的记录</p>
+</li>
+<li><p>index：使用覆盖索引的时候</p>
+</li>
+<li><p>ALL：全表扫描</p>
+</li>
+</ul>
+<p>以上介绍的顺序是由快到慢的</p>
+<h1 id="如何更好的建立和使用索引"><a href="#如何更好的建立和使用索引" class="headerlink" title="如何更好的建立和使用索引"></a><strong>如何更好的建立和使用索引</strong></h1><ol>
+<li>只为用于搜索、排序和分组的列创建索引</li>
+<li>索引列中重复的值不能太多</li>
+<li>索引的类型尽量小，能用INT就不要BIGINT，能INT就不要VCHAR</li>
+<li>字符太长的时候只为前缀建立索引</li>
+<li>尽量使用覆盖索引</li>
+<li>多个索引间注意不要出现有包含关系的索引，避免冗余</li>
+</ol>
+<h1 id="查询语句如何优化"><a href="#查询语句如何优化" class="headerlink" title="查询语句如何优化"></a><strong>查询语句如何优化</strong></h1><ol>
+<li><p>尽量避免在 where 子句中对字段进行 null 值判断</p>
+<p> 应尽量避免在 where 子句中对字段进行 null 值判断，否则将导致引擎放弃使用索引而进行全表扫描。</p>
+</li>
+<li><p>尽量避免在 where 子句中使用 or 来连接条件</p>
+<p> 尽量避免在 where 子句中使用 or 来连接条件，否则将导致引擎放弃使用索引而进行全表扫描。</p>
+</li>
+<li><p>in 和 not in 要慎用</p>
+<p> 尽量使用between，否则导致全表扫描</p>
+</li>
+<li><p>如果在 where 子句中使用参数，也会导致全表扫描</p>
+<p> 如果在 where 子句中使用参数，也会导致全表扫描。因为SQL只有在运行时才会解析局部变量，但优化程序不能将访问计划的选择推迟到运行时；它必须在编译时进行选择。然 而，如果在编译时建立访问计划，变量的值还是未知的，因而无法作为索引选择的输入项。</p>
+</li>
+<li><p>尽量避免在where子句中对字段进行函数操作</p>
+<p> 应尽量避免在where子句中进行函数操作，这将导致引擎放弃使用索引而进行全表扫描。</p>
+</li>
+<li><p>exists 代替 in</p>
+<p> 使用in，优化器会优化为exists</p>
+</li>
+<li><p>尽量不要修改聚簇索引的列，会导致整个表改动，例如主键。</p>
+</li>
+<li><p>尽量使用int代替字符串</p>
+</li>
+</ol>
+<h1 id="分表分库"><a href="#分表分库" class="headerlink" title="分表分库"></a><strong>分表分库</strong></h1><p>有时候查询慢不一定是写的有问题，随着业务拓展，数据越来越多，查询效率也会随之降低，这时候可能就需要进行分表分库操作来缓解</p>
+<h1 id="缓存和数据库"><a href="#缓存和数据库" class="headerlink" title="缓存和数据库"></a><strong>缓存和数据库</strong></h1><h1 id="分布式数据库"><a href="#分布式数据库" class="headerlink" title="分布式数据库"></a><strong>分布式数据库</strong></h1>
         </div>
 
     </div>

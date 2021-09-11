@@ -118,7 +118,7 @@
             <section class="inner">
                 <section class="inner-main">
                     <div class="post">
-    <article id="post-cktefwcm200bkewved96g7or2" class="article article-type-post" itemscope
+    <article id="post-cktfz0zs700bkocvehpli2zbt" class="article article-type-post" itemscope
     itemprop="blogPost">
 
     <div class="article-inner">
@@ -160,7 +160,94 @@
         </div>
 
         <div class="article-entry post-inner-html hairline" itemprop="articleBody">
-            
+            <blockquote>
+<p>虾皮9/10正式批二面算法题</p>
+</blockquote>
+<a id="more"></a>
+
+
+<p>一些学生分享了与他同一天生日的其他同学的数量，根据这些回答，判断最少有多少学生。 </p>
+<p>提示：</p>
+<p>1.一年最多有366天，输入中最多只会有366种不同的答案；</p>
+<p>2.同一天出生的学生不会超过1000人，输入的每个数字范围为[0，1000]；</p>
+<p>3.分享的学生可能是所有学生，也可能没有学生分享</p>
+<p>样例</p>
+<p>输入：[3,2,2,2]，输出7</p>
+<p>输入：[1,1,1]，输出4</p>
+<p>输入：[1]，输出2</p>
+<p>其实这是<a href="https://leetcode-cn.com/problems/rabbits-in-forest/" target="_blank" rel="noopener">leetcode原题781</a></p>
+<pre><code class="c++">class Solution {
+public:
+    int numRabbits(vector&lt;int&gt;&amp; answers) {
+
+        /*大佬分享的版本
+        const int maxn=1e5+10;
+        int n,b[maxn],ans=0;
+        n=answers.size();
+
+        vector&lt;int&gt; a(n+1);
+        for(int i=1;i&lt;=n;i++){
+            a[i]=answers[i-1];
+        }
+
+        for(int i=1;i&lt;=n;i++){
+            b[a[i]]++;
+        } 
+        for(int i=1;i&lt;=n;i++){
+            if(b[a[i]]!=0){
+                int cnt=b[a[i]];
+                int pos=a[i];
+                while(cnt&gt;(pos+1)){
+                    ans+=(pos+1);
+                    cnt-=(pos+1);
+                }
+                if(cnt!=0){
+                    ans+=(pos+1);
+                }
+                b[pos]=0;
+            }
+        }
+        if(ans&gt;366){
+            return 366;
+        }else{
+            return ans;
+        }
+        */
+
+        /*按自己思路写的版本
+        int n=answers.size();
+        sort(answers.begin(), answers.end());
+        int res=0;
+
+        int i=0, j=0;
+
+        while(i&lt;n &amp;&amp; j&lt;n){
+            res+=answers[i]+1;
+
+            j=min(i+answers[i], n-1);
+
+            j++;i=j;
+        }
+
+        return res;
+        */
+
+        //参考题解分类的版本
+        unordered_map&lt;int, int&gt; count;
+        int res = 0;
+        for ( int answer : answers ) {
+            if ( count[answer] == 0 ) { // 需要新开一个分组了
+                res += answer + 1;
+                count[answer] = answer;
+            } else {                    // 属于已有的分组，还可以喊这个数字的兔子要减一
+                --count[answer];
+            }
+        }
+        return res;
+
+    }
+};</code></pre>
+
         </div>
 
     </div>
