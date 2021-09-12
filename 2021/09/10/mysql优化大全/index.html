@@ -118,7 +118,7 @@
             <section class="inner">
                 <section class="inner-main">
                     <div class="post">
-    <article id="post-cktgslu07002ansve08cbewig" class="article article-type-post" itemscope
+    <article id="post-ckth1j19p002788ve2iko3yf1" class="article article-type-post" itemscope
     itemprop="blogPost">
 
     <div class="article-inner">
@@ -328,7 +328,28 @@ Query OK, 0 rows affected (0.00 sec) </code></pre>
 </li>
 </ol>
 <h1 id="分表分库"><a href="#分表分库" class="headerlink" title="分表分库"></a><strong>分表分库</strong></h1><p>有时候查询慢不一定是写的有问题，随着业务拓展，数据越来越多，查询效率也会随之降低，这时候可能就需要进行分表分库操作来缓解</p>
-<h1 id="缓存和数据库"><a href="#缓存和数据库" class="headerlink" title="缓存和数据库"></a><strong>缓存和数据库</strong></h1><h1 id="分布式数据库"><a href="#分布式数据库" class="headerlink" title="分布式数据库"></a><strong>分布式数据库</strong></h1>
+<h2 id="何时分表"><a href="#何时分表" class="headerlink" title="何时分表"></a><strong>何时分表</strong></h2><p>当查询慢的主要原因是数据量太大时，一般采用分表</p>
+<h2 id="如何分表"><a href="#如何分表" class="headerlink" title="如何分表"></a><strong>如何分表</strong></h2><ol>
+<li><p>水平分表</p>
+<p> 单表的数据量太大。按照某种规则（RANGE,HASH取模等），切分到多张表里面去。 但是这些表还是在同一个库中，所以库级别的数据库操作还是有IO瓶颈。这种情况是不建议使用的，因为数据量是逐渐增加的，当数据量增加到一定的程度还需要再进行切分。比较麻烦。</p>
+</li>
+<li><p>垂直分表</p>
+<p> 表中的字段较多，一般将不常用的、 数据较大、长度较长的拆分到“扩展表“。一般情况加表的字段可能有几百列，此时是按照字段进行数竖直切。注意垂直分是列多的情况。</p>
+</li>
+</ol>
+<h2 id="何时分库"><a href="#何时分库" class="headerlink" title="何时分库"></a><strong>何时分库</strong></h2><p>如果单库达到了性能瓶颈，同时并发量还挺高的时候，考虑采用分库的方法</p>
+<h2 id="如何分库"><a href="#如何分库" class="headerlink" title="如何分库"></a><strong>如何分库</strong></h2><ol>
+<li><p>水平分库</p>
+<p> 水平分库理论上切分起来是比较麻烦的，它是指将单张表的数据切分到多个服务器上去，每个服务器具有相应的库与表，只是表中数据集合不同。 水平分库分表能够有效的缓解单机和单库的性能瓶颈和压力，突破IO、连接数、硬件资源等的瓶颈。</p>
+</li>
+<li><p>垂直分库</p>
+<p> 一个数据库的表太多。此时就会按照一定业务逻辑进行垂直切，比如用户相关的表放在一个数据库里，订单相关的表放在一个数据库里。注意此时不同的数据库应该存放在不同的服务器上，此时磁盘空间、内存、TPS等等都会得到解决。</p>
+</li>
+</ol>
+<h1 id="缓存和数据库"><a href="#缓存和数据库" class="headerlink" title="缓存和数据库"></a><strong>缓存和数据库</strong></h1><p>优化的地方都离不开局部性原理，对于经常访问的热点数据，可以采用缓存的方式存储，先访问缓存，如果缓存没有命中，再到数据库里查找</p>
+<p>对于使用缓存和数据库保证一致性的方法在另一篇文章有详细介绍</p>
+<p><a href="https://mp.weixin.qq.com/s/4W7vmICGx6a_WX701zxgPQ" target="_blank" rel="noopener">https://mp.weixin.qq.com/s/4W7vmICGx6a_WX701zxgPQ</a></p>
+<h1 id="分布式数据库"><a href="#分布式数据库" class="headerlink" title="分布式数据库"></a><strong>分布式数据库</strong></h1>
         </div>
 
     </div>
