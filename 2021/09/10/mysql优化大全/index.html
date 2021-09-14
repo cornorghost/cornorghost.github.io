@@ -118,7 +118,7 @@
             <section class="inner">
                 <section class="inner-main">
                     <div class="post">
-    <article id="post-ckth1j19p002788ve2iko3yf1" class="article article-type-post" itemscope
+    <article id="post-cktk9h9130029swve6qk44an5" class="article article-type-post" itemscope
     itemprop="blogPost">
 
     <div class="article-inner">
@@ -349,7 +349,36 @@ Query OK, 0 rows affected (0.00 sec) </code></pre>
 <h1 id="缓存和数据库"><a href="#缓存和数据库" class="headerlink" title="缓存和数据库"></a><strong>缓存和数据库</strong></h1><p>优化的地方都离不开局部性原理，对于经常访问的热点数据，可以采用缓存的方式存储，先访问缓存，如果缓存没有命中，再到数据库里查找</p>
 <p>对于使用缓存和数据库保证一致性的方法在另一篇文章有详细介绍</p>
 <p><a href="https://mp.weixin.qq.com/s/4W7vmICGx6a_WX701zxgPQ" target="_blank" rel="noopener">https://mp.weixin.qq.com/s/4W7vmICGx6a_WX701zxgPQ</a></p>
-<h1 id="分布式数据库"><a href="#分布式数据库" class="headerlink" title="分布式数据库"></a><strong>分布式数据库</strong></h1>
+<h1 id="分布式数据库"><a href="#分布式数据库" class="headerlink" title="分布式数据库"></a><strong>分布式数据库</strong></h1><p>上面说到的分库也算是分布式下的一种情形，不过每个节点保存的不同数据，用于分担单机压力。这里说的主要是主从结构的分布式，为了实现高可用和缓解高并发的情况</p>
+<p>数据库主从结构可以是一对多，一对一，多对一</p>
+<img src="/2021/09/10/mysql%E4%BC%98%E5%8C%96%E5%A4%A7%E5%85%A8/1.jpg" class="" title="1.jpg">
+
+<img src="/2021/09/10/mysql%E4%BC%98%E5%8C%96%E5%A4%A7%E5%85%A8/2.jpg" class="" title="2.jpg">
+
+<img src="/2021/09/10/mysql%E4%BC%98%E5%8C%96%E5%A4%A7%E5%85%A8/3.jpg" class="" title="3.jpg">
+
+<h2 id="主从复制原理和过程"><a href="#主从复制原理和过程" class="headerlink" title="主从复制原理和过程"></a><strong>主从复制原理和过程</strong></h2><p>MySQL 主从复制涉及到三个线程：</p>
+<p>一个在主节点的线程：log_dump_thread</p>
+<p>从库会生成两个线程：一个 I/O 线程，一个 SQL 线程</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gjx1ms5ezhj312s0imtb5.jpg" alt=""></p>
+<p>主库会生成一个 log dump 线程,用来给从库 I/O 线程传 Binlog 数据。</p>
+<p>从库的 I/O 线程会去请求主库的 Binlog，并将得到的 Binlog 写到本地的 relay log (中继日志)文件中。</p>
+<p>SQL 线程,会读取 relay log 文件中的日志，并解析成 SQL 语句逐一执行。</p>
+<h2 id="事务的提交"><a href="#事务的提交" class="headerlink" title="事务的提交"></a><strong>事务的提交</strong></h2><p>分布式事务一般有两段式提交和三段式提交，这两种提交方式可以参考<a href="https://segmentfault.com/a/1190000012534071" target="_blank" rel="noopener">这里</a></p>
+<p>对于两段式提交的过程如下：</p>
+<ol>
+<li><p>Master执行提交语句时，事务被发送到slave，slave开始准备事务的提交。</p>
+</li>
+<li><p>每个slave都要准备事务，然后向master发送OK(或ABORT)消息，表明事务已经准备好（或者无法准备该事务）。</p>
+</li>
+<li><p>Master等待所有Slave发送OK或ABORT消息，如果Master收到所有 Slave的OK消息，它就会向所有Slave发送提交消息，告诉Slave提交该事务；如果Master收到来自任何一个Slave的ABORT消息，它就向所有 Slave发送ABORT消息，告诉Slave去中止事务。</p>
+</li>
+<li><p>每个Slave等待来自Master的OK或ABORT消息。 如果Slave收到提交请求，它们就会提交事务，并向Master发送事务已提交 的确认；如果Slave收到取消请求,它们就会撤销所有改变并释放所占有的资源，从而中止事务，然后向Masterv送事务已中止的确认。</p>
+</li>
+<li><p>当Master收到来自所有Slave的确认后，就会报告该事务被提交（或中止），然后继续进行下一个事务处理。</p>
+</li>
+</ol>
+
         </div>
 
     </div>
