@@ -118,7 +118,7 @@
             <section class="inner">
                 <section class="inner-main">
                     <div class="post">
-    <article id="post-ckuvfc0130044csve4evq6ol1" class="article article-type-post" itemscope
+    <article id="post-ckuvx948o0046c0ve33208ec8" class="article article-type-post" itemscope
     itemprop="blogPost">
 
     <div class="article-inner">
@@ -171,6 +171,8 @@
             <blockquote>
 <p>动态规划，01背包问题</p>
 </blockquote>
+<a id="more"></a>
+
 <p>背包问题是经典的动态规划问题，这里先说一下简单的01背包</p>
 <p>问题是这样的：</p>
 <blockquote>
@@ -183,13 +185,13 @@
 </blockquote>
 <p>假设dp[n][w]表示前N个物体装入w容量的背包能装入的最大价值，构成一个二维表，dp的过程就是填表的过程</p>
 <p>构建一个二维表来填空，其中列表示容量，行表示第i个物品，所以对应的重量和价值数组需要对应下标为i-1</p>
-
+<img src="/2021/10/16/%E4%BD%A0%E7%9A%84%E8%83%8C%E5%8C%85%EF%BC%8C%E8%AE%A9%E6%88%91%E8%B5%B0%E7%9A%84%E5%A5%BD%E7%BC%93%E6%85%A2/%E5%9B%BE%E7%89%871.png" class="" title="图片1.png">
 
 <p>对于边界条件，第0个物品，也就是没有物品可放时，有再多的容量也没用，所以对应的价值都为0</p>
-
+<img src="/2021/10/16/%E4%BD%A0%E7%9A%84%E8%83%8C%E5%8C%85%EF%BC%8C%E8%AE%A9%E6%88%91%E8%B5%B0%E7%9A%84%E5%A5%BD%E7%BC%93%E6%85%A2/%E5%9B%BE%E7%89%872.png" class="" title="图片2.png">
 
 <p>同样的，当容量为0时，有再多的物品也没用，对应的价值都为0</p>
-
+<img src="/2021/10/16/%E4%BD%A0%E7%9A%84%E8%83%8C%E5%8C%85%EF%BC%8C%E8%AE%A9%E6%88%91%E8%B5%B0%E7%9A%84%E5%A5%BD%E7%BC%93%E6%85%A2/%E5%9B%BE%E7%89%873.png" class="" title="图片3.png">
 
 <p>那从dp[1][1]开始填表，</p>
 <p>第一个物品，如果他的重量大于当前容量，就不考虑放进去，所以和上一个物品判断的结果一样，则<code>dp[i][j]=dp[i-1][j]</code>；</p>
