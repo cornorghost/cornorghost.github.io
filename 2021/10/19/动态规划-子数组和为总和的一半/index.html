@@ -118,7 +118,7 @@
             <section class="inner">
                 <section class="inner-main">
                     <div class="post">
-    <article id="post-ckuxplckn007ev4ve7scjhte9" class="article article-type-post" itemscope
+    <article id="post-ckuxrljni007c3sve33pp9btd" class="article article-type-post" itemscope
     itemprop="blogPost">
 
     <div class="article-inner">
@@ -222,7 +222,7 @@ public:
         dp[0] = 0;
 
         for (int i = 0; i &lt; coins.size(); i++) {
-            for (int j = 0; j &lt; amount+1; j++) {
+            for (int j = 1; j &lt; amount+1; j++) {
                 if (j &gt;= coins[i]) dp[j] = min(dp[j], dp[j - coins[i]]+1);
             }
         }
