@@ -118,7 +118,7 @@
             <section class="inner">
                 <section class="inner-main">
                     <div class="post">
-    <article id="post-ckvjpv1xl0024c4vehs1j6s1u" class="article article-type-post" itemscope
+    <article id="post-ckvjpxr3v001vi0ve17zh903l" class="article article-type-post" itemscope
     itemprop="blogPost">
 
     <div class="article-inner">
@@ -168,33 +168,7 @@
         </div>
 
         <div class="article-entry post-inner-html hairline" itemprop="articleBody">
-            <blockquote>
-<p>gcc升级</p>
-</blockquote>
-<a id="more"></a>
-
-<p>现在如果要想使用c++20(c++2a)的话起码要gcc10以上的版本呢才支持，但是一般服务器yum install自带的都是4.多版本，如果要升级gcc和g++需要手动编译</p>
-<h1 id="1-首先下载你想要的版本，链接如下"><a href="#1-首先下载你想要的版本，链接如下" class="headerlink" title="1. 首先下载你想要的版本，链接如下"></a>1. 首先下载你想要的版本，链接如下</h1><p><a href="http://ftp.gnu.org/gnu/gcc" target="_blank" rel="noopener">http://ftp.gnu.org/gnu/gcc</a></p>
-<p>你可以在windows直接下好传过去，或者在linux使用wget <a href="http://ftp.gnu.org/gnu/gcc/gcc-10.3.0/gcc-10.3.0.tar.gz" target="_blank" rel="noopener">http://ftp.gnu.org/gnu/gcc/gcc-10.3.0/gcc-10.3.0.tar.gz</a></p>
-<h1 id="2-解压缩"><a href="#2-解压缩" class="headerlink" title="2. 解压缩"></a>2. 解压缩</h1><p><code>tar -xzvf gcc-10.3.0.tar.gz</code></p>
-<p><code>cd gcc-10.3.0.tar.gz</code></p>
-<h1 id="3-赋予文件执行权限"><a href="#3-赋予文件执行权限" class="headerlink" title="3. 赋予文件执行权限"></a>3. 赋予文件执行权限</h1><p><code>chmod -R 777 ./*</code></p>
-<h1 id="4-执行下载依赖库"><a href="#4-执行下载依赖库" class="headerlink" title="4. 执行下载依赖库"></a>4. 执行下载依赖库</h1><p><code>./contrib/download_prerequisites</code></p>
-<h1 id="5-建立目录进入目录"><a href="#5-建立目录进入目录" class="headerlink" title="5. 建立目录进入目录"></a>5. 建立目录进入目录</h1><p><code>mkdir gcc-10.3.0-build</code></p>
-<p><code>cd gcc-10.3.0-build</code></p>
-<h1 id="6-生成make文件"><a href="#6-生成make文件" class="headerlink" title="6. 生成make文件"></a>6. 生成make文件</h1><pre><code>./configure -enable-checking=release -enable-languages=c,c++ -disable-multilib
-–enable-languages</code></pre><h1 id="7-编译"><a href="#7-编译" class="headerlink" title="7. 编译"></a>7. 编译</h1><p><code>make</code></p>
-<h1 id="8-安装"><a href="#8-安装" class="headerlink" title="8. 安装"></a>8. 安装</h1><p><code>make install</code></p>
-<h1 id="9-软连接"><a href="#9-软连接" class="headerlink" title="9. 软连接"></a>9. 软连接</h1><p>这样安装完gcc之后执行或者编译的时候可能会显示</p>
-<p><code>/usr/lib64/libstdc++.so.6: version `GLIBCXX_3.4.20&#39; not found</code></p>
-<p>这时候需要重新链接更高版本的libstdc++.so.6</p>
-<p>首先查找到你机器上有几个libstdc++.so.6</p>
-<p><code>sudo find / -name libstdc++.so.6*</code></p>
-<p>先删除原来的，然后选择一个高版本的来链接</p>
-<pre><code>rm /usr/lib64/libstdc++.so.6
-
-sudo ln -s /usr/lib64/libstdc++.so.6.0.28 /usr/lib64/libstdc++.so.6</code></pre><p>上面libstdc++.so.6.0.28取决于你选择的高版本，从你find出来的结果选</p>
-
+            
         </div>
 
     </div>
