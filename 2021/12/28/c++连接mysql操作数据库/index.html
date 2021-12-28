@@ -175,7 +175,38 @@
 
 <p>项目里面需要持久化一些数据，所以考虑把mysql用进来，我写的是c++端的，查阅了一些资料之后找到两个c++连接数据库的库，因为mysql connector/c++是官方网站提供下载的，所以我第一个选择了他，但是失败了，改用第二种方式。这里都记录下吧</p>
 <h1 id="connector-c"><a href="#connector-c" class="headerlink" title="connector/c++"></a><strong>connector/c++</strong></h1><p>如果你想在项目里用connector/c++，可以有三种方法</p>
+<h2 id="1-下载编译好的tar-gz文件，然后解压使用里面的头文件和库文件"><a href="#1-下载编译好的tar-gz文件，然后解压使用里面的头文件和库文件" class="headerlink" title="1. 下载编译好的tar.gz文件，然后解压使用里面的头文件和库文件"></a><strong>1. 下载编译好的tar.gz文件，然后解压使用里面的头文件和库文件</strong></h2><p>我是centos7，电脑64位，所以下载这个</p>
+<img src="/2021/12/28/c++%E8%BF%9E%E6%8E%A5mysql%E6%93%8D%E4%BD%9C%E6%95%B0%E6%8D%AE%E5%BA%93/1.png" class="" title="1.png">
 
+<p>然后解压tar -zvxf mysql-connector-c++-8.0.27-linux-glibc2.12-x86-64bit.tar.gz，然后里面的结构如下</p>
+<img src="/2021/12/28/c++%E8%BF%9E%E6%8E%A5mysql%E6%93%8D%E4%BD%9C%E6%95%B0%E6%8D%AE%E5%BA%93/2.png" class="" title="2.png">
+
+<p>include/jdbc是需要包括的文件夹路径，里面是需要的头文件；lib64里面是相关的库文件，动态库libmysqlcppconn.so，静态库jdbc是需要包括的文件夹路径，里面是需要的头文件；lib64里面是相关的库文件，动态库libmysqlcppconn-static.a</p>
+<p>我是使用make编译的，然后参数这样写 </p>
+<p>-I 解压后的文件夹/include/jdbc</p>
+<p>-L 解压后的文件夹/lib64</p>
+<p>-lmysqlcppconn</p>
+<p>我这里整个编译语句是这样的</p>
+<pre><code>gcc example.cpp -I mysql8.0.27/include/jdbc -L mysql8.0.27/lib64 -o example -lmysqlcppconn</code></pre><p>不过这里编译一直会显示很多undefine的错误，不知道哪里的库没链接上，就算加上-lssl -lcrypto<br>这两个库也不能解决，后来我直接放弃了，但是网上很多人说没出过我这样的问题，你可以试试上面的编译语句</p>
+<p>（这里我猜测如果我把他给的所有库文件给一一链接上应该就不会有问题，可是太多库了，懒得弄了）</p>
+<h2 id="2-直接下载rpm文件进行安装"><a href="#2-直接下载rpm文件进行安装" class="headerlink" title="2. 直接下载rpm文件进行安装"></a><strong>2. 直接下载rpm文件进行安装</strong></h2><p>这里选择对应的下载</p>
+{%  asset_img 3.png 3.png %}
+
+<p>然后传到服务器上执行</p>
+<pre><code>yum localinstall mysql-connector-c++-8.0.27-1.el7.x86_64.rpm</code></pre><p>但是很奇怪，我在/usr里找不到他安装的文件，很奇葩</p>
+<h2 id="3-下载source文件自己编译"><a href="#3-下载source文件自己编译" class="headerlink" title="3. 下载source文件自己编译"></a>3. <strong>下载source文件自己编译</strong></h2><p>这一步我是没做了，你可以自己尝试，因为到这里我已经决定放弃使用connector/c++了，改用下面这个</p>
+<h1 id="mysql-devel"><a href="#mysql-devel" class="headerlink" title="mysql-devel"></a><strong>mysql-devel</strong></h1><ol>
+<li><strong>直接安装</strong></li>
+</ol>
+<pre><code>yum install mysql-devel</code></pre><ol start="2">
+<li><strong>等待安装完，我们看看安装路径</strong></li>
+</ol>
+<pre><code>mysql_config --cflags --libs</code></pre><img src="/2021/12/28/c++%E8%BF%9E%E6%8E%A5mysql%E6%93%8D%E4%BD%9C%E6%95%B0%E6%8D%AE%E5%BA%93/4.png" class="" title="4.png">
+
+<p>显示的是编译需要的两个参数</p>
+<p>-I/usr/include/mysql -m64<br>-L/usr/lib64/mysql -lmysqlclient -lpthread -ldl -lssl -lcrypto -lresolv -lm -lrt</p>
+<p>那编译语句就简单了</p>
+<pre><code>gcc example.cpp -I/usr/include/mysql -m64  -L/usr/lib64/mysql -o example  -lmysqlclient -lpthread -ldl -lssl -lcrypto -lresolv -lm -lrt</code></pre>
         </div>
 
     </div>
