@@ -174,52 +174,7 @@
 <a id="more"></a>
 
 <p>这是个简单的安装mysql教程</p>
-<p><strong>首先去官网下载安装包，<a href="https://dev.mysql.com/downloads/repo/yum/" target="_blank" rel="noopener">下载网址</a>，我是centos7，64位，所以选择这个</strong></p>
-<img src="/2021/12/28/linux%E5%AE%89%E8%A3%85mysql%EF%BC%8C%E8%BF%9C%E7%A8%8B%E4%BD%BF%E7%94%A8navicat%E8%BF%9E%E6%8E%A5/1.png" class="" title="1.png">
 
-<p><strong>传到服务器然后安装</strong></p>
-<pre><code>yum install mysql80-community-release-el7-4.noarch.rpm</code></pre><p><strong>安装完成后继续执行</strong></p>
-<pre><code>yum install mysql-community-server</code></pre><p><strong>启动mysql</strong></p>
-<pre><code>service mysqld start</code></pre><p><strong>查看mysql服务是否启动</strong></p>
-<pre><code>ps -ef| grep mysql</code></pre><p>如果显示下面的表明启动成功了</p>
-<img src="/2021/12/28/linux%E5%AE%89%E8%A3%85mysql%EF%BC%8C%E8%BF%9C%E7%A8%8B%E4%BD%BF%E7%94%A8navicat%E8%BF%9E%E6%8E%A5/2.png" class="" title="2.png">
-
-
-<p>然后为了能够远程连接需要做一些修改</p>
-<p><strong>首先修改默认root用户的密码</strong></p>
-<ol>
-<li>查询默认密码</li>
-</ol>
-<pre><code>grep &#39;temporary password&#39; /var/log/mysqld.log
-</code></pre><img src="/2021/12/28/linux%E5%AE%89%E8%A3%85mysql%EF%BC%8C%E8%BF%9C%E7%A8%8B%E4%BD%BF%E7%94%A8navicat%E8%BF%9E%E6%8E%A5/4.png" class="" title="4.png">
-
-<ol start="2">
-<li>以root身份进入mysql命令行</li>
-</ol>
-<pre><code>mysql -uroot -p</code></pre>{%  asset_img 10.png 10.png %}
-
-<ol start="3">
-<li>修改默认密码</li>
-</ol>
-<pre><code>ALTER USER &#39;root&#39;@&#39;localhost&#39; IDENTIFIED BY &#39;MyNewPass4!&#39;;</code></pre><img src="/2021/12/28/linux%E5%AE%89%E8%A3%85mysql%EF%BC%8C%E8%BF%9C%E7%A8%8B%E4%BD%BF%E7%94%A8navicat%E8%BF%9E%E6%8E%A5/6.png" class="" title="6.png">
-
-<ol start="4">
-<li>刷新权限</li>
-</ol>
-<pre><code>flush privileges;</code></pre>{%  asset_img 11.png 11.png %}
-
-<ol start="5">
-<li>当然你也可以创建新用户</li>
-</ol>
-<pre><code>create user &#39;你的用户名&#39;@&#39;%&#39; identified with mysql_native_password by &#39;你的密码&#39;;</code></pre><ol start="6">
-<li>给予新用户远程连接权限</li>
-</ol>
-<pre><code>grant all on *.* to &#39;你的用户名&#39;@&#39;%&#39;;</code></pre><p>注意在第三部修改密码时可能优点烦人，因为密码设置有要求的，具体要求输入命令查看</p>
-<pre><code>SHOW VARIABLES LIKE &#39;validate_password%&#39;;</code></pre><img src="/2021/12/28/linux%E5%AE%89%E8%A3%85mysql%EF%BC%8C%E8%BF%9C%E7%A8%8B%E4%BD%BF%E7%94%A8navicat%E8%BF%9E%E6%8E%A5/8.png" class="" title="8.png">
-
-<p>然后可以修改密码要求，如长度</p>
-<pre><code>set global validate_password.length=6;</code></pre><p>不过这样修改只能一次生效，下次重启就覆盖了，如果想永久生效，需要写入配置文件</p>
-<pre><code>vi /etc/my.cnf</code></pre><img src="/2021/12/28/linux%E5%AE%89%E8%A3%85mysql%EF%BC%8C%E8%BF%9C%E7%A8%8B%E4%BD%BF%E7%94%A8navicat%E8%BF%9E%E6%8E%A5/9.png" class="" title="9.png">
         </div>
 
     </div>
