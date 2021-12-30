@@ -178,8 +178,7 @@
 /lib64/libstdc++.so.6: version `CXXABI_1.3.9&#39; not found
 /lib64/libstdc++.so.6: version `GLIBCXX_3.4.21&#39; not found</code></pre><p>这是由于找不到新版本GLIBCXX的原因，只要更新下libstdc++.so.6</p>
 <p>先查找下libstdc++.so.6相关版本文件的路径</p>
-<pre><code>find / -name &quot;libstdc++.so*&quot;</code></pre>{%  asset_img 1.png 1.png %}
-
+<pre><code>find / -name &quot;libstdc++.so*&quot;</code></pre><p><img src="https://user-images.githubusercontent.com/33841855/147765441-7c6656be-5643-420a-ab74-466ae891a634.png" alt="1.png"></p>
 <p>然后选一个最新版本的文件，去替换现在的文件</p>
 <p>比如我这就是以下语句，注意先备份一份当前文件</p>
 <pre><code>cp /usr/lib64/libstdc++.so.6 /usr/lib64/libstdc++.so.6.back

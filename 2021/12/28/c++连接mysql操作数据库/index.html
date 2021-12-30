@@ -190,8 +190,7 @@
 <pre><code>gcc example.cpp -I mysql8.0.27/include/jdbc -L mysql8.0.27/lib64 -o example -lmysqlcppconn</code></pre><p>不过这里编译一直会显示很多undefine的错误，不知道哪里的库没链接上，就算加上-lssl -lcrypto<br>这两个库也不能解决，后来我直接放弃了，但是网上很多人说没出过我这样的问题，你可以试试上面的编译语句</p>
 <p>（这里我猜测如果我把他给的所有库文件给一一链接上应该就不会有问题，可是太多库了，懒得弄了）</p>
 <h2 id="2-直接下载rpm文件进行安装"><a href="#2-直接下载rpm文件进行安装" class="headerlink" title="2. 直接下载rpm文件进行安装"></a><strong>2. 直接下载rpm文件进行安装</strong></h2><p>这里选择对应的下载</p>
-{%  asset_img 3.png 3.png %}
-
+<p><img src="https://user-images.githubusercontent.com/33841855/147765357-5807c10f-18c4-493d-aea5-97e1f27bc45f.png" alt="3.png"></p>
 <p>然后传到服务器上执行</p>
 <pre><code>yum localinstall mysql-connector-c++-8.0.27-1.el7.x86_64.rpm</code></pre><p>但是很奇怪，我在/usr里找不到他安装的文件，很奇葩</p>
 <h2 id="3-下载source文件自己编译"><a href="#3-下载source文件自己编译" class="headerlink" title="3. 下载source文件自己编译"></a>3. <strong>下载source文件自己编译</strong></h2><p>这一步我是没做了，你可以自己尝试，因为到这里我已经决定放弃使用connector/c++了，改用下面这个</p>
