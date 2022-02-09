@@ -167,7 +167,7 @@
             <p>初探ICMP</p>
 <a id="more"></a>
 
-<p>我们经常用ping命令，但是可能不知道ping命令的底层协议是ICMP，那到底什么是ICMP</p>
+<h1 id="ICMP报文格式"><a href="#ICMP报文格式" class="headerlink" title="ICMP报文格式"></a>ICMP报文格式</h1><p>我们经常用ping命令，但是可能不知道ping命令的底层协议是ICMP，那到底什么是ICMP</p>
 <p>ICMP协议可以说IP层的附属协议，是介于IP层和TCP层之间的协议，一般认为属于IP层协议，即网络层。IP协议用它来与其他主机或路由器交换错误报文和其他的一些网络情况。在ICMP包中携带了控制信息和故障恢复信息。主要用于路由器主机向其他路由器或者主机发送出错报文的控制信息。这么说可能不好理解ICMP报文和IP报文的关系，下图是ICMP报文的封装。</p>
 <p><img src="https://user-images.githubusercontent.com/33841855/152574569-50347faa-bbc6-4fa7-9014-d15a5fa10556.png" alt="1.png"></p>
 <p>一般的ICMP报文形式如下图</p>
@@ -182,15 +182,29 @@
 </ul>
 <p><img src="https://user-images.githubusercontent.com/33841855/153003042-0a6cde62-93b2-4160-a851-a1da378daa3c.png" alt="image"></p>
 <p>那他具体是怎么工作的呢，就以ping baidu.com为例，</p>
-<h2 id="1-首先会DNS域名解析出IP，然后发送ICMP报文"><a href="#1-首先会DNS域名解析出IP，然后发送ICMP报文" class="headerlink" title="1. 首先会DNS域名解析出IP，然后发送ICMP报文"></a>1. 首先会DNS域名解析出IP，然后发送ICMP报文</h2><p><img src="https://user-images.githubusercontent.com/33841855/152995184-e71ea7f8-024f-4e95-ab36-4d5cf77fcbaf.png" alt="image"></p>
+<h1 id="ping和ICMP"><a href="#ping和ICMP" class="headerlink" title="ping和ICMP"></a>ping和ICMP</h1><h3 id="1-首先会DNS域名解析出IP，然后发送ICMP报文"><a href="#1-首先会DNS域名解析出IP，然后发送ICMP报文" class="headerlink" title="1. 首先会DNS域名解析出IP，然后发送ICMP报文"></a>1. 首先会DNS域名解析出IP，然后发送ICMP报文</h3><p><img src="https://user-images.githubusercontent.com/33841855/152995184-e71ea7f8-024f-4e95-ab36-4d5cf77fcbaf.png" alt="image"></p>
 <p>可以看到Protocol字段为1表示为ICMP报文，Type为8，Code为0表示这是请求回显，也就是ping请求，还包含有Checksum校验和。</p>
 <p>Identify表示进程号，其中的LE和BE分别表示小端字节序，大端字节序，因为考虑到windows一般为小端字节序，Linux为大端。</p>
 <p>Sequence number表示序列号，也有大小端之分</p>
 <p>Data是包含的数据，32字节</p>
-<h2 id="2-服务器响应ICMP报文"><a href="#2-服务器响应ICMP报文" class="headerlink" title="2. 服务器响应ICMP报文"></a>2. 服务器响应ICMP报文</h2><p><img src="https://user-images.githubusercontent.com/33841855/153001674-75d24768-3c1b-4979-ba5b-eb6d425530da.png" alt="image"></p>
+<h3 id="2-服务器响应ICMP报文"><a href="#2-服务器响应ICMP报文" class="headerlink" title="2. 服务器响应ICMP报文"></a>2. 服务器响应ICMP报文</h3><p><img src="https://user-images.githubusercontent.com/33841855/153001674-75d24768-3c1b-4979-ba5b-eb6d425530da.png" alt="image"></p>
 <p>然后根据两个报文的接收时间就可以计算时延</p>
 <p>关于ICMP报文的一些报文类型定义如下图</p>
 <p><img src="https://user-images.githubusercontent.com/33841855/153002505-09af1a02-4e28-45d3-bb81-9b3c113cb808.png" alt="image"></p>
+<p>可以看到ICMP还分查询报文和差错报文，上面提到的地址掩码和时间戳都是查询报文，而差错报文一般是进行广播时发送的，用于响应，类似的有traceroute命令</p>
+<h1 id="traceroute和ICMP"><a href="#traceroute和ICMP" class="headerlink" title="traceroute和ICMP"></a>traceroute和ICMP</h1><p>首先traceroute是获取经过路由的命令，traceroute底层是通过ICMP差错报文来实现的，其原理是向目标主机发送固定TTL的报文，TTL从1开始递增，每个TTL的报文发送三次，TTL经过一个路由会减1，TTL为0时会给源主机发送超时报文，如果到达了目标主机，目标主机会发送端口不可达的ICMP差错报文，源主机停止发送，这样所有的路由信息都得到了。</p>
+<p>大概过程是这样,TTL=1时，发送三个UDP报文，经过第一个路由后直接返回超时，得到第一个路由的信息</p>
+<p><img src="https://user-images.githubusercontent.com/33841855/153165168-326a160f-9e03-42db-ba8e-357585dd9605.png" alt="2"></p>
+<p>第二次发送TTL=2的报文，在第二个路由处响应</p>
+<p><img src="https://user-images.githubusercontent.com/33841855/153167298-bf6d820e-f015-469e-9f2e-2014ddce63b5.png" alt="3"></p>
+<p>请求的报文形式如下，</p>
+<p><img src="https://user-images.githubusercontent.com/33841855/153172524-3bffe89b-74b1-4943-88be-07f59b17590c.png" alt="image"></p>
+<p>每次请求后的响应如下，</p>
+<p><img src="https://user-images.githubusercontent.com/33841855/153173361-9a0e387b-5746-4be3-87fc-97190f80378b.png" alt="image"></p>
+<p>三个请求就会有三个超时响应</p>
+<p>这里有个细节，需要等待三个TTL的报文都响应后，对应的路由或者说节点会给源主机响应一个端口不可达差错报文，这个报文形式如下，下图的端口是58866，节点没有监听该端口，所以返回端口不可达</p>
+<p><img src="https://user-images.githubusercontent.com/33841855/153171926-66b68204-9204-42fe-ab02-3c8b6e3e41bc.png" alt="image"></p>
+<p>当相应的是目的IP的主机时，源主机停止发送</p>
 
         </div>
 
