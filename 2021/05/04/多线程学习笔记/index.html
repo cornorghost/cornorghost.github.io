@@ -168,7 +168,10 @@
         </div>
 
         <div class="article-entry post-inner-html hairline" itemprop="articleBody">
-            <a id="more"></a>
+            <blockquote>
+<p>线程相关</p>
+</blockquote>
+<a id="more"></a>
 
 <h1 id="什么是线程"><a href="#什么是线程" class="headerlink" title="什么是线程"></a><span style="color: red">什么是线程</h1><p>线程是CPU调度的基本单位，在早期，单核CPU上，一个CPU在某个事件执行一个线程，这就没有多线程的说法，后来单核CPU采取时间片轮转调度，不同的线程分配一定的时间，并在时间结束后切换线程，也就是CPU频繁切换线程，让我们看起来多个任务真的在<span style="color: red">“同时”</span>进行，其实只是单核在不停切换，到了多核CPU才实现了真正的多线程，异步进行，每个核心都可以处理一个线程</p>
 <h1 id="线程占有的资源"><a href="#线程占有的资源" class="headerlink" title="线程占有的资源"></a><span style="color: red">线程占有的资源</h1><p>寄存器<br>栈<br>程序计数器<br>状态</p>
