@@ -1,4 +1,7 @@
 
+/* Font */
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@500&display=swap');
+
 /* 样式重置 */
 
 body {
@@ -94,10 +97,9 @@ img:not([src]):not([srcset]) {
         }
 
         &-page-title {
-            font-size: 14px;
+            font-size: 18px;
             font-weight: 300;
             margin-left: 10px;
-            user-select: none;
         }
 
         .typed-cursor {
@@ -261,8 +263,10 @@ img:not([src]):not([srcset]) {
 
 /* 主体框架 */
 .main {
+    min-height: 800px;
     position: relative;
     margin-bottom: 150px;
+    z-index: 2;
     
     .inner {
         padding-right: 300px;
@@ -291,6 +295,7 @@ img:not([src]):not([srcset]) {
         height: auto;
         max-height: calc(100vh - 140px);
         margin-bottom: 20px;
+        border: 2px solid var(--color-white-light);
         border-radius: 8px;
         overflow: hidden;
         z-index: 10;
@@ -314,6 +319,7 @@ img:not([src]):not([srcset]) {
         }
 
         &-focus {
+            border: 2px solid rgba(var(--color-type), .2);
             transition: all .3s;
         }
 
@@ -460,6 +466,12 @@ img:not([src]):not([srcset]) {
                 width: 5px;
             }
         }
+
+        .category-list-child {
+            li::before {
+                background: var(--color-light);
+            }
+        }
     }
 
 }
@@ -473,6 +485,7 @@ img:not([src]):not([srcset]) {
     background: var(--color-white-light);
     border-radius: 8px;
     cursor: pointer;
+    display: none;
     font-size: 0.7rem;
     font-weight: 300;
     padding: 15px 0;
@@ -485,6 +498,8 @@ img:not([src]):not([srcset]) {
 
 /* 首页 */
 .index {
+    margin-bottom: 60px;
+
     .article {
         background: var(--color-white-light);
         border-radius: 8px;
@@ -495,43 +510,20 @@ img:not([src]):not([srcset]) {
             margin-bottom: 0;
         }
 
-        .article-badge {
+        .article-top {
             position: absolute;
             right: 0;
             top: 0;
-            display: flex;
-
-            .article-top {
-                width: 20px;
-                height: 20px;
-                line-height: 20px;
-                margin-left: 5px;
-                color: var(--color-white-light);
-                background-color: var(--color-light);
-                text-align: center;
-                border-radius: 3px;
-                user-select: none;
-
-                box-icon {
-                    margin-top: 2px;
-                }
-            }
-
-            .article-repost {
-                width: 20px;
-                height: 20px;
-                line-height: 20px;
-                margin-left: 5px;
-                color: var(--color-white-light);
-                background-color: var(--color-light);
-                text-align: center;
-                border-radius: 3px;
-                user-select: none;
-
-                box-icon {
-                    margin-top: 2px;
-                }
-            }
+            width: 40px;
+            height: 20px;
+            line-height: 20px;
+            color: var(--color-white-light);
+            background-color: var(--color-light);
+            font-size: 12px;
+            font-weight: bold;
+            text-align: center;
+            border-radius: 3px;
+            user-select: none;
         }
 
         .article-inner {
@@ -592,9 +584,9 @@ img:not([src]):not([srcset]) {
                 text-overflow: ellipsis;
 
                 .article-title {
-                    font-size: 1.2rem;
+                    font-size: 1.1rem;
                     font-weight: 500;
-                    padding: 0 0 12px;
+                    padding: 0 0 10px;
 
                     a {
                         color: var(--color-type);
@@ -736,8 +728,6 @@ img:not([src]):not([srcset]) {
         position: relative;
 
         .article-gallery {
-            z-index: 0 !important;
-            
             img {
                 width: 100%;
                 cursor: pointer;
@@ -975,7 +965,7 @@ img:not([src]):not([srcset]) {
     position: fixed;
     left: 0;
     bottom: 0;
-    z-index: -1;
+    z-index: 1;
 
     &-wave {
         width: 100%;
@@ -996,6 +986,11 @@ img:not([src]):not([srcset]) {
         color: var(--color-white);
         line-height: 22px;
         user-select: none;
+
+        img {
+            margin-right: 5px;
+            width: 14px;
+        }
 
         a {
             color: var(--color-white);
@@ -1047,39 +1042,6 @@ img:not([src]):not([srcset]) {
     border-radius: 8px;
     padding: 20px;
     position: relative;
-}
-
-.ad {
-    &-post {
-        background: var(--color-white-light);
-        border-radius: 8px;
-        padding: 20px;
-        margin-bottom: 20px;
-        position: relative;
-    }
-}
-
-.intersection-observer-ad {
-    background: var(--color-white-light);
-    border-radius: 8px;
-    padding: 20px;
-    margin-bottom: 20px;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    font-size: 12px;
-    color: var(--color-post-main);
-
-    span {
-        padding-top: 10px;
-    }
-
-    svg {
-        width: 30px;
-        height: 30px;
-        fill: var(--color-post-main);
-    }
 }
 
 /* import */

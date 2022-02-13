@@ -1,5 +1,3 @@
-import $ from 'jquery'
-import dayjs from 'dayjs'
 import { addNewClass, removeClass, throttle } from './class-module'
 ;(function () {
     let toggles = document.querySelectorAll('.cases .item')
@@ -30,20 +28,37 @@ import { addNewClass, removeClass, throttle } from './class-module'
         )
     })
 
+    // 监听屏幕滚动修改边栏
+    window.addEventListener(
+        'scroll',
+        throttle(() => {
+            const _top =
+                document.documentElement.scrollTop || document.body.scrollTop
+            if (_top > 100) {
+                // 边栏绝对定位
+                addNewClass('.sidebar', 'sidebar-fixed')
+                // 返回顶部按钮显示
+                $('#backtop').fadeIn(300)
+            } else {
+                // 取消边栏定位
+                removeClass('.sidebar', 'sidebar-fixed')
+                // 返回顶部按钮消失
+                $('#backtop').fadeOut(300)
+            }
+        })
+    )
+
     // 代码高亮
     document.querySelectorAll('pre code').forEach((block) => {
-        hljs.highlightElement(block)
+        hljs.highlightBlock(block)
     })
 
     // TOC
-    document.querySelector('.post-toc-html') &&
-        document.querySelector('.post-inner-html') &&
-        tocbot.init({
-            tocSelector: '.post-toc-html',
-            contentSelector: '.post-inner-html',
-            headingSelector: 'h1, h2, h3',
-        })
-
+    tocbot.init({
+        tocSelector: '.post-toc-html',
+        contentSelector: '.post-inner-html',
+        headingSelector: 'h1, h2, h3',
+    })
     // NProgress
     var totalH =
         document.body.scrollHeight || document.documentElement.scrollHeight // 页面总高
@@ -135,7 +150,7 @@ import { addNewClass, removeClass, throttle } from './class-module'
 
     // Perfect Scrollbar
     const _widget = document.querySelector('#widget')
-    _widget && new PerfectScrollbar(_widget)
+    const widget = new PerfectScrollbar(_widget)
 
     // Typed
     if (window.aomori_logo_typed_animated) {
@@ -151,7 +166,7 @@ import { addNewClass, removeClass, throttle } from './class-module'
     // Algolia
     if (window.aomori_search_algolia) {
         const _searchPs = document.querySelector('#search-ps')
-        _searchPs && new PerfectScrollbar(_searchPs)
+        const searchPs = new PerfectScrollbar(_searchPs)
 
         const algoliaConfig = document.querySelector(
             'meta[property="algolia:search"]'
@@ -229,23 +244,6 @@ import { addNewClass, removeClass, throttle } from './class-module'
     if (articleEntryViewer && articleEntryViewer.length > 0) {
         articleEntryViewer.viewer(viewerConfig)
     }
-    const photographyViewer = $('.photography-item')
-    if (photographyViewer && photographyViewer.length > 0) {
-        const temp = Object.assign(viewerConfig, {
-            url(image) {
-                return image.dataset.original
-            },
-            toolbar: {
-                zoomIn: true,
-                zoomOut: true,
-                reset: true,
-                prev: false,
-                next: false,
-            },
-            navbar: false,
-        })
-        photographyViewer.viewer(temp)
-    }
 
     // Plyr
     if (window.isPost) {
@@ -259,14 +257,4 @@ import { addNewClass, removeClass, throttle } from './class-module'
 
     // LazyLoad
     const lazyLoad = new LazyLoad()
-
-    // Fxxk adblock
-    const ads = $('.adsbygoogle')
-    if (
-        window.isPost &&
-        ads.length > 0 &&
-        window.getComputedStyle(ads[0]).display === 'none'
-    ) {
-        $('.intersection-observer-ad').css('display', 'flex')
-    }
 })()
