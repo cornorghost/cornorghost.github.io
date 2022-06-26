@@ -171,6 +171,54 @@
             <blockquote>
 <p>scala记录</p>
 </blockquote>
+<h1 id="对于一般的class，是这样写的："><a href="#对于一般的class，是这样写的：" class="headerlink" title="对于一般的class，是这样写的："></a>对于一般的class，是这样写的：</h1><pre><code class="scala">class Test1(var name: String, var age: Int){
+    def method():Unit
+    private var id
+}</code></pre>
+<h1 id="而对于case-class，形式如下："><a href="#而对于case-class，形式如下：" class="headerlink" title="而对于case class，形式如下："></a>而对于case class，形式如下：</h1><pre><code class="scala">class Test2(name: String, age: Int)</code></pre>
+<p>case class的成员默认都是常量，所以case class适用于数据成员不改变的场景，而且case class之间可以进行比较</p>
+<pre><code class="scala">case class Message(sender: String, recipient: String, body: String)
+
+val message2 = Message(&quot;jorge@catalonia.es&quot;, &quot;guillaume@quebec.ca&quot;, &quot;Com va?&quot;)
+val message3 = Message(&quot;jorge@catalonia.es&quot;, &quot;guillaume@quebec.ca&quot;, &quot;Com va?&quot;)
+val messagesAreTheSame = message2 == message3  // true</code></pre>
+<p>尽管message2和message3引用不同的对象，但是他们的值是相等的，所以message2 == message3为true。</p>
+<p>case class也很适合做匹配，以下是做类型匹配：</p>
+<pre><code class="scala">abstract class Notification
+
+case class Email(sender: String, title: String, body: String) extends Notification
+
+case class SMS(caller: String, message: String) extends Notification
+
+case class VoiceRecording(contactName: String, link: String) extends Notification
+
+class Main{
+    def showNotification(notification: Notification): String = {
+    notification match {
+        case Email(sender, title, _) =&gt;
+        s&quot;You got an email from $sender with title: $title&quot;
+        case SMS(number, message) =&gt;
+        s&quot;You got an SMS from $number! Message: $message&quot;
+        case VoiceRecording(name, link) =&gt;
+        s&quot;you received a Voice Recording from $name! Click the link to hear it: $link&quot;
+    }
+    }
+}</code></pre>
+<h1 id="一般的object，形式如下："><a href="#一般的object，形式如下：" class="headerlink" title="一般的object，形式如下："></a>一般的object，形式如下：</h1><pre><code class="scala">object Car{
+    val numberOfWheels = 4
+
+    def run(): Unit = {
+        val currentDateAndTime: Date = new Date(System.currentTimeMillis())
+        println(s&quot;I am a new car running on $currentDateAndTime!&quot;)
+    }
+}</code></pre>
+<p>object对象是单例对象，和class不同的是，object是无参的，构造函数不能传入参数</p>
+<h1 id="而case-object和object的区别主要有："><a href="#而case-object和object的区别主要有：" class="headerlink" title="而case object和object的区别主要有："></a>而case object和object的区别主要有：</h1><ol>
+<li>case object添加了默认可序列化方法，转化为文本或者二进制数据，而object需要extends Serializable</li>
+<li>case object支持模式匹配</li>
+<li>case object支持枚举</li>
+<li>case object添加了默认toString方法</li>
+</ol>
 
         </div>
 

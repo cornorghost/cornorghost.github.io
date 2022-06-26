@@ -171,6 +171,95 @@
             <blockquote>
 <p>记录</p>
 </blockquote>
+<p>对于java使用线程有以下三种方式：</p>
+<ol>
+<li>使用Thread创建，然后start，而这里又有三种写法来创建</li>
+<li>使用线程池，submit</li>
+<li>使用ThreadLocal</li>
+</ol>
+<p>第一种普通提供的Thread：</p>
+<pre><code class="java">
+//普通调用
+public class Main{
+    static public void main(String[] args){
+        Thread t=new Thread();
+        t.start();
+    }
+}
+
+//继承Thread类，重写run方法
+//普通调用
+public class Main{
+    static public void main(String[] args){
+        Thread t=new MyThread();
+        t.start();
+    }
+}
+
+public class MyThread extends Thread{
+    @Override
+    public void run(){
+        System.out.println(&quot;start new thread!&quot;);
+    }
+}
+
+//继承Runnable接口，重写run方法
+public class Main {
+    public static void main(String[] args) {
+        Thread t = new Thread(new MyRunnable());
+        t.start(); // 启动新线程
+    }
+}
+
+class MyRunnable implements Runnable {
+    @Override
+    public void run() {
+        System.out.println(&quot;start new thread!&quot;);
+    }
+}</code></pre>
+<p>第二种提供的线程池ExecutorService：</p>
+<pre><code class="java">import java.util.concurrent.*;
+
+public class Main {
+    public static void main(String[] args) {
+        // 创建一个固定大小的线程池:
+        ExecutorService es = Executors.newFixedThreadPool(4);
+        for (int i = 0; i &lt; 6; i++) {
+            es.submit(new Task(&quot;&quot; + i));
+        }
+        // 关闭线程池:
+        es.shutdown();
+    }
+}
+
+class Task implements Runnable {
+    private final String name;
+
+    public Task(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public void run() {
+        System.out.println(&quot;start task &quot; + name);
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+        }
+        System.out.println(&quot;end task &quot; + name);
+    }
+}</code></pre>
+<p>第三种特殊的ThreadLocal，它可以在一个线程中传递同一个对象：</p>
+<pre><code class="java">public class MyThreadLocal{
+    public class MyThreadLocal{
+    static private ThreadLocal&lt;Integer&gt; localInt = new ThreadLocal&lt;&gt;();
+
+    public int setAndGet(){
+        localInt.set(8);
+        return localInt.get();
+    }
+}
+}</code></pre>
 
         </div>
 
